@@ -1,4 +1,4 @@
-~~#  **NRL Obstacle Reporting**
+#  **NRL Obstacle Reporting**
 
 ---
 ## Group 8
