@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRLObstacleReporting", "NRLObstacleReporting\NRLObstacleReporting.csproj", "{2B91D836-51A7-4A2A-ACFA-6AA59015018A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRLObstacleReporting.UnitTests", "NRLObstacleReporting.UnitTests\NRLObstacleReporting.UnitTests.csproj", "{A78F1E95-7767-4CB0-9E64-F54FEB7BC16C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B91D836-51A7-4A2A-ACFA-6AA59015018A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B91D836-51A7-4A2A-ACFA-6AA59015018A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B91D836-51A7-4A2A-ACFA-6AA59015018A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B91D836-51A7-4A2A-ACFA-6AA59015018A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A78F1E95-7767-4CB0-9E64-F54FEB7BC16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A78F1E95-7767-4CB0-9E64-F54FEB7BC16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A78F1E95-7767-4CB0-9E64-F54FEB7BC16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A78F1E95-7767-4CB0-9E64-F54FEB7BC16C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
