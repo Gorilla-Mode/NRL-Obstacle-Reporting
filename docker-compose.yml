@@ -1,0 +1,10 @@
+﻿version: "1.0.0"
+services:
+  webapp:
+    image: nrlobstaclereporting
+    build:
+      context: .
+      dockerfile: NRLObstacleReporting/Dockerfile
+    ports:
+      - "8080:8080"
+  
