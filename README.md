@@ -1,6 +1,5 @@
 #  **NRL Obstacle Reporting**
 
----
 ## Group 8
 | Candidate            | E-mail                              |
 |----------------------|-------------------------------------|
@@ -16,4 +15,19 @@
 2. Open **NRLObstacleReporting.snl** solution
 3. Make sure docker is running `docker desktop start`
 4. Run dockerfile
+---
+## Documentation
+See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
+---
+## PR/Commit prefixes:
+- feat: A new feature
+- fix: A bug fix
+- docs: Documentation only changes
+- style: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc.)
+- refactor: A code change that neither fixes a bug nor adds a feature
+- perf: A code change that improves performance
+- test: Adding missing tests or correcting existing tests
+- build: Changes that affect the build system or external dependencies (docker, libraries, etc.)
+- chore: Other changes that don't modify src or test files
+- revert: Reverts a previous commit
