@@ -14,7 +14,8 @@
 1. Clone repo using `git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git`
 2. Open **NRLObstacleReporting.snl** solution
 3. Make sure docker is running `docker desktop start`
-4. Run dockerfile
+4. Navigate to `./NRL-Obstacle-Reporting` where docker compose is located
+5. Run `docker compose up` to launch the website
 ---
 ## Documentation
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
