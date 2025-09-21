@@ -1,8 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+    <div class="text-center">
+        <h1 class="display-4 s">Welcome</h1>
+        <section class="mx-auto max-w-2xl">
+            <div id="map" style="height: 650px; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
+            </div>
+        </section>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Scripts
+{
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+                L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+    </script>
+}
