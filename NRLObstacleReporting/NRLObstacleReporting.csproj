@@ -12,9 +12,14 @@
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
-    
-    <Target Name="BuildCss" BeforeTargets="Compile">
-        <Exec Command="npx tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/output.css --watch" />
-    </Target>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\lib\leaflet\" />
+    </ItemGroup>
+    <!--  
+    <Target Name="BuildCss" BeforeTargets="Compile">
+        <Exec Command="npx tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/output.css -REMOVETHISTEXT-watch" />
+    </Target>
+    -->
+    
 </Project>
