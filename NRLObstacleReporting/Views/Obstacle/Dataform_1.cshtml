@@ -1,0 +1,35 @@
+﻿@model NRLObstacleReporting.Models.ObstacleModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="text-center">
+    <h1 class="display-4">Register yo shi</h1>
+    <form asp-action="Dataform_1" method="post">
+
+    
+
+        <div>
+            <label asp-for="ObstacleType"></label>
+            <input asp-for="ObstacleType" />
+            <span asp-validation-for="ObstacleType"></span>
+        </div>
+
+        <div>
+            <label asp-for="ObstacleHeightMeter"></label>
+            <input asp-for="ObstacleHeightMeter" />
+            <span asp-validation-for="ObstacleHeightMeter"></span>
+        </div>
+
+       
+            <button type="submit">Next Page</button>
+       
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

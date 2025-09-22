@@ -1,0 +1,32 @@
+﻿@model NRLObstacleReporting.Models.ObstacleModel
+
+<div class="text-center">
+    <h1 class="display-4 s">Welcome, please log </h1>
+    <section class="mx-auto max-w-2xl">
+        <div id="map" style="height: 650px; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
+        </div>
+    </section>
+</div>
+
+<form asp-action="Dataform_2" method="post">
+    <div>
+        <label asp-for="ObstacleCoordinates"></label>
+        <input asp-for="ObstacleCoordinates" />
+        <span asp-validation-for="ObstacleCoordinates"></span>
+    </div>
+    <button type="submit">Next Page</button>
+</form>
+@* script å få inn kart *@
+@section Scripts
+{
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}

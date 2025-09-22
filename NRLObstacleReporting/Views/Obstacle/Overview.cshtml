@@ -1,0 +1,31 @@
+﻿@model NRLObstacleReporting.Models.ObstacleModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div>
+    <h1>Overview</h1>
+    <p>Thank you for registering an obstacle:</p>
+
+    <p>
+        @Model.ObstacleName
+    </p>
+    <p>
+        @Model.ObstacleHeightMeter
+    </p>
+    <p>
+        @Model.ObstacleDescription
+    </p>
+    <p>
+        @Model.ObstacleCoordinates
+    </p>
+    <p>
+        @Model.ObstacleType
+    </p>
+    <p>
+        @Model.ObstacleIlluminated
+    </p>
+</div>
