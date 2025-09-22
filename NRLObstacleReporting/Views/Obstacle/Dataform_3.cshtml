@@ -9,28 +9,23 @@
 <div class="text-center">
     <h1 class="display-4">Register yo shi</h1>
     <form asp-action="Dataform_3" method="post">
-
         <div>
             <label asp-for="ObstacleName"></label>
             <input asp-for="ObstacleName" />
-           
         </div>
-
-         <div>
-        <label asp-for="ObstacleDescription"></label>
-            <input asp-for="ObstacleDescription" />
-          
+        <div>
+            <label asp-for="ObstacleDescription"></label>
+            <input asp-for="ObstacleDescription"/>
         </div>
-
         <div>
             <label asp-for="ObstacleIlluminated"></label>
             <div>
                 <button type="button" id="illuminated-yes" class="btn btn-outline-primary">Med lys</button>
                 <button type="button" id="illuminated-no" class="btn btn-outline-secondary">Uten lys</button>
                 <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated" />
-           
-
+            </div>
         <button type="submit">Submit</button>
+        </div>
     </form>
 </div>
 
