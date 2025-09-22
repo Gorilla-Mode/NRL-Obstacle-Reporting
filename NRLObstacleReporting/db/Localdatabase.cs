@@ -1,6 +1,5 @@
 ﻿namespace NRLObstacleReporting.db;
-
-public class Localdatabase
+public static class Localdatabase
 {
     private static List<Models.ObstacleModel> _obstacles = new List<Models.ObstacleModel>();
 
