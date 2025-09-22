@@ -1,6 +1,6 @@
 ﻿namespace NRLObstacleReporting.db;
 
-public class localdatabase
+public class Localdatabase
 {
     
 }
