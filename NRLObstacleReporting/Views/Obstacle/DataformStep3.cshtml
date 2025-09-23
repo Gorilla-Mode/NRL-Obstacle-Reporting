@@ -1,0 +1,56 @@
+﻿@model NRLObstacleReporting.Models.ObstacleStep3Model
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="text-center">
+    <h1 class="display-4">Register yo shi</h1>
+    <form asp-action="DataformStep3" method="post">
+        <div>
+            <label asp-for="ObstacleName"></label>
+            <input asp-for="ObstacleName" />
+        </div>
+        <div>
+            <label asp-for="ObstacleDescription"></label>
+            <input asp-for="ObstacleDescription"/>
+        </div>
+        <div>
+            <label asp-for="ObstacleIlluminated"></label>
+            <div>
+                <button type="button" id="illuminated-yes" class="btn btn-outline-primary">Med lys</button>
+                <button type="button" id="illuminated-no" class="btn btn-outline-secondary">Uten lys</button>
+                <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated" />
+            </div>
+        <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('illuminated-yes').addEventListener('click', function () {
+            document.getElementById('ObstacleIlluminated').value = 'true';
+            this.classList.add('active');
+            document.getElementById('illuminated-no').classList.remove('active');
+        });
+        document.getElementById('illuminated-no').addEventListener('click', function () {
+            document.getElementById('ObstacleIlluminated').value = 'false';
+            this.classList.add('active');
+            document.getElementById('illuminated-yes').classList.remove('active');
+        });
+
+                // Set default to "false" if not chosen
+        document.querySelector('form').addEventListener('submit', function () {
+            var illuminated = document.getElementById('ObstacleIlluminated');
+            if (!illuminated.value) {
+                illuminated.value = 'false';
+            }
+        });
+    </script>
+}

@@ -1,0 +1,60 @@
+﻿@using NRLObstacleReporting.db
+@model NRLObstacleReporting.Models.ObstacleCompleteModel
+@{
+    ViewData["Title"] = "View Reports";
+
+}
+@{
+    if (Localdatabase.GetDatabase().Count == 0)
+    {
+        <div class="text-center">
+            <h1>No obstacles Registered</h1>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h1> Registered reports:</h1>
+        </div>
+        foreach (var obstacle in Localdatabase.GetDatabase())
+        {
+            <div>
+                <table class="center">
+                    <caption>Obstacle Report: @obstacle.GetHashCode()</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Data</th>
+                            <th scope="col">Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Height</th>
+                            <td>@obstacle.ObstacleHeightMeter</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Coordinates</th>
+                            <td>@obstacle.ObstacleCoordinates</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Type</th>
+                            <td>@obstacle.ObstacleType</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Illuminated</th>
+                            <td>@obstacle.ObstacleIlluminated</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Description</th>
+                            <td>@obstacle.ObstacleDescription</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td>@obstacle.ObstacleName</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+}
