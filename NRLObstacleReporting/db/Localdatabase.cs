@@ -1,15 +1,15 @@
 ﻿namespace NRLObstacleReporting.db;
 public static class Localdatabase
 {
-    private static List<Models.ObstacleModel> _obstacles = new List<Models.ObstacleModel>();
+    private static List<Models.ObstacleCompleteModel> _obstacles = new List<Models.ObstacleCompleteModel>();
 
-    public static void AddObstacle(Models.ObstacleModel obstacleModel)
+    public static void AddObstacle(Models.ObstacleCompleteModel obstacleCompleteModel)
     {
-        _obstacles.Add(obstacleModel);
-        Console.WriteLine($"Obstacle {obstacleModel.GetHashCode()} added to database");
+        _obstacles.Add(obstacleCompleteModel);
+        Console.WriteLine($"Obstacle {obstacleCompleteModel.GetHashCode()} added to database");
     }
 
-    public static List<Models.ObstacleModel> GetDatabase()
+    public static List<Models.ObstacleCompleteModel> GetDatabase()
     {
         return _obstacles;
     }
