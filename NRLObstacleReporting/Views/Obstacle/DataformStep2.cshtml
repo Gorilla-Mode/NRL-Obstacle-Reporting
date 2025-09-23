@@ -14,7 +14,8 @@
         <input asp-for="ObstacleCoordinates" />
         <span asp-validation-for="ObstacleCoordinates"></span>
     </div>
-    <button type="submit">Next Page</button>
+    <button type="submit" formaction="/Obstacle/DataformStep2_NextPage">Next Page</button>
+    <button type="submit" formaction="/Obstacle/DataformStep2_Draft">Save Draft</button>
 </form>
 @* script å få inn kart *@
 @section Scripts

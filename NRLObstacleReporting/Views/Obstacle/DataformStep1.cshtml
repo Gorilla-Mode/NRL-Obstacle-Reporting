@@ -8,7 +8,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Register yo shi</h1>
-    <form asp-action="DataformStep1" method="post">
+    <form method="post">
         
         <div>
             <label asp-for="ObstacleType"></label>
@@ -22,8 +22,9 @@
             <span asp-validation-for="ObstacleHeightMeter"></span>
         </div>
 
-       
-            <button type="submit">Next Page</button>
+
+        <button type="submit" formaction="/Obstacle/DataformStep1_NextPage">Next Page</button>
+        <button type="submit" formaction="/Obstacle/DataformStep1_Draft">Save Draft</button>
        
     </form>
 </div>
