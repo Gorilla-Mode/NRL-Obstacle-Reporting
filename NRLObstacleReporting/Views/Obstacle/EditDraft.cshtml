@@ -1,0 +1,41 @@
+﻿@Model NRLObstacleReporting.Models.ObstacleCompleteModel
+@{
+    ViewData["Title"] = "Edit Draft";
+}
+<div>
+    <table class="center">
+        <caption>Obstacle Report: @Model.GetHashCode()</caption>
+        <thead>
+        <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Response</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Height</th>
+            <td>@Model.ObstacleHeightMeter</td>
+        </tr>
+        <tr>
+            <th scope="row">Coordinates</th>
+            <td>@Model.ObstacleCoordinates</td>
+        </tr>
+        <tr>
+            <th scope="row">Type</th>
+            <td>@Model.ObstacleType</td>
+        </tr>
+        <tr>
+            <th scope="row">Illuminated</th>
+            <td>@Model.ObstacleIlluminated</td>
+        </tr>
+        <tr>
+            <th scope="row">Description</th>
+            <td>@Model.ObstacleDescription</td>
+        </tr>
+        <tr>
+            <th scope="row">Name</th>
+            <td>@Model.ObstacleName</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

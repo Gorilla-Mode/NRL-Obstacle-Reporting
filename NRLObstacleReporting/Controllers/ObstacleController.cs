@@ -107,5 +107,11 @@ namespace NRLObstacleReporting.Controllers
             Localdatabase.AddObstacle(compeltedModel);
             return View("Overview", compeltedModel);
         }
+
+        [HttpPost]
+        public IActionResult EditDraft(ObstacleCompleteModel draft)
+        {
+            return View("EditDraft", draft);
+        }
     }
 }
