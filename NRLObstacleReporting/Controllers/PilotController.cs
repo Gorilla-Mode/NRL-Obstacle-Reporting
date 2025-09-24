@@ -22,5 +22,10 @@ namespace NRLObstacleReporting.Controllers
             return View("View_Reports_Pilot");
         }
 
+        public IActionResult PilotDrafts()
+        {
+            return View();
+        }
+
     }
 }

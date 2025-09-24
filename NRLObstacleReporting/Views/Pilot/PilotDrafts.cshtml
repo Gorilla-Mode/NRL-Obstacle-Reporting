@@ -1,0 +1,67 @@
+﻿@using NRLObstacleReporting.db
+@model NRLObstacleReporting.Models.ObstacleCompleteModel
+@{
+ViewData["Title"] = "View Reports";
+
+}
+@{
+var reports = Localdatabase.GetDatabase();
+if (reports.Count == 0)
+{
+<div class="text-center">
+    <h1>No drafts registered</h1>
+</div>
+}
+else
+{
+<div class="text-center">
+    <h1> Registered drafts:</h1>
+</div>
+
+IEnumerable<ObstacleCompleteModel> drafts =
+from Report in reports
+where Report.IsDraft
+select Report;
+
+foreach (var obstacle in drafts)
+{
+<div>
+    <table class="center">
+        <caption>Obstacle Report: @obstacle.GetHashCode()</caption>
+        <thead>
+        <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Response</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Height</th>
+            <td>@obstacle.ObstacleHeightMeter</td>
+        </tr>
+        <tr>
+            <th scope="row">Coordinates</th>
+            <td>@obstacle.ObstacleCoordinates</td>
+        </tr>
+        <tr>
+            <th scope="row">Type</th>
+            <td>@obstacle.ObstacleType</td>
+        </tr>
+        <tr>
+            <th scope="row">Illuminated</th>
+            <td>@obstacle.ObstacleIlluminated</td>
+        </tr>
+        <tr>
+            <th scope="row">Description</th>
+            <td>@obstacle.ObstacleDescription</td>
+        </tr>
+        <tr>
+            <th scope="row">Name</th>
+            <td>@obstacle.ObstacleName</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+}
+}
+}
