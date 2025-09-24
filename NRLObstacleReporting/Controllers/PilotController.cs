@@ -16,12 +16,12 @@ namespace NRLObstacleReporting.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        [HttpGet]
         public IActionResult View_Reports_Pilot()
         {
             return View("View_Reports_Pilot");
         }
-
+        [HttpGet]
         public IActionResult PilotDrafts()
         {
             return View();

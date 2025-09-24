@@ -61,6 +61,15 @@ foreach (var obstacle in drafts)
         </tr>
         </tbody>
     </table>
+    <form asp-controller="Obstacle" asp-action="EditDraft" method="post">
+        <input type="hidden" asp-for="ObstacleCoordinates" value="@obstacle.ObstacleCoordinates"/>
+        <input type="hidden" asp-for="ObstacleDescription" value="@obstacle.ObstacleDescription"/>
+        <input type="hidden" asp-for="ObstacleIlluminated" value="@obstacle.ObstacleIlluminated"/>
+        <input type="hidden" asp-for="ObstacleName" value="@obstacle.ObstacleName"/>
+        <input type="hidden" asp-for="ObstacleType" value="@obstacle.ObstacleType"/>
+        <input type="hidden" asp-for="ObstacleHeightMeter" value="@obstacle.ObstacleHeightMeter"/>
+        <button type="submit" formaction="/Obstacle/EditDraft">Edit</button>
+    </form>
 </div>
 }
 }

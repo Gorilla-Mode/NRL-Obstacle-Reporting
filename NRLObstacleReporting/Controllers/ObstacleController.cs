@@ -113,5 +113,13 @@ namespace NRLObstacleReporting.Controllers
         {
             return View("EditDraft", draft);
         }
+
+        [HttpPost]
+        public ActionResult SaveEditedDraft(ObstacleCompleteModel draft)
+        {
+            Localdatabase.RemoveObstacleAtIndex(Localdatabase.GetDatabase().Count - 1);
+            Localdatabase.AddObstacle(draft);
+            return View("Overview", draft);
+        }
     }
 }
