@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace NRLObstacleReporting.Controllers
 {
-    public class RegisterførerController : Controller
+    public class RegistrarController : Controller
     {
         public IActionResult Registrar()
         {
             // Hent alle hindere
-            List<ObstacleCompleteModel> alleHindere = Localdatabase.GetDatabase();
+            List<ObstacleCompleteModel> obstacles = Localdatabase.GetDatabase();
 
             // Send listen til viewet
-            return View();
+            return View(obstacles);
         }
     }
 }
