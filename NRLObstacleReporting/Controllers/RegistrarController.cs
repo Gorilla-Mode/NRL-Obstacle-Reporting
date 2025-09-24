@@ -1,19 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
-using NRLObstacleReporting.db;
-using NRLObstacleReporting.Models;
-using System.Collections.Generic;
+
 
 namespace NRLObstacleReporting.Controllers
 {
     public class RegistrarController : Controller
     {
-        public IActionResult Registrar()
+        public IActionResult RegistrarIndex()
         {
-            // Hent alle hindere
-            List<ObstacleCompleteModel> obstacles = Localdatabase.GetDatabase();
-
-            // Send listen til viewet
-            return View(obstacles);
+            return View();
         }
+        
+        //mangler Action til View_Reports_Registrar view
     }
 }
