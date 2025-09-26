@@ -5,7 +5,8 @@
 
 }
 @{
-    if (Localdatabase.GetDatabase().Count == 0)
+    var reports = Localdatabase.GetDatabase();
+    if (reports.Count == 0)
     {
         <div class="text-center">
             <h1>No obstacles Registered</h1>
@@ -16,7 +17,13 @@
         <div class="text-center">
             <h1> Registered reports:</h1>
         </div>
-        foreach (var obstacle in Localdatabase.GetDatabase())
+        
+        IEnumerable<ObstacleCompleteModel> submittedReports =
+            from Report in reports
+            where !Report.IsDraft
+            select Report;
+        
+        foreach (var obstacle in submittedReports)
         {
             <div>
                 <table class="center">

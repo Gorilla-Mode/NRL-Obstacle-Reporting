@@ -9,6 +9,11 @@ public static class Localdatabase
         Console.WriteLine($"Obstacle {obstacleCompleteModel.GetHashCode()} added to database");
     }
 
+    public static void RemoveObstacleAtIndex(int index)
+    {
+        _obstacles.RemoveAt(index);
+    }
+
     public static List<Models.ObstacleCompleteModel> GetDatabase()
     {
         return _obstacles;

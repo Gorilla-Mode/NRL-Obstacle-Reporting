@@ -40,6 +40,7 @@ namespace NRLObstacleReporting.Controllers
             _completeModel.ObstacleHeightMeter = obstaclemodel.ObstacleHeightMeter;
             _completeModel.ObstacleType = obstaclemodel.ObstacleType;
             var compeltedModel = _completeModel;
+            _completeModel.IsDraft = true;
             Localdatabase.AddObstacle(compeltedModel);
 
             return View("Overview", compeltedModel);
@@ -66,6 +67,7 @@ namespace NRLObstacleReporting.Controllers
             }
             _completeModel.ObstacleCoordinates = obstaclemodel.ObstacleCoordinates;
             var compeltedModel = _completeModel;
+            _completeModel.IsDraft = true;
             Localdatabase.AddObstacle(compeltedModel);
 
             return View("Overview", compeltedModel);
@@ -101,8 +103,23 @@ namespace NRLObstacleReporting.Controllers
             _completeModel.ObstacleIlluminated = obstaclemodel.ObstacleIlluminated;
 
             var compeltedModel = _completeModel;
+            _completeModel.IsDraft = true;
             Localdatabase.AddObstacle(compeltedModel);
             return View("Overview", compeltedModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditDraft(ObstacleCompleteModel draft)
+        {
+            return View("EditDraft", draft);
+        }
+
+        [HttpPost]
+        public ActionResult SaveEditedDraft(ObstacleCompleteModel draft)
+        {
+            Localdatabase.RemoveObstacleAtIndex(Localdatabase.GetDatabase().Count - 1);
+            Localdatabase.AddObstacle(draft);
+            return View("Overview", draft);
         }
     }
 }
