@@ -1,4 +1,6 @@
-﻿namespace NRLObstacleReporting.db;
+﻿using NRLObstacleReporting.Models;
+
+namespace NRLObstacleReporting.db;
 public static class Localdatabase
 {
     private static List<Models.ObstacleCompleteModel> _obstacles = new List<Models.ObstacleCompleteModel>();
@@ -7,6 +9,29 @@ public static class Localdatabase
     {
         _obstacles.Add(obstacleCompleteModel);
         Console.WriteLine($"Obstacle {obstacleCompleteModel.GetHashCode()} added to database");
+    }
+
+    public static void EditObstacleCoordinates(int obstacleId, string? coordinates)
+    {
+        foreach (var report in _obstacles)
+        {
+            if (report.ObstacleId == obstacleId)
+            {
+                report.ObstacleCoordinates = coordinates;
+            }
+        }
+    }
+
+    public static ObstacleCompleteModel GetObstacleCompleteModel(int obstacleId)
+    {
+        foreach (var report in _obstacles)
+        {
+            if (report.ObstacleId == obstacleId)
+            {
+                return report;
+            }
+        }
+        return null;
     }
 
     public static void RemoveObstacleAtIndex(int index)
