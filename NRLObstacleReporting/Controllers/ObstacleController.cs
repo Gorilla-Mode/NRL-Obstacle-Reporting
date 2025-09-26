@@ -44,6 +44,7 @@ namespace NRLObstacleReporting.Controllers
             }
             Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.ObstacleCoordinates);
             ViewBag.ObstacleID = obstacleModel.ObstacleId;
+            _completeModel.GeometryGeoJson = obstaclemodel.GeometryGeoJson;
             
             Console.WriteLine(obstacleModel.ObstacleId);
             return View("DataformStep3");

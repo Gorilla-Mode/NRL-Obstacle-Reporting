@@ -4,10 +4,15 @@
     <section class="mx-auto max-w-2xl">
         <div id="map" style="height: 650px; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
         </div>
+        <div>
+            <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
+            <textarea id="CoordinatesPreview" class="block w-full rounded-lg border-gray-300 px-3 py-2 text-sm" rows="5" readonly placeholder="Draw on the map to see coordinates here..."></textarea>
+        </div>
     </section>
 </div>
 
 <form asp-action="DataformStep2" method="post">
+<<<<<<< HEAD
     <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
     <div>
         <label asp-for="ObstacleCoordinates"></label>
@@ -15,18 +20,70 @@
         <span asp-validation-for="ObstacleCoordinates"></span>
     </div>
     <button type="submit" formaction="/Obstacle/DataformStep2">Next Page</button>
+=======
+    <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
+    <button type="submit" formaction="/Obstacle/DataformStep2_NextPage">Next Page</button>
+>>>>>>> obstacle-reporting
     <button type="submit" formaction="/Obstacle/DataformStep2_Draft">Save Draft</button>
 </form>
+
+
 @* script å få inn kart *@
 @section Scripts
 {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map').setView([58.14671, 7.9956], 13);
 
         L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+        // Initialize the feature group that will hold the drawn shapes
+         var drawnItems = new L.FeatureGroup();
+         map.addLayer(drawnItems);
+
+         // Creates the drawing control on the left hand side
+         // The drawing control enables drawing of markers, polygons, and polylines
+         var drawControl = new L.Control.Draw({
+             draw: {
+                 polygon: false,
+                 polyline: true,
+                 marker: true,
+                 circle: false,  // Disable circle drawing
+                 rectangle: true
+             },
+             edit: {
+                 featureGroup: drawnItems
+             }
+         });
+         map.addControl(drawControl);
+
+          // Event handling when a layer is drawn on the map
+         map.on(L.Draw.Event.CREATED, function (e) {
+                 layer = e.layer;
+
+             drawnItems.addLayer(layer);
+
+             // Get the GeoJSON representation of the drawn layer
+             var geoJsonData = layer.toGeoJSON();
+             var geoJsonString = JSON.stringify(geoJsonData);
+
+             // Set the GeoJSON string into the hidden input field in the form
+             document.getElementById('GeometryGeoJson').value = geoJsonString;
+             document.getElementById('CoordinatesPreview').value = geoJsonString;
+         });
     </script>
 
     <partial name="_ValidationScriptsPartial" />

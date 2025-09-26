@@ -14,12 +14,9 @@ public class ObstacleCompleteModel
     [Required(ErrorMessage = "This field is required")]
     [Range(0, 150)]
     public int ObstacleHeightMeter { get; set; }
-    
+
     //Step 2 felt
-    //Skal gjøres til geoJSON
-    [MaxLength(200)] 
-    public string? ObstacleCoordinates { get; set; }
-    
+    public string? GeometryGeoJson { get; set; }
     //Step 3 felt
     [MaxLength(100)]
     public string? ObstacleName { get; set; }
