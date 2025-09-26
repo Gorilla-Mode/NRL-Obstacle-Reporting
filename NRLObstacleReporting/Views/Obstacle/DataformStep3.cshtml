@@ -25,8 +25,9 @@
                 <button type="button" id="illuminated-no" class="btn btn-outline-secondary">Uten lys</button>
                 <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated"/>
             </div>
-            <button type="submit" formaction="/Obstacle/DataformStep3">Next Page</button>
-            <button type="submit" formaction="/Obstacle/DataformStep3_Draft">Save Draft</button>
+            <button type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Next Page</button>
+            <button type="submit" formaction="/Obstacle/DataformStep3" id="Draft">Save Draft</button>
+            <input type="hidden" asp-for="IsDraft" id="IsDraft"/>
         </div>
     </form>
 </div>
@@ -45,6 +46,12 @@
             document.getElementById('ObstacleIlluminated').value = 'false';
             this.classList.add('active');
             document.getElementById('illuminated-yes').classList.remove('active');
+        });
+        document.getElementById('Submit').addEventListener('click', function () {
+            document.getElementById('IsDraft').value = 'false';
+        });
+        document.getElementById('Draft').addEventListener('click', function () {
+            document.getElementById('IsDraft').value = 'true';
         });
 
                 // Set default to "false" if not chosen

@@ -5,6 +5,6 @@ public class ObstacleStep2Model
 {
 
     public int ObstacleId { get; set; }
-    //Må byttes ut med geoJSON
+    public bool IsDraft { get; set; } = true;
     public string? GeometryGeoJson { get; set; }
 }

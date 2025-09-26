@@ -61,6 +61,7 @@ namespace NRLObstacleReporting.Controllers
             report.ObstacleIlluminated = obstacleModel.ObstacleIlluminated;
             report.ObstacleName = obstacleModel.ObstacleName;
             report.ObstacleDescription = obstacleModel.ObstacleDescription;
+            report.IsDraft = obstacleModel.IsDraft;
             
             Console.WriteLine(obstacleModel.ObstacleId);
             return View("Overview", report);
