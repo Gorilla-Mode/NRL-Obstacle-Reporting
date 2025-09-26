@@ -56,4 +56,9 @@ e.g:
   - `git pull --rebase origin branch-name`
 - DON'T REBASE PUSHED COMMITS, IT WILL CHANGE HASHES; IT IS BANNED!!!
 ![NO REBASING](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fb6%2F41%2F32%2Fb6413233b0c147d8e25ac8c6939003ec.jpg&f=1&nofb=1&ipt=e684870cc0f2f939c06bfc53af8ede80336966cf2877b4c2eaeab1dfda026a48)
+
+- - DON'T BRANCH OFF A BRANCH, IT WILL CREATE MERGE CONFLICTS; IT IS FORBIDDEN!!!
+![NO REBASING](https://y.yarn.co/9892718e-f9f9-400b-8273-9f5f78e36e22_text.gif)
+
+
     
