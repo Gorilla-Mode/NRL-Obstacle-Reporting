@@ -1,14 +1,14 @@
 #  **NRL Obstacle Reporting**
 
 ## Group 8
-| Candidate            | E-mail                              |
-|----------------------|-------------------------------------|
-| Iver Kroken          | [iverk@uia.no](iverk@uia.no)        |
-| Tobias Olsen Nodland | [tobiason@uia.no](tobiason@uia.no ) |
-| Sivert Svanes Sæstad | [sivertss@uia.no](sivertss@uia.no)  |
-| Eira Bitnes Vikstøl  | [eriabv@uia.no](eriabv@uia.no)      |
-| Mina Rebecca Remseth | [minarr@uia.no](minarr@uia.no)      |
-| Oda Elise Aanestad   | [odaea@uia.no](odaea@uia.no)        |
+| Candidate            | E-mail                              | Github Username                                   |
+|----------------------|-------------------------------------|---------------------------------------------------|
+| Iver Kroken          | [iverk@uia.no](iverk@uia.no)        | [iverkroken](https://github.com/iverkroken)       |
+| Tobias Olsen Nodland | [tobiason@uia.no](tobiason@uia.no ) | [Gorilla-Mode](https://github.com/Gorilla-Mode)   |
+| Sivert Svanes Sæstad | [sivertss@uia.no](sivertss@uia.no)  | [sivert-svanes](https://github.com/sivert-svanes) |
+| Eira Bitnes Vikstøl  | [eriabv@uia.no](eriabv@uia.no)      | [EiraBV](https://github.com/EiraBV)               |
+| Mina Rebecca Remseth | [minarr@uia.no](minarr@uia.no)      | [minaremseth](https://github.com/minaremseth)     |
+| Oda Elise Aanestad   | [odaea@uia.no](odaea@uia.no)        | [odaeaanestad](https://github.com/Odaeaanestad)                                  |
 ## Installation / Setup
 ### 1. Clone repo
 1. Clone repo using `git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git`
@@ -23,7 +23,8 @@
 3. Run `docker compose up` to launch the application in docker
 ## Documentation
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
-## PR/Commit prefixes:
+## Prefixes & naming convention
+### Commit message & PR names
 - feat: A new feature
 - visual: Changes that only affect frontend visuals, text (html, css)
 - fix: A bug fix
@@ -36,6 +37,23 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 - chore: Other changes that don't modify src or test files
 - revert: Reverts a previous commit
 
-These prefixes should also be used on branches e.g:
+e.g:
+`"feat: added login page"`
+### Branch names
+- Use the same prefixes as listed above
+- Use a slash(/) to seperate prefix and name
+- Lowercase only
+- Use a **single** hyphen(-) to separate words
+- Short and descriptive
 
-`feat/loginauth`
+e.g:
+`refactor/login-page-refactor`
+
+## Working with branches
+
+- Avoid using `git pull` when a `push`is rejected due to the remote branch being ahead of the local; This will create a new branch and merge commit. To avoid this, instead use:
+  - `git fetch`
+  - `git pull --rebase origin branch-name`
+- DON'T REBASE PUSHED COMMITS, IT WILL CHANGE HASHES; IT IS BANNED!!!
+![NO REBASING](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fb6%2F41%2F32%2Fb6413233b0c147d8e25ac8c6939003ec.jpg&f=1&nofb=1&ipt=e684870cc0f2f939c06bfc53af8ede80336966cf2877b4c2eaeab1dfda026a48)
+    
