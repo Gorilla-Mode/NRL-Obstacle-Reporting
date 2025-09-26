@@ -12,18 +12,9 @@
 </div>
 
 <form asp-action="DataformStep2" method="post">
-<<<<<<< HEAD
-    <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
-    <div>
-        <label asp-for="ObstacleCoordinates"></label>
-        <input asp-for="ObstacleCoordinates"/>
-        <span asp-validation-for="ObstacleCoordinates"></span>
-    </div>
-    <button type="submit" formaction="/Obstacle/DataformStep2">Next Page</button>
-=======
     <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
-    <button type="submit" formaction="/Obstacle/DataformStep2_NextPage">Next Page</button>
->>>>>>> obstacle-reporting
+    <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
+    <button type="submit" formaction="/Obstacle/DataformStep2">Next Page</button>
     <button type="submit" formaction="/Obstacle/DataformStep2_Draft">Save Draft</button>
 </form>
 

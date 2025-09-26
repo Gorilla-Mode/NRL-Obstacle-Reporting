@@ -11,13 +11,13 @@ public static class Localdatabase
         Console.WriteLine($"Obstacle {obstacleCompleteModel.GetHashCode()} added to database");
     }
 
-    public static void EditObstacleCoordinates(int obstacleId, string? coordinates)
+    public static void EditObstacleCoordinates(int obstacleId, string? GeometryGeoJson)
     {
         foreach (var report in _obstacles)
         {
             if (report.ObstacleId == obstacleId)
             {
-                report.ObstacleCoordinates = coordinates;
+                report.GeometryGeoJson = GeometryGeoJson;
             }
         }
     }

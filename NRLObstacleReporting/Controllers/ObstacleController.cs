@@ -42,10 +42,8 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
-            Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.ObstacleCoordinates);
-            ViewBag.ObstacleID = obstacleModel.ObstacleId;
-            _completeModel.GeometryGeoJson = obstaclemodel.GeometryGeoJson;
-            
+            Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.GeometryGeoJson);
+            ViewBag.ObstacleID = obstacleModel.ObstacleId;      
             Console.WriteLine(obstacleModel.ObstacleId);
             return View("DataformStep3");
         }
