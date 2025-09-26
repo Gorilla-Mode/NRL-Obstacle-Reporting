@@ -53,8 +53,9 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View(obstaclemodel);
             }
-            _completeModel.ObstacleCoordinates = obstaclemodel.ObstacleCoordinates;
+            _completeModel.GeometryGeoJson = obstaclemodel.GeometryGeoJson;
             
+            Console.WriteLine(_completeModel.GeometryGeoJson);
             return View("DataformStep3");
         }
 
@@ -65,7 +66,7 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View(obstaclemodel);
             }
-            _completeModel.ObstacleCoordinates = obstaclemodel.ObstacleCoordinates;
+            _completeModel.GeometryGeoJson = obstaclemodel.GeometryGeoJson;
             var compeltedModel = _completeModel;
             _completeModel.IsDraft = true;
             Localdatabase.AddObstacle(compeltedModel);
@@ -87,6 +88,9 @@ namespace NRLObstacleReporting.Controllers
             
             var compeltedModel = _completeModel;
             Localdatabase.AddObstacle(compeltedModel);
+
+            Console.WriteLine(_completeModel.GeometryGeoJson);
+
             return View("Overview", compeltedModel);
         }
 

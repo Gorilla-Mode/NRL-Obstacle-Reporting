@@ -41,7 +41,7 @@ foreach (var obstacle in drafts)
         </tr>
         <tr>
             <th scope="row">Coordinates</th>
-            <td>@obstacle.ObstacleCoordinates</td>
+            <td>@obstacle.GeometryGeoJson</td>
         </tr>
         <tr>
             <th scope="row">Type</th>
@@ -62,7 +62,7 @@ foreach (var obstacle in drafts)
         </tbody>
     </table>
     <form asp-controller="Obstacle" asp-action="EditDraft" method="post">
-        <input type="hidden" asp-for="ObstacleCoordinates" value="@obstacle.ObstacleCoordinates"/>
+        <input type="hidden" asp-for="GeometryGeoJson" value="@obstacle.GeometryGeoJson" />
         <input type="hidden" asp-for="ObstacleDescription" value="@obstacle.ObstacleDescription"/>
         <input type="hidden" asp-for="ObstacleIlluminated" value="@obstacle.ObstacleIlluminated"/>
         <input type="hidden" asp-for="ObstacleName" value="@obstacle.ObstacleName"/>
