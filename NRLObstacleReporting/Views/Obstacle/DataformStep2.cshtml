@@ -1,5 +1,4 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep2Model
-
 <div class="text-center">
     <h1 class="display-4 s">Welcome, please log </h1>
     <section class="mx-auto max-w-2xl">
@@ -9,12 +8,13 @@
 </div>
 
 <form asp-action="DataformStep2" method="post">
+    <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
     <div>
         <label asp-for="ObstacleCoordinates"></label>
-        <input asp-for="ObstacleCoordinates" />
+        <input asp-for="ObstacleCoordinates"/>
         <span asp-validation-for="ObstacleCoordinates"></span>
     </div>
-    <button type="submit" formaction="/Obstacle/DataformStep2_NextPage">Next Page</button>
+    <button type="submit" formaction="/Obstacle/DataformStep2">Next Page</button>
     <button type="submit" formaction="/Obstacle/DataformStep2_Draft">Save Draft</button>
 </form>
 @* script å få inn kart *@

@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 public class ObstacleCompleteModel
 {
-    public bool IsDraft { get; set; }
+    public bool IsDraft { get; set; } = true;
+    public int ObstacleId { get; set; }
     
     //Step 1 felt
     [Required(ErrorMessage = "This field is required")]
