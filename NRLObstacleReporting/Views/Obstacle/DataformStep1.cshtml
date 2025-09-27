@@ -22,12 +22,20 @@
         </div>
 
 
-        <button type="submit" formaction="/Obstacle/DataformStep1">Next Page</button>
-        <button type="submit" formaction="/Obstacle/DataformStep1_Draft">Save Draft</button>
-       
+        <button type="submit" formaction="/Obstacle/DataformStep1" id="Submit">Next Page</button>
+        <button type="submit" formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
+        <input type="hidden" asp-for="SaveDraft" id="save"/>
     </form>
 </div>
 
 @section Scripts {
+    <script>
+        document.getElementById('savebutton').addEventListener('click', function () {
+            document.getElementById('save').value = 'true';
+        });
+        document.getElementById('Submit').addEventListener('click', function () {
+            document.getElementById('save').value = 'false';
+        });
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }

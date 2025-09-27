@@ -6,5 +6,6 @@ public class ObstacleStep2Model
 
     public int ObstacleId { get; set; }
     public bool IsDraft { get; set; } = true;
+    public bool SaveDraft { get; set; }
     public string? GeometryGeoJson { get; set; }
 }

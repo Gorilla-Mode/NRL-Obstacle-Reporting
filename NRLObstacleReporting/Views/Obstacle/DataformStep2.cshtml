@@ -14,14 +14,23 @@
 <form asp-action="DataformStep2" method="post">
     <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
     <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
-    <button type="submit" formaction="/Obstacle/DataformStep2">Next Page</button>
-    <button type="submit" formaction="/Obstacle/DataformStep2_Draft">Save Draft</button>
+    <button type="submit" formaction="/Obstacle/DataformStep2" id="Submit">Next Page</button>
+    <button type="submit" formaction="/Obstacle/DataformStep2" id="savebutton">Save Draft</button>
+    <input type="hidden" asp-for="SaveDraft" id="save"/>
 </form>
 
 
 @* script å få inn kart *@
 @section Scripts
 {
+    <script>
+        document.getElementById('savebutton').addEventListener('click', function () {
+            document.getElementById('save').value = 'true';
+         });
+        document.getElementById('Submit').addEventListener('click', function () {
+            document.getElementById('save').value = 'false';
+         });
+    </script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="" />

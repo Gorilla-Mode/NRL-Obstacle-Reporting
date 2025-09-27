@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.db;
 using NRLObstacleReporting.Models;
 
@@ -19,6 +20,7 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
+            
             int obstacleId = Localdatabase.GetDatabase().Count + 1;
             obstacleModel.ObstacleId = obstacleId;
             
@@ -28,11 +30,18 @@ namespace NRLObstacleReporting.Controllers
                 ObstacleType = obstacleModel.ObstacleType,
                 ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
             };
-            Localdatabase.AddObstacle(obstacleReport);
-            ViewBag.ObstacleID = obstacleId;
             
+            Localdatabase.AddObstacle(obstacleReport);
+            if (obstacleModel.SaveDraft)
+            {
+                return View("Overview", obstacleReport);
+            }
+            
+            ViewBag.ObstacleID = obstacleId;
             Console.WriteLine(obstacleId);
             return View("DataformStep2");
+            
+            
         }
 
         [HttpPost]
@@ -43,8 +52,15 @@ namespace NRLObstacleReporting.Controllers
                 return View();
             }
             Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.GeometryGeoJson);
+            
+            if (obstacleModel.SaveDraft)
+            {
+                return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
+            }
+            
             ViewBag.ObstacleID = obstacleModel.ObstacleId;      
             Console.WriteLine(obstacleModel.ObstacleId);
+            
             return View("DataformStep3");
         }
 
@@ -56,6 +72,7 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
+            
             ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
             
             report.ObstacleIlluminated = obstacleModel.ObstacleIlluminated;
