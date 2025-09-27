@@ -68,6 +68,7 @@ foreach (var obstacle in drafts)
         <input type="hidden" asp-for="ObstacleName" value="@obstacle.ObstacleName"/>
         <input type="hidden" asp-for="ObstacleType" value="@obstacle.ObstacleType"/>
         <input type="hidden" asp-for="ObstacleHeightMeter" value="@obstacle.ObstacleHeightMeter"/>
+        <input type="hidden" asp-for="ObstacleId" value="@obstacle.ObstacleId"/>
         <button type="submit" formaction="/Obstacle/EditDraft">Edit</button>
     </form>
 </div>

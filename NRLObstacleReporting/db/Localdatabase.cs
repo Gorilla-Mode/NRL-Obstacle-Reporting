@@ -1,4 +1,5 @@
-﻿using NRLObstacleReporting.Models;
+﻿using System.Runtime.InteropServices;
+using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.db;
 public static class Localdatabase
@@ -13,15 +14,26 @@ public static class Localdatabase
 
     public static void EditObstacleCoordinates(int obstacleId, string? GeometryGeoJson)
     {
-        foreach (var report in _obstacles)
+        for (var i = 0; i < _obstacles.Count; i++)
         {
-            if (report.ObstacleId == obstacleId)
+            if (_obstacles[i].ObstacleId == obstacleId)
             {
-                report.GeometryGeoJson = GeometryGeoJson;
+                _obstacles[i].GeometryGeoJson = GeometryGeoJson;
             }
         }
     }
 
+    public static void UpdateObstacle(ObstacleCompleteModel editedObstacle)
+    {
+        for (int i = 0; i < _obstacles.Count(); i++)
+        {
+            if (_obstacles[i].ObstacleId == editedObstacle.ObstacleId)
+            {
+                _obstacles[i] = editedObstacle;
+            }
+        }
+    }
+    
     public static ObstacleCompleteModel GetObstacleCompleteModel(int obstacleId)
     {
         foreach (var report in _obstacles)
@@ -31,7 +43,7 @@ public static class Localdatabase
                 return report;
             }
         }
-        return null;
+        throw new Exception("Obstacle not found");
     }
 
     public static void RemoveObstacleAtIndex(int index)

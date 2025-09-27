@@ -92,11 +92,12 @@ namespace NRLObstacleReporting.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveEditedDraft(ObstacleCompleteModel draft)
+        public ActionResult SaveEditedDraft(ObstacleCompleteModel editedDraft)
         {
-            Localdatabase.RemoveObstacleAtIndex(Localdatabase.GetDatabase().Count - 1);
-            Localdatabase.AddObstacle(draft);
-            return View("Overview", draft);
+            Console.WriteLine(editedDraft.ObstacleId);
+            Localdatabase.UpdateObstacle(editedDraft);
+            
+            return View("Overview", editedDraft);
         }
     }
 }

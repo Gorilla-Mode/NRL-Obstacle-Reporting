@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <th scope="row">Coordinates</th>
-                    <td><input asp-for="GeometryGeoJson" value="@Model.GeometryGeoJson" /></td>
+                <td><input asp-for="GeometryGeoJson" value="@Model.GeometryGeoJson" /></td>
             </tr>
             <tr>
                 <th scope="row">Type</th>
@@ -39,6 +39,7 @@
             </tr>
             </tbody>
         </table>
+        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
         <button type="submit" formaction="/Obstacle/SaveEditedDraft">Save draft</button>
     </form>
 </div>
