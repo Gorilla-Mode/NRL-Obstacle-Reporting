@@ -1,24 +1,25 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep2Model
-<div class="text-center">
-    <h1 class="display-4 s">Welcome, please log </h1>
-    <section class="mx-auto max-w-2xl">
-        <div id="map" style="height: 650px; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
+
+<div class="h-dvh overflow-hidden rounded-xl" >
+    <h1 class="display-4 text-center">Welcome, please log </h1>
+    <section>
+        <div id="map" style="height: 65dvh; width: 100dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
         </div>
         <div>
             <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
-            <textarea id="CoordinatesPreview" class="block w-full rounded-lg border-gray-300 px-3 py-2 text-sm" rows="5" readonly placeholder="Draw on the map to see coordinates here..."></textarea>
+            <textarea id="CoordinatesPreview" class="block w-full rounded-lg border-gray-300 px-3 py-2 text-sm" readonly placeholder="Draw on the map to see coordinates here..."></textarea>
         </div>
+    <form asp-action="DataformStep2" method="post" class="w-full rounded-lg border-gray-300 px-3 py-2">
+        <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
+        <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
+        <div class="bg-green-800">
+        <button class="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" type="submit" formaction="/Obstacle/DataformStep2" id="Submit" >Next Page</button>
+        <button class="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" type="submit" formaction="/Obstacle/DataformStep2" id="savebutton" >Save Draft</button>
+        </div>
+        <input type="hidden" asp-for="SaveDraft" id="save"/>
+    </form>
     </section>
 </div>
-
-<form asp-action="DataformStep2" method="post">
-    <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
-    <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
-    <button type="submit" formaction="/Obstacle/DataformStep2" id="Submit">Next Page</button>
-    <button type="submit" formaction="/Obstacle/DataformStep2" id="savebutton">Save Draft</button>
-    <input type="hidden" asp-for="SaveDraft" id="save"/>
-</form>
-
 
 @* script å få inn kart *@
 @section Scripts
