@@ -1,8 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.db;
 using NRLObstacleReporting.Models;
-
 namespace NRLObstacleReporting.Controllers
 {
     public class ObstacleController : Controller
@@ -40,8 +38,6 @@ namespace NRLObstacleReporting.Controllers
             ViewBag.ObstacleID = obstacleId;
             Console.WriteLine(obstacleId);
             return View("DataformStep2");
-            
-            
         }
 
         [HttpPost]
@@ -51,7 +47,9 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
-            Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.GeometryGeoJson);
+            
+            ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
+            report.GeometryGeoJson = obstacleModel.GeometryGeoJson;
             
             if (obstacleModel.SaveDraft)
             {
@@ -84,7 +82,6 @@ namespace NRLObstacleReporting.Controllers
             return View("Overview", report);
         }
         
-
         [HttpPost]
         public IActionResult EditDraft(ObstacleCompleteModel draft)
         {

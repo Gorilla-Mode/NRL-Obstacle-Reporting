@@ -4,21 +4,21 @@ using NRLObstacleReporting.Models;
 namespace NRLObstacleReporting.db;
 public static class Localdatabase
 {
-    private static List<Models.ObstacleCompleteModel> _obstacles = new List<Models.ObstacleCompleteModel>();
+    private static List<ObstacleCompleteModel> _obstacles = new List<Models.ObstacleCompleteModel>();
 
-    public static void AddObstacle(Models.ObstacleCompleteModel obstacleCompleteModel)
+    public static void AddObstacle(ObstacleCompleteModel obstacleCompleteModel)
     {
         _obstacles.Add(obstacleCompleteModel);
         Console.WriteLine($"Obstacle {obstacleCompleteModel.GetHashCode()} added to database");
     }
 
-    public static void EditObstacleCoordinates(int obstacleId, string? GeometryGeoJson)
+    public static void EditObstacleCoordinates(int obstacleId, string? geometryGeoJson)
     {
         for (var i = 0; i < _obstacles.Count; i++)
         {
             if (_obstacles[i].ObstacleId == obstacleId)
             {
-                _obstacles[i].GeometryGeoJson = GeometryGeoJson;
+                _obstacles[i].GeometryGeoJson = geometryGeoJson;
             }
         }
     }
@@ -51,7 +51,7 @@ public static class Localdatabase
         _obstacles.RemoveAt(index);
     }
 
-    public static List<Models.ObstacleCompleteModel> GetDatabase()
+    public static List<ObstacleCompleteModel> GetDatabase()
     {
         return _obstacles;
     }
