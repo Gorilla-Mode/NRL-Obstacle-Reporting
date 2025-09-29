@@ -7,9 +7,16 @@ public class ObstacleCompleteModel
     public int ObstacleId { get; set; }
     
     //Step 1 felt
-    [Required(ErrorMessage = "This field is required")]
-    [MaxLength(200)]
-    public string? ObstacleType { get; set; }
+    public ObstacleTypes ObstacleType { get; set; }
+    public enum ObstacleTypes
+    {
+        PowerLine,
+        Pole,
+        Building,
+        Construction,
+        Natural,
+        Other
+    }
     
     [Required(ErrorMessage = "This field is required")]
     [Range(0, 150)]
