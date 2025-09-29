@@ -8,27 +8,49 @@
 <div class="text-center">
     <h1 class="display-4">Register yo shi</h1>
     <form method="post">
-        
-        <div>
-            <label asp-for="ObstacleType"></label>
-            <input asp-for="ObstacleType" />
-            <span asp-validation-for="ObstacleType"></span>
-        </div>
-
         <div>
             <label asp-for="ObstacleHeightMeter"></label>
             <input asp-for="ObstacleHeightMeter" />
             <span asp-validation-for="ObstacleHeightMeter"></span>
         </div>
 
-
-        <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200" type="submit" formaction="/Obstacle/DataformStep1" id="Submit">Next Page</button>
-        <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200" type="submit" formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
+        <div>
+            <button type="button" id="PowerLine" class="btn btn-outline-primary">Power Line</button>
+            <button type="button" id="Pole" class="btn btn-outline-secondary">Pole</button>
+            <button type="button" id="Building" class="btn btn-outline-primary">Building</button>
+            <button type="button" id="Construction" class="btn btn-outline-secondary">Construction</button>
+            <button type="button" id="Natural" class="btn btn-outline-primary">Natural</button>
+            <button type="button" id="Other" class="btn btn-outline-secondary">Other</button>
+            <input type="hidden" asp-for="ObstacleType" id="ObstacleType"/>
+        </div>
+        
+        <button type="submit" formaction="/Obstacle/DataformStep1" id="Submit">Next Page</button>
+        <button type="submit" formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
         <input type="hidden" asp-for="SaveDraft" id="save"/>
     </form>
 </div>
 
 @section Scripts {
+    <script>
+        document.getElementById('PowerLine').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 0;
+        });
+        document.getElementById('Pole').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 1;
+        });
+        document.getElementById('Building').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 2;
+        });
+        document.getElementById('Construction').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 3;
+        });
+        document.getElementById('Natural').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 4;
+        });
+        document.getElementById('Other').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 5;
+        });
+    </script>
     <script>
         document.getElementById('savebutton').addEventListener('click', function () {
             document.getElementById('save').value = 'true';
