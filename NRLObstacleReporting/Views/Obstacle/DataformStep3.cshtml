@@ -20,13 +20,15 @@
         </div>
         <div>
             <label asp-for="ObstacleIlluminated"></label>
-            <div>
-                <button type="button" id="illuminated-yes" class="btn btn-outline-primary">Med lys</button>
-                <button type="button" id="illuminated-no" class="btn btn-outline-secondary">Uten lys</button>
+            <div >
+                <button type="button" id="illuminated-yes" class="but inline-block items-center rounded-l-lg py-2 px-2 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2">Med lys</button>
+                <button type="button" id="illuminated-no" class="but inline-block items-center rounded-r-lg py-2 px-2 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2">Uten lys</button>
                 <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated"/>
             </div>
-            <button type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Next Page</button>
-            <button type="submit" formaction="/Obstacle/DataformStep3" id="Draft">Save Draft</button>
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+                    type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Next Page</button>
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+                    type="submit" formaction="/Obstacle/DataformStep3" id="Draft">Save Draft</button>
             <input type="hidden" asp-for="IsDraft" id="IsDraft"/>
         </div>
     </form>
@@ -52,6 +54,23 @@
         });
         document.getElementById('Draft').addEventListener('click', function () {
             document.getElementById('IsDraft').value = 'true';
+        });
+
+        const defaultColor = 'bg-green-800'; // Default color
+        const activeColor = 'bg-green-900'; // Active color
+        const buttons = document.querySelectorAll('.but'); 
+
+        buttons.forEach((but) => {
+            but.addEventListener('click', () => {
+                // Rest all button colors
+                buttons.forEach((b) => {
+                    b.classList.add(defaultColor);
+                    b.classList.remove(activeColor);
+                });
+        
+                but.classList.remove(defaultColor);
+                but.classList.add(activeColor);
+            });
         });
 
                 // Set default to "false" if not chosen
