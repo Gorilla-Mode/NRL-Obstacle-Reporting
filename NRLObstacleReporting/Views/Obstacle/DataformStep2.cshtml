@@ -11,7 +11,7 @@
         </div>
     <form asp-action="DataformStep2" method="post">
         <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
-        <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
+        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
         <div>
             <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep2" id="Submit" >Next Page</button>

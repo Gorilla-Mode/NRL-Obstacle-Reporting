@@ -9,7 +9,7 @@
 <div class="text-center">
     <h1 class="display-4">Register yo shi</h1>
     <form asp-action="DataformStep3" method="post">
-        <input asp-for="ObstacleId" type="hidden" value="@ViewBag.ObstacleId" />
+        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
         <div>
             <label asp-for="ObstacleName"></label>
             <input asp-for="ObstacleName"/>

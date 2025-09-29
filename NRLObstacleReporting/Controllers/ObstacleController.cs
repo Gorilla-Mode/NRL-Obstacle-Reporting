@@ -8,7 +8,8 @@ namespace NRLObstacleReporting.Controllers
         [HttpGet]
         public IActionResult DataformStep1()
         {
-            return View();
+            var model = new ObstacleStep1Model();
+            return View(model);
         }
 
         [HttpPost]
@@ -18,7 +19,6 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
-            
             int obstacleId = Localdatabase.GetDatabase().Count + 1;
             obstacleModel.ObstacleId = obstacleId;
             
@@ -35,9 +35,15 @@ namespace NRLObstacleReporting.Controllers
                 return View("Overview", obstacleReport);
             }
             
-            ViewBag.ObstacleID = obstacleId;
+            TempData["id"] = obstacleId;
             Console.WriteLine(obstacleId);
-            return View("DataformStep2");
+            return RedirectToAction("DataformStep2");
+        }
+
+        [HttpGet]
+        public ActionResult DataformStep2()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -56,13 +62,18 @@ namespace NRLObstacleReporting.Controllers
                 return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
             }
             
-            ViewBag.ObstacleID = obstacleModel.ObstacleId;      
+            TempData["id"] = obstacleModel.ObstacleId;      
             Console.WriteLine(obstacleModel.ObstacleId);
             
             return View("DataformStep3");
         }
 
-       
+        [HttpGet]
+        public ActionResult DataformStep3()
+        {
+            return View();
+        }
+        
         [HttpPost]
         public ActionResult DataformStep3(ObstacleStep3Model obstacleModel)
         {
