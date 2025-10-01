@@ -14,13 +14,15 @@
 1. Clone repo using `git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git`
 ### 2. Run using build config
 1. Open **NRLObstacleReporting.snl** solution
-2. Add build config to run the docker compose 
-3. Make sure docker is running `docker desktop start`
-4. Build the solution to launch the application in docker
+2. Run `npm run build:css` to compile tailwind css
+3. Add build config to run the docker compose 
+4. Make sure docker is running `docker desktop start`
+5. Build the solution to launch the application in docker
 ### 3. Run using terminal
-1. Make sure docker is running `docker desktop start`
-2. Cd to `./NRL-Obstacle-Reporting` where the docker-compose.yml is located
-3. Run `docker compose up` to launch the application in docker
+1. Run `npm run build:css` to compile tailwind css
+2. Make sure docker is running `docker desktop start`
+3. Cd to `./NRL-Obstacle-Reporting` where the docker-compose.yml is located
+4. Run `docker compose up` to launch the application in docker
 ## Documentation
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 ## Prefixes & naming convention
@@ -56,4 +58,9 @@ e.g:
   - `git pull --rebase origin branch-name`
 - DON'T REBASE PUSHED COMMITS, IT WILL CHANGE HASHES; IT IS BANNED!!!
 ![NO REBASING](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fb6%2F41%2F32%2Fb6413233b0c147d8e25ac8c6939003ec.jpg&f=1&nofb=1&ipt=e684870cc0f2f939c06bfc53af8ede80336966cf2877b4c2eaeab1dfda026a48)
+
+- - DON'T BRANCH OFF A BRANCH, IT WILL CREATE MERGE CONFLICTS; IT IS FORBIDDEN!!!
+![NO REBASING](https://y.yarn.co/9892718e-f9f9-400b-8273-9f5f78e36e22_text.gif)
+
+
     
