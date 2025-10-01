@@ -25,7 +25,7 @@ namespace NRLObstacleReporting.Controllers
             var obstacleReport = new ObstacleCompleteModel
             {
                 ObstacleId = obstacleId,
-                ObstacleType = obstacleModel.ObstacleType,
+                ObstacleType = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
                 ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
             };
             
@@ -36,6 +36,7 @@ namespace NRLObstacleReporting.Controllers
             }
             
             TempData["id"] = obstacleId;
+            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType;
             Console.WriteLine(obstacleId);
             return RedirectToAction("DataformStep2");
         }
