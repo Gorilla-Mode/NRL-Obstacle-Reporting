@@ -1,5 +1,6 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep2Model
 
+
 <div class="h-dvh overflow-hidden rounded-xl" >
     <h1 class="display-4 text-center">Welcome, please log </h1>
     <section>
@@ -12,6 +13,7 @@
     <form asp-action="DataformStep2" method="post">
         <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
         <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+
         <div>
             <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep2" id="Submit" >Next Page</button>
@@ -42,7 +44,7 @@
 
     <script>
         var map = L.map('map').setView([58.14671, 7.9956], 13);
-
+    
         L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -54,19 +56,42 @@
 
          // Creates the drawing control on the left hand side
          // The drawing control enables drawing of markers, polygons, and polylines
-         var drawControl = new L.Control.Draw({
+        
+        const choice = @TempData.Peek("ObstacleType")
+        if (choice == 0 || choice == 3 || choice == 4 || choice == 5) 
+        {
+        var drawControl = new L.Control.Draw({
              draw: {
                  polygon: false,
                  polyline: true,
                  marker: true,
                  circle: false,  // Disable circle drawing
-                 rectangle: true
+                 rectangle: false,
+                 circlemarker: false
              },
              edit: {
                  featureGroup: drawnItems
              }
          });
          map.addControl(drawControl);
+        }
+        else
+        {
+            var drawControl = new L.Control.Draw({
+                draw: {
+                    polygon: false,
+                    polyline: false,
+                    marker: true,
+                    circle: false,  // Disable circle drawing
+                    rectangle: false,
+                    circlemarker: false
+                },
+                edit: {
+                    featureGroup: drawnItems
+                }
+            });
+            map.addControl(drawControl);
+        }
 
           // Event handling when a layer is drawn on the map
          map.on(L.Draw.Event.CREATED, function (e) {
