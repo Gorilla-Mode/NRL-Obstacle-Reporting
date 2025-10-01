@@ -1,5 +1,4 @@
-﻿@model NRLObstacleReporting.Models.ObstacleStep1Model
-
+﻿@model NRLObstacleReporting.Models.ObstacleStep1Model 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -9,26 +8,103 @@
 <div class="text-center">
     <h1 class="display-4">Register yo shi</h1>
     <form method="post">
-        
         <div>
-            <label asp-for="ObstacleType"></label>
-            <input asp-for="ObstacleType" />
-            <span asp-validation-for="ObstacleType"></span>
+            <button type="button" id="PowerLine" class="but relative items-center rounded-lg w-1/3 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2 border-4 border-green-900 border-dashed" style="height: 20dvh">
+                <div class="absolute bottom-8 inset-x-0">
+                    Power Line
+                </div>
+            </button>
+            <button type="button" id="Pole" class="but relative items-center rounded-lg w-1/3 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2 border-4 border-green-900 border-dashed" style="height: 20dvh">
+                <div class="absolute bottom-8 inset-x-0">
+                    Pole
+                </div>
+            </button>
+            <button type="button" id="Building" class="but relative items-center rounded-lg w-1/3 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2 border-4 border-green-900 border-dashed" style="height: 20dvh">
+                <div class="absolute bottom-8 inset-x-0">
+                    Building
+                </div>
+            </button>
+            <button type="button" id="Construction" class="but relative items-center rounded-lg w-1/3 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2 border-4 border-green-900 border-dashed" style="height: 20dvh">
+                <div class="absolute bottom-8 inset-x-0">
+                    Construction
+                </div>
+            </button>
+            <br/>
+            <button type="button" id="Natural" class="but relative items-center rounded-lg w-1/3 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2 border-4 border-green-900 border-dashed" style="height: 20dvh">
+                <div class="absolute bottom-8 inset-x-0">
+                    Natural
+                </div>
+            </button>
+            <button type="button" id="Other" class="but relative items-center rounded-lg w-1/3 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2 border-4 border-green-900 border-dashed" style="height: 20dvh">
+                <div class="absolute bottom-8 inset-x-0">
+                    Other
+                </div>
+            </button>
+            
         </div>
-
-        <div>
-            <label asp-for="ObstacleHeightMeter"></label>
-            <input asp-for="ObstacleHeightMeter" />
+        <div class="font-bold" >
+            <label asp-for="ObstacleHeightMeter">Height in meter</label>
+            <br/>
+            <input class="rounded-2xl mb-3 bg-green-800 text-white text-center" style="height: 5dvh; width: 50dvw; margin-left: auto; margin-right: auto" asp-for="ObstacleHeightMeter" />
             <span asp-validation-for="ObstacleHeightMeter"></span>
         </div>
-
-
-        <button type="submit" formaction="/Obstacle/DataformStep1_NextPage">Next Page</button>
-        <button type="submit" formaction="/Obstacle/DataformStep1_Draft">Save Draft</button>
-       
+        
+        <button type="submit" class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+                formaction="/Obstacle/DataformStep1" id="Submit">Next Page</button>
+        <button type="submit"
+                class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200" formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
+        
+        <input type="hidden" asp-for="SaveDraft" id="save"/>
+        <input type="hidden" asp-for="ObstacleType" id="ObstacleType"/>
     </form>
 </div>
 
 @section Scripts {
+    <script>
+        document.getElementById('PowerLine').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 0;
+        });
+        document.getElementById('Pole').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 1;
+        });
+        document.getElementById('Building').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 2;
+        });
+        document.getElementById('Construction').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 3;
+        });
+        document.getElementById('Natural').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 4;
+        });
+        document.getElementById('Other').addEventListener('click', function() {
+            document.getElementById('ObstacleType').value = 5;
+        });
+    </script>
+    <script>
+        document.getElementById('savebutton').addEventListener('click', function () {
+            document.getElementById('save').value = 'true';
+        });
+        document.getElementById('Submit').addEventListener('click', function () {
+            document.getElementById('save').value = 'false';
+        });
+    </script>
+    <script>
+        const defaultColor = 'bg-green-800'; // Default color
+        const activeColor = 'bg-green-900'; // Active color
+        const buttons = document.querySelectorAll('.but');
+
+        buttons.forEach((but) => {
+            but.addEventListener('click', () => {
+                // Rest all button colors
+                buttons.forEach((b) => {
+                    b.classList.add(defaultColor);
+                    b.classList.remove(activeColor);
+                });
+
+                but.classList.remove(defaultColor);
+                but.classList.add(activeColor);
+            });
+        });
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }

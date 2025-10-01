@@ -3,11 +3,13 @@ namespace NRLObstacleReporting.Models;
 
 public class ObstacleStep1Model
 {
-    [Required(ErrorMessage = "This field is required")]
-    [MaxLength(200)]
-    public string? ObstacleType { get; set; }
-
-    [Required(ErrorMessage = "This field is required")]
+    public int ObstacleId { get; set; }
+    public bool IsDraft { get; set; } = true;
+    public bool SaveDraft { get; set; }
+   
     [Range(0, 150)]
     public int ObstacleHeightMeter { get; set; }
+    [Required] 
+    public ObstacleCompleteModel.ObstacleTypes? ObstacleType { get; set; }
+
 }

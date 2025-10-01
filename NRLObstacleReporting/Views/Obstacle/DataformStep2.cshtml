@@ -1,32 +1,112 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep2Model
 
-<div class="text-center">
-    <h1 class="display-4 s">Welcome, please log </h1>
-    <section class="mx-auto max-w-2xl">
-        <div id="map" style="height: 650px; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
+
+<div class="h-dvh overflow-hidden rounded-xl" >
+    <h1 class="display-4 text-center">Welcome, please log </h1>
+    <section>
+        <div id="map" style="height: 65dvh; width: 100dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
         </div>
+        <div>
+            <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
+            <textarea id="CoordinatesPreview" class="block w-full rounded-lg border-gray-300 px-3 py-2 text-sm" readonly placeholder="Draw on the map to see coordinates here..."></textarea>
+        </div>
+    <form asp-action="DataformStep2" method="post">
+        <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
+        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+
+        <div>
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+                    type="submit" formaction="/Obstacle/DataformStep2" id="Submit" >Next Page</button>
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+                    type="submit" formaction="/Obstacle/DataformStep2" id="savebutton" >Save Draft</button>
+        </div>
+        <input type="hidden" asp-for="SaveDraft" id="save"/>
+    </form>
     </section>
 </div>
 
-<form asp-action="DataformStep2" method="post">
-    <div>
-        <label asp-for="ObstacleCoordinates"></label>
-        <input asp-for="ObstacleCoordinates" />
-        <span asp-validation-for="ObstacleCoordinates"></span>
-    </div>
-    <button type="submit" formaction="/Obstacle/DataformStep2_NextPage">Next Page</button>
-    <button type="submit" formaction="/Obstacle/DataformStep2_Draft">Save Draft</button>
-</form>
 @* script å få inn kart *@
 @section Scripts
 {
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        document.getElementById('savebutton').addEventListener('click', function () {
+            document.getElementById('save').value = 'true';
+         });
+        document.getElementById('Submit').addEventListener('click', function () {
+            document.getElementById('save').value = 'false';
+         });
+    </script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 
+
+    <script>
+        var map = L.map('map').setView([58.14671, 7.9956], 13);
+    
         L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+        // Initialize the feature group that will hold the drawn shapes
+         var drawnItems = new L.FeatureGroup();
+         map.addLayer(drawnItems);
+
+         // Creates the drawing control on the left hand side
+         // The drawing control enables drawing of markers, polygons, and polylines
+        
+        const choice = @TempData.Peek("ObstacleType")
+        if (choice == 0 || choice == 3 || choice == 4 || choice == 5) 
+        {
+        var drawControl = new L.Control.Draw({
+             draw: {
+                 polygon: false,
+                 polyline: true,
+                 marker: true,
+                 circle: false,  // Disable circle drawing
+                 rectangle: false,
+                 circlemarker: false
+             },
+             edit: {
+                 featureGroup: drawnItems
+             }
+         });
+         map.addControl(drawControl);
+        }
+        else
+        {
+            var drawControl = new L.Control.Draw({
+                draw: {
+                    polygon: false,
+                    polyline: false,
+                    marker: true,
+                    circle: false,  // Disable circle drawing
+                    rectangle: false,
+                    circlemarker: false
+                },
+                edit: {
+                    featureGroup: drawnItems
+                }
+            });
+            map.addControl(drawControl);
+        }
+
+          // Event handling when a layer is drawn on the map
+         map.on(L.Draw.Event.CREATED, function (e) {
+                 layer = e.layer;
+
+             drawnItems.addLayer(layer);
+
+             // Get the GeoJSON representation of the drawn layer
+             var geoJsonData = layer.toGeoJSON();
+             var geoJsonString = JSON.stringify(geoJsonData);
+
+             // Set the GeoJSON string into the hidden input field in the form
+             document.getElementById('GeometryGeoJson').value = geoJsonString;
+             document.getElementById('CoordinatesPreview').value = geoJsonString;
+         });
     </script>
 
     <partial name="_ValidationScriptsPartial" />

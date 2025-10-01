@@ -15,30 +15,42 @@
             <tbody>
             <tr>
                 <th scope="row">Height</th>
-                <td><input asp-for="ObstacleHeightMeter" value="@Model.ObstacleHeightMeter"/></td>
+                <td><input asp-for="ObstacleHeightMeter" value="@Model.ObstacleHeightMeter"/>
+                    <span asp-validation-for="ObstacleHeightMeter"></span></td>
             </tr>
             <tr>
                 <th scope="row">Coordinates</th>
-                <td><input asp-for="ObstacleCoordinates" value="@Model.ObstacleCoordinates"/></td>
+                <td><input asp-for="GeometryGeoJson" value="@Model.GeometryGeoJson" />
+                    <span asp-validation-for="GeometryGeoJson"></span></td>
             </tr>
             <tr>
                 <th scope="row">Type</th>
-                <td><input asp-for="ObstacleType" value="@Model.ObstacleType"/></td>
+                <td><input asp-for="ObstacleType" value="@Model.ObstacleType"/>
+                    <span asp-validation-for="ObstacleType"></span></td>
             </tr>
             <tr>
                 <th scope="row">Illuminated</th>
-                <td><input asp-for="ObstacleIlluminated" value="@Model.ObstacleIlluminated"/></td>
+                <td><input asp-for="ObstacleIlluminated" value="@Model.ObstacleIlluminated"/>
+                    <span asp-validation-for="ObstacleIlluminated"></span></td>
             </tr>
             <tr>
                 <th scope="row">Description</th>
-                <td><input asp-for="ObstacleDescription" value="@Model.ObstacleDescription"/></td>
+                <td><input asp-for="ObstacleDescription" value="@Model.ObstacleDescription"/>
+                    <span asp-validation-for="ObstacleDescription"></span></td>
             </tr>
             <tr>
                 <th scope="row">Name</th>
-                <td><input asp-for="ObstacleName" value="@Model.ObstacleName"/></td>
+                <td><input asp-for="ObstacleName" value="@Model.ObstacleName"/>
+                    <span asp-validation-for="ObstacleName"></span></td>
             </tr>
             </tbody>
         </table>
+        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
         <button type="submit" formaction="/Obstacle/SaveEditedDraft">Save draft</button>
+        <button type="submit" formaction="/Obstacle/SubmitDraft">Submit</button>
     </form>
 </div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

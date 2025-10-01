@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.css" />
     <script src="~/lib/leaflet/dist/leaflet.js"></script>
 </head>
-<body>
+<body class="bg-green-200">
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-green-900 border-b-3 border-green-950 box-shadow mb-3">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NRLObstacleReporting log out</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -34,13 +34,13 @@
         </div>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
+<div class="container" >
+    <main role="main" style="padding-bottom: 10dvh">
         @RenderBody()
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
+<footer class="bg-green-800 fixed bottom-0 left-0 right-0 border-top-2 p-3 text-white"  >
     <div class="container">
         &copy; 2025 - NRLObstacleReporting - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>

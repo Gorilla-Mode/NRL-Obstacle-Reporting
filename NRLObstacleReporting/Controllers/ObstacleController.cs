@@ -1,113 +1,99 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.db;
 using NRLObstacleReporting.Models;
-
 namespace NRLObstacleReporting.Controllers
 {
     public class ObstacleController : Controller
     {
-        private static ObstacleCompleteModel _completeModel = new ObstacleCompleteModel();
         [HttpGet]
         public IActionResult DataformStep1()
         {
-            if (!_completeModel.Equals(null))
+            var model = new ObstacleStep1Model();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DataformStep1(ObstacleStep1Model obstacleModel)
+        {
+            if (!ModelState.IsValid)
             {
-                _completeModel = new ObstacleCompleteModel();
+                return View();
             }
+            int obstacleId = Localdatabase.GetDatabase().Count + 1;
+            obstacleModel.ObstacleId = obstacleId;
+            
+            var obstacleReport = new ObstacleCompleteModel
+            {
+                ObstacleId = obstacleId,
+                ObstacleType = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
+                ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
+            };
+            
+            Localdatabase.AddObstacle(obstacleReport);
+            if (obstacleModel.SaveDraft)
+            {
+                return View("Overview", obstacleReport);
+            }
+            
+            TempData["id"] = obstacleId;
+            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType;
+            Console.WriteLine(obstacleId);
+            return RedirectToAction("DataformStep2");
+        }
+
+        [HttpGet]
+        public ActionResult DataformStep2()
+        {
             return View();
         }
 
         [HttpPost]
-        public IActionResult DataformStep1_NextPage(ObstacleStep1Model obstaclemodel, string action)
+        public ActionResult DataformStep2(ObstacleStep2Model obstacleModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(obstaclemodel);
+                return View();
             }
-            _completeModel.ObstacleHeightMeter = obstaclemodel.ObstacleHeightMeter;
-            _completeModel.ObstacleType = obstaclemodel.ObstacleType;
             
-            return View("DataformStep2");
-        }
-
-        [HttpPost]
-        public IActionResult DataformStep1_Draft(ObstacleStep1Model obstaclemodel, string action)
-        {
-            if (!ModelState.IsValid)
+            ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
+            report.GeometryGeoJson = obstacleModel.GeometryGeoJson;
+            
+            if (obstacleModel.SaveDraft)
             {
-                return View(obstaclemodel);
+                return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
             }
-            _completeModel.ObstacleHeightMeter = obstaclemodel.ObstacleHeightMeter;
-            _completeModel.ObstacleType = obstaclemodel.ObstacleType;
-            var compeltedModel = _completeModel;
-            _completeModel.IsDraft = true;
-            Localdatabase.AddObstacle(compeltedModel);
-
-            return View("Overview", compeltedModel);
-        }
-
-        [HttpPost]
-        public ActionResult DataformStep2_NextPage(ObstacleStep2Model obstaclemodel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(obstaclemodel);
-            }
-            _completeModel.ObstacleCoordinates = obstaclemodel.ObstacleCoordinates;
+            
+            TempData["id"] = obstacleModel.ObstacleId;      
+            Console.WriteLine(obstacleModel.ObstacleId);
             
             return View("DataformStep3");
         }
 
-        [HttpPost]
-        public ActionResult DataformStep2_Draft(ObstacleStep2Model obstaclemodel)
+        [HttpGet]
+        public ActionResult DataformStep3()
         {
-            if (!ModelState.IsValid)
-            {
-                return View(obstaclemodel);
-            }
-            _completeModel.ObstacleCoordinates = obstaclemodel.ObstacleCoordinates;
-            var compeltedModel = _completeModel;
-            _completeModel.IsDraft = true;
-            Localdatabase.AddObstacle(compeltedModel);
-
-            return View("Overview", compeltedModel);
+            return View();
         }
-
+        
         [HttpPost]
-        public ActionResult DataformStep3_NextPage(ObstacleStep3Model obstaclemodel)
+        public ActionResult DataformStep3(ObstacleStep3Model obstacleModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(obstaclemodel);
+                return View();
             }
             
-            _completeModel.ObstacleName = obstaclemodel.ObstacleName;
-            _completeModel.ObstacleDescription = obstaclemodel.ObstacleDescription;
-            _completeModel.ObstacleIlluminated = obstaclemodel.ObstacleIlluminated;
+            ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
             
-            var compeltedModel = _completeModel;
-            Localdatabase.AddObstacle(compeltedModel);
-            return View("Overview", compeltedModel);
+            report.ObstacleIlluminated = obstacleModel.ObstacleIlluminated;
+            report.ObstacleName = obstacleModel.ObstacleName;
+            report.ObstacleDescription = obstacleModel.ObstacleDescription;
+            report.IsDraft = obstacleModel.IsDraft;
+            
+            Console.WriteLine(obstacleModel.ObstacleId);
+            return View("Overview", report);
         }
-
-        [HttpPost]
-        public ActionResult DataformStep3_Draft(ObstacleStep3Model obstaclemodel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(obstaclemodel);
-            }
-
-            _completeModel.ObstacleName = obstaclemodel.ObstacleName;
-            _completeModel.ObstacleDescription = obstaclemodel.ObstacleDescription;
-            _completeModel.ObstacleIlluminated = obstaclemodel.ObstacleIlluminated;
-
-            var compeltedModel = _completeModel;
-            _completeModel.IsDraft = true;
-            Localdatabase.AddObstacle(compeltedModel);
-            return View("Overview", compeltedModel);
-        }
-
+        
         [HttpPost]
         public IActionResult EditDraft(ObstacleCompleteModel draft)
         {
@@ -115,11 +101,27 @@ namespace NRLObstacleReporting.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveEditedDraft(ObstacleCompleteModel draft)
+        public ActionResult SaveEditedDraft(ObstacleCompleteModel editedDraft)
         {
-            Localdatabase.RemoveObstacleAtIndex(Localdatabase.GetDatabase().Count - 1);
-            Localdatabase.AddObstacle(draft);
+            Console.WriteLine(editedDraft.ObstacleId);
+            Localdatabase.UpdateObstacle(editedDraft);
+            
+            return View("Overview", editedDraft);
+        }
+
+        [HttpPost]
+        public ActionResult SubmitDraft(ObstacleCompleteModel draft)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("EditDraft", draft);
+            }
+
+            draft.IsDraft = false;
+            Localdatabase.UpdateObstacle(draft);
+            
             return View("Overview", draft);
+            
         }
     }
 }
