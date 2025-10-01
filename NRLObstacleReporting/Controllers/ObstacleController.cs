@@ -107,5 +107,20 @@ namespace NRLObstacleReporting.Controllers
             
             return View("Overview", editedDraft);
         }
+
+        [HttpPost]
+        public ActionResult SubmitDraft(ObstacleCompleteModel draft)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("EditDraft", draft);
+            }
+
+            draft.IsDraft = false;
+            Localdatabase.UpdateObstacle(draft);
+            
+            return View("Overview", draft);
+            
+        }
     }
 }
