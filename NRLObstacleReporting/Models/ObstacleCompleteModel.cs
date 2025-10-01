@@ -23,6 +23,7 @@ public class ObstacleCompleteModel
     public int ObstacleHeightMeter { get; set; }
 
     //Step 2 felt
+    [Required(ErrorMessage = "This field is required")]
     public string? GeometryGeoJson { get; set; }
     //Step 3 felt
     [MaxLength(100)]
