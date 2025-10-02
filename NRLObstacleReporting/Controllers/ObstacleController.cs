@@ -121,7 +121,6 @@ namespace NRLObstacleReporting.Controllers
             Localdatabase.UpdateObstacle(draft);
             
             return View("Overview", draft);
-            
         }
     }
 }
