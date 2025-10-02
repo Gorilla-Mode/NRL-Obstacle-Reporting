@@ -39,6 +39,7 @@
 
     <partial name="_ValidationScriptsPartial" />
     <script>
+        //Sets the value of illuminated
         document.getElementById('illuminated-yes').addEventListener('click', function () {
             document.getElementById('ObstacleIlluminated').value = 'true';
             this.classList.add('active');
@@ -80,5 +81,6 @@
                 illuminated.value = 'false';
             }
         });
+    
     </script>
 }
