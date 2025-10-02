@@ -8,8 +8,7 @@ namespace NRLObstacleReporting.Controllers
         [HttpGet]
         public IActionResult DataformStep1()
         {
-            var model = new ObstacleStep1Model();
-            return View(model);
+            return View();
         }
 
         [HttpPost]
