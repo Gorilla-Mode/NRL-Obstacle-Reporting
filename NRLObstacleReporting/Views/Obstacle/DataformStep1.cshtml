@@ -61,6 +61,7 @@
 
 @section Scripts {
     <script>
+        //saves the value of the button/type you choose
         document.getElementById('PowerLine').addEventListener('click', function() {
             document.getElementById('ObstacleType').value = 0;
         });
@@ -79,6 +80,7 @@
         document.getElementById('Other').addEventListener('click', function() {
             document.getElementById('ObstacleType').value = 5;
         });
+    
     </script>
     <script>
         document.getElementById('savebutton').addEventListener('click', function () {
@@ -87,6 +89,7 @@
         document.getElementById('Submit').addEventListener('click', function () {
             document.getElementById('save').value = 'false';
         });
+    
     </script>
     <script>
         const defaultColor = 'bg-green-800'; // Default color
