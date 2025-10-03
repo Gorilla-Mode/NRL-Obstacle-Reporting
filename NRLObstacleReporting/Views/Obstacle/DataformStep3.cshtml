@@ -28,7 +28,7 @@
             <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Submit Report</button>
             <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
-                    type="submit" formaction="/Obstacle/DataformStep3" id="Draft">Save Draft</button>
+                    type="submit" formaction="/Obstacle/DataformStep3" id="SaveDraft">Save Draft</button>
             <input type="hidden" asp-for="IsDraft" id="IsDraft"/>
         </div>
     </form>
@@ -40,47 +40,13 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         //Sets the value of illuminated
-        document.getElementById('illuminated-yes').addEventListener('click', function () {
-            document.getElementById('ObstacleIlluminated').value = 'true';
-            this.classList.add('active');
-            document.getElementById('illuminated-no').classList.remove('active');
-        });
-        document.getElementById('illuminated-no').addEventListener('click', function () {
-            document.getElementById('ObstacleIlluminated').value = 'false';
-            this.classList.add('active');
-            document.getElementById('illuminated-yes').classList.remove('active');
-        });
-        document.getElementById('Submit').addEventListener('click', function () {
-            document.getElementById('IsDraft').value = 'false';
-        });
-        document.getElementById('Draft').addEventListener('click', function () {
-            document.getElementById('IsDraft').value = 'true';
-        });
-
-        const defaultColor = 'bg-green-800'; // Default color
-        const activeColor = 'bg-green-900'; // Active color
-        const buttons = document.querySelectorAll('.but'); 
-
-        buttons.forEach((but) => {
-            but.addEventListener('click', () => {
-                // Rest all button colors
-                buttons.forEach((b) => {
-                    b.classList.add(defaultColor);
-                    b.classList.remove(activeColor);
-                });
+        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', true)
+        AssignValueByID('illuminated-no', 'ObstacleIlluminated', false)
         
-                but.classList.remove(defaultColor);
-                but.classList.add(activeColor);
-            });
-        });
+        //save or submit as draft
+        AssignValueByID('SaveDraft', 'IsDraft', true)
+        AssignValueByID('Submit', 'IsDraft', false)
 
-                // Set default to "false" if not chosen
-        document.querySelector('form').addEventListener('submit', function () {
-            var illuminated = document.getElementById('ObstacleIlluminated');
-            if (!illuminated.value) {
-                illuminated.value = 'false';
-            }
-        });
-    
+        ColorActiveButton('bg-green-800', 'bg-green-900')
     </script>
 }

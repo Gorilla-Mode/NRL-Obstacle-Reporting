@@ -16,7 +16,7 @@
 
         <div>
             <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
-                    type="submit" formaction="/Obstacle/DataformStep2" id="Submit" >Next Page</button>
+                    type="submit" formaction="/Obstacle/DataformStep2" id="nextpage" >Next Page</button>
             <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep2" id="savebutton" >Save Draft</button>
         </div>
@@ -29,19 +29,14 @@
 @section Scripts
 {
     <script>
-        document.getElementById('savebutton').addEventListener('click', function () {
-            document.getElementById('save').value = 'true';
-         });
-        document.getElementById('Submit').addEventListener('click', function () {
-            document.getElementById('save').value = 'false';
-         });
+        //save draft or next step
+        AssignValueByID('savebutton', 'save', true)
+        AssignValueByID('nextpage', 'save', false)
     </script>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
-    
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-
-
+   
     <script>
         var map = L.map('map').setView([58.14671, 7.9956], 13);
     
