@@ -23,7 +23,7 @@
 2. Make sure docker is running `docker desktop start`
 3. Cd to `./NRL-Obstacle-Reporting` where the docker-compose.yml is located
 4. Run `docker compose up` to launch the application in docker
-## Documentation
+## Documentation and System Architecture
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 ## Prefixes & naming convention
 ### Commit message & PR names
