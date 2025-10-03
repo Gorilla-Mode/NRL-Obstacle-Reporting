@@ -10,7 +10,6 @@ namespace NRLObstacleReporting.Controllers
             return View();
         }
         
-        //mangler Action til View_Reports_Registrar view
         public IActionResult View_Reports_Registrar()
         {
             return View("View_Reports_Registrar");

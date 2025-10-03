@@ -50,7 +50,7 @@
         </div>
         
         <button type="submit" class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
-                formaction="/Obstacle/DataformStep1" id="Submit">Next Page</button>
+                formaction="/Obstacle/DataformStep1" id="nextpage">Next Page</button>
         <button type="submit"
                 class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200" formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
         
@@ -60,51 +60,21 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/ColorActiveButton.js"></script>
     <script>
-        document.getElementById('PowerLine').addEventListener('click', function() {
-            document.getElementById('ObstacleType').value = 0;
-        });
-        document.getElementById('Pole').addEventListener('click', function() {
-            document.getElementById('ObstacleType').value = 1;
-        });
-        document.getElementById('Building').addEventListener('click', function() {
-            document.getElementById('ObstacleType').value = 2;
-        });
-        document.getElementById('Construction').addEventListener('click', function() {
-            document.getElementById('ObstacleType').value = 3;
-        });
-        document.getElementById('Natural').addEventListener('click', function() {
-            document.getElementById('ObstacleType').value = 4;
-        });
-        document.getElementById('Other').addEventListener('click', function() {
-            document.getElementById('ObstacleType').value = 5;
-        });
-    </script>
-    <script>
-        document.getElementById('savebutton').addEventListener('click', function () {
-            document.getElementById('save').value = 'true';
-        });
-        document.getElementById('Submit').addEventListener('click', function () {
-            document.getElementById('save').value = 'false';
-        });
-    </script>
-    <script>
-        const defaultColor = 'bg-green-800'; // Default color
-        const activeColor = 'bg-green-900'; // Active color
-        const buttons = document.querySelectorAll('.but');
+        //saves the value of the button/type you choose
+        AssignValueByID("PowerLine", "ObstacleType", 0)
+        AssignValueByID('Pole', 'ObstacleType', 1)
+        AssignValueByID('Building', 'ObstacleType', 2)
+        AssignValueByID('Construction', 'ObstacleType', 3)
+        AssignValueByID('Natural', 'ObstacleType', 4)
+        AssignValueByID('Other', 'ObstacleType', 5)
 
-        buttons.forEach((but) => {
-            but.addEventListener('click', () => {
-                // Rest all button colors
-                buttons.forEach((b) => {
-                    b.classList.add(defaultColor);
-                    b.classList.remove(activeColor);
-                });
-
-                but.classList.remove(defaultColor);
-                but.classList.add(activeColor);
-            });
-        });
+        //save draft or next step
+        AssignValueByID('savebutton', 'save', true)
+        AssignValueByID('nextpage', 'save', false)
+        
+        ColorActiveButton('bg-green-800', 'bg-green-900')
     </script>
     <partial name="_ValidationScriptsPartial" />
 }
