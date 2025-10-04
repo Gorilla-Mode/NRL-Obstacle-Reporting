@@ -19,6 +19,11 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.9" />
+      <PackageReference Include="xunit" Version="2.9.3" />
+      <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
     <!--  
     <Target Name="BuildCss" BeforeTargets="Compile">
