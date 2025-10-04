@@ -8,8 +8,7 @@ namespace NRLObstacleReporting.Controllers
         [HttpGet]
         public IActionResult DataformStep1()
         {
-            var model = new ObstacleStep1Model();
-            return View(model);
+            return View();
         }
 
         [HttpPost]
@@ -20,7 +19,6 @@ namespace NRLObstacleReporting.Controllers
                 return View();
             }
             int obstacleId = Localdatabase.GetDatabase().Count + 1;
-            obstacleModel.ObstacleId = obstacleId;
             
             var obstacleReport = new ObstacleCompleteModel
             {
@@ -35,9 +33,10 @@ namespace NRLObstacleReporting.Controllers
                 return View("Overview", obstacleReport);
             }
             
+            //Values saved as cookies
             TempData["id"] = obstacleId;
             TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType;
-            Console.WriteLine(obstacleId);
+            
             return RedirectToAction("DataformStep2");
         }
 
@@ -55,18 +54,17 @@ namespace NRLObstacleReporting.Controllers
                 return View();
             }
             
-            ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
-            report.GeometryGeoJson = obstacleModel.GeometryGeoJson;
+            Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.GeometryGeoJson);
             
             if (obstacleModel.SaveDraft)
             {
                 return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
             }
             
+            //Values saved as cookies
             TempData["id"] = obstacleModel.ObstacleId;      
-            Console.WriteLine(obstacleModel.ObstacleId);
             
-            return View("DataformStep3");
+            return RedirectToAction("DataformStep3");
         }
 
         [HttpGet]
@@ -89,6 +87,8 @@ namespace NRLObstacleReporting.Controllers
             report.ObstacleName = obstacleModel.ObstacleName;
             report.ObstacleDescription = obstacleModel.ObstacleDescription;
             report.IsDraft = obstacleModel.IsDraft;
+            
+            Localdatabase.UpdateObstacle(report);
             
             Console.WriteLine(obstacleModel.ObstacleId);
             return View("Overview", report);
@@ -121,7 +121,6 @@ namespace NRLObstacleReporting.Controllers
             Localdatabase.UpdateObstacle(draft);
             
             return View("Overview", draft);
-            
         }
     }
 }
