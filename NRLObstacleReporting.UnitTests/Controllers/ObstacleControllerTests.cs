@@ -1,6 +1,8 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
+using NRLObstacleReporting.Models;
+using NSubstitute;
 using Xunit;
 
 namespace NRLObstacleReporting.UnitTests.Controllers;
@@ -81,4 +83,18 @@ public class ObstacleControllerTests
         
         Assert.Equal(null, viewResult.ViewName);
     }
+    
+    [Fact]
+    public void SubmitDraftInvalidModelStateReturnsSubmitDraftView()
+    {
+        var controller = InstanitateObstacleController();
+        var model = Substitute.For<ObstacleCompleteModel>();
+        controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
+        
+        var result = controller.SubmitDraft(model);
+        var viewResult = Assert.IsType<ViewResult>(result);
+        
+        Assert.Equal("EditDraft", viewResult.ViewName);
+    }
+    
 }
