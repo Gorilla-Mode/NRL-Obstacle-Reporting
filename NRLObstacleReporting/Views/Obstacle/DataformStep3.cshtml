@@ -7,7 +7,7 @@
 }
 
 <div class="text-center content-center">
-    <h1 class="display-4">Register yo shi</h1>
+    <h1 class="display-4">Describe your obstacle</h1>
     <form asp-action="DataformStep3" method="post">
         <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
         <div>
@@ -21,13 +21,13 @@
         <div class="">
             <label asp-for="ObstacleIlluminated"></label>
             <div class="divide-x-0 grid grid-cols-2 w-1/2 mx-auto">
-                <button type="button" id="illuminated-yes" class="but rounded-l-lg p-2 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2">Med lys</button>
-                <button type="button" id="illuminated-no" class="but rounded-r-lg p-2 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200 mb-2">Uten lys</button>
+                <button type="button" id="illuminated-yes" class="but rounded-l-lg p-2 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 mb-2">Med lys</button>
+                <button type="button" id="illuminated-no" class="but rounded-r-lg p-2 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 mb-2">Uten lys</button>
                 <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated"/>
             </div>
-            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Submit Report</button>
-            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep3" id="SaveDraft">Save Draft</button>
             <input type="hidden" asp-for="IsDraft" id="IsDraft"/>
         </div>
@@ -47,6 +47,6 @@
         AssignValueByID('SaveDraft', 'IsDraft', true)
         AssignValueByID('Submit', 'IsDraft', false)
 
-        ColorActiveButton('bg-green-800', 'bg-green-900')
+        ColorActiveButton('bg-blue-700', 'bg-blue-700')
     </script>
 }
