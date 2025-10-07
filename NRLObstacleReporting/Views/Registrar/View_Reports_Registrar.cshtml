@@ -4,62 +4,47 @@
 
     // Hent alle hindere direkte fra Localdatabase
     var obstacles = Localdatabase.GetDatabase();
-
-
-    @if (obstacles.Count() == 0)
-    {
-        <div class="text-center">
-            <h1>No obstacles Registered</h1>
-        </div>
-    }
-    else
-    {
-        <div class="text-center">
-            <h1>Registered reports:</h1>
-        </div>
-
-        @foreach (var obstacle in obstacles)
-        {
-            <div>
-                <table class="center">
-                    <caption>Obstacle Report: @obstacle.GetHashCode()</caption>
-                    <thead>
-                    <tr>
-                        <th scope="col">Data</th>
-                        <th scope="col">Response</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">Height</th>
-                        <td>@obstacle.ObstacleHeightMeter</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Coordinates</th>
-                            <td>@obstacle.GeometryGeoJson</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Type</th>
-                        <td>@obstacle.ObstacleType</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Illuminated</th>
-                        <td>@obstacle.ObstacleIlluminated</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Description</th>
-                        <td>@obstacle.ObstacleDescription</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Name</th>
-                        <td>@obstacle.ObstacleName</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        }
-    }
 }
 
 
+@if (obstacles.Count() == 0)
+{
+    <div class="text-center">
+        <h1>No obstacles registered</h1>
+    </div>
+}
+else
+{
+    <div class="min-h-screen bg-gray-100 p-8">
+        <h1>Registered reports:</h1>
 
+
+        <table class="w-full border border-black">
+            <thead>
+                <tr>
+                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Name</th>
+                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Type</th>
+                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Height</th>
+                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Coordinates</th>
+                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Illuminated</th>
+                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var o in obstacles)
+                {
+                    <tr>
+                        <td class=" border border-black px-4 py-2"> @o.ObstacleName </td>
+                        <td class="border border-black px-4 py-2"> @o.ObstacleType</td>
+                        <td class="border border-black px-4 py-2"> @o.ObstacleHeightMeter</td>
+                        <td class="border border-black px-4 py-2"> @o.GeometryGeoJson</td>
+                        <td class="border border-black px-4 py-2"> @o.ObstacleIlluminated</td>
+                        <td class="border border-black px-4 py-2"> @o.ObstacleDescription</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

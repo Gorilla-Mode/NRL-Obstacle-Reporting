@@ -1,10 +1,33 @@
-﻿version: "1.0.0"
+﻿version: "3.9"
 services:
-  webapp:
-    image: nrlobstaclereporting
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: superpass
+      MYSQL_DATABASE: nrl
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -uroot -psuperpass --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
     build:
       context: .
       dockerfile: NRLObstacleReporting/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      # Overstyrer appsettings.Development.json
+      ConnectionStrings__DefaultConnection: Server=db;Port=3306;Database=nrl;User=root;Password=superpass;
     ports:
       - "8080:8080"
-  
+    restart: unless-stopped
+
+volumes:
+  dbdata:

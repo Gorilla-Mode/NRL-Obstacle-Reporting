@@ -9,7 +9,7 @@ public class ObstacleStep1Model
    
     [Range(0, 150)]
     public int ObstacleHeightMeter { get; set; }
+    
     [Required] 
     public ObstacleCompleteModel.ObstacleTypes? ObstacleType { get; set; }
-
 }
