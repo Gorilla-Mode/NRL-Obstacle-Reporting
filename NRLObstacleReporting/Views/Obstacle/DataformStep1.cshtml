@@ -40,20 +40,20 @@
                     Other
                 </div>
             </button>
-            
+
         </div>
-        <div class="font-bold" >
+        <div class="font-bold">
             <label asp-for="ObstacleHeightMeter">Height in meter</label>
             <br/>
-            <input class="rounded-2xl mb-3 bg-green-800 text-white text-center" style="height: 5dvh; width: 50dvw; margin-left: auto; margin-right: auto" asp-for="ObstacleHeightMeter" />
+            <input class="rounded-2xl mb-3 bg-green-800 text-white text-center" style="height: 5dvh; width: 50dvw; margin-left: auto; margin-right: auto" asp-for="ObstacleHeightMeter"/>
             <span asp-validation-for="ObstacleHeightMeter"></span>
         </div>
-        
+
         <button type="submit" class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
                 formaction="/Obstacle/DataformStep1" id="nextpage">Next Page</button>
         <button type="submit"
                 class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200" formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
-        
+
         <input type="hidden" asp-for="SaveDraft" id="save"/>
         <input type="hidden" asp-for="ObstacleType" id="ObstacleType"/>
     </form>
