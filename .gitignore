@@ -521,3 +521,6 @@ http-client.private.env.json
 
 # Ignore tailwind css output
 ./NRLObstacleReporting/wwwroot/css/output.css
+
+# Ignore mac dir thing
+.DS_Store
