@@ -2,7 +2,7 @@
 
 
 <div class="h-dvh overflow-hidden rounded-xl" >
-    <h1 class="display-4 text-center">Welcome, please log </h1>
+    <h1 class="display-4 text-center">Place your obstacle</h1>
     <section>
         <div id="map" style="height: 65dvh; width: 100dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
         </div>
@@ -15,9 +15,9 @@
         <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
 
         <div>
-            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep2" id="nextpage" >Next Page</button>
-            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200"
+            <button class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"
                     type="submit" formaction="/Obstacle/DataformStep2" id="savebutton" >Save Draft</button>
         </div>
         <input type="hidden" asp-for="SaveDraft" id="save"/>

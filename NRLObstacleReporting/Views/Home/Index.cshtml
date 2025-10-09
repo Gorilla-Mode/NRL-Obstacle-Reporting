@@ -2,21 +2,22 @@
     ViewData["Title"] = "Log inn page";
 }
     <div class="text-center">
-        <h1 class="display-4 s">Welcome, please log </h1>
+        <h1 class="display-4 s">Welcome!</h1>
+        <h1 class="display-6 s">Please log in</h1>
     </div>
 
 
 
-<div class="pt-4">
+<div class="text-center pt-4"> <!-- placing the button in the center -->
     <a asp-action="PilotIndex" asp-controller="Pilot"
-       class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200">
-        Log inn as Pilot
+       class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"> <!-- Choosing the color on the log in as pilot button -->
+        Log in as Pilot
     </a>
 </div>
 
-<div class="pt-4">
+<div class="text-center pt-4"> <!-- placing the button in the center -->
     <a asp-action="RegistrarIndex" asp-controller="Registrar"
-       class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-green-800 hover:bg-green-900 transition-colors duration-200">
-        Log inn as Registrar
+       class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"> <!--Choosing the color on the log in as reristrar  -->
+        Log in as Registrar
     </a>
 </div>
