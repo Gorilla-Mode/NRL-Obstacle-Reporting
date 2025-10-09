@@ -18,9 +18,9 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
-            int obstacleId = Localdatabase.GetDatabase().Count + 1;
+            int obstacleId = Localdatabase.GetDatabase().Count + 1; //generates ID
             
-            var obstacleReport = new ObstacleCompleteModel
+            var obstacleReport = new ObstacleCompleteModel //New object of complete model, adds values from step1 model
             {
                 ObstacleId = obstacleId,
                 ObstacleType = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
@@ -28,12 +28,13 @@ namespace NRLObstacleReporting.Controllers
             };
             
             Localdatabase.AddObstacle(obstacleReport);
-            if (obstacleModel.SaveDraft)
+            
+            if (obstacleModel.SaveDraft) //exits reporting process
             {
                 return View("Overview", obstacleReport);
             }
             
-            //Values saved as cookies
+            //Values saved as cookies, to be used in next view in redirect
             TempData["id"] = obstacleId;
             TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType;
             
@@ -54,14 +55,15 @@ namespace NRLObstacleReporting.Controllers
                 return View();
             }
             
+            //Edits currently empty coordinates in database to match input. ID is supplied by tempdata.peek in view
             Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.GeometryGeoJson);
             
-            if (obstacleModel.SaveDraft)
+            if (obstacleModel.SaveDraft) //exits reporting process
             {
                 return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
             }
             
-            //Values saved as cookies
+            //Values saved as cookies, to be used in next view in redirect
             TempData["id"] = obstacleModel.ObstacleId;      
             
             return RedirectToAction("DataformStep3");
@@ -81,29 +83,29 @@ namespace NRLObstacleReporting.Controllers
                 return View();
             }
             
+            //gets object from database, supplied by tempdata. changes step 3 fields
             ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
-            
             report.ObstacleIlluminated = obstacleModel.ObstacleIlluminated;
             report.ObstacleName = obstacleModel.ObstacleName;
             report.ObstacleDescription = obstacleModel.ObstacleDescription;
             report.IsDraft = obstacleModel.IsDraft;
             
-            Localdatabase.UpdateObstacle(report);
+            Localdatabase.UpdateObstacle(report); //Updates database with new object
             
-            Console.WriteLine(obstacleModel.ObstacleId);
             return View("Overview", report);
         }
         
         [HttpPost]
         public IActionResult EditDraft(ObstacleCompleteModel draft)
         {
+            //POST gets all values from obstacle to be edited
             return View("EditDraft", draft);
         }
 
         [HttpPost]
         public ActionResult SaveEditedDraft(ObstacleCompleteModel editedDraft)
         {
-            Console.WriteLine(editedDraft.ObstacleId);
+            //updates database with new draft
             Localdatabase.UpdateObstacle(editedDraft);
             
             return View("Overview", editedDraft);
@@ -116,7 +118,8 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View("EditDraft", draft);
             }
-
+            
+            //Object is no longer draft, updates database
             draft.IsDraft = false;
             Localdatabase.UpdateObstacle(draft);
             

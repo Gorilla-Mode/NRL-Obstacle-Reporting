@@ -10,9 +10,9 @@ namespace NRLObstacleReporting.Controllers
             return View();
         }
         
-        public IActionResult View_Reports_Registrar()
+        public IActionResult RegistrarViewReports()
         {
-            return View("View_Reports_Registrar");
+            return View();
         }
     }
 }

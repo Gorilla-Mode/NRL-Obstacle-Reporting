@@ -11,22 +11,28 @@ public class RegistrarControllerTests
     [Fact]
     public void RegistrarIndexReturnsRegistrarIndexView()
     {
+        //arrange
         var controller = new RegistrarController();
 
+        //act
         var result = controller.RegistrarIndex();
-        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewResult = result as ViewResult;
 
-        Assert.Equal(null, viewResult.ViewName);
+        //assert
+        Assert.Null(viewResult!.ViewName);
     }
 
     [Fact]
     public void RegistrarViewReportsRegistrarReturnsViewReportsRegistrarView()
     {
+        //arrange
         var controller = new RegistrarController();
 
-        var result = controller.View_Reports_Registrar();
-        var viewResult = Assert.IsType<ViewResult>(result);
+        //act
+        var result = controller.RegistrarViewReports();
+        var viewResult = result as ViewResult;
 
-        Assert.Equal("View_Reports_Registrar", viewResult.ViewName);
+        //assert
+        Assert.Null(viewResult!.ViewName);
     }
 }
