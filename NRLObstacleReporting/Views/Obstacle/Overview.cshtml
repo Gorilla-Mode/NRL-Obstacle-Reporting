@@ -21,7 +21,6 @@ ViewData["Title"] = "Report Overview";
             <th scope="row">Coordinates</th>
             <td>@Model.GeometryGeoJson</td>
         </tr>
-       
         <tr>
             <th scope="row">Type</th>
             <td>@Model.ObstacleType</td>
@@ -53,9 +52,11 @@ ViewData["Title"] = "Report Overview";
 @section Scripts {
     @* Script to add a map to the view *@
     {
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
-    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-    <script>
+    @if (Model?.GeometryGeoJson != null)
+    {
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+        <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+        <script>
         var map = L.map('map').setView([58.14671, 7.9956], 13);
 
         L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
@@ -64,11 +65,12 @@ ViewData["Title"] = "Report Overview";
         }).addTo(map);
         </script>
 
-    <script>
+        <script>
          var geojsonCoordinates = @Html.Raw(Model.GeometryGeoJson)
         // var geojsonData = JSON.parse(geojsonCoordinates);
         var geojsonLayer = L.geoJSON(geojsonCoordinates);
         geojsonLayer.addTo(map); 
     </script>
+    }
     }
 }
