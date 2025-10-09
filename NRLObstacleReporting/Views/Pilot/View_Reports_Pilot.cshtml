@@ -25,12 +25,12 @@ else
         from Report in reports
         where !Report.IsDraft
         select Report;
-    <div style="display: flex; flex-wrap: wrap; gap: 0;">
+    <div class="flex flex-wrap gap-0 m-0 p-0">
     @foreach (var obstacle in submittedReports)
     {
-        <section>
-        <div>
-            <table class="center">
+        var mapId = obstacle.GetHashCode().ToString();
+        <div style="margin:0;padding:0;border:0;">
+            <table class="center" style="margin:0;padding:0;">
                 <caption>Obstacle Report: @obstacle.GetHashCode()</caption>
                 <thead>
                 <tr>
@@ -65,27 +65,25 @@ else
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="h-dvh overflow-hidden rounded-xl">
-            <section>
-                <div id="@obstacle.GetHashCode()" style="height: 20dvh; width: 20dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;" >
-                </div>
-            </section>
-        </div>
-        </section>
-        <script>
-                var map = L.map('@obstacle.GetHashCode()').setView([58.14671, 7.9956], 13);
+            <div class="h-dvh overflow-hidden rounded-xl" style="margin:0;padding:0;">
+                <div id="@mapId" style="height:20dvh;width:20dvw;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0;"></div>
+            </div>
+            <script>
+                var map = L.map('@mapId').setView([58.14671, 7.9956], 13);
                 L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
-
                 var geojson = @Html.Raw(obstacle.GeometryGeoJson);
-                var geojsonLayer =  L.geoJSON(geojson)
+                var geojsonLayer = L.geoJSON(geojson);
                 geojsonLayer.addTo(map);
-        </script>
+            </script>
+        </div>
     }
     </div>
 }
 
-  
+<style>
+.flex > * { margin: 0 !important; padding: 0 !important; border: 0 !important; }
+</style>
+     
