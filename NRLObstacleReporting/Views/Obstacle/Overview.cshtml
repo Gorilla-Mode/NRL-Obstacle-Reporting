@@ -41,17 +41,19 @@ ViewData["Title"] = "Report Overview";
     </table>
 </div>
 
-<div class="h-dvh overflow-hidden rounded-xl" >
-    <section>
-        <div 
-            id="map" style="height: 50dvh; width: 50dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
-        </div>
-    </section>
-</div>
+@if (Model?.GeometryGeoJson != null)
+{
+    <div class="h-dvh overflow-hidden rounded-xl">
+        <section>
+            <div
+                id="map" style="height: 50dvh; width: 50dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
+            </div>
+        </section>
+    </div>
+}
 
 @section Scripts {
     @* Script to add a map to the view *@
-    {
     @if (Model?.GeometryGeoJson != null)
     {
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
@@ -71,6 +73,6 @@ ViewData["Title"] = "Report Overview";
         var geojsonLayer = L.geoJSON(geojsonCoordinates);
         geojsonLayer.addTo(map); 
     </script>
-    }
+
     }
 }
