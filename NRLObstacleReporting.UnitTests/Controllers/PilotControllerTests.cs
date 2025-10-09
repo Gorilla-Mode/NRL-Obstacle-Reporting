@@ -11,34 +11,42 @@ public class PilotControllerTests
     [Fact]
     public void PilotIndexReturnsPilotIndexView()
     {
+        //arrange
         var controller = new PilotController();
         
+        //act
         var result = controller.PilotIndex();
-        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewResult = result as ViewResult;
         
-        Assert.Equal(null, viewResult.ViewName);
+        //assert
+        Assert.Equal(null, viewResult!.ViewName);
     }
     
     [Fact]
     public void PilotViewReportReturnsPilotViewReportsView()
     {
+        //arrange
         var controller = new PilotController();
         
-        var result = controller.View_Reports_Pilot();
-        var viewResult = Assert.IsType<ViewResult>(result);
+        //act
+        var result = controller.PilotViewReports();
+        var viewResult = result as ViewResult;
         
-        Assert.Equal("View_Reports_Pilot", viewResult.ViewName);
+        //assert
+        Assert.Null( viewResult!.ViewName);
     }
     
     [Fact]
     public void PilotDraftsReturnsPilotDraftsView()
     {
+        //arrange
         var controller = new PilotController();
         
+        //act
         var result = controller.PilotDrafts();
-        var viewResult = Assert.IsType<ViewResult>(result);
-        
-        Assert.Equal(null, viewResult.ViewName);
+        var viewResult = result as ViewResult;
+        //assert
+        Assert.Equal(null, viewResult!.ViewName);
     }
     
     
