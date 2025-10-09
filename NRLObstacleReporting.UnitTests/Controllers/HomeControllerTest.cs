@@ -1,6 +1,8 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using NRLObstacleReporting.Controllers;
+using NSubstitute;
 using Xunit;
 
 namespace NRLObstacleReporting.UnitTests.Controllers;
@@ -9,25 +11,32 @@ namespace NRLObstacleReporting.UnitTests.Controllers;
 public class HomeControllerTest
 {
 
+    private HomeController HomeControllerLogger()
+    {
+        var logger = Substitute.For<Microsoft.Extensions.Logging.ILogger<HomeController>>();
+        
+        return new HomeController(logger);
+    }
+
     [Fact]
     public void IndexReturnsIndexView()
     {
-        var controller = new HomeController(null!);
+        var controller = HomeControllerLogger();
         
         var result = controller.Index();
-        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewResult = result as ViewResult;
         
-        Assert.Equal(null, viewResult.ViewName);
+        Assert.Null(viewResult.ViewName);
     }
     
     [Fact]
     public void PrivacyReturnsPrivacyView()
     {
-        var controller = new HomeController(null!);
+        var controller = HomeControllerLogger();
         
         var result = controller.Privacy();
-        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewResult = result as ViewResult;
         
-        Assert.Equal(null, viewResult.ViewName);
+        Assert.Null(viewResult.ViewName);
     }
 }
