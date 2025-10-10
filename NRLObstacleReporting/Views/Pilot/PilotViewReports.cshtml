@@ -69,14 +69,18 @@ else
                 <div id="@mapId" style="height:20dvh;width:20dvw;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0;"></div>
             </div>
             <script>
-                var map = L.map('@mapId').setView([58.14671, 7.9956], 13);
+            
+                var geojson = @Html.Raw(obstacle.GeometryGeoJson);
+                var geojsonLayer = L.geoJSON(geojson);                         
+                var map = L.map('@mapId').setView([56.14671,7.9956], 13);
                 L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
-                var geojson = @Html.Raw(obstacle.GeometryGeoJson);
-                var geojsonLayer = L.geoJSON(geojson);
                 geojsonLayer.addTo(map);
+                map.setMaxBounds(geojsonLayer.getBounds())
+                
+               
             </script>
         </div>
     }
