@@ -1,16 +1,18 @@
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using NRLObstacleReporting.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionstring = " Server=db;Port=3306;Database=nrl;User=root;Password=superpass";
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+builder.Services.AddDbContext<DatabaseContext>(options =>
+    options.UseMySql(connectionstring, serverVersion: ServerVersion.AutoDetect(connectionstring)));
 
 var app = builder.Build();
 
-builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseMySql("Server=(localdb)\\mssqllocaldb;Database=SchoolDB;Trusted_Connection=True;"));
-    mssqllocaldb;Database=SchoolDB;Trusted_Connection=True;"));
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
