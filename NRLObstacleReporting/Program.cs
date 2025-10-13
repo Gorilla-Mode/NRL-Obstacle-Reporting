@@ -2,22 +2,40 @@ using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//var connectionstring = " Server=db;Port=3306;Database=nrl;User=root;Password=superpass";
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddSingleton(new MySqlConnection(connectionString));
+var connectionString = builder.Configuration.GetConnectionString("ExternalConnection");
+var mariadbconnection = new MySqlConnection(connectionString);
 
 
+builder.Services.AddSingleton(mariadbconnection);
 
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    options.UseMySql(connectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(connectionString)));
 });
+
+//TODO: make this test actually do something apart from spitting out a string
+string TestInternalConnection(string cs)
+{
+    try
+    {
+        var conn = new MySqlConnection(cs);
+        conn.Open();
+    }
+    catch (Exception)
+    {
+        return "Uh oh uh OHHHHH, connection to database failed";
+    }
+    return "Connection to database Succeded";
+}
+Console.WriteLine(TestInternalConnection(builder.Configuration.GetConnectionString("InternalConnection")!));
+
 
 var app = builder.Build();
 

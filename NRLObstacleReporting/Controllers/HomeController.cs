@@ -13,7 +13,7 @@ public class HomeController : Controller
     public HomeController(ILogger<HomeController> logger, IConfiguration config)
     {
         _logger = logger;
-        _connectionString = config.GetConnectionString("DefaultConnection")!;
+        _connectionString = config.GetConnectionString("InternalConnection")!;
     }
 
     // public IActionResult Index()
@@ -32,6 +32,7 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
+    //TODO: remove this shit test
     public async Task<IActionResult> index()
     {
         try
