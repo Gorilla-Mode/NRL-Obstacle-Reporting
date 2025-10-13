@@ -5,14 +5,21 @@ using NRLObstacleReporting.Database;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionstring = " Server=db;Port=3306;Database=nrl;User=root;Password=superpass";
+//var connectionstring = " Server=db;Port=3306;Database=nrl;User=root;Password=superpass";
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddSingleton(new MySqlConnection(connectionstring));
+builder.Services.AddSingleton(new MySqlConnection(connectionString));
+
+
+
+
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
