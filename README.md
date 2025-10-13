@@ -13,16 +13,18 @@
 
 ## Installation / Setup
 
-### 1. Dependencies
-- Docker
-- Node.js / npm
-- Tailwindcss
+> [!CAUTION]
+> ### 1. Dependencies
+> - Docker
+> - Node.js / npm
+> - Tailwindcss
 
 ### 2. Clone repo
 
 1. Clone repo using `git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git`
 
 ### 3. Build the project
+> [!IMPORTANT]
 > <details>
 > <summary style="font-size: 14px; font-weight: bold">1. Run using terminal (recommended) </summary>
 >
@@ -36,6 +38,7 @@
 >      3. Run `docker compose up` to launch the application in docker
 ></details>
 
+> [!IMPORTANT]
 > <details>
 > <summary style="font-size: 14px">2. Run using build config</summary>
 >
