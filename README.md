@@ -26,28 +26,28 @@
 > <details>
 > <summary style="font-size: 14px; font-weight: bold">1. Run using terminal (recommended) </summary>
 >
->1. Compile CSS 
->   1. Make sure **Node.js** is installed
->   2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
->   3. Run `npm run build:css` to compile tailwind css
->2. Compose environment
->   1. Make sure docker is running `docker desktop start`
->   2. Cd back to `./NRLObstacleReporting` where the **docker-compose.yml** is located
->   3. Run `docker compose up` to launch the application in docker
+>   1. Compile CSS 
+>      1. Make sure **Node.js** is installed
+>      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
+>      3. Run `npm run build:css` to compile tailwind css
+>   2. Compose environment
+>      1. Make sure docker is running `docker desktop start`
+>      2. Cd back to `./NRLObstacleReporting` where the **docker-compose.yml** is located
+>      3. Run `docker compose up` to launch the application in docker
 ></details>
 
 > <details>
 > <summary style="font-size: 14px">2. Run using build config</summary>
 >
->1. Compile CSS
->   1. Make sure **Node.js** is installed
->   2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
->   3. Run `npm run build:css` to compile tailwind css
->2. Add build config in IDE
->   1. Open **NRLObstacleReporting.snl** solution in root folder
->   2. Add build config to run the docker compose 
->   3. Make sure docker is running `docker desktop start`
->   4. Build the solution to launch the application in docker
+>   1. Compile CSS
+>      1. Make sure **Node.js** is installed
+>      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
+>      3. Run `npm run build:css` to compile tailwind css
+>   2. Add build config in IDE
+>      1. Open **NRLObstacleReporting.snl** solution in root folder
+>      2. Add build config to run the docker compose 
+>      3. Make sure docker is running `docker desktop start`
+>      4. Build the solution to launch the application in docker
 > </details>
 
 ### Possible issues and fixes
