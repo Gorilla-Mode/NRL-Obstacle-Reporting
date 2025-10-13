@@ -27,7 +27,7 @@
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       # Overstyrer appsettings.Development.json
-      ConnectionStrings__DefaultConnection: Server=db;Port=3306;Database=nrl;User=root;Password=superpass;
+      ConnectionStrings__DefaultConnection: server=db-1;port=3306;database=nrl;user=root;password=superpass;
     ports:
       - "8080:8080"
     restart: unless-stopped
