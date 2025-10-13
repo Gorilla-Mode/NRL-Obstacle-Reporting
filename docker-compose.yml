@@ -27,8 +27,6 @@
         condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      # Overstyrer appsettings.Development.json
-      ConnectionStrings__DefaultConnection: server=db;port=3306;database=nrl;user=root;password=superpass;
     ports:
       - "8080:8080"
     restart: unless-stopped
