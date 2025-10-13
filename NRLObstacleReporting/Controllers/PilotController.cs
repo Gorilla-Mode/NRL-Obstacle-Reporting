@@ -17,9 +17,9 @@ namespace NRLObstacleReporting.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpGet]
-        public IActionResult View_Reports_Pilot()
+        public IActionResult PilotViewReports()
         {
-            return View("View_Reports_Pilot");
+            return View();
         }
         [HttpGet]
         public IActionResult PilotDrafts()
