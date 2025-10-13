@@ -6,6 +6,8 @@
     environment:
       MYSQL_ROOT_PASSWORD: superpass
       MYSQL_DATABASE: nrl
+      MYSQL_USER: root
+      MYSQL_PASSWORD: superpass
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
@@ -14,7 +16,7 @@
       timeout: 5s
       retries: 20
     ports:
-      - "3306:3306"
+      - "8083:3306"
     networks:
       - appnet
 
@@ -28,7 +30,7 @@
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       # Overstyrer appsettings.Development.json
-      ConnectionStrings__DefaultConnection: server=db;port=3306;database=nrl;user=root;password=superpass;
+      ConnectionStrings__DefaultConnection: server=127.0.0.1;port=8083;database=nrl;user=root;password=superpass;
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -41,3 +43,4 @@ volumes:
 networks:
   appnet:
     name: appnet
+    driver: bridge
