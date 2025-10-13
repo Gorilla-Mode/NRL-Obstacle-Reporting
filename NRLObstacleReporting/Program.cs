@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionstring = " Server=db;Port=3306;Database=nrl;User=root;Password=superpass";
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseMySql(connectionstring, serverVersion: ServerVersion.AutoDetect(connectionstring)));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddSingleton(new MySqlConnection(connectionstring));
 
 var app = builder.Build();
 
