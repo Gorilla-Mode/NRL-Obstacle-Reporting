@@ -1,6 +1,6 @@
 ﻿namespace NRLObstacleReporting.Database;
 
-public class Obstacle 
+public class ObstacleDatamodel 
 {
     public bool IsDraft { get; set; } 
     public int ObstacleId { get; set; }

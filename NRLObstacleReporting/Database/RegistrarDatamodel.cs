@@ -1,6 +1,6 @@
 ﻿namespace NRLObstacleReporting.Database;
 
-public class Registrar
+public class RegistrarDatamodel
 {
     public int RegistrarId { get; set; }  // (PK)
     public string? Name { get; set; }
