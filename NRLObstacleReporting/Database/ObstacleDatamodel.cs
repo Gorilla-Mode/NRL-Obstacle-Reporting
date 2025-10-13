@@ -4,7 +4,9 @@ public class ObstacleDatamodel
 {
     public bool IsDraft { get; set; } 
     public int ObstacleId { get; set; }
-    public int ObstacleType { get; set; }
+    
+    public int ObstacleTypeId { get; set; }               // FK til ObstacleTypeDatamodel
+    public ObstacleTypeDatamodel? ObstacleType { get; set; } // navigasjon
     
     public int ObstacleHeightMeter { get; set; }
     
