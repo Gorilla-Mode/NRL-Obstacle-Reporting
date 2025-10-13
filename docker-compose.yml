@@ -2,7 +2,7 @@
   db:
     image: mariadb:11
     restart: unless-stopped
-    container_name: db-1
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: superpass
       MYSQL_DATABASE: nrl
