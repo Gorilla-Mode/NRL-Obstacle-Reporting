@@ -5,6 +5,7 @@ public class ObstacleCompleteModel
     public bool IsDraft { get; set; } 
     public int ObstacleId { get; set; }
     
+    /*
     public ObstacleTypes ObstacleType { get; set; }
     public enum ObstacleTypes
     {
@@ -15,7 +16,7 @@ public class ObstacleCompleteModel
         Natural,
         Other
     }
-    
+    */
     public int ObstacleHeightMeter { get; set; }
     
     public string? GeometryGeoJson { get; set; }
