@@ -1,22 +1,11 @@
 ﻿namespace NRLObstacleReporting.Database;
 
-public class ObstacleCompleteModel
+public class Obstacle 
 {
     public bool IsDraft { get; set; } 
     public int ObstacleId { get; set; }
+    public int ObstacleType { get; set; }
     
-    /*
-    public ObstacleTypes ObstacleType { get; set; }
-    public enum ObstacleTypes
-    {
-        PowerLine,
-        Pole,
-        Building,
-        Construction,
-        Natural,
-        Other
-    }
-    */
     public int ObstacleHeightMeter { get; set; }
     
     public string? GeometryGeoJson { get; set; }
