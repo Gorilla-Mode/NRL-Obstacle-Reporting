@@ -1,5 +1,4 @@
-﻿version: "3.9"
-services:
+﻿services:
   db:
     image: mariadb:11
     restart: unless-stopped
@@ -13,6 +12,10 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+    ports:
+      - "3306:3306"
+    networks:
+      - appnet
 
   web:
     build:
@@ -28,6 +31,12 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    networks:
+      - appnet
 
 volumes:
   dbdata:
+
+networks:
+  appnet:
+    name: appnet
