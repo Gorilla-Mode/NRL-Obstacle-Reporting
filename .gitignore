@@ -520,4 +520,7 @@ http-client.private.env.json
 .idea/ApifoxUploaderProjectSetting.xml
 
 # Ignore tailwind css output
-NRLObstacleReporting/wwwroot/css/output.css
+./NRLObstacleReporting/wwwroot/css/output.css
+
+# Ignore mac dir thing
+.DS_Store

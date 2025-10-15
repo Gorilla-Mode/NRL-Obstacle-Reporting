@@ -11,23 +11,29 @@
 | Oda Elise Aanestad   | [odaea@uia.no](odaea@uia.no)        | [odaeaanestad](https://github.com/Odaeaanestad)                                  |
 ## Installation / Setup
 ### 1. Dependencies
-- Node.js
-- npm
+- Docker
+- Node.js / npm
 ### 2. Clone repo
 1. Clone repo using `git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git`
-### 3. Run using build config
-1. Open **NRLObstacleReporting.snl** solution
-2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where `package.json` is located
-3. Run `npm run build:css` to compile tailwind css
-4. Add build config to run the docker compose 
-5. Make sure docker is running `docker desktop start`
-6. Build the solution to launch the application in docker
-### 4. Run using terminal
-1. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where `package.json` is located
-2. Run `npm run build:css` to compile tailwind css
-3. Make sure docker is running `docker desktop start`
-4. Cd to `./NRLObstacleReporting` where the docker-compose.yml is located
-5. Run `docker compose up` to launch the application in docker
+### 3. Run using terminal
+1. Compile CSS
+   1. Make sure **Node.js** is installed
+   2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
+   3. Run `npm run build:css` to compile tailwind css
+2. Compose environment
+   1. Make sure docker is running `docker desktop start`
+   2. Cd back to `./NRLObstacleReporting` where the **docker-compose.yml** is located
+   3. Run `docker compose up` to launch the application in docker
+### 4. Run using build config
+1. Compile CSS
+   1. Make sure **Node.js** is installed
+   2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
+   3. Run `npm run build:css` to compile tailwind css
+2. Add build config in IDE
+   1. Open **NRLObstacleReporting.snl** solution in root folder
+   2. Add build config to run the docker compose 
+   3. Make sure docker is running `docker desktop start`
+   4. Build the solution to launch the application in docker
 ## Documentation and System Architecture
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 ## Prefixes & naming convention

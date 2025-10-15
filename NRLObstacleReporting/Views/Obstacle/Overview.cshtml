@@ -18,10 +18,9 @@ ViewData["Title"] = "Report Overview";
             <td>@Model.ObstacleHeightMeter</td>
         </tr>
         <tr>
-                <th scope="row">Coordinates</th>
-                <td>@Model.GeometryGeoJson</td>
-         </tr>
-       
+            <th scope="row">Coordinates</th>
+            <td>@Model.GeometryGeoJson</td>
+        </tr>
         <tr>
             <th scope="row">Type</th>
             <td>@Model.ObstacleType</td>
@@ -42,35 +41,38 @@ ViewData["Title"] = "Report Overview";
     </table>
 </div>
 
+@if (Model?.GeometryGeoJson != null)
+{
+    <div class="h-dvh overflow-hidden rounded-xl">
+        <section>
+            <div
+                id="map" style="height: 50dvh; width: 50dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
+            </div>
+        </section>
+    </div>
+}
+
 @section Scripts {
-    <!-- importing leaflet.draw -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
+    @* Script to add a map to the view *@
+    @if (Model?.GeometryGeoJson != null)
+    {
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+        <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+        <script>
+        var map = L.map('map').setView([58.14671, 7.9956], 13);
 
-    <script>
-        (function () {
-          // 1) Map + basemap
-          var map = L.map('overview-map').setView([20, 0], 2);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
-          }).addTo(map);
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        </script>
 
-          // 2) Get the saved GeoJSON string
-          var jsontext = document.getElementById('OverviewCoordinates').value;
-
-          // 3) Parse and render markers
-          var fc = JSON.parse(jsontext);
-          var layer = L.geoJSON(fc, {
-            pointToLayer: function (feature, latlng) {
-              return L.marker(latlng);
-            }
-          }).addTo(map);
-
-        })();
+        <script>
+         var geojsonCoordinates = @Html.Raw(Model.GeometryGeoJson)
+        // var geojsonData = JSON.parse(geojsonCoordinates);
+        var geojsonLayer = L.geoJSON(geojsonCoordinates);
+        geojsonLayer.addTo(map); 
     </script>
+
+    }
 }
