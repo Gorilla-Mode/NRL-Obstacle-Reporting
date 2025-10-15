@@ -29,7 +29,7 @@
       ASPNETCORE_ENVIRONMENT: Development
     ports:
       - "8080:8080"
-    restart: unless-stopped
+    restart: no
     networks:
       - appnet
 
