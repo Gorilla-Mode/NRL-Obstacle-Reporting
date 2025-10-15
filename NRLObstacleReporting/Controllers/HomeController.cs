@@ -16,10 +16,10 @@ public class HomeController : Controller
         _connectionString = config.GetConnectionString("InternalConnection")!;
     }
 
-    // public IActionResult Index()
-    // {
-    //     return View();
-    // }
+    public IActionResult Index()
+    {
+        return View();
+    }
 
     public IActionResult Privacy()
     {
@@ -30,21 +30,5 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
-    //TODO: remove this shit test
-    public async Task<IActionResult> index()
-    {
-        try
-        {
-            await using var conn = new MySqlConnection(_connectionString);
-            await conn.OpenAsync();
-            return Content("connected mariadb sucess");
-        }
-        catch (Exception e)
-        {
-            return Content("failed to connect " + e);
-        }
-        
     }
 }
