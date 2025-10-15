@@ -1,6 +1,7 @@
 #  **NRL Obstacle Reporting**
 
 ## Group 8
+
 | Candidate            | E-mail                              | Github Username                                   |
 |----------------------|-------------------------------------|---------------------------------------------------|
 | Iver Kroken          | [iverk@uia.no](iverk@uia.no)        | [iverkroken](https://github.com/iverkroken)       |
@@ -9,35 +10,64 @@
 | Eira Bitnes Vikstøl  | [eriabv@uia.no](eriabv@uia.no)      | [EiraBV](https://github.com/EiraBV)               |
 | Mina Rebecca Remseth | [minarr@uia.no](minarr@uia.no)      | [minaremseth](https://github.com/minaremseth)     |
 | Oda Elise Aanestad   | [odaea@uia.no](odaea@uia.no)        | [odaeaanestad](https://github.com/Odaeaanestad)                                  |
+
 ## Installation / Setup
-### 1. Dependencies
-- Docker
-- Node.js / npm
+
+> [!CAUTION]
+> ### 1. Dependencies
+> - Docker
+> - Node.js / npm
+> - Tailwindcss
+
 ### 2. Clone repo
+
 1. Clone repo using `git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git`
-### 3. Run using terminal
-1. Compile CSS
-   1. Make sure **Node.js** is installed
-   2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
-   3. Run `npm run build:css` to compile tailwind css
-2. Compose environment
-   1. Make sure docker is running `docker desktop start`
-   2. Cd back to `./NRLObstacleReporting` where the **docker-compose.yml** is located
-   3. Run `docker compose up` to launch the application in docker
-### 4. Run using build config
-1. Compile CSS
-   1. Make sure **Node.js** is installed
-   2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
-   3. Run `npm run build:css` to compile tailwind css
-2. Add build config in IDE
-   1. Open **NRLObstacleReporting.snl** solution in root folder
-   2. Add build config to run the docker compose 
-   3. Make sure docker is running `docker desktop start`
-   4. Build the solution to launch the application in docker
+
+### 3. Build the project
+> [!IMPORTANT]
+> <details>
+> <summary style="font-size: 14px; font-weight: bold">1. Run using terminal (recommended) </summary>
+>
+>   1. Compile CSS 
+>      1. Make sure **Node.js** is installed
+>      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
+>      3. Run `npm run build:css` to compile tailwind css
+>   2. Compose environment
+>      1. Make sure docker is running `docker desktop start`
+>      2. Cd back to `./NRLObstacleReporting` where the **docker-compose.yml** is located
+>      3. Run `docker compose up` to launch the application in docker
+></details>
+
+> [!IMPORTANT]
+> <details>
+> <summary style="font-size: 14px">2. Run using build config</summary>
+>
+>   1. Compile CSS
+>      1. Make sure **Node.js** is installed
+>      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
+>      3. Run `npm run build:css` to compile tailwind css
+>   2. Add build config in IDE
+>      1. Open **NRLObstacleReporting.snl** solution in root folder
+>      2. Add build config to run the docker compose 
+>      3. Make sure docker is running `docker desktop start`
+>      4. Build the solution to launch the application in docker
+> </details>
+
+### Possible issues and fixes
+
+   1. Unable to connect to database
+      1. The database uses port `3306`, make sure its available
+   2. Css won't compile
+      1. Make sure npm is initated, `npm install`
+      2. Run `npm run build:css` in `./NRLObstacleReporting/NRLObstacleReporting`
 ## Documentation and System Architecture
+
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
+
 ## Prefixes & naming convention
+
 ### Commit message & PR names
+
 - feat: A new feature
 - visual: Changes that only affect frontend visuals, text (html, css)
 - fix: A bug fix
@@ -52,7 +82,9 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 e.g:
 `"feat: added login page"`
+
 ### Branch names
+
 - Use the same prefixes as listed above
 - Use a slash(/) to seperate prefix and name
 - Lowercase only
