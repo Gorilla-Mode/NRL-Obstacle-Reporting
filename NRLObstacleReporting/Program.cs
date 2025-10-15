@@ -1,6 +1,9 @@
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
+using NRLObstacleReporting.StartupTests;
+using Xunit;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,34 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-var connectionString = builder.Configuration.GetConnectionString("ExternalConnection");
-var mariadbconnection = new MySqlConnection(connectionString);
+var internalConnectionString = builder.Configuration.GetConnectionString("InternalConnection");
+var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
 
-
-builder.Services.AddSingleton(mariadbconnection);
-
+builder.Services.AddSingleton(internalMariaDbConnection);
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
-    options.UseMySql(connectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(internalConnectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(internalConnectionString)));
 });
 
-//TODO: make this test actually do something apart from spitting out a string
-string TestInternalConnection(string cs)
-{
-    try
-    {
-        var conn = new MySqlConnection(cs);
-        conn.Open();
-    }
-    catch (Exception)
-    {
-        return "Uh oh uh OHHHHH, connection to database failed";
-    }
-    return "Connection to database Succeded";
-}
-Console.WriteLine(TestInternalConnection(builder.Configuration.GetConnectionString("InternalConnection")!));
-
+var dbtest = new DatabaseTest(builder.Configuration);
+Assert.True(dbtest.CheckInternalConnection());
 
 var app = builder.Build();
 
