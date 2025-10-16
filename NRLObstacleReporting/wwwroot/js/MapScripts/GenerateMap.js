@@ -1,6 +1,6 @@
 ﻿/**
- * 
- * @returns a map to use
+ * Generates a leaflet layer and adds it to a map variable which is centered on a location
+ * @returns a leaflet map variable
  * @
  */
 function GenerateMap()
