@@ -1,9 +1,7 @@
-using System.Data;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.StartupTests;
-using Xunit;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-var internalConnectionString = builder.Configuration.GetConnectionString("InternalConnection");
+var internalConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION");
 var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
 
 builder.Services.AddSingleton(internalMariaDbConnection);

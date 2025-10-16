@@ -18,8 +18,7 @@ public sealed class InternalDatabaseConnectionTest : IStartupTest
      * "invokealltests" method can collect the method and invoke it. Make sure to use SuccessMessage as return
      * value if the test didn't fail, the "invokealltests" method uses it to count failed/succeeded tests.
      */
-    private static IConfiguration? _config;
-    private readonly MySqlConnection _internalConnection = new MySqlConnection(_config!.GetConnectionString("InternalConnection"));
+    private readonly MySqlConnection _internalConnection = new MySqlConnection(Environment.GetEnvironmentVariable("INTERNALCONNECTION"));
     
     /// <summary>
     /// Used to mark a test as a method to run
@@ -46,7 +45,6 @@ public sealed class InternalDatabaseConnectionTest : IStartupTest
     /// <returns>reference to singleton instance</returns>
     public static InternalDatabaseConnectionTest GetInstance(IConfiguration configuration)
     {
-        _config = configuration;
         return Instance.Value;
     }
     

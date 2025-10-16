@@ -4,12 +4,12 @@
     restart: unless-stopped
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: superpass
+      MYSQL_ROOT_PASSWORD: sigmagoon18
       MYSQL_DATABASE: nrl
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mariadb-admin ping -uroot -psuperpass --silent"]
+      test: ["CMD-SHELL", "mariadb-admin ping -uroot -psigmagoon18 --silent"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -25,8 +25,8 @@
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     restart: no
