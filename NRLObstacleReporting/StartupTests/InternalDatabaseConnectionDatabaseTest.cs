@@ -2,15 +2,14 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore.Internal;
 using MySqlConnector;
 using Xunit;
 
 namespace NRLObstacleReporting.StartupTests;
 /// <summary>
-/// Collection of tests for the database
+/// Collection of tests for the database, testing internal connection string
 /// </summary>
-public sealed class InternalDatabaseConnectionTest : IStartupTest
+public sealed class InternalDatabaseConnectionDatabaseTest : IStartupDatabaseTest
 {
     /*
      * IMPORTANT
@@ -31,10 +30,10 @@ public sealed class InternalDatabaseConnectionTest : IStartupTest
     private const string SuccessMessage = "Success";
 
     //Instantiates class as singeton, to allow for interface implementation and non-static methods
-    private static readonly Lazy<InternalDatabaseConnectionTest> Instance = new Lazy<InternalDatabaseConnectionTest>(()
-        => new InternalDatabaseConnectionTest());
+    private static readonly Lazy<InternalDatabaseConnectionDatabaseTest> Instance = new Lazy<InternalDatabaseConnectionDatabaseTest>(()
+        => new InternalDatabaseConnectionDatabaseTest());
     
-    private InternalDatabaseConnectionTest()
+    private InternalDatabaseConnectionDatabaseTest()
     {
     }
     
@@ -42,7 +41,7 @@ public sealed class InternalDatabaseConnectionTest : IStartupTest
     /// Allows to pass configuration to the class, and run its testing methods.
     /// </summary>
     /// <returns>reference to singleton instance</returns>
-    public static InternalDatabaseConnectionTest GetInstance()
+    public static InternalDatabaseConnectionDatabaseTest GetInstance()
     {
         return Instance.Value;
     }
