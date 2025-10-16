@@ -1,3 +1,10 @@
+/**
+ * A function that customizes a leaflet map with drawn items and registers when the user draws on the map. Also verifies if the user has drawn on the map.
+ * @param map the leaflet map variable you want to customize further
+ * @param choice value of the obstacle-type you choose in DataformStem1
+ * 
+ */
+
 function GenerateMapItems_DataformStep2(map, choice) {
 
 // Initialize the feature group that will hold the drawn shapes
