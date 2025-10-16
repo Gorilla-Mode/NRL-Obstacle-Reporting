@@ -41,9 +41,8 @@ public sealed class InternalDatabaseConnectionTest : IStartupTest
     /// <summary>
     /// Allows to pass configuration to the class, and run its testing methods.
     /// </summary>
-    /// <param name="configuration">Configuration which the class gets the connection string to run tests with</param>
     /// <returns>reference to singleton instance</returns>
-    public static InternalDatabaseConnectionTest GetInstance(IConfiguration configuration)
+    public static InternalDatabaseConnectionTest GetInstance()
     {
         return Instance.Value;
     }
