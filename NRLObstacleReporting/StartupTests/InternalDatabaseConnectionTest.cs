@@ -9,7 +9,7 @@ namespace NRLObstacleReporting.StartupTests;
 /// <summary>
 /// Collection of tests for the database, testing internal connection string
 /// </summary>
-public sealed class InternalDatabaseConnectionDatabaseTest : IStartupDatabaseTest
+public sealed class InternalDatabaseConnectionTest : IStartupDatabaseTest
 {
     /*
      * IMPORTANT
@@ -30,10 +30,10 @@ public sealed class InternalDatabaseConnectionDatabaseTest : IStartupDatabaseTes
     private const string SuccessMessage = "Success";
 
     //Instantiates class as singeton, to allow for interface implementation and non-static methods
-    private static readonly Lazy<InternalDatabaseConnectionDatabaseTest> Instance = new Lazy<InternalDatabaseConnectionDatabaseTest>(()
-        => new InternalDatabaseConnectionDatabaseTest());
+    private static readonly Lazy<InternalDatabaseConnectionTest> Instance = new Lazy<InternalDatabaseConnectionTest>(()
+        => new InternalDatabaseConnectionTest());
     
-    private InternalDatabaseConnectionDatabaseTest()
+    private InternalDatabaseConnectionTest()
     {
     }
     
@@ -41,7 +41,7 @@ public sealed class InternalDatabaseConnectionDatabaseTest : IStartupDatabaseTes
     /// Allows to pass configuration to the class, and run its testing methods.
     /// </summary>
     /// <returns>reference to singleton instance</returns>
-    public static InternalDatabaseConnectionDatabaseTest GetInstance()
+    public static InternalDatabaseConnectionTest GetInstance()
     {
         return Instance.Value;
     }

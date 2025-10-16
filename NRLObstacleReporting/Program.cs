@@ -22,8 +22,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 IStartupDatabaseTest[] databaseTests =
 [
-    InternalDatabaseConnectionDatabaseTest.GetInstance(),
-    InternalDatabaseReadWriteDatabaseTest.GetInstance()
+    InternalDatabaseConnectionTest.GetInstance(),
+    InternalDatabaseReadWriteTest.GetInstance()
 ];
 
 foreach (var testclass in databaseTests)

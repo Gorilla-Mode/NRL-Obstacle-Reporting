@@ -7,7 +7,7 @@ namespace NRLObstacleReporting.StartupTests;
 /// <summary>
 /// Collection of tests for the database, testing internal reading and writing to the database
 /// </summary>
-public class InternalDatabaseReadWriteDatabaseTest : IStartupDatabaseTest
+public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
 
 {
     /*
@@ -29,10 +29,10 @@ public class InternalDatabaseReadWriteDatabaseTest : IStartupDatabaseTest
     private const string SuccessMessage = "Success";
 
     //Instantiates class as singeton, to allow for interface implementation and non-static methods
-    private static readonly Lazy<InternalDatabaseReadWriteDatabaseTest> Instance = new Lazy<InternalDatabaseReadWriteDatabaseTest>(()
-        => new InternalDatabaseReadWriteDatabaseTest());
+    private static readonly Lazy<InternalDatabaseReadWriteTest> Instance = new Lazy<InternalDatabaseReadWriteTest>(()
+        => new InternalDatabaseReadWriteTest());
     
-    private InternalDatabaseReadWriteDatabaseTest()
+    private InternalDatabaseReadWriteTest()
     {
     }
     
@@ -40,7 +40,7 @@ public class InternalDatabaseReadWriteDatabaseTest : IStartupDatabaseTest
     /// Allows to pass configuration to the class, and run its testing methods.
     /// </summary>
     /// <returns>reference to singleton instance</returns>
-    public static InternalDatabaseReadWriteDatabaseTest GetInstance()
+    public static InternalDatabaseReadWriteTest GetInstance()
     {
         return Instance.Value;
     }
