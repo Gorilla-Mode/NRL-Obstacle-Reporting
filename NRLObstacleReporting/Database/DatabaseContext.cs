@@ -9,7 +9,7 @@ public class DatabaseContext : DbContext
      public DbSet<RegistrarDatamodel> RegistrarDatamodels { get; set; } = null!;
      public DbSet<ObstacleTypeDatamodel> ObstacleTypeDatamodels { get; set; } = null!;
      public DbSet<ReportDatamodel> ReportDatamodels { get; set; } = null!;
-     public DbSet<StatusDatamodel> StatusDatamodels { get; set; } = null!;>
+     public DbSet<StatusDatamodel> StatusDatamodels { get; set; } = null!;
      //public DbSet<TableClass>  TableClass { get; set; } = null!;
      public DatabaseContext()
      {
@@ -64,7 +64,6 @@ public class DatabaseContext : DbContext
           {
                entity.HasKey(e => e.ReportId);
                entity.Property(e => e.Dato).HasColumnType("date");
-               entity.Property(e => e.Status);
                
                entity.HasOne(e => e.Pilot)
                     .WithMany()              
@@ -73,7 +72,7 @@ public class DatabaseContext : DbContext
                entity.HasIndex(e => e.PilotId);
                
                entity.HasOne(e => e.Status)
-                    .WithMany(s => s.Reports)
+                    .WithMany(s=>s.Reports)
                     .HasForeignKey(e => e.StatusId)
                     .OnDelete(DeleteBehavior.Restrict);
                entity.HasIndex(e => e.StatusId);
@@ -82,7 +81,7 @@ public class DatabaseContext : DbContext
           modelBuilder.Entity<StatusDatamodel>(entity =>
           {
                entity.HasKey(e => e.StatusId);
-               entity.Property(e => e.StatusName)
+               entity.Property(e => e.StatusName);
           });
           
           base.OnModelCreating(modelBuilder);
