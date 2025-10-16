@@ -1,6 +1,5 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep2Model
 
-
 <div class="h-dvh overflow-hidden rounded-xl" >
     <h1 class="display-4 text-center">Place your obstacle</h1>
     <section>
@@ -41,10 +40,14 @@
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
    
     <script>
+        //Generates a simple map
         const map = GenerateMap();
-        const choice = @TempData.Peek("ObstacleType");
-        GenerateMapItems_DataformStep2(map, choice);
         
+        //Your choice of obstacle type from the previous view
+        const choice = @TempData.Peek("ObstacleType");
+        
+        //Generate the specific features the map needs for DataformStep2
+        GenerateMapItems_DataformStep2(map, choice);
     
     </script>
 
