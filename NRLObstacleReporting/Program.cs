@@ -21,8 +21,9 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySql(internalConnectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(internalConnectionString)));
 });
 
-var dbtest = new DatabaseTest(builder.Configuration);
-Assert.True(dbtest.CheckInternalConnection());
+
+InternalDatabaseConnectionTest.GetInstance(builder.Configuration).InvokeAllTests();
+
 
 var app = builder.Build();
 

@@ -2,24 +2,24 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore.Internal;
 using MySqlConnector;
 using Xunit;
 
 namespace NRLObstacleReporting.StartupTests;
 /// <summary>
 /// Collection of tests for the database
-/// <param name="config">used to get connection string from appsettings</param>
 /// </summary>
-public class DatabaseTest(IConfiguration config)
+public sealed class InternalDatabaseConnectionTest : IStartupTest
 {
     /*
      * IMPORTANT
      * When adding more tests to this class, make sure to use the "testprefix" for any new tests. Do this so the
-     * testinternalconnection method can collect the method and invoke it. Make sure to  SuccessMessage as return
-     * value if the test didn't fail, the testinternal.
+     * "invokealltests" method can collect the method and invoke it. Make sure to use SuccessMessage as return
+     * value if the test didn't fail, the "invokealltests" method uses it to count failed/succeeded tests.
      */
-    
-    private readonly MySqlConnection _internalConnection = new MySqlConnection(config.GetConnectionString("InternalConnection"));
+    private static IConfiguration? _config;
+    private readonly MySqlConnection _internalConnection = new MySqlConnection(_config!.GetConnectionString("InternalConnection"));
     
     /// <summary>
     /// Used to mark a test as a method to run
@@ -29,12 +29,32 @@ public class DatabaseTest(IConfiguration config)
     /// <summary>
     /// Success return value of each test. Checked against to represent result as bool
     /// </summary>
-    private const string SuccessMessage = "Success"; 
+    private const string SuccessMessage = "Success";
+
+    //Instantiates class as singeton, to allow for interface implementation and non-static methods
+    private static readonly Lazy<InternalDatabaseConnectionTest> Instance = new Lazy<InternalDatabaseConnectionTest>(()
+        => new InternalDatabaseConnectionTest(_config));
+    
+    private InternalDatabaseConnectionTest(IConfiguration? configuration)
+    {
+        _config = configuration;
+    }
+    
+    /// <summary>
+    /// Allows to pass configuration to the class, and run its testing methods.
+    /// </summary>
+    /// <param name="configuration">Configuration which the class gets the connection string to run tests with</param>
+    /// <returns>reference to singleton instance</returns>
+    public static InternalDatabaseConnectionTest GetInstance(IConfiguration configuration)
+    {
+        _config = configuration;
+        return Instance.Value;
+    }
     
     /// <summary>
     /// Runs all internal database connection tests in the class.
     /// </summary>
-    public void TestInternalConnection()
+    public void InvokeAllTests()
     {
         //contains result of each test as bool, used to count fails/successes
         List<bool> testResults = new List<bool>();
@@ -84,6 +104,7 @@ public class DatabaseTest(IConfiguration config)
         }
     }
     
+    //test methods
     [UsedImplicitly]
     private string CheckConnectionOpens()
     {
@@ -167,5 +188,4 @@ public class DatabaseTest(IConfiguration config)
             return e.Message;
         }
     }
-    
 }
