@@ -8,12 +8,10 @@ namespace NRLObstacleReporting.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly string _connectionString;
     
-    public HomeController(ILogger<HomeController> logger, IConfiguration config)
+    public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-        _connectionString = config.GetConnectionString("InternalConnection")!;
     }
 
     public IActionResult Index()
