@@ -1,6 +1,9 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using MySqlConnector;
+using Xunit;
 
 namespace NRLObstacleReporting.StartupTests;
 
@@ -57,20 +60,20 @@ public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
         Console.WriteLine("| Running all read/write tests:");
         
         //collects all private instanced methods with testprefix into array
-        MethodInfo[] databaseConnectionTests = GetType()
+        MethodInfo[] databaseReadWriteTests = GetType()
             .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
             .Where(test => test.Name.StartsWith(TestPrefix))
             .ToArray();
         
-        for (int i = 0; i < databaseConnectionTests.Count(); i++)
+        for (int i = 0; i < databaseReadWriteTests.Count(); i++)
         {
             Console.WriteLine("|-------------------------------------------");
             
             //Formatting. Finds uppercase letters and adds a space.
-            string testName = Regex.Replace(databaseConnectionTests[i].Name, @"([a-z])([A-Z])", "$1 $2");
+            string testName = Regex.Replace(databaseReadWriteTests[i].Name, @"([a-z])([A-Z])", "$1 $2");
             //Runs a given test
             //Formatting. Asserts in xunit spit out multiline strings, adds "|" at start of each new line.
-            string testResult = databaseConnectionTests[i].Invoke(this, new object[0])!.ToString()!.ReplaceLineEndings("\n| ");
+            string testResult = databaseReadWriteTests[i].Invoke(this, new object[0])!.ToString()!.ReplaceLineEndings("\n| ");
             
             //console result output
             Console.WriteLine($"| {i + 1}. {testName}: {testResult}");
@@ -85,7 +88,7 @@ public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
                     break;
             }
             
-            if (testResults.Count() == databaseConnectionTests.Count())
+            if (testResults.Count() == databaseReadWriteTests.Count())
             {
                 int failedTests = testResults.Count(fail => fail == false);
                 int successfulTests = testResults.Count(success => success);
@@ -98,5 +101,59 @@ public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
         }
     }
     
-    //TODO: add tests here testing read and writing to the database
+    //TODO: Make these tests actually do something
+    [UsedImplicitly]
+    string CheckDatabaseWrite()
+    {
+        try
+        {
+            if (_internalConnection.State != ConnectionState.Open)
+            {
+                _internalConnection.Open();
+            }
+            
+            return new NotImplementedException().ToString();
+        }
+        catch (Exception e)
+        {
+            return e.Message;
+        }
+    }
+    
+    [UsedImplicitly]
+    string CheckDatabaseRead()
+    {
+        try
+        {
+            if (_internalConnection.State != ConnectionState.Open)
+            {
+                _internalConnection.Open();
+            }
+            
+            return new NotImplementedException().ToString();
+        }
+        catch (Exception e)
+        {
+            return e.Message;
+        }
+    }
+    
+    [UsedImplicitly]
+    string CheckDatabaseReadWrite()
+    {
+        try
+        {
+            if (_internalConnection.State != ConnectionState.Open)
+            {
+                _internalConnection.Open();
+            }
+            
+            return new NotImplementedException().ToString();
+        }
+        catch (Exception e)
+        {
+            return e.Message;
+        }
+    }
+    
 }
