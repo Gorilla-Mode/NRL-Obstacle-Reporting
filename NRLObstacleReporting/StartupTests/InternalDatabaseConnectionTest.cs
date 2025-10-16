@@ -33,11 +33,10 @@ public sealed class InternalDatabaseConnectionTest : IStartupTest
 
     //Instantiates class as singeton, to allow for interface implementation and non-static methods
     private static readonly Lazy<InternalDatabaseConnectionTest> Instance = new Lazy<InternalDatabaseConnectionTest>(()
-        => new InternalDatabaseConnectionTest(_config));
+        => new InternalDatabaseConnectionTest());
     
-    private InternalDatabaseConnectionTest(IConfiguration? configuration)
+    private InternalDatabaseConnectionTest()
     {
-        _config = configuration;
     }
     
     /// <summary>
