@@ -1,4 +1,8 @@
 @{
+    Layout = "~/Views/Shared/_LayoutRegistrar.cshtml";
+}
+
+@{
 ViewData["Title"] = "Registrar - Start";
 }
 <div class="text-center">
@@ -6,7 +10,7 @@ ViewData["Title"] = "Registrar - Start";
 </div>
 
 <div class="text-center pt-4"> <!-- add the buttom to the center -->
-    <a asp-action="View_Reports_Registrar" asp-controller="Registrar"
+    <a asp-action="RegistrarViewReports" asp-controller="Registrar"
        class="inline-flex items-center rounded-lg py-3 px-6 text-lg font-semibold bg-blue-500 text-white hover:bg-blue-700 transition-colors duration-200"> <!-- This button uses Tailwind CSS to create a blue, rounded button with padding, white text, and a darker blue hover effect for smooth color transition -->
         View Obstacle
     </a>
