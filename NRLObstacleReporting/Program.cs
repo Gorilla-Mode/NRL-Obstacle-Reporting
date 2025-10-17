@@ -1,7 +1,36 @@
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+using NRLObstacleReporting.Database;
+using NRLObstacleReporting.StartupTests;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+var internalConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION");
+var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
+
+builder.Services.AddSingleton(internalMariaDbConnection);
+
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseMySql(internalConnectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(internalConnectionString)));
+});
+
+
+IStartupDatabaseTest[] databaseTests =
+[
+    InternalDatabaseConnectionTest.GetInstance(),
+    InternalDatabaseReadWriteTest.GetInstance()
+];
+
+foreach (var testclass in databaseTests)
+{
+    testclass.InvokeAllTests();
+}
+
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using MySqlConnector;
 using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Controllers;
@@ -7,7 +8,7 @@ namespace NRLObstacleReporting.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
+    
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
