@@ -1,6 +1,5 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep2Model
 
-
 <div class="h-dvh overflow-hidden rounded-xl" >
     <h1 class="display-4 text-center">Place your obstacle</h1>
     <section>
@@ -28,6 +27,9 @@
 @* Script to add a map to the view *@
 @section Scripts
 {
+    <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
+
     <script>
         //save draft or next step
         AssignValueByID('savebutton', 'save', true)
@@ -38,70 +40,15 @@
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
    
     <script>
-        var map = L.map('map').setView([58.14671, 7.9956], 13);
-    
-        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        // Initialize the feature group that will hold the drawn shapes
-         var drawnItems = new L.FeatureGroup();
-         map.addLayer(drawnItems);
-
-         // Creates the drawing control on the left hand side
-         // The drawing control enables drawing of markers, polygons, and polylines
+        //Generates a simple map
+        const map = GenerateMap();
         
-        const choice = @TempData.Peek("ObstacleType")
-        if (choice == 0 || choice == 3 || choice == 4 || choice == 5) 
-        {
-        var drawControl = new L.Control.Draw({
-             draw: {
-                 polygon: false,
-                 polyline: true,
-                 marker: true,
-                 circle: false,  // Disable circle drawing
-                 rectangle: false,
-                 circlemarker: false
-             },
-             edit: {
-                 featureGroup: drawnItems
-             }
-         });
-         map.addControl(drawControl);
-        }
-        else
-        {
-            var drawControl = new L.Control.Draw({
-                draw: {
-                    polygon: false,
-                    polyline: false,
-                    marker: true,
-                    circle: false,  // Disable circle drawing
-                    rectangle: false,
-                    circlemarker: false
-                },
-                edit: {
-                    featureGroup: drawnItems
-                }
-            });
-            map.addControl(drawControl);
-        }
-
-          // Event handling when a layer is drawn on the map
-         map.on(L.Draw.Event.CREATED, function (e) {
-                 layer = e.layer;
-
-             drawnItems.addLayer(layer);
-
-             // Get the GeoJSON representation of the drawn layer
-             var geoJsonData = layer.toGeoJSON();
-             var geoJsonString = JSON.stringify(geoJsonData);
-
-             // Set the GeoJSON string into the hidden input field in the form
-             document.getElementById('GeometryGeoJson').value = geoJsonString;
-             document.getElementById('CoordinatesPreview').value = geoJsonString;
-         });
+        //Your choice of obstacle type from the previous view
+        const choice = @TempData.Peek("ObstacleType");
+        
+        //Generate the specific features the map needs for DataformStep2
+        GenerateMapItems_DataformStep2(map, choice);
+    
     </script>
 
     <partial name="_ValidationScriptsPartial" />
