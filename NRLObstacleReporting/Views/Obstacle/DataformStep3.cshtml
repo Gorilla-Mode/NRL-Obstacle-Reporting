@@ -36,8 +36,7 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
-    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/ColorActiveButton.js"></script>
     <script>
         //Sets the value of illuminated
         AssignValueByID('illuminated-yes', 'ObstacleIlluminated', true)
@@ -47,6 +46,6 @@
         AssignValueByID('SaveDraft', 'IsDraft', true)
         AssignValueByID('Submit', 'IsDraft', false)
 
-        ColorActiveButton('bg-blue-700', 'bg-blue-700')
+        ColorActiveButton('bg-blue-200', 'bg-blue-500')
     </script>
 }
