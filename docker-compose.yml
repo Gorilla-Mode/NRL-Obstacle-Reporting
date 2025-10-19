@@ -1,18 +1,22 @@
-﻿version: "3.9"
-services:
+﻿services:
   db:
     image: mariadb:11
     restart: unless-stopped
+    container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: superpass
+      MYSQL_ROOT_PASSWORD: sigmagoon18
       MYSQL_DATABASE: nrl
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mariadb-admin ping -uroot -psuperpass --silent"]
+      test: ["CMD-SHELL", "mariadb-admin ping -uroot -psigmagoon18 --silent"]
       interval: 5s
       timeout: 5s
       retries: 20
+    ports:
+      - "3306:3306"
+    networks:
+      - appnet
 
   web:
     build:
@@ -21,13 +25,17 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      # Overstyrer appsettings.Development.json
-      ConnectionStrings__DefaultConnection: Server=db;Port=3306;Database=nrl;User=root;Password=superpass;
+    env_file:
+      - .env
     ports:
       - "8080:8080"
-    restart: unless-stopped
+    restart: no
+    networks:
+      - appnet
 
 volumes:
   dbdata:
+
+networks:
+  appnet:
+    name: appnet
