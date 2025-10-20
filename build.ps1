@@ -5,8 +5,9 @@
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 New-Item -Path $scriptDir -Name ".env" -ItemType "File" -Force
 
-$databaseRootPwd = Read-Host -Prompt "Enter db password"
-$databaseName = Read-Host "Enter db name: "
+$secureDatabaseRootPwd = Read-Host "Create database password: " -AsSecureString 
+$databaseName = Read-Host "Create database name: "
+$DatabaseRootPwd =[Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureDatabaseRootPwd))
 
 Add-Content -Path ($scriptDir + "/.env") -Value ("MYSQL_ROOT_PASSWORD=$databaseRootPwd")
 Add-Content -Path ($scriptDir +"/.env") -Value ("MYSQL_DATABASE=$databaseName")
