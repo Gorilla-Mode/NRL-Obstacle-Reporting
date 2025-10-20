@@ -1,12 +1,11 @@
 ﻿namespace NRLObstacleReporting.Database;
 
-public class ObstacleDTO
+public class ObstacleDto
 {
-    public bool IsDraft { get; set; } 
     public int ObstacleId { get; set; }
     
     public int ObstacleTypeId { get; set; }               // FK til ObstacleTypeDatamodel
-    public ObstacleTypeDTO? ObstacleType { get; set; } // navigasjon
+    public ObstacleTypeDto? ObstacleType { get; set; } // navigasjon
     
     public int ObstacleHeightMeter { get; set; }
     
