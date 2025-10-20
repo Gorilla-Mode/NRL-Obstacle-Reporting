@@ -147,7 +147,7 @@ public sealed class InternalDatabaseConnectionTest : IStartupDatabaseTest
     {
         try
         {
-            Assert.True(_internalConnection.Database == "nrl");
+            Assert.True(_internalConnection.Database == Environment.GetEnvironmentVariable("MYSQL_DATABASE"));
             return SuccessMessage;
         }
         catch (Exception e)
