@@ -1,6 +1,6 @@
 ﻿namespace NRLObstacleReporting.Database;
 
-public class PilotDTO
+public class PilotDto
 {
     public int PilotId { get; set; }  //(PK)
     public string? Organization { get; set; }
