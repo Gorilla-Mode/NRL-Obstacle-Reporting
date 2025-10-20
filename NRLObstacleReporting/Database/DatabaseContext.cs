@@ -14,22 +14,6 @@ public class DatabaseContext : DbContext
      {
           
      }
-     
-     protected override void OnModelCreating(ModelBuilder modelBuilder)
-     {
-          modelBuilder.Entity<ObstacleCompleteModel>(entity =>
-          {
-               entity.HasKey(e => e.ObstacleId);
-               entity.HasKey(e => e.IsDraft);
-               entity.Property(e => e.ObstacleName);
-               entity.Property(e => e.ObstacleDescription);
-               entity.Property(e => e.ObstacleIlluminated);
-               entity.Property(e => e.GeometryGeoJson);
-               entity.Property(e => e.ObstacleHeightMeter);
-
-          });
-          base.OnModelCreating(modelBuilder);
      }
-     
-}
+
 
