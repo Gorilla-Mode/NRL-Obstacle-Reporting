@@ -26,7 +26,7 @@
 ### 3. Build the project
 > [!IMPORTANT]
 > <details>
-> <summary style="font-size: 14px; font-weight: bold">1. Run using terminal (recommended) </summary>
+> <summary style="font-size: 14px; font-weight: bold">1. Run using powershell script (recommended) </summary>
 >
 >   1. Compile CSS 
 >      1. Make sure **Node.js** is installed
@@ -34,8 +34,8 @@
 >      3. Run `npm run build:css` to compile tailwind css
 >   2. Compose environment
 >      1. Make sure docker is running `docker desktop start`
->      2. Cd back to `./NRLObstacleReporting` where the **docker-compose.yml** is located
->      3. Run `docker compose up` to launch the application in docker
+>      2. In **root folder**, run `./build.ps` to generate `.env` file
+>         1. For a clean install use flag `-c`, this will delete existing containers, volumes and images defined in the compose file
 ></details>
 
 > [!IMPORTANT]
@@ -46,23 +46,46 @@
 >      1. Make sure **Node.js** is installed
 >      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
 >      3. Run `npm run build:css` to compile tailwind css
->   2. Add build config in IDE
->      1. Open **NRLObstacleReporting.snl** solution in root folder
->      2. Add build config to run the docker compose 
->      3. Make sure docker is running `docker desktop start`
->      4. Build the solution to launch the application in docker
+>   2. Make .env file
+>      1. Make .env file in **root folder**
+>         2. Check the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki) for env fields used 
+>   3. Add build config in IDE
+>        1. Open **NRLObstacleReporting.snl** solution in root folder
+>        2. Add build config to run the docker compose 
+>        3. Make sure docker is running `docker desktop start`
+>        4. Build the solution to launch the application in docker
 > </details>
 
 ### Possible issues and fixes
 
    1. Unable to connect to database
       1. The database uses port `3306`, make sure its available
+      2. Do a clean install using `./build.ps1 -c`
    2. Css won't compile
       1. Make sure npm is initated, `npm install`
       2. Run `npm run build:css` in `./NRLObstacleReporting/NRLObstacleReporting`
+   3. Site is just plain html
+      1. Run `npm run build:css` in `./NRLObstacleReporting/NRLObstacleReporting`
 ## Documentation and System Architecture
 
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
+
+## Permanent Branches
+
+>[!WARNING]
+> 
+> **docs/readme**
+> - Any changes to readme branch is done here
+>
+> **test/unit-test**
+> - Unit tests made in the test project should be done here
+> - Branch of the branch if necessary
+>   - merge to this branch before main
+>
+> **database/db**
+> - Keep all changes to `db.sql` to this branch
+> - Branch of the branch if necessary
+>   - merge to this branch before main
 
 ## Prefixes & naming convention
 
@@ -78,6 +101,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 - test: Adding missing tests or correcting existing tests
 - build: Changes that affect the build system or external dependencies (docker, libraries, etc.)
 - chore: Other changes that don't modify src or test files
+- database: changes to data transfer objects, repository, and sql 
 - revert: Reverts a previous commit
 
 e.g:
@@ -93,6 +117,8 @@ e.g:
 
 e.g:
 `refactor/login-page-refactor`
+
+
 
 ## Working with branches
 
