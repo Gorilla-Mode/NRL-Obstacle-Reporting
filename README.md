@@ -71,23 +71,21 @@
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 ## Permanent Branches
-Dont delete these pleas
+
 >[!WARNING]
 > 
 > **docs/readme**
 > - Any changes to readme branch is done here
-
->[!WARNING]
 >
 > **test/unit-test**
 > - Unit tests made in the test project should be done here
 > - Branch of the branch if necessary
-
->[!WARNING]
+>   - merge to this branch before main
 >
-> **database/db1**
+> **database/db**
 > - Keep all changes to `db.sql` to this branch
 > - Branch of the branch if necessary
+>   - merge to this branch before main
 
 ## Prefixes & naming convention
 
