@@ -3,9 +3,8 @@
     image: mariadb:11
     restart: unless-stopped
     container_name: db
-    environment:
-      MYSQL_ROOT_PASSWORD: sigmagoon18
-      MYSQL_DATABASE: nrl
+    env_file:
+      - .env
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
