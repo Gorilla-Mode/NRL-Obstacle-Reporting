@@ -1,7 +1,8 @@
 ﻿param(
     [Switch]$h, # helper
     [Switch]$ni, # no inject
-    [Switch]$ne # no execute
+    [Switch]$ne, # no execute
+    [Switch]$r #Rebuilds database
 )
 
 if($h)
@@ -9,11 +10,13 @@ if($h)
     Write-Host "    -h: helper. Displays what you're reading rn"
     Write-Host "    -ni: no inject. Prevents sql from being injected to container"
     Write-Host "    -ne: no execute. Prevents sql script in container from being executed"
+    Write-Host "    -r: rebuild. Drops database, and reacreates it"
     return
 }
 
 $scriptAbsolutePath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $sqlAbsolutePath = $scriptAbsolutePath+"/db.sql"
+
 $envAbsolutePath = $scriptAbsolutePath+"/.env"
 
 #tests
@@ -59,6 +62,31 @@ Get-Content $envAbsolutePath | foreach {
     $envHash["$variable"] = "$value"
 }
 
+if($r) #goofy script maybe redo
+{
+    try
+    {
+        Write-Host "Rebuilding Database"
+        Write-Host "    Generating sql script..."
+        $null = New-Item -Path $scriptAbsolutePath -Name "dropdb.sql" -Value "DROP DATABASE $($envHash['MYSQL_DATABASE']); CREATE DATABASE $($envHash['MYSQL_DATABASE']);" -Force
+        $dropsqlAbsolutePath = $scriptAbsolutePath+"/dropdb.sql"
+
+        Write-Host "    Injecting sql from @ $dropsqlAbsolutePath to container..."
+        docker cp -q $dropsqlAbsolutePath db:/
+        Write-Host "    Removing used script from @ $dropsqlAbsolutePath..."
+        Remove-Item -Path $dropsqlAbsolutePath
+        Write-Host "    Used script removed"
+
+        Write-Host "    Executing sql script on $($envHash['MYSQL_DATABASE'])..."
+        docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <dropdb.sql"
+        Write-Host "    Database Rebuilt"
+    }
+    catch
+    {
+        return
+    }
+}
+
 if(!$ne)
 {
     try
@@ -66,7 +94,7 @@ if(!$ne)
         #runs sql script on container
         Write-Host "Executing sql script on $($envHash['MYSQL_DATABASE'])..."
         docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <db.sql"
-        Write-Host "Sql script executed"
+        Write-Host "    Sql script executed, tables built"
     }
     catch
     {
