@@ -26,14 +26,14 @@ namespace NRLObstacleReporting.Repositories
         {
         }
 
-        public async Task InsertObstacleData(ObstacleCompleteModel data)
+        public async Task InsertObstacleData(ObstacleDto data)
         {
             using var connection = CreateConnection();
             var sql = "INSERT INTO ..."; //Not implemented yet
             await connection.ExecuteAsync(sql, data);
         }
 
-        public Task<IEnumerable<ObstacleCompleteModel>> GetAllObstacleData()
+        public Task<IEnumerable<ObstacleDto>> GetAllObstacleData()
         {
             throw new NotImplementedException(); //Not implemented yet
         }

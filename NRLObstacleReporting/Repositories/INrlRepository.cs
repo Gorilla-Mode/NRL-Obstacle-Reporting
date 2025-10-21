@@ -5,12 +5,6 @@ namespace NRLObstacleReporting.Repositories;
 
 public interface INrlRepository
 {
-    Task InsertObstacleData(ObstacleCompleteModel data);
- 
-    
-    
-    
-    
-    
-    Task<IEnumerable<ObstacleCompleteModel>> GetAllObstacleData(); 
+    Task InsertObstacleData(ObstacleDto data);
+    Task<IEnumerable<ObstacleDto>> GetAllObstacleData(); 
 }
