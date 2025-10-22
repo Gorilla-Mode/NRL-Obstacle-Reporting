@@ -19,33 +19,26 @@ if($h)
 
 # retiveves the path of the this script
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+# --- env ----
 if (!$r)
 {
-    # --- env ----
-    try
+    if($f)
     {
-        if($f)
+        # overwrites file if it exists
+        New-Item -Path $scriptDir -Name ".env" -ItemType "File" -Force
+    }
+    else
+    {
+        # checks if file already exists
+        if(-not(Test-Path -Path ($scriptDir + "./env")))
         {
-            # overwrites file if it exists
-            New-Item -Path $scriptDir -Name ".env" -ItemType "File" -Force
+            Write-Output "ERROR: .env file aready exists in directory, use -f to overwrite"
+            return
         }
-        else
-        {
-            # checks if file already exists
-            if(-not(Test-Path -Path ($scriptDir + "./env")))
-            {
-                throw
-            }
+        New-Item -Path $scriptDir -Name ".env" -ItemType "File"
+    }
+}
 
-            New-Item -Path $scriptDir -Name ".env" -ItemType "File"
-        }
-    }
-    catch
-    {
-        Write-Output "ERROR: .env file aready exists in directory, use -f to overwrite"
-        return
-    }
-    
     #Passowrd stored as secure string to hide input mostly
     $secureDatabaseRootPwd = Read-Host "Create database password: " -AsSecureString
     $databaseName = Read-Host "Create database name: "
@@ -66,13 +59,12 @@ if (!$r)
         Add-Content -Path ($scriptDir +"/.env") -Value ("EXTERNALCONNECTION=server=localhost;port=3306;database=$databaseName;user=root;password=$databaseRootPwd;")
         Write-Host "        - External connection string inserted"
 
-        Write-Host "    Populated successfully"
+        Write-Host "    .env populated successfully"
     }
     catch
     {
         return
     }
-}
 
 if ($nc)
 {
