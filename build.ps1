@@ -29,13 +29,17 @@ if (!$r)
     }
     else
     {
+        Write-Host $scriptDir
         # checks if file already exists
-        if(-not(Test-Path -Path ($scriptDir + "./env")))
+        if((Test-Path -Path ($scriptDir + "/.env")))
         {
             Write-Output "ERROR: .env file aready exists in directory, use -f to overwrite"
             return
         }
-        New-Item -Path $scriptDir -Name ".env" -ItemType "File"
+        else
+        {
+            New-Item -Path $scriptDir -Name ".env" -ItemType "File"
+        }
     }
 }
 
