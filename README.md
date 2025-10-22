@@ -46,13 +46,12 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >      3. Run `npm run build:css` to compile tailwind css
 >   2. Compose environment
 >      1. Make sure docker is running `docker desktop start`
->      2. In **root folder**, run [`./build.ps1`](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) 
->      to generate [`.env`](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/env-setup) file. 
+>      2. In **root folder**, run `./build.ps1`
+>      to generate `.env` file. 
 >      And deploy containers
 >         1. For a clean installation use flag `-c`. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for more info
 >   3. Inject SQL 
->      1. in **root folder**, run [`./initdb.ps1`](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1)
->      to inject sql into container and build the database
+>      1. in **root folder**, run `./initdb.ps1` to inject sql into container and build the database
 >         1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info
 ></details>
 
@@ -67,7 +66,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
 >      3. Run `npm run build:css` to compile tailwind css
 >   2. Make .env file
->      1. in **root folder** run [`./build.ps1 -nc`](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1)
+>      1. in **root folder** run `./build.ps1 -nc`
 >         1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for further
 >         info about this script
 >   3. Add build config in IDE
@@ -76,8 +75,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >        3. Make sure docker is running `docker desktop start`
 >        4. Build the solution to launch the application in docker
 >   4. Inject SQL
->      1. in **root folder**, run [`./initdb.ps1`](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1)
->      to inject sql into container and build the database
+>      1. in **root folder**, run `./initdb.ps1` to inject sql into container and build the database
 >         1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further
 >         info about this script
 > </details>
@@ -91,9 +89,9 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
 >      3. Run `npm run build:css` to compile tailwind css
 >   2. Make .env file
->      1. Make[`.env`](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/env-setup) file in **root folder**
+>      1. Make`.env` file in **root folder**
 >         1. e.g `echo >> .env`, `touch .env`, `cat > .env`
->      2. Populate [`.env`](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/env-setup) file with required fields
+>      2. Populate `.env` file with required fields
 >         1. Check the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki) for example env file
 >   3. Deploy containers
 >      1. make sure docker is running
