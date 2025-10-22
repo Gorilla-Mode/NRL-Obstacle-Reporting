@@ -1,10 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NRLObstacleReporting.Database;
 using NRLObstacleReporting.db;
 using NRLObstacleReporting.Models;
+using NRLObstacleReporting.Repositories;
+
 namespace NRLObstacleReporting.Controllers
 {
     public class ObstacleController : Controller
     {
+        private readonly DatabaseContext dataContext;
+        private readonly INrlRepository repository;
+        
+        public ObstacleController(DatabaseContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
+        
         [HttpGet]
         public IActionResult DataformStep1()
         {
@@ -20,18 +31,18 @@ namespace NRLObstacleReporting.Controllers
             }
             int obstacleId = Localdatabase.GetDatabase().Count + 1; //generates ID
             
-            var obstacleReport = new ObstacleCompleteModel //New object of complete model, adds values from step1 model
+            var obstacleReport = new Database.ObstacleDto() //New object of complete model, adds values from step1 model
             {
                 ObstacleId = obstacleId,
-                ObstacleType = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
+               // ObstacleType = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
                 ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
             };
-            
-            Localdatabase.AddObstacle(obstacleReport);
+            repository.InsertObstacleData(obstacleReport);
+            //Localdatabase.AddObstacle(obstacleReport);
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
-                return View("Overview", obstacleReport);
+                return View("Overview");
             }
             
             //Values saved as cookies, to be used in next view in redirect
