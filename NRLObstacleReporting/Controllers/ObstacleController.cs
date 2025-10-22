@@ -8,14 +8,8 @@ namespace NRLObstacleReporting.Controllers
 {
     public class ObstacleController : Controller
     {
-        private readonly DatabaseContext dataContext;
-        private readonly INrlRepository repository;
-        
-        public ObstacleController(DatabaseContext dataContext)
-        {
-            this.dataContext = dataContext;
-        }
-        
+        private readonly ObstacleRepository _repo = new ObstacleRepository();
+
         [HttpGet]
         public IActionResult DataformStep1()
         {
@@ -25,19 +19,23 @@ namespace NRLObstacleReporting.Controllers
         [HttpPost]
         public IActionResult DataformStep1(ObstacleStep1Model obstacleModel)
         {
+            var rnd = new Random();
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            int obstacleId = Localdatabase.GetDatabase().Count + 1; //generates ID
+            int obstacleId = rnd.Next(); //generates ID
             
-            var obstacleReport = new Database.ObstacleDto() //New object of complete model, adds values from step1 model
+            var obstacleReport = new ObstacleDto() //New object of complete model, adds values from step1 model
             {
                 ObstacleId = obstacleId,
-               // ObstacleType = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
+                //ObstacleType = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
                 ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
             };
-            repository.InsertObstacleData(obstacleReport);
+            
+
+             _repo.InsertObstacleData(obstacleReport);
+            
             //Localdatabase.AddObstacle(obstacleReport);
             
             if (obstacleModel.SaveDraft) //exits reporting process
@@ -47,8 +45,8 @@ namespace NRLObstacleReporting.Controllers
             
             //Values saved as cookies, to be used in next view in redirect
             TempData["id"] = obstacleId;
-            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType;
-            
+            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType!;
+
             return RedirectToAction("DataformStep2");
         }
 

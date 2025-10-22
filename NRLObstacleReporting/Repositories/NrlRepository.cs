@@ -9,9 +9,9 @@ namespace NRLObstacleReporting.Repositories
     {
         protected string ConnectionString { get; }
 
-        public RepositoryBase(string connectionString)
+        public RepositoryBase()
         {
-            ConnectionString = connectionString;
+            ConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
         }
 
         protected IDbConnection CreateConnection()
@@ -20,16 +20,12 @@ namespace NRLObstacleReporting.Repositories
         }
     }
 
-    public class ObtacleRepository : RepositoryBase, INrlRepository
+    public class ObstacleRepository : RepositoryBase, INrlRepository
     {
-        public ObtacleRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public async Task InsertObstacleData(ObstacleDto data)
         {
             using var connection = CreateConnection();
-            var sql = "INSERT INTO Obstacle (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated, Type) VALUES (@ObstacleId, @ObstacleTypeId, @ObstacleHeightMeter, @GeometryGeoJson, @ObstacleName, @ObstacleDescription, @ObstacleIlluminated)"; 
+            var sql = "INSERT INTO Obstacle (ObstacleID, Heightmeter) VALUES (@ObstacleId, @ObstacleHeightMeter)"; 
             await connection.ExecuteAsync(sql, data);
         }
 

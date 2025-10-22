@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
+using NRLObstacleReporting.Repositories;
 using NRLObstacleReporting.StartupTests;
 
 
@@ -11,8 +12,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var internalConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION");
 var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
-
-builder.Services.AddSingleton(internalMariaDbConnection);
+builder.Services.AddScoped<INrlRepository, ObstacleRepository>();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
