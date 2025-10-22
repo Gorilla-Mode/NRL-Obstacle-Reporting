@@ -7,6 +7,7 @@
 
 if($h)
 {
+    Write-Host "WARNING: script will not catch any errors inside docker container. Check tables manually for now"
     Write-Host "    -h: helper. Displays what you're reading rn"
     Write-Host "    -ni: no inject. Prevents sql from being injected to container"
     Write-Host "    -ne: no execute. Prevents sql script in container from being executed"
