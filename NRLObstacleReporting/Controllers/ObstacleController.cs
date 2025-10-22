@@ -34,7 +34,7 @@ namespace NRLObstacleReporting.Controllers
             };
             
 
-             _repo.InsertObstacleData(obstacleReport);
+             _repo.Insert(obstacleReport);
             
             //Localdatabase.AddObstacle(obstacleReport);
             

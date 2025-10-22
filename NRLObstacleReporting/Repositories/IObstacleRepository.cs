@@ -3,8 +3,8 @@ using NRLObstacleReporting.Database;
 
 namespace NRLObstacleReporting.Repositories;
 
-public interface INrlRepository
+public interface IObstacleRepository
 {
-    Task InsertObstacleData(ObstacleDto data);
+    Task Insert(ObstacleDto data);
     Task<IEnumerable<ObstacleDto>> GetAllObstacleData(); 
 }

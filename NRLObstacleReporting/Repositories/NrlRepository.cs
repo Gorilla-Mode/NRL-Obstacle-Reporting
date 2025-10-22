@@ -5,27 +5,12 @@ using NRLObstacleReporting.Database;
 
 namespace NRLObstacleReporting.Repositories
 {
-    public class RepositoryBase
+    public class ObstacleRepository : RepositoryBase, IObstacleRepository
     {
-        protected string ConnectionString { get; }
-
-        public RepositoryBase()
-        {
-            ConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
-        }
-
-        protected IDbConnection CreateConnection()
-        {
-            return new MySqlConnection(ConnectionString);
-        }
-    }
-
-    public class ObstacleRepository : RepositoryBase, INrlRepository
-    {
-        public async Task InsertObstacleData(ObstacleDto data)
+        public async Task Insert(ObstacleDto data)
         {
             using var connection = CreateConnection();
-            var sql = "INSERT INTO Obstacle (ObstacleID, Heightmeter) VALUES (@ObstacleId, @ObstacleHeightMeter)"; 
+            var sql = "INSERT INTO Obstacle (ObstacleID, Heightmeter, Type) VALUES (@ObstacleId, @ObstacleHeightMeter, 2)"; 
             await connection.ExecuteAsync(sql, data);
         }
 
