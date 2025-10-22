@@ -34,7 +34,7 @@
 >      3. Run `npm run build:css` to compile tailwind css
 >   2. Compose environment
 >      1. Make sure docker is running `docker desktop start`
->      2. In **root folder**, run `./build.ps` to generate `.env` file
+>      2. In **root folder**, run `./build.ps1` to generate `.env` file
 >         1. For a clean install use flag `-c`, this will delete existing containers, volumes and images defined in the compose file
 ></details>
 
@@ -74,6 +74,8 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 >[!WARNING]
 > 
+> External branches no changes to NRLObstacleReporting directories are to be pushed to these branches. 
+> 
 > **docs/readme**
 > - Any changes to readme branch is done here
 >
@@ -83,7 +85,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >   - merge to this branch before main
 >
 > **database/db**
-> - Keep all changes to `db.sql` to this branch
+> - Keep only changes to `db.sql`, other sql scripts and injection scripts to this branch
 > - Branch of the branch if necessary
 >   - merge to this branch before main
 
