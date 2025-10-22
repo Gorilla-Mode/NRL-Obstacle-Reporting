@@ -4,8 +4,8 @@ public class ObstacleDto
 {
     public int ObstacleId { get; set; }
     
-    public int ObstacleTypeId { get; set; }               // FK til ObstacleTypeDatamodel
-    public ObstacleTypeDto? ObstacleType { get; set; } // navigasjon
+    public int ObstacleType { get; set; }               // FK til ObstacleTypeDatamodel
+    public ObstacleTypeDto? ObstacleTypeID { get; set; } // navigasjon
     
     public int ObstacleHeightMeter { get; set; }
     

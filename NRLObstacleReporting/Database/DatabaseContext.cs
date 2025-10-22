@@ -4,7 +4,7 @@ namespace NRLObstacleReporting.Database;
 
 public class DatabaseContext : DbContext
 {
-     public DbSet<ObstacleDto> ObstacleCompleteModel { get; set; } = null!;
+     public DbSet<ObstacleDto> ObstacleData { get; set; } = null!;
      //public DbSet<TableClass>  TableClass { get; set; } = null!;
      public DatabaseContext()
      {
