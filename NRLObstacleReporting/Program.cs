@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var internalConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION");
 var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
-builder.Services.AddScoped<IObstacleRepository, ObstacleRepository>();
+builder.Services.AddSingleton<IObstacleRepository, ObstacleRepository>();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
