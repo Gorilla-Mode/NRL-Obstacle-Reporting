@@ -8,7 +8,12 @@ namespace NRLObstacleReporting.Controllers
 {
     public class ObstacleController : Controller
     {
-        private readonly ObstacleRepository _repo = new ObstacleRepository();
+        private readonly IObstacleRepository _repo;
+
+        public ObstacleController(IObstacleRepository repo)
+        {
+            _repo = repo;
+        }
 
         [HttpGet]
         public IActionResult DataformStep1()
@@ -29,7 +34,7 @@ namespace NRLObstacleReporting.Controllers
             var obstacleReport = new ObstacleDto() //New object of complete model, adds values from step1 model
             {
                 ObstacleId = obstacleId,
-                //ObstacleType = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
+                ObstacleType = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
                 ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
             };
             
