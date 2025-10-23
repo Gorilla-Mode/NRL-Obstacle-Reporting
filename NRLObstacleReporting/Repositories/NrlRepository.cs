@@ -7,11 +7,23 @@ namespace NRLObstacleReporting.Repositories
 {
     public class ObstacleRepository : RepositoryBase, IObstacleRepository
     {
-        public async Task Insert(ObstacleDto data)
+        public async Task InsertStep1(ObstacleDto data)
         {
             using var connection = CreateConnection();
             var sql = "INSERT INTO Obstacle (ObstacleID, Heightmeter, Type) VALUES (@ObstacleId, @ObstacleHeightMeter, @ObstacleType)"; 
             await connection.ExecuteAsync(sql, data);
+        }
+
+        public async Task InsertStep2(ObstacleDto data)
+        {
+            using var connection = CreateConnection();
+            var sql = "UPDATE Obstacle SET GeometryGeoJson = @GeometryGeoJson WHERE ObstacleID = @ObstacleID";
+            await connection.ExecuteAsync(sql, data);
+        }
+
+        public Task InsertStep3(ObstacleDto data)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<IEnumerable<ObstacleDto>> GetAllObstacleData()

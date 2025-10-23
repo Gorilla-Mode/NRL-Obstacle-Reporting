@@ -38,11 +38,8 @@ namespace NRLObstacleReporting.Controllers
                 ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
             };
             
-
-             _repo.Insert(obstacleReport);
-            
-            //Localdatabase.AddObstacle(obstacleReport);
-            
+             _repo.InsertStep1(obstacleReport);
+             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
                 return View("Overview");
@@ -68,9 +65,14 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
-            
+
+            var obstacleReport = new ObstacleDto()
+            {
+                GeometryGeoJson = obstacleModel.GeometryGeoJson,
+                ObstacleId = obstacleModel.ObstacleId
+            };
             //Edits currently empty coordinates in database to match input. ID is supplied by tempdata.peek in view
-            Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.GeometryGeoJson);
+            _repo.InsertStep2(obstacleReport);
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
