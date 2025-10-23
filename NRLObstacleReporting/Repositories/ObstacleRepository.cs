@@ -10,14 +10,17 @@ namespace NRLObstacleReporting.Repositories
         public async Task InsertStep1(ObstacleDto data)
         {
             using var connection = CreateConnection();
-            var sql = "INSERT INTO Obstacle (ObstacleID, Heightmeter, Type) VALUES (@ObstacleId, @ObstacleHeightMeter, @ObstacleType)"; 
+            var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type) 
+                        VALUES (@ObstacleId, @ObstacleHeightMeter, @ObstacleType)"; 
             await connection.ExecuteAsync(sql, data);
         }
 
         public async Task InsertStep2(ObstacleDto data)
         {
             using var connection = CreateConnection();
-            var sql = "UPDATE Obstacle SET GeometryGeoJson = @GeometryGeoJson WHERE ObstacleID = @ObstacleID";
+            var sql = @"UPDATE Obstacle 
+                        SET GeometryGeoJson = @GeometryGeoJson 
+                        WHERE ObstacleID = @ObstacleID";
             await connection.ExecuteAsync(sql, data);
         }
 
