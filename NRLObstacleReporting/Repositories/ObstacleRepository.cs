@@ -21,9 +21,14 @@ namespace NRLObstacleReporting.Repositories
             await connection.ExecuteAsync(sql, data);
         }
 
-        public Task InsertStep3(ObstacleDto data)
+        public async Task InsertStep3(ObstacleDto data)
         {
-            throw new NotImplementedException();
+            using var connection = CreateConnection();
+            var sql = @"UPDATE Obstacle 
+                        SET Name = @ObstacleName, Description = @ObstacleDescription, Illuminated = @ObstacleIlluminated 
+                        WHERE ObstacleID = @ObstacleID";
+            await connection.ExecuteAsync(sql, data);
+
         }
 
         public Task<IEnumerable<ObstacleDto>> GetAllObstacleData()
