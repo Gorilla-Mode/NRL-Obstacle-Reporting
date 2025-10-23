@@ -2,16 +2,22 @@
 using MySqlConnector;
 
 namespace NRLObstacleReporting.Repositories;
-
-public class RepositoryBase
+/// <summary>
+/// Superclass for any repositories to inherit base methods from
+/// </summary>
+public abstract class RepositoryBase
 {
-    protected string ConnectionString { get; }
+    private string ConnectionString { get; }
 
-    public RepositoryBase()
+    protected RepositoryBase()
     {
         ConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
     }
 
+    /// <summary>
+    /// Establishes a connection to database
+    /// </summary>
+    /// <returns>MariaDB connection</returns>
     protected IDbConnection CreateConnection()
     {
         return new MySqlConnection(ConnectionString);
