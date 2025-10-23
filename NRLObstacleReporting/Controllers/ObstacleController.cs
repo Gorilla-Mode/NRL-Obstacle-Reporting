@@ -98,17 +98,17 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
+
+            var obstalceReport = new ObstacleDto()
+            {
+                ObstacleName = obstacleModel.ObstacleName,
+                ObstacleDescription = obstacleModel.ObstacleDescription,
+                ObstacleIlluminated = (int)(ObstacleCompleteModel.Illumination)obstacleModel.ObstacleIlluminated,
+                ObstacleId = obstacleModel.ObstacleId
+            };
+            _repo.InsertStep3(obstalceReport);
             
-            //gets object from database, supplied by tempdata. changes step 3 fields
-            ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
-            report.ObstacleIlluminated = obstacleModel.ObstacleIlluminated;
-            report.ObstacleName = obstacleModel.ObstacleName;
-            report.ObstacleDescription = obstacleModel.ObstacleDescription;
-            report.IsDraft = obstacleModel.IsDraft;
-            
-            Localdatabase.UpdateObstacle(report); //Updates database with new object
-            
-            return View("Overview", report);
+            return View();
         }
         
         [HttpPost]
