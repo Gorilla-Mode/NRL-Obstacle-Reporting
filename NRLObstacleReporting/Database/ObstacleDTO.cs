@@ -15,5 +15,5 @@ public class ObstacleDto
     
     public string? ObstacleDescription { get; set; }
     
-    public bool? ObstacleIlluminated { get; set; }
+    public int ObstacleIlluminated { get; set; }
 }
