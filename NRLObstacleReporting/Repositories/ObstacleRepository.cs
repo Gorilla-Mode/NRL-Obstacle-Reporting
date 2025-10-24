@@ -2,6 +2,7 @@
 using MySqlConnector;
 using System.Data;
 using NRLObstacleReporting.Database;
+using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Repositories
 {
@@ -32,6 +33,14 @@ namespace NRLObstacleReporting.Repositories
                         WHERE ObstacleID = @ObstacleID";
             await connection.ExecuteAsync(sql, data);
 
+        }
+
+        public async Task<ObstacleCompleteModel> GetObstacle(ObstacleDto data)
+        {
+            using var connection = CreateConnection();
+            var sql = "SELECT * FROM Obstacle WHERE ObstacleID = @ObstacleID";
+            return await connection.QuerySingleAsync<ObstacleCompleteModel>(sql);
+            
         }
 
         public Task<IEnumerable<ObstacleDto>> GetAllObstacleData()

@@ -107,8 +107,16 @@ namespace NRLObstacleReporting.Controllers
                 ObstacleId = obstacleModel.ObstacleId
             };
             _repo.InsertStep3(obstalceReport);
-            
-            return View();
+            var queryResult = _repo.GetObstacle(obstalceReport).Result;
+            var viewModel = new ObstacleCompleteModel()
+            {
+                ObstacleId = queryResult.ObstacleId,
+                ObstacleDescription = queryResult.ObstacleDescription,
+                ObstacleName = queryResult.ObstacleName,
+                GeometryGeoJson = queryResult.GeometryGeoJson,
+                ObstacleHeightMeter = queryResult.ObstacleHeightMeter
+            };
+            return View("Overview", viewModel);
         }
         
         [HttpPost]

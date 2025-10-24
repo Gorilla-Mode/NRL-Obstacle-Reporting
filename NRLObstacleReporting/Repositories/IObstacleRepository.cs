@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using NRLObstacleReporting.Database;
+using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Repositories;
 
@@ -26,5 +27,12 @@ public interface IObstacleRepository
     /// <param name="data">extracted data is injected into sql. Data must include an id</param>
     /// <returns></returns>
     Task InsertStep3(ObstacleDto data);
+
+    /// <summary>
+    /// Gets an obstacle by id
+    /// </summary>
+    /// <param name="data">extracted data is injected into sql. Data must include an id</param>
+    /// <returns></returns>
+    Task<ObstacleCompleteModel> GetObstacle(ObstacleDto data);
     Task<IEnumerable<ObstacleDto>> GetAllObstacleData(); 
 }
