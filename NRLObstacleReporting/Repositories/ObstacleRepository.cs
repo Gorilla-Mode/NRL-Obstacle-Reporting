@@ -12,7 +12,7 @@ namespace NRLObstacleReporting.Repositories
         {
             using var connection = CreateConnection();
             var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type) 
-                        VALUES (@ObstacleId, @ObstacleHeightMeter, @ObstacleType)"; 
+                        VALUES (@ObstacleId, @HeightMeter, @Type)"; 
             await connection.ExecuteAsync(sql, data);
         }
 
@@ -21,7 +21,7 @@ namespace NRLObstacleReporting.Repositories
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
                         SET GeometryGeoJson = @GeometryGeoJson 
-                        WHERE ObstacleID = @ObstacleID";
+                        WHERE ObstacleID = @ObstacleId";
             await connection.ExecuteAsync(sql, data);
         }
 
@@ -29,18 +29,20 @@ namespace NRLObstacleReporting.Repositories
         {
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
-                        SET Name = @ObstacleName, Description = @ObstacleDescription, Illuminated = @ObstacleIlluminated 
-                        WHERE ObstacleID = @ObstacleID";
+                        SET Name = @Name, Description = @Description, Illuminated = @Illuminated 
+                        WHERE ObstacleID = @ObstacleId";
             await connection.ExecuteAsync(sql, data);
 
         }
 
-        public async Task<ObstacleCompleteModel> GetObstacle(ObstacleDto data)
+        public async Task<ObstacleDto> GetObstacleById(int id)
         {
             using var connection = CreateConnection();
-            var sql = "SELECT * FROM Obstacle WHERE ObstacleID = @ObstacleID";
-            return await connection.QuerySingleAsync<ObstacleCompleteModel>(sql);
-            
+            connection.Open();
+            var sql = "SELECT * FROM Obstacle WHERE ObstacleID = @id";
+            var parameters = new { Id = id };
+
+            return await connection.QuerySingleAsync<ObstacleDto>(sql, parameters);
         }
 
         public Task<IEnumerable<ObstacleDto>> GetAllObstacleData()

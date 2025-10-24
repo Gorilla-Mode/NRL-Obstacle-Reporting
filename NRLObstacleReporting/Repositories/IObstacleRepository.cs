@@ -31,8 +31,7 @@ public interface IObstacleRepository
     /// <summary>
     /// Gets an obstacle by id
     /// </summary>
-    /// <param name="data">extracted data is injected into sql. Data must include an id</param>
     /// <returns></returns>
-    Task<ObstacleCompleteModel> GetObstacle(ObstacleDto data);
+    Task<ObstacleDto> GetObstacleById(int id);
     Task<IEnumerable<ObstacleDto>> GetAllObstacleData(); 
 }
