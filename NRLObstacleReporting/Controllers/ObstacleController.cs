@@ -34,8 +34,8 @@ namespace NRLObstacleReporting.Controllers
             var obstacleReport = new ObstacleDto() //New object of complete model, adds values from step1 model
             {
                 ObstacleId = obstacleId,
-                ObstacleType = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
-                ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
+                Type = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
+                HeightMeter = obstacleModel.ObstacleHeightMeter,
             };
             
              _repo.InsertStep1(obstacleReport);
@@ -101,23 +101,30 @@ namespace NRLObstacleReporting.Controllers
 
             var obstalceReport = new ObstacleDto()
             {
-                ObstacleName = obstacleModel.ObstacleName,
-                ObstacleDescription = obstacleModel.ObstacleDescription,
-                ObstacleIlluminated = (int)(ObstacleCompleteModel.Illumination)obstacleModel.ObstacleIlluminated,
+                Name = obstacleModel.ObstacleName,
+                Description = obstacleModel.ObstacleDescription,
+                Illuminated = (int)(ObstacleCompleteModel.Illumination)obstacleModel.ObstacleIlluminated,
                 ObstacleId = obstacleModel.ObstacleId
             };
+            
             _repo.InsertStep3(obstalceReport);
-            var queryResult = _repo.GetObstacle(obstalceReport).Result;
+            
+            var queryResult =  _repo.GetObstacleById(obstacleModel.ObstacleId).GetAwaiter().GetResult();
+            
             var viewModel = new ObstacleCompleteModel()
             {
                 ObstacleId = queryResult.ObstacleId,
-                ObstacleDescription = queryResult.ObstacleDescription,
-                ObstacleName = queryResult.ObstacleName,
+                ObstacleDescription = queryResult.Description,
+                ObstacleName = queryResult.Name,
                 GeometryGeoJson = queryResult.GeometryGeoJson,
-                ObstacleHeightMeter = queryResult.ObstacleHeightMeter
+                ObstacleHeightMeter = queryResult.HeightMeter,
+                ObstacleIlluminated = (ObstacleCompleteModel.Illumination)queryResult.Illuminated,
+                ObstacleType = (ObstacleCompleteModel.ObstacleTypes)queryResult.Type
             };
+            
             return View("Overview", viewModel);
         }
+
         
         [HttpPost]
         public IActionResult EditDraft(ObstacleCompleteModel draft)
