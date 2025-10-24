@@ -1,7 +1,8 @@
 ﻿param(
     [Switch]$c, # runs a clean install
     [Switch]$f, # overwrites existing env file
-    [Switch]$nc,
+    [Switch]$nc, # prevents compose from running
+    [Switch]$r, # prevents env from being generated
     [Switch]$h # help
 )
 
@@ -10,6 +11,7 @@ if($h)
     Write-Host "    -c: clean. Cleans up previous install. Removes any containers, images and volumes defined in docker-compose"
     Write-Host "    -f: force. Forces creation of .env file, overwriting if one already exists"
     Write-Host "    -nc: no compose. Stops docker-compose up from running"
+    Write-Host "    -r: rebuild. Stops .env file from being generated, allowing rebuild"
     Write-Host "    -h: helper. Displays what you're reading rn"
     
     return
@@ -17,9 +19,8 @@ if($h)
 
 # retiveves the path of the this script
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
-
 # --- env ----
-try
+if (!$r)
 {
     if($f)
     {
@@ -28,44 +29,46 @@ try
     }
     else
     {
+        Write-Host $scriptDir
         # checks if file already exists
-        if(-not(Test-Path -Path ($scriptDir + "./env")))
+        if((Test-Path -Path ($scriptDir + "/.env")))
         {
-            throw
+            Write-Output "ERROR: .env file aready exists in directory, use -f to overwrite"
+            return
         }
-        
-        New-Item -Path $scriptDir -Name ".env" -ItemType "File"
+        else
+        {
+            New-Item -Path $scriptDir -Name ".env" -ItemType "File"
+        }
     }
 }
-catch
-{
-    Write-Output "ERROR: .env file aready exists in directory, use -f to overwrite"
-    return
-}
 
+    #Passowrd stored as secure string to hide input mostly
+    $secureDatabaseRootPwd = Read-Host "Create database password: " -AsSecureString
+    $databaseName = Read-Host "Create database name: "
+    #returns password to plain text
+    $DatabaseRootPwd =[Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureDatabaseRootPwd))
 
-#Passowrd stored as secure string to hide input mostly
-$secureDatabaseRootPwd = Read-Host "Create database password: " -AsSecureString 
-$databaseName = Read-Host "Create database name: "
-#returns password to plain text
-$DatabaseRootPwd =[Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureDatabaseRootPwd))
+    try
+    {
+        #populates env file
+        Write-Host "    Populating .env @ $scriptDir"
 
-try
-{
-    #populates env file
-    Write-Host "    Populating .env @ $scriptDir"
-    
-    Add-Content -Path ($scriptDir + "/.env") -Value ("MYSQL_ROOT_PASSWORD=$databaseRootPwd")
-    Add-Content -Path ($scriptDir +"/.env") -Value ("MYSQL_DATABASE=$databaseName")
-    Add-Content -Path ($scriptDir +"/.env") -Value ("INTERNALCONNECTION=server=db;port=3306;database=$databaseName;user=root;password=$databaseRootPwd;")
-    Add-Content -Path ($scriptDir +"/.env") -Value ("EXTERNALCONNECTION=server=localhost;port=3306;database=$databaseName;user=root;password=$databaseRootPwd;")
-    
-    Write-Host "    Populated successfully"
-}
-catch
-{
-    return
-}
+        Add-Content -Path ($scriptDir + "/.env") -Value ("MYSQL_ROOT_PASSWORD=$databaseRootPwd")
+        Write-Host "        - SQL root password inserted"
+        Add-Content -Path ($scriptDir +"/.env") -Value ("MYSQL_DATABASE=$databaseName")
+        Write-Host "        - SQL database name inserted"
+        Add-Content -Path ($scriptDir +"/.env") -Value ("INTERNALCONNECTION=server=db;port=3306;database=$databaseName;user=root;password=$databaseRootPwd;")
+        Write-Host "        - Internal connectionstring inserted"
+        Add-Content -Path ($scriptDir +"/.env") -Value ("EXTERNALCONNECTION=server=localhost;port=3306;database=$databaseName;user=root;password=$databaseRootPwd;")
+        Write-Host "        - External connection string inserted"
+
+        Write-Host "    .env populated successfully"
+    }
+    catch
+    {
+        return
+    }
 
 if ($nc)
 {
