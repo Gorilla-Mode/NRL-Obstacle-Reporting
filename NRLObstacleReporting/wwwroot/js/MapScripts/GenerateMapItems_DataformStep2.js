@@ -8,15 +8,15 @@
 function GenerateMapItems_DataformStep2(map, choice) {
 
 // Initialize the feature group that will hold the drawn shapes
-    var drawnItems = new L.FeatureGroup();
+    let drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
 
 // Creates the drawing control on the left hand side
 // The drawing control enables drawing of markers, polygons, and polylines
 
 
-    if (choice == 0 || choice == 3 || choice == 4 || choice == 5) {
-        var drawControl = new L.Control.Draw({
+    if (choice === 0 || choice === 3 || choice === 4 || choice === 5) {
+        let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
                 polyline: true,
@@ -31,7 +31,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         });
         map.addControl(drawControl);
     } else {
-        var drawControl = new L.Control.Draw({
+        let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
                 polyline: false,
@@ -47,13 +47,13 @@ function GenerateMapItems_DataformStep2(map, choice) {
         map.addControl(drawControl);
     }
 
-    var form = document.getElementById('DataformStep2');
+    let form = document.getElementById('DataformStep2');
 
 // --- Capture location data ---
     function captureData() {
 
         // Convert all layers to one GeoJSON object 
-        var geojson = drawnItems.toGeoJSON();
+        let geojson = drawnItems.toGeoJSON();
 
         // Save JSON text to hidden field 
         document.getElementById('GeometryGeoJson').value = JSON.stringify(geojson);
@@ -74,11 +74,11 @@ function GenerateMapItems_DataformStep2(map, choice) {
         captureData();
     }
 
-    function onEdited(e) {
+    function onEdited() {
         captureData();
     }
 
-    function onDeleted(e) {
+    function onDeleted() {
         deleteData();
     }
 
