@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 public class ObstacleCompleteModel
 {
+    /// <summary>
+    /// Represents all possible types of an obstacle. 
+    /// </summary>
     public enum ObstacleTypes
     {
         PowerLine,
@@ -12,13 +15,28 @@ public class ObstacleCompleteModel
         Natural,
         Other
     }
+    /// <summary>
+    /// Represents the possible states of illumination of an obstacle. First state (unknown) is default
+    /// </summary>
     public enum Illumination
     {
-        Unknown,
+        Unknown = 0,
         NotIlluminated,
         Illuminated
     }
-    public bool IsDraft { get; set; } = true;
+    /// <summary>
+    /// Represents the status of an obstacle. A different status than draft implies the obstacle has been submitted for
+    /// review. First state (draft) is default.
+    /// </summary>
+    public enum Status
+    {
+        Draft = 0,
+        Pending,
+        Approved,
+        Rejected,
+        Deleted
+    }
+    public bool IsDraft { get; set; } = true; //TODO: remove this
     public int ObstacleId { get; set; }
     
     //Step 1 felt
