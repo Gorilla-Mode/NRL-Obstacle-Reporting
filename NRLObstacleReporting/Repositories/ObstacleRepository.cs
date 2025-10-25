@@ -40,9 +40,8 @@ namespace NRLObstacleReporting.Repositories
             using var connection = CreateConnection();
             connection.Open();
             var sql = "SELECT * FROM Obstacle WHERE ObstacleID = @id";
-            var parameters = new { Id = id };
 
-            return await connection.QuerySingleAsync<ObstacleDto>(sql, parameters);
+            return await connection.QuerySingleAsync<ObstacleDto>(sql, new { Id = id });
         }
 
         public Task<IEnumerable<ObstacleDto>> GetAllObstacleData()
