@@ -29,17 +29,13 @@
 {
     <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
     <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
-
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
     <script>
         //save draft or next step
         AssignValueByID('savebutton', 'save', true)
         AssignValueByID('nextpage', 'save', false)
-    </script>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
-    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-   
-    <script>
+
         //Generates a simple map
         const map = GenerateMap();
         
@@ -48,8 +44,6 @@
         
         //Generate the specific features the map needs for DataformStep2
         GenerateMapItems_DataformStep2(map, choice);
-    
     </script>
-
     <partial name="_ValidationScriptsPartial" />
 }
