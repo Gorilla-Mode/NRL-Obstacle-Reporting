@@ -29,9 +29,10 @@ public interface IObstacleRepository
     Task InsertStep3(ObstacleDto data);
 
     /// <summary>
-    /// Gets an obstacle by id
+    /// Gets an obstacle by id from the database, and maps it to the data transfer object
     /// </summary>
-    /// <returns></returns>
+    /// <param name="id">ID of the obstacle to get from the database</param>
+    /// <returns>Task:ObstacleDto </returns>
     Task<ObstacleDto> GetObstacleById(int id);
     Task<IEnumerable<ObstacleDto>> GetAllObstacleData(); 
 }
