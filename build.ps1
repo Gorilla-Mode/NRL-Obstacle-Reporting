@@ -41,7 +41,7 @@ if (!$r)
             New-Item -Path $scriptDir -Name ".env" -ItemType "File"
         }
     }
-}
+
 
     #Passowrd stored as secure string to hide input mostly
     $secureDatabaseRootPwd = Read-Host "Create database password: " -AsSecureString
@@ -69,10 +69,11 @@ if (!$r)
     {
         return
     }
-
-if ($nc)
-{
-    return
+    
+    if ($nc)
+    {
+        return
+    }
 }
 
 # ---- Docker ----
