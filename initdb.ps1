@@ -22,7 +22,7 @@ $envAbsolutePath = $scriptAbsolutePath+"/.env"
 
 #tests
 $sqlFileExists = Test-Path -Path $sqlAbsolutePath
-$envFileExists = Test-Path -Path $sqlAbsolutePath
+$envFileExists = Test-Path -Path $envAbsolutePath
 if(!$sqlFileExists)
 {
     Write-Host "Error: db.sql not found"
