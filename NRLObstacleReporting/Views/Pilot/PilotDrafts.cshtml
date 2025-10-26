@@ -41,7 +41,7 @@ foreach (var obstacle in drafts)
         <tbody>
         <tr>
             <th scope="row">Height</th>
-            <td>@obstacle.ObstacleHeightMeter</td>
+            <td>@obstacle.HeightMeter</td>
         </tr>
         <tr>
             <th scope="row">Coordinates</th>
@@ -53,25 +53,25 @@ foreach (var obstacle in drafts)
         </tr>
         <tr>
             <th scope="row">Illuminated</th>
-            <td>@obstacle.ObstacleIlluminated</td>
+            <td>@obstacle.Illuminated</td>
         </tr>
         <tr>
             <th scope="row">Description</th>
-            <td>@obstacle.ObstacleDescription</td>
+            <td>@obstacle.Description</td>
         </tr>
         <tr>
             <th scope="row">Name</th>
-            <td>@obstacle.ObstacleName</td>
+            <td>@obstacle.Name</td>
         </tr>
         </tbody>
     </table>
     <form asp-controller="Obstacle" asp-action="EditDraft" method="post">
         <input type="hidden" asp-for="GeometryGeoJson" value="@obstacle.GeometryGeoJson" />
-        <input type="hidden" asp-for="ObstacleDescription" value="@obstacle.ObstacleDescription"/>
-        <input type="hidden" asp-for="ObstacleIlluminated" value="@obstacle.ObstacleIlluminated"/>
-        <input type="hidden" asp-for="ObstacleName" value="@obstacle.ObstacleName"/>
+        <input type="hidden" asp-for="Description" value="@obstacle.Description"/>
+        <input type="hidden" asp-for="Illuminated" value="@obstacle.Illuminated"/>
+        <input type="hidden" asp-for="Name" value="@obstacle.Name"/>
         <input type="hidden" asp-for="ObstacleType" value="@obstacle.ObstacleType"/>
-        <input type="hidden" asp-for="ObstacleHeightMeter" value="@obstacle.ObstacleHeightMeter"/>
+        <input type="hidden" asp-for="HeightMeter" value="@obstacle.HeightMeter"/>
         <input type="hidden" asp-for="ObstacleId" value="@obstacle.ObstacleId"/>
         
         <button type="submit" formaction="/Obstacle/EditDraft">Edit</button>
