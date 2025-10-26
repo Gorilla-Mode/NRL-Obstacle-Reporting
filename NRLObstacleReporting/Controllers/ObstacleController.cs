@@ -37,8 +37,8 @@ namespace NRLObstacleReporting.Controllers
             var obstacleReport = new ObstacleDto() //New object of complete model, adds values from step1 model
             {
                 ObstacleId = obstacleId,
-                Type = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
-                HeightMeter = obstacleModel.ObstacleHeightMeter,
+                Type = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.Type,
+                HeightMeter = obstacleModel.HeightMeter,
             };
             
              _repo.InsertStep1(obstacleReport);
@@ -50,7 +50,7 @@ namespace NRLObstacleReporting.Controllers
             
             //Values saved as cookies, to be used in next view in redirect
             TempData["id"] = obstacleId;
-            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType!;
+            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.Type!;
 
             return RedirectToAction("DataformStep2");
         }
@@ -105,9 +105,9 @@ namespace NRLObstacleReporting.Controllers
 
             var obstalceReport = new ObstacleDto()
             {
-                Name = obstacleModel.ObstacleName,
-                Description = obstacleModel.ObstacleDescription,
-                Illuminated = (int)(ObstacleCompleteModel.Illumination)obstacleModel.ObstacleIlluminated,
+                Name = obstacleModel.Name,
+                Description = obstacleModel.Description,
+                Illuminated = (int)(ObstacleCompleteModel.Illumination)obstacleModel.Illuminated,
                 ObstacleId = obstacleModel.ObstacleId
             };
             

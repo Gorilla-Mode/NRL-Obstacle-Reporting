@@ -8,8 +8,8 @@ public class ObstacleStep1Model
     public bool SaveDraft { get; set; }
    
     [Range(0, 150)]
-    public int ObstacleHeightMeter { get; set; }
+    public int HeightMeter { get; set; }
     
     [Required] 
-    public ObstacleCompleteModel.ObstacleTypes? ObstacleType { get; set; }
+    public ObstacleCompleteModel.ObstacleTypes? Type { get; set; }
 }

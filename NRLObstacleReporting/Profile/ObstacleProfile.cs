@@ -7,6 +7,13 @@ public class ObstacleProfile : AutoMapper.Profile
 {
     public ObstacleProfile()
     {
-        CreateMap<ObstacleDto, ObstacleCompleteModel>();
+        CreateMap<ObstacleDto, ObstacleCompleteModel>().ReverseMap();
+        
+        CreateMap<ObstacleStep1Model, ObstacleDto>();
+        
+        CreateMap<ObstacleStep2Model, ObstacleDto>();
+        
+        CreateMap<ObstacleStep3Model, ObstacleDto>();
     }
+    
 }
