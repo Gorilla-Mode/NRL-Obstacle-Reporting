@@ -42,7 +42,7 @@
         const map = GenerateMap();
         
         //Your choice of obstacle type from the previous view
-        //const choice = @TempData.Peek("ObstacleType");
+        const choice = @TempData.Peek("ObstacleType");
         
         //Generate the specific features the map needs for DataformStep2
         GenerateMapItems_DataformStep2(map, choice);
