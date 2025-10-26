@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.db;
 using NRLObstacleReporting.Models;
@@ -9,10 +10,12 @@ namespace NRLObstacleReporting.Controllers
     public class ObstacleController : Controller
     {
         private readonly IObstacleRepository _repo;
+        private readonly IMapper _mapper;
 
-        public ObstacleController(IObstacleRepository repo)
+        public ObstacleController(IObstacleRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -76,6 +79,7 @@ namespace NRLObstacleReporting.Controllers
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
+                var queryResult = _repo.GetObstacleById(obstacleReport.ObstacleId);
                 return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
             }
             
@@ -110,19 +114,9 @@ namespace NRLObstacleReporting.Controllers
             _repo.InsertStep3(obstalceReport);
             
             var queryResult =  _repo.GetObstacleById(obstacleModel.ObstacleId).GetAwaiter().GetResult();
+            ObstacleCompleteModel obstacle = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
-            var viewModel = new ObstacleCompleteModel()
-            {
-                ObstacleId = queryResult.ObstacleId,
-                ObstacleDescription = queryResult.Description,
-                ObstacleName = queryResult.Name,
-                GeometryGeoJson = queryResult.GeometryGeoJson,
-                ObstacleHeightMeter = queryResult.HeightMeter,
-                ObstacleIlluminated = (ObstacleCompleteModel.Illumination)queryResult.Illuminated,
-                ObstacleType = (ObstacleCompleteModel.ObstacleTypes)queryResult.Type
-            };
-            
-            return View("Overview", viewModel);
+            return View("Overview", obstacle);
         }
 
         
