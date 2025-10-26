@@ -17,7 +17,7 @@ create table Obstacle
     ObstacleID      int           not null
         primary key,
     Heightmeter     int           null,
-    GeometryGeoJson varchar(100)  null,
+    GeometryGeoJson varchar(5000)  null,
     Name            varchar(100)  null,
     Description     varchar(1000) null,
     Illuminated     int           null,
