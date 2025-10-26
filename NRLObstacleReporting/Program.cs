@@ -19,6 +19,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySql(internalConnectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(internalConnectionString)));
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 IStartupDatabaseTest[] databaseTests =
 [
