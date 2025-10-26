@@ -34,14 +34,10 @@ namespace NRLObstacleReporting.Controllers
             }
             int obstacleId = rnd.Next(); //generates ID
             
-            var obstacleReport = new ObstacleDto() //New object of complete model, adds values from step1 model
-            {
-                ObstacleId = obstacleId,
-                Type = (int)(ObstacleCompleteModel.ObstacleTypes)obstacleModel.Type,
-                HeightMeter = obstacleModel.HeightMeter,
-            };
+            ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
+            obstaclereport.ObstacleId = obstacleId;
             
-             _repo.InsertStep1(obstacleReport);
+             _repo.InsertStep1(obstaclereport);
              
             if (obstacleModel.SaveDraft) //exits reporting process
             {
@@ -68,19 +64,14 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
-
-            var obstacleReport = new ObstacleDto()
-            {
-                GeometryGeoJson = obstacleModel.GeometryGeoJson,
-                ObstacleId = obstacleModel.ObstacleId
-            };
+            
+            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
             //Edits currently empty coordinates in database to match input. ID is supplied by tempdata.peek in view
-            _repo.InsertStep2(obstacleReport);
+            _repo.InsertStep2(obstacle);
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
-                var queryResult = _repo.GetObstacleById(obstacleReport.ObstacleId);
-                return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
+                return View("Overview");
             }
             
             //Values saved as cookies, to be used in next view in redirect
@@ -103,20 +94,13 @@ namespace NRLObstacleReporting.Controllers
                 return View();
             }
 
-            var obstalceReport = new ObstacleDto()
-            {
-                Name = obstacleModel.Name,
-                Description = obstacleModel.Description,
-                Illuminated = (int)(ObstacleCompleteModel.Illumination)obstacleModel.Illuminated,
-                ObstacleId = obstacleModel.ObstacleId
-            };
-            
-            _repo.InsertStep3(obstalceReport);
+            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
+            _repo.InsertStep3(obstacle);
             
             var queryResult =  _repo.GetObstacleById(obstacleModel.ObstacleId).GetAwaiter().GetResult();
-            ObstacleCompleteModel obstacle = _mapper.Map<ObstacleCompleteModel>(queryResult);
+            ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
-            return View("Overview", obstacle);
+            return View("Overview", obstacleQuery);
         }
 
         
