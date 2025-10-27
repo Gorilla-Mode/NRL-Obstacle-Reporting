@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.Btn-PilotPrimary{
+    @apply inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 
+}
+
+.Btn-ObstacleType{
+    @apply relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900
+}
+
+.Map-Obstacle{
+    height: 65dvh; width: 100dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;
+}

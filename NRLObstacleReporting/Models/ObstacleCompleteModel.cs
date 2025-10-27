@@ -29,7 +29,7 @@ public class ObstacleCompleteModel
     [MaxLength(100)]
     public string? ObstacleName { get; set; }
     
-    [MaxLength(100)]
+    [MaxLength(1000)]
     public string? ObstacleDescription { get; set; }
     
     public bool? ObstacleIlluminated { get; set; }
