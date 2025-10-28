@@ -40,10 +40,10 @@
         //save draft or next step
         AssignValueByID('savebutton', 'save', true)
         AssignValueByID('nextpage', 'save', false)
-
+        const zoom = 17;
         //Generates a simple map
-        const map = GenerateMap();
-        GeolocateUser(17);
+        const map = GenerateMap(zoom);
+        GeolocateUser(zoom);
         //Your choice of obstacle type from the previous view
         const choice = @TempData.Peek("ObstacleType");
         
