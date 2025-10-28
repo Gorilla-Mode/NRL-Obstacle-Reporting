@@ -31,6 +31,7 @@
 {
     <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
     <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/Geolocate.js" asp-append-version="true"></script>
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
     <script>
@@ -40,6 +41,7 @@
 
         //Generates a simple map
         const map = GenerateMap();
+        GeolocateUser();
         
         //Your choice of obstacle type from the previous view
         const choice = @TempData.Peek("ObstacleType");
