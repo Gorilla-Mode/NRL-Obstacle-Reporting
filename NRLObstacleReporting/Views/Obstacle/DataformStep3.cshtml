@@ -10,14 +10,36 @@
     <h1 class="display-4">Describe your obstacle</h1>
     <form asp-action="DataformStep3" method="post">
         <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+        
+        <!-- Obstacle Information Section -->
+        <div class="mt-10 space-y-6">
+
+        <!-- Obstacle Name -->
         <div>
-            <label asp-for="ObstacleName"></label>
-            <input asp-for="ObstacleName"/>
+            <label for="obstaclename" class="block text-sm font-semibold text-gray-800 mb-2">
+                Obstacle Name
+            </label>
+            <textarea id="obstaclename"
+                  name="obstaclename"
+                  rows="1"
+                  class="block w-full rounded-md border-2 border-blue-500 bg-white px-3 py-2 text-base text-gray-900 
+                         placeholder:text-gray-400 focus:border-blue-500 focus:ring focus:ring-indigo-200 sm:text-sm">
+        </textarea>
         </div>
+
+        <!-- Obstacle Description -->
         <div>
-            <label asp-for="ObstacleDescription"></label>
-            <input asp-for="ObstacleDescription"/>
-        </div>
+        <label for="obstacledescription" class="block text-sm font-semibold text-gray-800 mb-2">
+            Obstacle Description
+        </label>
+        <textarea id="obstacledescription"
+                  name="obstacledescription"
+                  rows="3"
+                  class="block w-full rounded-md border-2 border-blue-500 bg-white px-3 py-2 text-base text-gray-900 
+                         placeholder:text-gray-400 focus:border-blue-500 focus:ring focus:ring-indigo-200 sm:text-sm">
+        </textarea>
+
+       </div>
         <div class="">
             <label asp-for="ObstacleIlluminated"></label>
             <div class="divide-x-0 grid grid-cols-2 w-1/2 mx-auto">
@@ -31,8 +53,10 @@
                     type="submit" formaction="/Obstacle/DataformStep3" id="SaveDraft">Save Draft</button>
             <input type="hidden" asp-for="IsDraft" id="IsDraft"/>
         </div>
+        </div>
     </form>
 </div>
+  
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
