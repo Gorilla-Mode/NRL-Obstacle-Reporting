@@ -1,6 +1,5 @@
-﻿import {map} from "../../lib/leaflet/dist/leaflet-src";
-
-function GeolocateUser() {
+﻿function GeolocateUser(zoom) 
+{
     if (navigator.geolocation) 
     {
         navigator.geolocation.getCurrentPosition(
@@ -9,11 +8,7 @@ function GeolocateUser() {
                 let latitude = position.coords.latitude;
                 let longitude = position.coords.longitude;
 
-                L.marker([latitude, longitude]).addTo(map)
-                    .bindPopup('Your position')
-                    .openPopup();
-
-                map.setView([latitude, longitude], 13);
+                map.setView([latitude, longitude], zoom);
             },
             function(error) {
                 let mapContainer = document.getElementById('map');
