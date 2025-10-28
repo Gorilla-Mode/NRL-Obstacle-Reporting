@@ -42,7 +42,7 @@
         AssignValueByID('nextpage', 'save', false)
         const zoom = 17;
         //Generates a simple map
-        const map = GenerateMap(zoom);
+        const map = GenerateMapGeolocate(zoom);
         GeolocateUser(zoom);
         //Your choice of obstacle type from the previous view
         const choice = @TempData.Peek("ObstacleType");
