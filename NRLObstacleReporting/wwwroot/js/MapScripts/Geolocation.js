@@ -1,9 +1,19 @@
-﻿function GeolocateUser(zoom) 
+﻿/**
+ * Uses the browser geolocation api to get gps coordinates of the user to set the map veiew. Requires that 
+ * geolocation is enabled by the client to work.
+ * @param zoom Sets the zoom level on the map
+ */
+function GeolocateUser(zoom) 
 {
-    if (navigator.geolocation) 
+    if (!navigator.geolocation)
+    {
+        alert("Geolocation: Not supported by your browser");
+        
+    }
+    else
     {
         navigator.geolocation.getCurrentPosition(
-            function(position) 
+            function(position)
             {
                 let latitude = position.coords.latitude;
                 let longitude = position.coords.longitude;
@@ -28,7 +38,5 @@
                 }
             }
         );
-    } else {
-        alert("Geolocation deninedGeolocation: Not supported by your browser");
     }
 }
