@@ -44,9 +44,14 @@ namespace NRLObstacleReporting.Repositories
             return await connection.QuerySingleAsync<ObstacleDto>(sql, new { Id = id });
         }
 
-        public Task<IEnumerable<ObstacleDto>> GetAllObstacleData()
+        public async Task<IEnumerable<ObstacleDto>> GetAllObstacleData()
         {
-            throw new NotImplementedException(); //Not implemented yet
+            using var connection = CreateConnection();
+            var sql = "SELECT * FROM Obstacle";
+            await connection.ExecuteAsync(sql);
+            
+            return connection.Query<ObstacleDto>(sql);
         }
+        
     }
 }
