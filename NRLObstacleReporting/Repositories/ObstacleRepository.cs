@@ -46,6 +46,7 @@ namespace NRLObstacleReporting.Repositories
 
         public async Task<IEnumerable<ObstacleDto>> GetAllObstacleData()
         {
+            //Needs to be updated to only get form ceatain users when IdentityCore is implemented
             using var connection = CreateConnection();
             var sql = "SELECT * FROM Obstacle";
             await connection.ExecuteAsync(sql);
