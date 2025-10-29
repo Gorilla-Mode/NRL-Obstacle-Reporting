@@ -41,7 +41,9 @@ namespace NRLObstacleReporting.Controllers
              
             if (obstacleModel.SaveDraft) //exits reporting process
             {
-                return View("Overview");
+              ObstacleDto queryResult = _repo.GetObstacleById(obstacleId).Result;
+              ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+              return View("Overview",  obstacleQuery);
             }
             
             //Values saved as cookies, to be used in next view in redirect
