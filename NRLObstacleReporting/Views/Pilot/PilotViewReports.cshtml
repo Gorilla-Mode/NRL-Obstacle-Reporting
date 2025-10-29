@@ -1,4 +1,5 @@
 ﻿@using NRLObstacleReporting.db
+@model PilotViewReportsModel
 
 @functions {
     public class obstacle
@@ -7,31 +8,19 @@
 }
 @{
     ViewData["Title"] = "View Reports";
-    var reports = Localdatabase.GetDatabase();
+    
 }
-@if (reports.Count == 0)
-{
-    <div class="text-center">
-        <h1>No obstacles Registered</h1>
-    </div>
-}
-else
-{
     <div class="text-center">
         <h1> Registered reports:</h1>
     </div>
     
-    IEnumerable<NRLObstacleReporting.Models.ObstacleCompleteModel> submittedReports =
-        from Report in reports
-        where !Report.IsDraft
-        select Report;
-    <div>
-    @foreach (var obstacle in submittedReports)
+<div>
+    @foreach (var report in Model.SubmittedReports)
     {
-        var mapId = obstacle.GetHashCode().ToString();
-        <div class=" mb-2 bg-blue-200 rounded-xl" >
+        var mapId = report.ObstacleId.ToString();
+        <div class=" mb-2 bg-blue-200 rounded-xl">
             <table class="center mx-4 my-3" style="margin:0;padding:0;">
-                <caption>Obstacle Report: @obstacle.GetHashCode()</caption>
+                <caption>Obstacle Report: @report.GetHashCode()</caption>
                 <thead>
                 <tr>
                     <th scope="col">Data</th>
@@ -41,45 +30,52 @@ else
                 <tbody>
                 <tr>
                     <th scope="row">Height</th>
-                    <td>@obstacle.HeightMeter</td>
+                    <td>@report.HeightMeter</td>
                 </tr>
                 <tr>
                     <th scope="row">Coordinates</th>
-                    <td>@obstacle.GeometryGeoJson</td>
+                    <td>@report.GeometryGeoJson</td>
                 </tr>
                 <tr>
                     <th scope="row">Type</th>
-                    <td>@obstacle.ObstacleType</td>
+                    <td>@report.Type</td>
                 </tr>
                 <tr>
                     <th scope="row">Illuminated</th>
-                    <td>@obstacle.Illuminated</td>
+                    <td>@report.Illuminated</td>
                 </tr>
                 <tr>
                     <th scope="row">Description</th>
-                    <td>@obstacle.Description</td>
+                    <td>@report.Description</td>
                 </tr>
                 <tr>
                     <th scope="row">Name</th>
-                    <td>@obstacle.Name</td>
+                    <td>@report.Name</td>
                 </tr>
                 </tbody>
             </table>
-            <div class="overflow-hidden rounded-xl" >
-                <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:80dvw;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
-            </div>
+            @if (report.GeometryGeoJson != null)
+            {
+                <div class="overflow-hidden rounded-xl">
+                    <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:80dvw;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
+                </div>
+            }
             <script>
-                let map = GenerateMap();
-                
-                let geojson = @Html.Raw(obstacle.GeometryGeoJson);
-                let geojsonLayer = L.geoJSON(geojson);                         
-            
+                var map = L.map('@mapId').setView([58.14671, 7.9956], 13);
+        
+                L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+                var geojson = @Html.Raw(report.GeometryGeoJson)
+                var geojsonLayer = L.geoJSON(geojson);
                 geojsonLayer.addTo(map);
                 map.setMaxBounds(geojsonLayer.getBounds())
+            
             </script>
         </div>
     }
-    </div>
+</div>
 }
 
 <style>

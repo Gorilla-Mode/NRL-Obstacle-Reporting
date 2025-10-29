@@ -1,11 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Models;
 using System.Diagnostics;
+using AutoMapper;
+using NRLObstacleReporting.Repositories;
 
 namespace NRLObstacleReporting.Controllers
 {
     public class PilotController : Controller
     {
+        private readonly IObstacleRepository _repo;
+        private readonly IMapper _mapper;
+
+        public PilotController(IObstacleRepository repo,  IMapper mapper)
+        {
+            _repo = repo;
+            _mapper = mapper;
+        }
+
         public IActionResult PilotIndex()
         {
             return View();
@@ -16,11 +27,22 @@ namespace NRLObstacleReporting.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
         [HttpGet]
-        public IActionResult PilotViewReports()
+        public async Task<IActionResult> PilotViewReports()
         {
-            return View();
+            var submittedReports = await _repo.GetAllObstacleData();
+            
+            var modelList = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedReports);
+
+            var model = new PilotViewReportsModel
+            {
+                SubmittedReports = modelList
+            };
+            
+            return View(model);
         }
+
         [HttpGet]
         public IActionResult PilotDrafts()
         {
