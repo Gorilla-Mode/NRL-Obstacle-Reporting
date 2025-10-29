@@ -67,18 +67,22 @@
 }
 
 @section Scripts {
+    @* Script to add a map to the view *@
     @if (Model?.GeometryGeoJson != null)
-    {
+    { 
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
         <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
         <script src="~/js/MapScripts/GeoJsonExtractCoordinates.js" asp-append-version="true"></script>
         <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
         <script>
-            let map = GenerateMap();
-            let geojsonCoordinates = @Html.Raw(Model.GeometryGeoJson);
-            let geojsonLayer = L.geoJSON(geojsonCoordinates);
-            geojsonLayer.addTo(map);
-            map.setView(GeoJsonExtractCoordinates(geojsonCoordinates));
-        </script>
+        let map = GenerateMap(17);
+    
+        let geojsonCoordinates = @Html.Raw(Model.GeometryGeoJson)
+        // var geojsonData = JSON.parse(geojsonCoordinates);
+        let geojsonLayer = L.geoJSON(geojsonCoordinates);
+        geojsonLayer.addTo(map);
+        
+        map.setView(GeoJsonExtractCoordinates(geojsonCoordinates));
+         </script>
     }
 }
