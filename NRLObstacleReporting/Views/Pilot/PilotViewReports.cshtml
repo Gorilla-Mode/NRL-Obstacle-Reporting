@@ -69,6 +69,8 @@ else
                 <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:80dvw;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
             </div>
             <script>
+                //TODO: fix this later move to own js file
+                
                 var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
                 L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
                     maxZoom: 19,
@@ -79,6 +81,7 @@ else
                 geojsonLayer.addTo(map);
 
                 map.setMaxBounds(geojsonLayer.getBounds())
+            
             </script>
         </div>
     }
