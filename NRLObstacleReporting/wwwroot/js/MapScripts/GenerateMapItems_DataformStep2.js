@@ -10,10 +10,17 @@ function GenerateMapItems_DataformStep2(map, choice) {
 // Initialize the feature group that will hold the drawn shapes
     let drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
+    
+    navigator.geolocation.getCurrentPosition(
+        function(position)
+        {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
 
-// Creates the drawing control on the left hand side
-// The drawing control enables drawing of markers, polygons, and polylines
-
+            L.marker([latitude, longitude]).addTo(drawnItems)
+            captureData();
+        },
+    );
 
     if (choice === 0 || choice === 3 || choice === 4 || choice === 5) {
         let drawControl = new L.Control.Draw({
