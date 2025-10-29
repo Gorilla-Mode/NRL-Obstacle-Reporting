@@ -3,52 +3,120 @@
 }
 
 @using NRLObstacleReporting.db
+
 @{
     ViewData["Title"] = "View Reports";
-
-    // Hent alle hindere direkte fra Localdatabase
     var obstacles = Localdatabase.GetDatabase();
 }
 
-
-@if (obstacles.Count() == 0)
+@if (!obstacles.Any())
 {
-    <div class="text-center">
-        <h1>No obstacles registered</h1>
+    <div class="text-center py-12">
+        <h1 class="text-2xl font-semibold text-gray-700">No obstacles registered</h1>
     </div>
 }
 else
 {
     <div class="min-h-screen bg-gray-100 p-8">
-        <h1>Registered reports:</h1>
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
 
-
-        <table class="w-full border border-black">
-            <thead>
+        <table class="border-collapse border border-gray-400 w-full text-left text-sm">
+            <thead class="bg-gray-200">
                 <tr>
-                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Name</th>
-                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Type</th>
-                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Height</th>
-                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Coordinates</th>
-                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Illuminated</th>
-                    <th class="border border-black text-left px-4 py-2 font-semibold text-gray-700">Description</th>
+                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
+                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Type</th>
+                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Height</th>
+                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Coordinates</th>
+                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Illuminated</th>
+                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Description</th>
+                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Status</th>
                 </tr>
             </thead>
-            <tbody>
 
+            <tbody class="bg-white">
                 @foreach (var o in obstacles)
                 {
-                    <tr>
-                        <td class=" border border-black px-4 py-2"> @o.ObstacleName </td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleType</td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleHeightMeter</td>
-                        <td class="border border-black px-4 py-2"> @o.GeometryGeoJson</td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleIlluminated</td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleDescription</td>
+                    <tr class="hover:bg-gray-100 transition">
+                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleName</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleType</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleHeightMeter</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleIlluminated</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleDescription</td>
 
+                        <!-- Status-knapp med dropdown -->
+                        <td class="border border-gray-300 px-4 py-2 text-center relative">
+                            <div class="inline-block relative">
+                                <button class="status-btn rounded-full px-4 py-1 font-semibold text-xs transition bg-yellow-300 text-black hover:brightness-95"
+                                        onclick="toggleMenu(this)">
+                                    Pending
+                                </button>
+
+                                <div class="status-menu hidden absolute left-1/2 transform -translate-x-1/2 top-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg w-28 z-10">
+                                    <ul class="text-sm text-gray-700">
+                                        <li>
+                                            <button class="block w-full text-left px-3 py-1 hover:bg-yellow-300"
+                                                    onclick="setStatus(this, 'Pending')">Pending</button>
+                                        </li>
+                                        <li>
+                                            <button class="block w-full text-left px-3 py-1 hover:bg-green-300"
+                                                    onclick="setStatus(this, 'Approved')">Approved</button>
+                                        </li>
+                                        <li>
+                                            <button class="block w-full text-left px-3 py-1 hover:bg-red-300"
+                                                    onclick="setStatus(this, 'Rejected')">Rejected</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+}
+
+@section Scripts {
+    <script>
+        // Toggle dropdown
+        function toggleMenu(button) {
+            const td = button.closest('td');
+            const menu = td.querySelector('.status-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Endre status og farge
+        function setStatus(button, status) {
+            const td = button.closest('td');
+            const statusBtn = td.querySelector('.status-btn');
+
+            // Endre knapptekst
+            statusBtn.textContent = status;
+
+            // Fjern gamle farger
+            statusBtn.classList.remove('bg-yellow-200', 'bg-green-200', 'bg-red-200', 'text-yellow-800', 'text-green-800', 'text-red-800');
+
+            // Legg til nye farger
+            if (status === 'Pending') {
+                statusBtn.classList.add('bg-yellow-200', 'text-yellow-800');
+            } else if (status === 'Approved') {
+                statusBtn.classList.add('bg-green-200', 'text-green-800');
+            } else if (status === 'Rejected') {
+                statusBtn.classList.add('bg-red-200', 'text-red-800');
+            }
+
+            // Skjul dropdown
+            button.closest('.status-menu').classList.add('hidden');
+        }
+
+        // Klikk utenfor for å lukke alle dropdowns
+        document.addEventListener('click', function(e) {
+            document.querySelectorAll('.status-menu').forEach(menu => {
+                if (!menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 }
