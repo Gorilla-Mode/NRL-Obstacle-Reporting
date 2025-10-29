@@ -28,7 +28,7 @@ public class ObstacleCompleteModel
     /// Represents the status of an obstacle. A different status than draft implies the obstacle has been submitted for
     /// review. First state (draft) is default.
     /// </summary>
-    public enum Status
+    public enum ObstacleStatus
     {
         Draft = 0,
         Pending,
@@ -38,6 +38,7 @@ public class ObstacleCompleteModel
     }
     public bool IsDraft { get; set; } = true; //TODO: remove this
     public int ObstacleId { get; set; }
+    public ObstacleStatus Status { get; set; } = 0;
     
     //Step 1 felt
     public ObstacleTypes Type { get; set; }

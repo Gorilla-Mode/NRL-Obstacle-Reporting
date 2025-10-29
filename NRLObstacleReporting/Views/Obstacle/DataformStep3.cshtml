@@ -25,7 +25,7 @@
                         type="submit" formaction="/Obstacle/DataformStep3" id="SaveDraft">Save Draft</button>
                 <button class="Btn-PilotPrimary"
                         type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Submit Report</button>
-                <input type="hidden" asp-for="IsDraft" id="IsDraft"/>
+                <input type="hidden" asp-for="Status" id="IsDraft"/>
             </div>
         </div>
     </form>
@@ -40,8 +40,8 @@
         AssignValueByID('illuminated-no', 'ObstacleIlluminated', 1)
         
         //save or submit as draft
-        AssignValueByID('SaveDraft', 'IsDraft', true)
-        AssignValueByID('Submit', 'IsDraft', false)
+        AssignValueByID('SaveDraft', 'IsDraft', 0)
+        AssignValueByID('Submit', 'IsDraft', 1)
 
         ColorActiveButton('bg-blue-200', 'bg-blue-500')
     </script>

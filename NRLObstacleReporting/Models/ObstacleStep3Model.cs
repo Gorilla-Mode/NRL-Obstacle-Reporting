@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 public class ObstacleStep3Model
 {
     public int ObstacleId { get; set; }
-    public bool IsDraft { get; set; } = true;
+    public ObstacleCompleteModel.ObstacleStatus Status { get; set; } = 0;
     public int Illuminated { get; set; }
     public string? Name { get; set; }
     [MaxLength(100)]
