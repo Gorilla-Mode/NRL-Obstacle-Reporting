@@ -7,7 +7,7 @@ create table Illuminated
 
 create table Marking
 (
-    MarkingId   int          not null
+    Marking   int          not null
         primary key,
     MarkingName varchar(100) not null
 );
@@ -47,18 +47,18 @@ create table Obstacle
 (
     ObstacleID      int           not null
         primary key,
-    Heightmeter     int           null,
+    Heightmeter     int           not null,
     GeometryGeoJson varchar(5000) null,
     Name            varchar(100)  null,
     Description     varchar(1000) null,
-    Illuminated     int           null,
-    Type            int           null,
-    Status          int           null,
-    Marking         int           not null,
+    Illuminated     int default 0 not null,
+    Type            int           not null,
+    Status          int default 0 not null,
+    Marking         int default 0 not null,
     constraint ObstacleIlluminated_fk
         foreign key (Illuminated) references Illuminated (Illuminated),
     constraint ObstacleMarking_fk
-        foreign key (Marking) references Marking (MarkingId),
+        foreign key (Marking) references Marking (Marking),
     constraint ObstacleStatus_fk
         foreign key (Status) references Status (Status),
     constraint ObstacleType_fk
@@ -93,7 +93,6 @@ create table test
     test_column int null
 );
 
-
 INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (0, 'Powerline');
 INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (1, 'Pole');
 INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (2, 'Building');
@@ -111,10 +110,6 @@ INSERT INTO Status (Status, StatusName) VALUES (2, 'Approved');
 INSERT INTO Status (Status, StatusName) VALUES (3, 'Rejected');
 INSERT INTO Status (Status, StatusName) VALUES (4, 'Deleted');
 
-INSERT INTO Marking (MarkingId, MarkingName) VALUES (0, 'Unknown');
-INSERT INTO Marking (MarkingId, MarkingName) VALUES (1, 'Not marked');
-INSERT INTO Marking (MarkingId, MarkingName) VALUES (2, 'Marked');
-
-
-
-
+INSERT INTO Marking (Marking, MarkingName) VALUES (0, 'Unknown');
+INSERT INTO Marking (Marking, MarkingName) VALUES (1, 'Not marked');
+INSERT INTO Marking (Marking, MarkingName) VALUES (2, 'Marked');
