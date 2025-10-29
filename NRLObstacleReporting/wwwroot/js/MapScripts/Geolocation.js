@@ -14,21 +14,21 @@
                 let mapContainer = document.getElementById('map');
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        mapContainer.innerHTML = 'Access to geolocation was denied.';
+                        alert("Geolocation: Permission denied");
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        mapContainer.innerHTML = 'Location information is unavailable.';
+                        alert("Geolocation: Position unavailable");
                         break;
                     case error.TIMEOUT:
-                        mapContainer.innerHTML = 'The request to get user location timed out.';
+                        alert("Geolocation: Timedout");
                         break;
                     default:
-                        mapContainer.innerHTML = 'An error occurred while retrieving geolocation.';
+                        mapContainer.innerHTML = 'Geolocation: error occured';
                         break;
                 }
             }
         );
     } else {
-        document.getElementById('map').innerHTML = 'Geolocation is not supported by your browser.';
+        alert("Geolocation deninedGeolocation: Not supported by your browser");
     }
 }
