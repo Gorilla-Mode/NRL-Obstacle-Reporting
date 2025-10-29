@@ -40,7 +40,7 @@ public class ObstacleCompleteModel
     public int ObstacleId { get; set; }
     
     //Step 1 felt
-    public ObstacleTypes ObstacleType { get; set; }
+    public ObstacleTypes Type { get; set; }
     
     [Required(ErrorMessage = "This field is required")]
     [Range(0, 150)]

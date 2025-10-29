@@ -49,7 +49,7 @@ foreach (var obstacle in drafts)
         </tr>
         <tr>
             <th scope="row">Type</th>
-            <td>@obstacle.ObstacleType</td>
+            <td>@obstacle.Type</td>
         </tr>
         <tr>
             <th scope="row">Illuminated</th>
@@ -70,7 +70,7 @@ foreach (var obstacle in drafts)
         <input type="hidden" asp-for="Description" value="@obstacle.Description"/>
         <input type="hidden" asp-for="Illuminated" value="@obstacle.Illuminated"/>
         <input type="hidden" asp-for="Name" value="@obstacle.Name"/>
-        <input type="hidden" asp-for="ObstacleType" value="@obstacle.ObstacleType"/>
+        <input type="hidden" asp-for="Type" value="@obstacle.Type"/>
         <input type="hidden" asp-for="HeightMeter" value="@obstacle.HeightMeter"/>
         <input type="hidden" asp-for="ObstacleId" value="@obstacle.ObstacleId"/>
         
