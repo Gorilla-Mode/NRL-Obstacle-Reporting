@@ -20,9 +20,11 @@ function GeolocateUser(zoom)
 
                 map.setView([latitude, longitude], zoom);
             },
-            function(error) {
+            function(error) 
+            {
                 let mapContainer = document.getElementById('map');
-                switch (error.code) {
+                switch (error.code) 
+                {
                     case error.PERMISSION_DENIED:
                         alert("Geolocation: Permission denied");
                         break;
