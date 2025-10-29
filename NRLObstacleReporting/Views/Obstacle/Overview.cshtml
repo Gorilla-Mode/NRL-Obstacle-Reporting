@@ -2,50 +2,65 @@
 @{
     ViewData["Title"] = "Report Overview";
 }
-<div>
-    <table class="center">
-        <caption>Obstacle Report: @Model.GetHashCode()</caption>
+
+<div class="text-center">
+    <h1 class="display-4">Overview</h1>
+</div>
+
+<div class="flex justify-center mt-6 mx-auto">
+    <table class="table-auto border border-gray-300 text-center">
+        <caption class="caption-top text-lg font-bold mb-2">
+            Obstacle Report: @Model.GetHashCode()
+        </caption>
         <thead>
-        <tr>
-            <th scope="col">Data</th>
-            <th scope="col">Response</th>
-        </tr>
+            <tr>
+                <th class="border border-gray-300 px-4 py-2 bg-blue-300 text-black rounded-tl-md">Data</th>
+                <th class="border border-gray-300 px-4 py-2 bg-blue-300 text-black rounded-tr-md">Response</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">Height</th>
-            <td>@Model.ObstacleHeightMeter</td>
+        <!-- ObstacleName -->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Name</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleName</td>
         </tr>
-        <tr>
-            <th scope="row">Coordinates</th>
-            <td>@Model.GeometryGeoJson</td>
+        <!-- ObstacleHeight -->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Height</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleHeightMeter</td>
         </tr>
-        <tr>
-            <th scope="row">Type</th>
-            <td>@Model.ObstacleType</td>
+        <!-- ObstacleDescription -->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Description</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleDescription</td>
         </tr>
-        <tr>
-            <th scope="row">Illuminated</th>
-            <td>@Model.ObstacleIlluminated</td>
+        <!-- ObstacleType -->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Type</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleType</td>
         </tr>
-        <tr>
-            <th scope="row">Description</th>
-            <td>@Model.ObstacleDescription</td>
+        <!-- Illuminated-->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Illuminated</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleIlluminated</td>
         </tr>
-        <tr>
-            <th scope="row">Name</th>
-            <td>@Model.ObstacleName</td>
+        <!-- ObstacleCoordinates -->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Coordinates</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.GeometryGeoJson</td>
         </tr>
+        
         </tbody>
     </table>
 </div>
 
 @if (Model?.GeometryGeoJson != null)
 {
-    <div class="h-dvh overflow-hidden rounded-xl">
+    <div class="h-dvh overflow-hidden rounded-xl mx-auto my-2">
+
         <section>
-            <div
-                id="map" style="height: 50dvh; width: 50dvw; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb;">
+            <div class="mx-auto "
+                id="map" style="height: 50dvh; width: 100%; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb; z-index: 0">
             </div>
         </section>
     </div>
