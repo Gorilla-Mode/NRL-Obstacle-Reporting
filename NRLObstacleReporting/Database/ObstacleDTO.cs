@@ -6,7 +6,7 @@ public class ObstacleDto
     
     public int Type { get; set; }               // FK to ObstacleTypeDatamodel
     public int Status { get; set; }               // FK to Status
-  //  public int Marking { get; set; }               //FK to Marking
+    public int Marking { get; set; }               //FK to Marking
     public int HeightMeter { get; set; }
     
     public string? GeometryGeoJson { get; set; }
