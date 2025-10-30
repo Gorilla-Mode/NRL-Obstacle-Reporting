@@ -29,27 +29,29 @@
     </div>
 </div>
 
-<div class="overflow-hidden mt-8">
-    <h1 class="display-4 text-center">Place your obstacle</h1>
+<div class="overflow-hidden mt-2">
+    <h1 class="display-4 text-center mb-2">Place your obstacle</h1>
 
-    <section class="mt-6">
-        <div id="map" style="height: 60dvh; width: 100%;" class="rounded-lg"></div>
+    <section class="mt-2">
+        <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg"></div>
 
-        <div class="mt-2">
+        <div class="mt-3">
             <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
             <textarea id="CoordinatesPreview"
-                      class="rounded-lg mb-1 bg-blue-200 text-black text-center border-2 border-blue-900 w-full"
-                      style="height: 5dvh;"
+                      class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 w-full"
+                      style="height: 6dvh;"
                       readonly></textarea>
         </div>
+
+
 
         <form asp-action="DataformStep2" method="post">
             <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
             <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
 
             <!-- Knappene har samme bredde som kartet og textarea -->
-            <div class="grid grid-cols-2 gap-1 w-full -mt-8">
-                <button type="submit"
+            <div class="grid grid-cols-2 gap-1 w-full mt-2">
+            <button type="submit"
                         class="Btn-PilotPrimary h-16 items-center justify-center w-full"
                         formaction="/Obstacle/DataformStep2" id="savebutton">Save Draft</button>
 
