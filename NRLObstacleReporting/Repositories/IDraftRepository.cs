@@ -18,9 +18,9 @@ public interface IDraftRepository
     /// <summary>
     /// Submits an obstacle, by changing its status to pending (submitted) 
     /// </summary>
-    /// <param name="id">ID of the obstacle in the database to submit</param>
+    /// <param name="data">The obstacle that should be submitted</param>
     /// <returns></returns>
-    Task SubmitDraft(int id);
+    Task SubmitDraft(ObstacleDto data);
 
     //TODO: once users are implemented, this should get a users draft. Not all
     /// <summary>
