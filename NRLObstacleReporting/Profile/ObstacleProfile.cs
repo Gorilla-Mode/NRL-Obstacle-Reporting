@@ -7,7 +7,10 @@ public class ObstacleProfile : AutoMapper.Profile
 {
     public ObstacleProfile()
     {
-        CreateMap<ObstacleDto, ObstacleCompleteModel>();
+        CreateMap<ObstacleDto, ObstacleCompleteModel>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.GeometryGeoJson, opt => opt.MapFrom(src => src.GeometryGeoJson))
+            .ForMember(dest => dest.Illuminated, opt => opt.MapFrom(src => src.Illuminated));
         
         CreateMap<ObstacleCompleteModel, ObstacleDto>();
         
