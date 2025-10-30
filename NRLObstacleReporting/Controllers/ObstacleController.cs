@@ -11,11 +11,13 @@ namespace NRLObstacleReporting.Controllers
     {
         private readonly IObstacleRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IDraftRepository _repoDraft;
 
-        public ObstacleController(IObstacleRepository repo, IMapper mapper)
+        public ObstacleController(IObstacleRepository repo, IMapper mapper, IDraftRepository repoDraft)
         {
             _repo = repo;
             _mapper = mapper;
+            _repoDraft = repoDraft;
         }
 
         [HttpGet]
@@ -110,7 +112,7 @@ namespace NRLObstacleReporting.Controllers
             return View("Overview", obstacleQuery);
         } 
 
-        
+        //TODO: move all draft methods to own draft controller
         [HttpPost]
         public IActionResult EditDraft(ObstacleCompleteModel draft)
         {
@@ -119,12 +121,15 @@ namespace NRLObstacleReporting.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveEditedDraft(ObstacleCompleteModel editedDraft)
+        public async Task<ActionResult> SaveEditedDraft(ObstacleCompleteModel editedDraft)
         {
-            //updates database with new draft
-            Localdatabase.UpdateObstacle(editedDraft);
+            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(editedDraft);
+            await _repoDraft.EditDraft(obstacle);
             
-            return View("Overview", editedDraft);
+            var queryResult = await _repo.GetObstacleById(editedDraft.ObstacleId);
+            ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+            
+            return View("Overview", obstacleQuery);
         }
 
         [HttpPost]
