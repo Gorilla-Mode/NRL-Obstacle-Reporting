@@ -113,10 +113,10 @@
                    asp-for="ObstacleHeightMeter" />
             <span asp-validation-for="ObstacleHeightMeter"></span>
         </div>
-        <div class="gap-1 grid grid-cols-2 mx-auto absolute bottom-16 left-0 right-0 px-3" style="width: 100%;">
-        <button type="submit" class="Btn-PilotPrimary "
+        <div class="grid grid-cols-2 gap-1 w-full">
+        <button type="submit" class="Btn-PilotPrimary h-16 items-center justify-center"
                 formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
-        <button type="submit" class="Btn-PilotPrimary "
+        <button type="submit" class="Btn-PilotPrimary h-16 items-center justify-center "
             formaction="/Obstacle/DataformStep1" id="nextpage">Next Page</button>
         </div>
         <input type="hidden" asp-for="SaveDraft" id="save" />
