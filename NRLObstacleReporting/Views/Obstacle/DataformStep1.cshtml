@@ -1,4 +1,38 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep1Model
+
+<!-- Progressbar -->
+<div class="relative w-full flex justify-center py-4">
+    <div class="relative w-[80%] max-w-3xl flex flex-col items-center">
+        <div class="absolute top-1/2 left-[4%] right-[4%] h-[3px] bg-gray-200 -translate-y-1/2 z-0"></div>
+
+        <div class="relative flex justify-between items-center w-full z-10">
+            <!-- Step 1 (aktiv) -->
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
+                    1
+                </div>
+                <span class="text-xs sm:text-sm mt-2 text-blue-600 font-medium">Step 1</span>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center shadow">
+                    2
+                </div>
+                <span class="text-xs sm:text-sm mt-2 text-gray-600">Step 2</span>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center shadow">
+                    3
+                </div>
+                <span class="text-xs sm:text-sm mt-2 text-gray-600">Step 3</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="text-center">
     <h1 class="display-4 py-2">Select Obstacle Type</h1>
 
