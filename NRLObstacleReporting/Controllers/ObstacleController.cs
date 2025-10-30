@@ -23,7 +23,7 @@ namespace NRLObstacleReporting.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public IActionResult DataformStep1(ObstacleStep1Model obstacleModel)
         {
@@ -73,7 +73,9 @@ namespace NRLObstacleReporting.Controllers
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
-                return View("Overview");
+                ObstacleDto queryResult = _repo.GetObstacleById(obstacleModel.ObstacleId).Result;
+                ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+                return View("Overview", obstacleQuery);
             }
             
             //Values saved as cookies, to be used in next view in redirect
@@ -95,11 +97,11 @@ namespace NRLObstacleReporting.Controllers
             {
                 return View();
             }
-
+    
             ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
             _repo.InsertStep3(obstacle);
             
-            var queryResult =  _repo.GetObstacleById(obstacleModel.ObstacleId).GetAwaiter().GetResult();
+            var queryResult = _repo.GetObstacleById(obstacleModel.ObstacleId).Result;
             ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
             return View("Overview", obstacleQuery);
