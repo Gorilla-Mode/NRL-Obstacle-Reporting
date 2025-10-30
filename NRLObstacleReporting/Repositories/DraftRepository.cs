@@ -12,8 +12,9 @@ public class DraftRepository : RepositoryBase, IDraftRepository
     {
         using var connection = CreateConnection();
         var sql = @"UPDATE Obstacle 
-                    SET Type = @Type, Heightmeter = @HeightMeter, Name = @Name, Description = @Description,
-                        Illuminated = @Illuminated
+                    SET Heightmeter = @HeightMeter, GeometryGeoJson = @GeometryGeoJson, Name = @Name, 
+                        Description = @Description, Illuminated = @Illuminated, Type = @Type, Status = @Status,
+                        Marking = @Marking
                     WHERE ObstacleID = @ObstacleId";
         
         await connection.ExecuteAsync(sql, data);
