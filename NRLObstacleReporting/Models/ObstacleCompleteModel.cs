@@ -25,6 +25,16 @@ public class ObstacleCompleteModel
         Illuminated
     }
     /// <summary>
+    /// Represents the possible states of Marking of an obstacle. First state (unknown) is default
+    /// </summary>
+   /* public enum ObstacleMarking
+    {
+        Unknown = 0,
+        NotMarked,
+        Marked
+    }
+    */
+    /// <summary>
     /// Represents the status of an obstacle. A different status than draft implies the obstacle has been submitted for
     /// review. First state (draft) is default.
     /// </summary>
@@ -38,7 +48,8 @@ public class ObstacleCompleteModel
     }
     public bool IsDraft { get; set; } = true; //TODO: remove this
     public int ObstacleId { get; set; }
-    public ObstacleStatus Status { get; set; } = 0;
+    public ObstacleStatus Status { get; set; }
+    // public ObstacleMarking Marking { get; set; }
     
     //Step 1 felt
     public ObstacleTypes Type { get; set; }
@@ -56,7 +67,7 @@ public class ObstacleCompleteModel
     
     [MaxLength(1000)]
     public string? Description { get; set; }
-    
+
     public Illumination Illuminated { get; set; }
-    
+
 }
