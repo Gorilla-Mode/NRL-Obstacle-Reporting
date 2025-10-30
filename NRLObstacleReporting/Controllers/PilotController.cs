@@ -10,11 +10,13 @@ namespace NRLObstacleReporting.Controllers
     {
         private readonly IObstacleRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IDraftRepository _repoDraft;
 
-        public PilotController(IObstacleRepository repo,  IMapper mapper)
+        public PilotController(IObstacleRepository repo,  IMapper mapper, IDraftRepository repoDraft)
         {
             _repo = repo;
             _mapper = mapper;
+            _repoDraft = repoDraft;
         }
 
         public IActionResult PilotIndex()
@@ -46,7 +48,15 @@ namespace NRLObstacleReporting.Controllers
         [HttpGet]
         public IActionResult PilotDrafts()
         {
-            return View();
+            var submittedDrafts =  _repoDraft.GetAllDrafts().Result;
+            
+            var modelListDraft = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
+
+            var model = new PilotDraftsModel
+            {
+                SubmittedDrafts = modelListDraft
+            };
+            return View(model);
         }
 
     }
