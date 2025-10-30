@@ -27,6 +27,7 @@ namespace NRLObstacleReporting.Controllers
         [HttpPost]
         public IActionResult DataformStep1(ObstacleStep1Model obstacleModel)
         {
+            //TODO: use guid or some better way to generate id
             var rnd = new Random();
             if (!ModelState.IsValid)
             {
@@ -39,10 +40,11 @@ namespace NRLObstacleReporting.Controllers
             
              _repo.InsertStep1(obstaclereport);
              
-            if (obstacleModel.SaveDraft) //exits reporting process
+            if (obstacleModel.SaveDraft) //exits reporting process, gets current obstacle from db
             {
               ObstacleDto queryResult = _repo.GetObstacleById(obstacleId).Result;
               ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+              
               return View("Overview",  obstacleQuery);
             }
             
@@ -68,13 +70,13 @@ namespace NRLObstacleReporting.Controllers
             }
             
             ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-            //Edits currently empty coordinates in database to match input. ID is supplied by tempdata.peek in view
-            _repo.InsertStep2(obstacle);
+            _repo.InsertStep2(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
                 ObstacleDto queryResult = _repo.GetObstacleById(obstacleModel.ObstacleId).Result;
                 ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+                
                 return View("Overview", obstacleQuery);
             }
             
@@ -93,19 +95,20 @@ namespace NRLObstacleReporting.Controllers
         [HttpPost]
         public async Task<ActionResult> DataformStep3(ObstacleStep3Model obstacleModel)
         {
+            // async await, to prevent possible race condition with database write read.
             if (!ModelState.IsValid)
             {
                 return View();
             }
     
             ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-            await _repo.InsertStep3(obstacle);
+            await _repo.InsertStep3(obstacle); // make sure this is completed before proceeding 
             
             var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId);
             ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
             return View("Overview", obstacleQuery);
-        }
+        } 
 
         
         [HttpPost]
