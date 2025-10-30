@@ -51,11 +51,7 @@ namespace NRLObstacleReporting.Controllers
             var submittedDrafts =  _repoDraft.GetAllDrafts().Result;
             
             var modelListDraft = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
-
-            var model = new PilotDraftsModel
-            {
-                SubmittedDrafts = modelListDraft
-            };
+            
             ViewData["drafts"] = modelListDraft;
             return View();
         }
