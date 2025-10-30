@@ -8,21 +8,35 @@ public class DraftRepository : RepositoryBase, IDraftRepository
 {
     
     //TODO: Implements these things
-    public async Task EditDraft(int id, ObstacleDto data)
+    public async Task EditDraft(ObstacleDto data)
     {
-        throw new NotImplementedException();
+        using var connection = CreateConnection();
+        var sql = @"UPDATE Obstacle 
+                    SET Type = @Type, Heightmeter = @HeightMeter, Name = @Name, Description = @Description,
+                        Illuminated = @Illuminated
+                    WHERE ObstacleID = @ObstacleId";
+        
+        await connection.ExecuteAsync(sql, data);
     }
 
     public async Task SubmitDraft(int id)
     {
-        throw new NotImplementedException();
+        using var connection = CreateConnection();
+        const int statusId = (int)ObstacleCompleteModel.ObstacleStatus.Pending;
+        var sql = @$"UPDATE Obstacle
+                     SET Status = {statusId} 
+                     WHERE ObstacleID = @id";
+        
+        await connection.ExecuteAsync(sql);
     }
 
     public async Task<IEnumerable<ObstacleDto>> GetAllDrafts()
     {
         using var connection = CreateConnection();
         const int statusId = (int)ObstacleCompleteModel.ObstacleStatus.Draft;
-        var sql = $"select * from Obstacle where Status = {statusId}";
+        var sql = @$"SELECT * 
+                     FROM Obstacle 
+                     WHERE Status = {statusId}";
         
         return await connection.QueryAsync<ObstacleDto>(sql);
     }

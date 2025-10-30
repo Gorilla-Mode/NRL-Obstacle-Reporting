@@ -13,7 +13,7 @@ public interface IDraftRepository
     /// <param name="id">ID of the obstacle to edit in the database</param>
     /// <param name="data">Data which will update the obstacle in the database</param>
     /// <returns></returns>
-    Task EditDraft(int id, ObstacleDto data);
+    Task EditDraft(ObstacleDto data);
 
     /// <summary>
     /// Submits an obstacle, by changing its status to pending (submitted) 
