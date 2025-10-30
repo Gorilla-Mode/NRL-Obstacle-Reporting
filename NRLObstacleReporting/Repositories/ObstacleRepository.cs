@@ -44,11 +44,13 @@ namespace NRLObstacleReporting.Repositories
             return await connection.QuerySingleAsync<ObstacleDto>(sql, new { Id = id });
         }
 
-        public async Task<IEnumerable<ObstacleDto>> GetAllObstacleData()
+        public async Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles()
         {
             //Needs to be updated to only get form ceatain users when IdentityCore is implemented
             using var connection = CreateConnection();
-            var sql = "SELECT * FROM Obstacle";
+            var sql = @$"SELECT * 
+                         FROM Obstacle 
+                         WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}";
             await connection.ExecuteAsync(sql);
             
             return connection.Query<ObstacleDto>(sql);

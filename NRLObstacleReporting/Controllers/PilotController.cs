@@ -33,7 +33,7 @@ namespace NRLObstacleReporting.Controllers
         [HttpGet]
         public async Task<IActionResult> PilotViewReports()
         {
-            var submittedReports = await _repo.GetAllObstacleData();
+            var submittedReports = await _repo.GetAllSubmittedObstacles();
             
             var modelList = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedReports);
 
