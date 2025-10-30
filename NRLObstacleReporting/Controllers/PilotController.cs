@@ -56,7 +56,8 @@ namespace NRLObstacleReporting.Controllers
             {
                 SubmittedDrafts = modelListDraft
             };
-            return View(model);
+            ViewData["drafts"] = modelListDraft;
+            return View();
         }
 
     }
