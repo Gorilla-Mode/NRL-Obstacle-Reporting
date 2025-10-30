@@ -10,7 +10,7 @@
 <div class="flex justify-center mt-6 mx-auto">
     <table class="table-auto border border-gray-300 text-center">
         <caption class="caption-top text-lg font-bold mb-2">
-            Obstacle Report: @Model.GetHashCode()
+            Obstacle Report: @Model.ObstacleId
         </caption>
         <thead>
             <tr>
@@ -43,6 +43,16 @@
         <tr class="hover:bg-gray-50">
             <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Illuminated</td>
             <td class="border border-gray-300 px-4 py-2">@Model.Illuminated</td>
+        </tr>
+        <!-- Status-->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Status</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Status</td>
+        </tr>
+        <!-- Status-->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Marking</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Marking</td>
         </tr>
         <!-- ObstacleCoordinates -->
         <tr class="hover:bg-gray-50">
