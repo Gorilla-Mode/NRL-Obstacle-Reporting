@@ -91,7 +91,7 @@ namespace NRLObstacleReporting.Controllers
         }
         
         [HttpPost]
-        public ActionResult DataformStep3(ObstacleStep3Model obstacleModel)
+        public async Task<ActionResult> DataformStep3(ObstacleStep3Model obstacleModel)
         {
             if (!ModelState.IsValid)
             {
@@ -99,9 +99,9 @@ namespace NRLObstacleReporting.Controllers
             }
     
             ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-            _repo.InsertStep3(obstacle);
+            await _repo.InsertStep3(obstacle);
             
-            var queryResult = _repo.GetObstacleById(obstacleModel.ObstacleId).Result;
+            var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId);
             ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
             return View("Overview", obstacleQuery);
