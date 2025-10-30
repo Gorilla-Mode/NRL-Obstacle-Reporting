@@ -133,18 +133,21 @@ namespace NRLObstacleReporting.Controllers
         }
 
         [HttpPost]
-        public ActionResult SubmitDraft(ObstacleCompleteModel draft)
+        public async Task<ActionResult> SubmitDraft(ObstacleCompleteModel draft)
         {
             if (!ModelState.IsValid)
             {
                 return View("EditDraft", draft);
             }
             
-            //Object is no longer draft, updates database
-            draft.IsDraft = false;
-            Localdatabase.UpdateObstacle(draft);
+            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(draft);
+            await _repoDraft.EditDraft(obstacle);
+            await _repoDraft.SubmitDraft(obstacle);
             
-            return View("Overview", draft);
+            var queryResult = await _repo.GetObstacleById(draft.ObstacleId);
+            ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+            
+            return View("Overview", obstacleQuery);
         }
     }
 }

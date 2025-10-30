@@ -20,15 +20,15 @@ public class DraftRepository : RepositoryBase, IDraftRepository
         await connection.ExecuteAsync(sql, data);
     }
 
-    public async Task SubmitDraft(int id)
+    public async Task SubmitDraft(ObstacleDto data)
     {
         using var connection = CreateConnection();
         const int statusId = (int)ObstacleCompleteModel.ObstacleStatus.Pending;
         var sql = @$"UPDATE Obstacle
                      SET Status = {statusId} 
-                     WHERE ObstacleID = @id";
+                     WHERE ObstacleID = @ObstacleID";
         
-        await connection.ExecuteAsync(sql);
+        await connection.ExecuteAsync(sql, data);
     }
 
     public async Task<IEnumerable<ObstacleDto>> GetAllDrafts()
