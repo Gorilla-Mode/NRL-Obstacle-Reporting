@@ -29,11 +29,6 @@
                     <span asp-validation-for="Type"></span></td>
             </tr>
             <tr>
-                <th scope="row">Illuminated</th>
-                <td><input asp-for="Illuminated" value="@Model.Illuminated"/>
-                    <span asp-validation-for="Illuminated"></span></td>
-            </tr>
-            <tr>
                 <th scope="row">Description</th>
                 <td><input asp-for="Description" value="@Model.Description"/>
                     <span asp-validation-for="Description"></span></td>
@@ -42,6 +37,16 @@
                 <th scope="row">Name</th>
                 <td><input asp-for="Name" value="@Model.Name"/>
                     <span asp-validation-for="Name"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Illuminated</th>
+                <td><input asp-for="Illuminated" value="@Model.Illuminated"/>
+                    <span asp-validation-for="Illuminated"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Marking</th>
+                <td><input asp-for="Illuminated" value="@Model.Marking"/>
+                    <span asp-validation-for="Marking"></span></td>
             </tr>
             </tbody>
         </table>
