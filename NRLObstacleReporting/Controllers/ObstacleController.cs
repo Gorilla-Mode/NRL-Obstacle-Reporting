@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Database;
-using NRLObstacleReporting.db;
 using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 
@@ -11,13 +10,11 @@ namespace NRLObstacleReporting.Controllers
     {
         private readonly IObstacleRepository _repo;
         private readonly IMapper _mapper;
-        private readonly IDraftRepository _repoDraft;
 
-        public ObstacleController(IObstacleRepository repo, IMapper mapper, IDraftRepository repoDraft)
+        public ObstacleController(IObstacleRepository repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
-            _repoDraft = repoDraft;
         }
 
         [HttpGet]
@@ -27,8 +24,9 @@ namespace NRLObstacleReporting.Controllers
         }
         
         [HttpPost]
-        public IActionResult DataformStep1(ObstacleStep1Model obstacleModel)
+        public async Task<IActionResult> DataformStep1(ObstacleStep1Model obstacleModel)
         {
+            //Async to make sure db is updated before reading in case of save draft
             //TODO: use guid or some better way to generate id
             var rnd = new Random();
             if (!ModelState.IsValid)
@@ -40,11 +38,11 @@ namespace NRLObstacleReporting.Controllers
             ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
             obstaclereport.ObstacleId = obstacleId;
             
-             _repo.InsertStep1(obstaclereport);
+             await _repo.InsertStep1(obstaclereport);
              
             if (obstacleModel.SaveDraft) //exits reporting process, gets current obstacle from db
             {
-              ObstacleDto queryResult = _repo.GetObstacleById(obstacleId).Result;
+              ObstacleDto queryResult = await _repo.GetObstacleById(obstacleId); //Must be done before mapping
               ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
               
               return View("Overview",  obstacleQuery);
@@ -64,19 +62,20 @@ namespace NRLObstacleReporting.Controllers
         }
 
         [HttpPost]
-        public ActionResult DataformStep2(ObstacleStep2Model obstacleModel)
+        public async Task<ActionResult> DataformStep2(ObstacleStep2Model obstacleModel)
         {
+            //Async to make sure db is updated before reading in case of save draft
             if (!ModelState.IsValid)
             {
                 return View();
             }
             
             ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-            _repo.InsertStep2(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
+            await _repo.InsertStep2(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
-                ObstacleDto queryResult = _repo.GetObstacleById(obstacleModel.ObstacleId).Result;
+                ObstacleDto queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
                 ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
                 
                 return View("Overview", obstacleQuery);
@@ -106,13 +105,10 @@ namespace NRLObstacleReporting.Controllers
             ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
             await _repo.InsertStep3(obstacle); // make sure this is completed before proceeding 
             
-            var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId);
+            var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
             ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
             return View("Overview", obstacleQuery);
         } 
-
-        //TODO: move all draft methods to own draft controller
-       
     }
 }

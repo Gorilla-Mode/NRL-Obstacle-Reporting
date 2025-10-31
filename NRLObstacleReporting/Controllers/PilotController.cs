@@ -10,13 +10,11 @@ namespace NRLObstacleReporting.Controllers
     {
         private readonly IObstacleRepository _repo;
         private readonly IMapper _mapper;
-        private readonly IDraftRepository _repoDraft;
 
-        public PilotController(IObstacleRepository repo,  IMapper mapper, IDraftRepository repoDraft)
+        public PilotController(IObstacleRepository repo,  IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
-            _repoDraft = repoDraft;
         }
 
         public IActionResult PilotIndex()
