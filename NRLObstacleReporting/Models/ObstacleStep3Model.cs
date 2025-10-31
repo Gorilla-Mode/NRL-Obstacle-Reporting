@@ -3,9 +3,11 @@ using System.ComponentModel.DataAnnotations;
 public class ObstacleStep3Model
 {
     public int ObstacleId { get; set; }
-    public bool IsDraft { get; set; } = true;
-    public bool? ObstacleIlluminated { get; set; }
-    public string? ObstacleName { get; set; }
-    [MaxLength(1000)]
-    public string? ObstacleDescription { get; set; }
+     public ObstacleCompleteModel.ObstacleStatus Status { get; set; } 
+     public ObstacleCompleteModel.Illumination Illuminated { get; set; }
+    //public int Status {get; set;}
+    //public int Illuminated { get; set; }
+    public string? Name { get; set; }
+    [MaxLength(100)]
+    public string? Description { get; set; }
 }

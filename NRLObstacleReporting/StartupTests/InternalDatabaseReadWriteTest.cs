@@ -1,8 +1,10 @@
 ﻿using System.Data;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Dapper;
 using JetBrains.Annotations;
 using MySqlConnector;
+using NRLObstacleReporting.Repositories;
 using Xunit;
 
 namespace NRLObstacleReporting.StartupTests;
@@ -10,7 +12,7 @@ namespace NRLObstacleReporting.StartupTests;
 /// <summary>
 /// Collection of tests for the database, testing internal reading and writing to the database
 /// </summary>
-public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
+public class InternalDatabaseReadWriteTest : RepositoryBase, IStartupDatabaseTest
 
 {
     /*
@@ -19,7 +21,7 @@ public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
      * "invokealltests" method can collect the method and invoke it. Make sure to use SuccessMessage as return
      * value if the test didn't fail, the "invokealltests" method uses it to count failed/succeeded tests.
      */
-    private readonly MySqlConnection _internalConnection = new MySqlConnection(Environment.GetEnvironmentVariable("INTERNALCONNECTION"));
+    
     
     /// <summary>
     /// Used to mark a test as a method to run
@@ -107,12 +109,11 @@ public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
     {
         try
         {
-            if (_internalConnection.State != ConnectionState.Open)
-            {
-                _internalConnection.Open();
-            }
+            using var connection = CreateConnection();
+            var sql = "INSERT INTO test (test_column) VALUES (1)"; 
+            connection.Execute(sql);
             
-            return new NotImplementedException().ToString();
+            return SuccessMessage;
         }
         catch (Exception e)
         {
@@ -125,12 +126,12 @@ public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
     {
         try
         {
-            if (_internalConnection.State != ConnectionState.Open)
-            {
-                _internalConnection.Open();
-            }
+            using var connection = CreateConnection();
+            var sql = "SELECT * FROM test WHERE test_column = 1";
+            var readResult = connection.QuerySingle<(int id, string name)>(sql, new { Id = (int?)null, Name = "test" });
+            Assert.Equal(1, readResult.id);
             
-            return new NotImplementedException().ToString();
+            return SuccessMessage;
         }
         catch (Exception e)
         {
@@ -139,21 +140,19 @@ public class InternalDatabaseReadWriteTest : IStartupDatabaseTest
     }
     
     [UsedImplicitly]
-    string CheckDatabaseReadWrite()
+    string CheckDatabaseTestTableDelete()
     {
         try
-        {
-            if (_internalConnection.State != ConnectionState.Open)
-            {
-                _internalConnection.Open();
-            }
+        {   
+            using var connection = CreateConnection();
+            var sql = "DELETE FROM test WHERE test_column = 1"; 
+            connection.Execute(sql);
             
-            return new NotImplementedException().ToString();
+            return SuccessMessage;
         }
         catch (Exception e)
         {
             return e.Message;
         }
     }
-    
 }

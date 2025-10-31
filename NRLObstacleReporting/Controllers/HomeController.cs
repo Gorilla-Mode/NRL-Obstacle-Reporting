@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Controllers;

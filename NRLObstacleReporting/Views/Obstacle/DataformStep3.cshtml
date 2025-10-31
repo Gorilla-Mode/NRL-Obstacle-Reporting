@@ -48,24 +48,24 @@
     <form asp-action="DataformStep3" method="post"
           class="flex flex-col items-center w-full max-w-3xl min-h-[100vh]">
         
-    <div class="flex flex-col items-center w-full">
+        <div class="flex flex-col items-center w-full">
 
-            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
 
-            <!-- Name -->
-            <div class="w-[92%] mb-3">
-                <label class="text-lg font-medium">Obstacle Name</label>
-                <input asp-for="ObstacleName"
-                       class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 text-lg w-full h-12 mt-1" />
-            </div>
+        <!-- Name -->
+        <div class="w-[92%] mb-3">
+            <label class="text-lg font-medium">Obstacle Name</label>
+            <input asp-for="Name"
+                   class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 text-lg w-full h-12 mt-1" />
+        </div>
 
-            <!-- Description -->
-            <div class="w-[92%] mb-6">
-                <label class="text-lg font-medium">Obstacle Description</label>
-                <textarea asp-for="ObstacleDescription"
+        <!-- Description -->
+        <div class="w-[92%] mb-6">
+            <label class="text-lg font-medium">Obstacle Description</label>
+            <textarea asp-for="Description"
                           class="rounded-lg bg-blue-200 text-black border-2 border-blue-900 text-lg w-full mt-1 p-2 text-left overflow-auto resize-none"
                           style="height: 28dvh;"></textarea>
-            </div>
+        </div>
 
         <!-- Illumination -->
         <div class="w-[92%] mb-6">
@@ -84,7 +84,7 @@
                     Not Illuminated
                 </button>
             </div>
-            <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated" />
+            <input type="hidden" asp-for="Illuminated" id="ObstacleIlluminated" />
         </div>
 
         <!-- Marking -->
@@ -120,12 +120,13 @@
                         formaction="/Obstacle/DataformStep3" id="Submit">
                     Submit Report
                 </button>
+                <input type="hidden" asp-for="Status" id="IsDraft"/>
             </div>
+         </div>
         </div>
-
-
     </form>
 </div>
+
 
 
 @section Scripts {
@@ -133,18 +134,18 @@
     <script src="~/js/ColorActiveButton.js"></script>
     <script>
         // --- Illumination ---
-        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', 'True');
-        AssignValueByID('illuminated-no', 'ObstacleIlluminated', 'False');
-        AssignValueByID('illuminated-unknown', 'ObstacleIlluminated', 'Unknown');
+        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', 2);
+        AssignValueByID('illuminated-no', 'ObstacleIlluminated', 1);
+        AssignValueByID('illuminated-unknown', 'ObstacleIlluminated', 0);
 
         // --- Marking ---
-        AssignValueByID('marked-yes', 'ObstacleMarked', 'Marked');
-        AssignValueByID('marked-no', 'ObstacleMarked', 'NotMarked');
-        AssignValueByID('marked-unknown', 'ObstacleMarked', 'Unknown');
+        AssignValueByID('marked-yes', 'ObstacleMarked', 2);
+        AssignValueByID('marked-no', 'ObstacleMarked', 1);
+        AssignValueByID('marked-unknown', 'ObstacleMarked', 0);
 
         // --- Save & Submit ---
-        AssignValueByID('SaveDraft', 'IsDraft', true);
-        AssignValueByID('Submit', 'IsDraft', false);
+        AssignValueByID('SaveDraft', 'IsDraft', 0);
+        AssignValueByID('Submit', 'IsDraft', 1);
 
         // --- Aktiv fargehåndtering ---
         ColorActiveButton('bg-blue-200', 'bg-blue-500');
