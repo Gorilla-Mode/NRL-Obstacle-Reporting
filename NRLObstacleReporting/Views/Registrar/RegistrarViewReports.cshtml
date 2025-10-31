@@ -16,10 +16,105 @@
     </div>
 }
 else
+    
 {
-    <div class="min-h-screen bg-gray-100 p-8">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
+    <div class="min-h-screen bg-white p-8">
 
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
+    
+        <!-- 4 rectangle -->
+        <div class="flex w-screen gap-4 pt-4 mb-6">
+            <a asp-action="PilotViewReports" asp-controller="Pilot"
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
+                All
+            </a>
+      
+            <a asp-action="PilotViewReports" asp-controller="Pilot"
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200"> 
+                Pending
+            </a>
+        
+            <a asp-action="PilotViewReports" asp-controller="Pilot"
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-white hover:bg-blue-700 transition-colors duration-200">
+                Approved
+            </a>
+
+            <a asp-action="PilotViewReports" asp-controller="Pilot"
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-white hover:bg-blue-700 transition-colors duration-200"> 
+                Rejected
+            </a>
+        </div>
+        
+        <!-- 6 filter-dropdowns -->
+        <div class="flex w-full gap-2 mb-6">
+     
+            <!-- Template for each filter -->
+            <div class="relative w-[120px]">
+                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
+                    Type
+                </button>
+                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Account Settings</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Support</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">License</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Sign Out</div>
+                </div>
+            </div>
+
+            <div class="relative w-[120px]">
+                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
+                    Organization
+                </button>
+                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Item 1</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Item 2</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Item 3</div>
+                </div>
+            </div>
+
+            <div class="relative w-[120px]">
+                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
+                    Status
+                </button>
+                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Pending</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Approved</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Rejected</div>
+                </div>
+            </div>
+
+            <div class="relative w-[120px]">
+                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
+                    Org view
+                </button>
+                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">A</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">B</div>
+                </div>
+            </div>
+
+            <div class="relative w-[120px]">
+                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
+                    Start date
+                </button>
+                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">One</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Two</div>
+                </div>
+            </div>
+
+            <div class="relative w-[120px]">
+                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
+                    End date
+                </button>
+                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">X</div>
+                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Y</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabell -->
         <table class="border-collapse border border-gray-400 w-full text-left text-sm">
             <thead class="bg-gray-200">
                 <tr>
@@ -32,7 +127,6 @@ else
                     <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Status</th>
                 </tr>
             </thead>
-
             <tbody class="bg-white">
                 @foreach (var o in obstacles)
                 {
@@ -43,15 +137,12 @@ else
                         <td class="border border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
                         <td class="border border-gray-300 px-4 py-2">@o.ObstacleIlluminated</td>
                         <td class="border border-gray-300 px-4 py-2">@o.ObstacleDescription</td>
-
-                        <!-- Status-knapp med dropdown -->
                         <td class="border border-gray-300 px-4 py-2 text-center relative">
                             <div class="inline-block relative">
                                 <button class="status-btn rounded-full px-4 py-1 font-semibold text-xs transition bg-yellow-300 text-black hover:brightness-95"
                                         onclick="toggleMenu(this)">
                                     Pending
                                 </button>
-
                                 <div class="status-menu hidden absolute left-1/2 transform -translate-x-1/2 top-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg w-28 z-10">
                                     <ul class="text-sm text-gray-700">
                                         <li>
@@ -78,45 +169,49 @@ else
 }
 
 @section Scripts {
-    <script>
-        // Toggle dropdown
-        function toggleMenu(button) {
-            const td = button.closest('td');
-            const menu = td.querySelector('.status-menu');
-            menu.classList.toggle('hidden');
-        }
+<script>
+    // ===== Status-knapp i tabellen =====
+    function toggleMenu(button) {
+        const td = button.closest('td');
+        const menu = td.querySelector('.status-menu');
+        menu.classList.toggle('hidden');
+    }
 
-        // Endre status og farge
-        function setStatus(button, status) {
-            const td = button.closest('td');
-            const statusBtn = td.querySelector('.status-btn');
+    function setStatus(button, status) {
+        const td = button.closest('td');
+        const statusBtn = td.querySelector('.status-btn');
+        statusBtn.textContent = status;
+        statusBtn.classList.remove('bg-yellow-200', 'bg-green-200', 'bg-red-200', 'text-yellow-800', 'text-green-800', 'text-red-800');
+        if (status === 'Pending') statusBtn.classList.add('bg-yellow-200', 'text-yellow-800');
+        else if (status === 'Approved') statusBtn.classList.add('bg-green-200', 'text-green-800');
+        else if (status === 'Rejected') statusBtn.classList.add('bg-red-200', 'text-red-800');
+        button.closest('.status-menu').classList.add('hidden');
+    }
 
-            // Endre knapptekst
-            statusBtn.textContent = status;
+    // ===== Filter-knapper =====
+    function toggleFilterDropdown(button) {
+        const parent = button.parentElement;
+        const menu = parent.querySelector('.filter-menu');
+        menu.classList.toggle('hidden');
+    }
 
-            // Fjern gamle farger
-            statusBtn.classList.remove('bg-yellow-200', 'bg-green-200', 'bg-red-200', 'text-yellow-800', 'text-green-800', 'text-red-800');
+    function setFilter(item) {
+        const parent = item.closest('.relative');
+        const button = parent.querySelector('.filter-btn');
+        button.textContent = item.textContent;
+        parent.querySelector('.filter-menu').classList.add('hidden');
+    }
 
-            // Legg til nye farger
-            if (status === 'Pending') {
-                statusBtn.classList.add('bg-yellow-200', 'text-yellow-800');
-            } else if (status === 'Approved') {
-                statusBtn.classList.add('bg-green-200', 'text-green-800');
-            } else if (status === 'Rejected') {
-                statusBtn.classList.add('bg-red-200', 'text-red-800');
-            }
-
-            // Skjul dropdown
-            button.closest('.status-menu').classList.add('hidden');
-        }
-
-        // Klikk utenfor for å lukke alle dropdowns
-        document.addEventListener('click', function(e) {
-            document.querySelectorAll('.status-menu').forEach(menu => {
-                if (!menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)) {
-                    menu.classList.add('hidden');
-                }
-            });
+    // ===== Klikk utenfor for å lukke alle dropdowns =====
+    document.addEventListener('click', function(e) {
+        document.querySelectorAll('.status-menu').forEach(menu => {
+            const button = menu.previousElementSibling;
+            if (!menu.contains(e.target) && !button.contains(e.target)) menu.classList.add('hidden');
         });
-    </script>
+        document.querySelectorAll('.filter-menu').forEach(menu => {
+            const button = menu.previousElementSibling;
+            if (!menu.contains(e.target) && !button.contains(e.target)) menu.classList.add('hidden');
+        });
+    });
+</script>
 }
