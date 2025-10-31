@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPilot.cshtml";
+}
+@model ObstacleCompleteModel
+
+@{
+    ViewData["Title"] = "View Reports";
+}
+@{
+    var data = (IEnumerable<ObstacleCompleteModel>)ViewData["drafts"]!;
+    var obstacleCompleteModels = data as ObstacleCompleteModel[] ?? data.ToArray();
+    if (obstacleCompleteModels.Count() == 0)
+    {
+        <div class="text-center">
+            <h1>No drafts registered</h1>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h1> Registered drafts:</h1>
+        </div>
+
+        foreach (var draft in obstacleCompleteModels)
+        {
+            <div>
+                <table class="center">
+                    <caption>Obstacle Report: @draft.GetHashCode()</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Response</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Height</th>
+                        <td>@draft.HeightMeter</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Coordinates</th>
+                        <td>@draft.GeometryGeoJson</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Type</th>
+                        <td>@draft.Type</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>@draft.Description</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>@draft.Name</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Illuminated</th>
+                        <td>@draft.Illuminated</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Marking</th>
+                        <td>@draft.Marking</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <form asp-controller="Draft" asp-action="EditDraft" method="post">
+                    <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson"/>
+                    <input type="hidden" asp-for="Description" value="@draft.Description"/>
+                    <input type="hidden" asp-for="Illuminated" value="@draft.Illuminated"/>
+                    <input type="hidden" asp-for="Name" value="@draft.Name"/>
+                    <input type="hidden" asp-for="Type" value="@draft.Type"/>
+                    <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
+                    <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
+
+                    <button type="submit" formaction="/Draft/EditDraft">Edit</button>
+                </form>
+            </div>
+        }
+    }
+}
+
+
+

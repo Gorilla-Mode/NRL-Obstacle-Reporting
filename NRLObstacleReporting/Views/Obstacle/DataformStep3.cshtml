@@ -6,26 +6,26 @@
         <div>
             <label class="text-xl font-medium">Obstacle Name</label>
             <br/>
-            <input asp-for="ObstacleName" class="rounded-lg mb-3 bg-blue-200 text-black text-center border-2 border-blue-900 text-lg " style="width: 50%; height: 40px"/>
+            <input asp-for="Name" class="rounded-lg mb-3 bg-blue-200 text-black text-center border-2 border-blue-900 text-lg " style="width: 50%; height: 40px"/>
         </div>
         <div>
             <label class="text-xl font-medium">Obstacle Description</label>
             <br/>
-            <textarea  input asp-for="ObstacleDescription" class="rounded-lg mb-3 bg-blue-200 text-black border-2 border-blue-900 text-lg h-32 text-left px-3" style="width: 50%; height: 20dvh"></textarea>
+            <textarea  input asp-for="Description" class="rounded-lg mb-3 bg-blue-200 text-black border-2 border-blue-900 text-lg h-32 text-left px-3" style="width: 50%; height: 20dvh"></textarea>
         </div>
         <div>
             <label class="text-lg font-medium">Illumination</label>
             <div class="divide-x-0 grid grid-cols-2 w-1/2 mx-auto">
                 <button type="button" id="illuminated-yes" class="but rounded-l-lg p-2 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 mb-2">Illuminated</button>
                 <button type="button" id="illuminated-no" class="but rounded-r-lg p-2 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 mb-2">Not Illuminated</button>
-                <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated"/>
+                <input type="hidden" asp-for="Illuminated" id="ObstacleIlluminated"/>
             </div>
             <div class="gap-1 grid grid-cols-2 mx-auto fixed bottom-16 left-0 right-0 px-3" style="width: 100%;">
                 <button class="Btn-PilotPrimary"
                         type="submit" formaction="/Obstacle/DataformStep3" id="SaveDraft">Save Draft</button>
                 <button class="Btn-PilotPrimary"
                         type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Submit Report</button>
-                <input type="hidden" asp-for="IsDraft" id="IsDraft"/>
+                <input type="hidden" asp-for="Status" id="IsDraft"/>
             </div>
         </div>
     </form>
@@ -36,12 +36,12 @@
     <script src="~/js/ColorActiveButton.js"></script>
     <script>
         //Sets the value of illuminated
-        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', true)
-        AssignValueByID('illuminated-no', 'ObstacleIlluminated', false)
+        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', 2)
+        AssignValueByID('illuminated-no', 'ObstacleIlluminated', 1)
         
         //save or submit as draft
-        AssignValueByID('SaveDraft', 'IsDraft', true)
-        AssignValueByID('Submit', 'IsDraft', false)
+        AssignValueByID('SaveDraft', 'IsDraft', 0)
+        AssignValueByID('Submit', 'IsDraft', 1)
 
         ColorActiveButton('bg-blue-200', 'bg-blue-500')
     </script>

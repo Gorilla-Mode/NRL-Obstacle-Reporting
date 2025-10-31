@@ -39,12 +39,12 @@ else
                 @foreach (var o in obstacles)
                 {
                     <tr>
-                        <td class=" border border-black px-4 py-2"> @o.ObstacleName </td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleType</td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleHeightMeter</td>
+                        <td class=" border border-black px-4 py-2"> @o.Name </td>
+                        <td class="border border-black px-4 py-2"> @o.Type</td>
+                        <td class="border border-black px-4 py-2"> @o.HeightMeter</td>
                         <td class="border border-black px-4 py-2"> @o.GeometryGeoJson</td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleIlluminated</td>
-                        <td class="border border-black px-4 py-2"> @o.ObstacleDescription</td>
+                        <td class="border border-black px-4 py-2"> @o.Illuminated</td>
+                        <td class="border border-black px-4 py-2"> @o.Description</td>
 
                     </tr>
                 }
