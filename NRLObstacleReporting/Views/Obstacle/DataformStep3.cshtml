@@ -1,48 +1,153 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep3Model
-<div class="text-center content-center">
-    <h1 class="display-4">Describe your obstacle</h1>
-    <form asp-action="DataformStep3" method="post">
-        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
-        <div>
-            <label class="text-xl font-medium">Obstacle Name</label>
-            <br/>
-            <input asp-for="Name" class="rounded-lg mb-3 bg-blue-200 text-black text-center border-2 border-blue-900 text-lg " style="width: 50%; height: 40px"/>
-        </div>
-        <div>
-            <label class="text-xl font-medium">Obstacle Description</label>
-            <br/>
-            <textarea  input asp-for="Description" class="rounded-lg mb-3 bg-blue-200 text-black border-2 border-blue-900 text-lg h-32 text-left px-3" style="width: 50%; height: 20dvh"></textarea>
-        </div>
-        <div>
-            <label class="text-lg font-medium">Illumination</label>
-            <div class="divide-x-0 grid grid-cols-2 w-1/2 mx-auto">
-                <button type="button" id="illuminated-yes" class="but rounded-l-lg p-2 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 mb-2">Illuminated</button>
-                <button type="button" id="illuminated-no" class="but rounded-r-lg p-2 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 mb-2">Not Illuminated</button>
-                <input type="hidden" asp-for="Illuminated" id="ObstacleIlluminated"/>
+
+<!-- Progressbar -->
+<div class="relative w-full flex justify-center py-4">
+    <div class="relative w-[90%] max-w-3xl mx-auto flex flex-col items-center">
+
+        <!-- Selve linjen -->
+        <div class="absolute h-[3px] -translate-y-1/2 z-0 bg-blue-600" style="top: 35%; width: 70%;"></div>
+
+        <!-- Stegene -->
+        <div class="relative flex justify-between items-center w-full z-10">
+
+            <!-- Step 1 -->
+            <div class="flex flex-col items-center w-1/3 text-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
+                    1
+                </div>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-medium">
+                    Select Obstacle Type
+                </span>
             </div>
-            <div class="gap-1 grid grid-cols-2 mx-auto fixed bottom-16 left-0 right-0 px-3" style="width: 100%;">
-                <button class="Btn-PilotPrimary"
-                        type="submit" formaction="/Obstacle/DataformStep3" id="SaveDraft">Save Draft</button>
-                <button class="Btn-PilotPrimary"
-                        type="submit" formaction="/Obstacle/DataformStep3" id="Submit">Submit Report</button>
+
+            <!-- Step 2 -->
+            <div class="flex flex-col items-center w-1/3 text-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
+                    2
+                </div>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-medium">
+                    Place Obstacle
+                </span>
+            </div>
+
+            <!-- Step 3 (aktiv) -->
+            <div class="flex flex-col items-center w-1/3 text-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
+                    3
+                </div>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-medium">
+                    Describe Obstacle
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex flex-col justify-start items-center h-auto text-center pb-10">
+    <form asp-action="DataformStep3" method="post"
+          class="flex flex-col items-center w-full max-w-3xl min-h-[100vh]">
+        
+        <div class="flex flex-col items-center w-full">
+
+        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+
+        <!-- Name -->
+        <div class="w-[92%] mb-3">
+            <label class="text-lg font-medium">Obstacle Name</label>
+            <input asp-for="Name"
+                   class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 text-lg w-full h-12 mt-1" />
+        </div>
+
+        <!-- Description -->
+        <div class="w-[92%] mb-6">
+            <label class="text-lg font-medium">Obstacle Description</label>
+            <textarea asp-for="Description"
+                          class="rounded-lg bg-blue-200 text-black border-2 border-blue-900 text-lg w-full mt-1 p-2 text-left overflow-auto resize-none"
+                          style="height: 28dvh;"></textarea>
+        </div>
+
+        <!-- Illumination -->
+        <div class="w-[92%] mb-6">
+            <label class="text-lg font-medium">Illumination</label>
+            <div class="flex w-full mt-2">
+                <button type="button" id="illuminated-yes"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-l-lg">
+                    Illuminated
+                </button>
+                <button type="button" id="illuminated-unknown"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 -ml-[1px]">
+                    Unknown
+                </button>
+                <button type="button" id="illuminated-no"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-r-lg -ml-[1px]">
+                    Not Illuminated
+                </button>
+            </div>
+            <input type="hidden" asp-for="Illuminated" id="ObstacleIlluminated" />
+        </div>
+
+        <!-- Marking -->
+        <div class="w-[92%] mb-10">
+            <label class="text-lg font-medium">Marking</label>
+            <div class="flex w-full mt-2">
+                <button type="button" id="marked-yes"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-l-lg">
+                    Marked
+                </button>
+                <button type="button" id="marked-unknown"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 -ml-[1px]">
+                    Unknown
+                </button>
+                <button type="button" id="marked-no"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-r-lg -ml-[1px]">
+                    Not Marked
+                </button>
+            </div>
+        </div>
+
+
+        <!-- KNAPPSEKSJON  -->
+        <div class="mt-[0vh] w-full flex justify-center">
+            <div class="grid grid-cols-2 gap-1 w-[92%]">
+                <button type="submit"
+                        class="Btn-PilotPrimary h-16 items-center justify-center w-full"
+                        formaction="/Obstacle/DataformStep3" id="SaveDraft">
+                    Save Draft
+                </button>
+                <button type="submit"
+                        class="Btn-PilotPrimary h-16 items-center justify-center w-full"
+                        formaction="/Obstacle/DataformStep3" id="Submit">
+                    Submit Report
+                </button>
                 <input type="hidden" asp-for="Status" id="IsDraft"/>
             </div>
+         </div>
         </div>
     </form>
 </div>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/ColorActiveButton.js"></script>
     <script>
-        //Sets the value of illuminated
-        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', 2)
-        AssignValueByID('illuminated-no', 'ObstacleIlluminated', 1)
-        
-        //save or submit as draft
-        AssignValueByID('SaveDraft', 'IsDraft', 0)
-        AssignValueByID('Submit', 'IsDraft', 1)
+        // --- Illumination ---
+        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', 2);
+        AssignValueByID('illuminated-no', 'ObstacleIlluminated', 1);
+        AssignValueByID('illuminated-unknown', 'ObstacleIlluminated', 0);
 
-        ColorActiveButton('bg-blue-200', 'bg-blue-500')
+        // --- Marking ---
+        AssignValueByID('marked-yes', 'ObstacleMarked', 2);
+        AssignValueByID('marked-no', 'ObstacleMarked', 1);
+        AssignValueByID('marked-unknown', 'ObstacleMarked', 0);
+
+        // --- Save & Submit ---
+        AssignValueByID('SaveDraft', 'IsDraft', 0);
+        AssignValueByID('Submit', 'IsDraft', 1);
+
+        // --- Aktiv fargehåndtering ---
+        ColorActiveButton('bg-blue-200', 'bg-blue-500');
     </script>
 }
