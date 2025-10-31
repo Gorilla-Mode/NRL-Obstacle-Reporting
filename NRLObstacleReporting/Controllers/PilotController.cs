@@ -45,16 +45,7 @@ namespace NRLObstacleReporting.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult PilotDrafts()
-        {
-            var submittedDrafts =  _repoDraft.GetAllDrafts().Result;
-            
-            var modelListDraft = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
-            
-            ViewData["drafts"] = modelListDraft;
-            return View();
-        }
+       
 
     }
 }

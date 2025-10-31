@@ -3,7 +3,6 @@
 }
 @model ObstacleCompleteModel
 
-
 @{
     ViewData["Title"] = "View Reports";
 }
@@ -64,7 +63,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <form asp-controller="Obstacle" asp-action="EditDraft" method="post">
+                <form asp-controller="Draft" asp-action="EditDraft" method="post">
                     <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson"/>
                     <input type="hidden" asp-for="Description" value="@draft.Description"/>
                     <input type="hidden" asp-for="Illuminated" value="@draft.Illuminated"/>
@@ -73,7 +72,7 @@
                     <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
                     <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
 
-                    <button type="submit" formaction="/Obstacle/EditDraft">Edit</button>
+                    <button type="submit" formaction="/Draft/EditDraft">Edit</button>
                 </form>
             </div>
         }
