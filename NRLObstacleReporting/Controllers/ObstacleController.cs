@@ -113,41 +113,6 @@ namespace NRLObstacleReporting.Controllers
         } 
 
         //TODO: move all draft methods to own draft controller
-        [HttpPost]
-        public IActionResult EditDraft(ObstacleCompleteModel draft)
-        {
-            //POST gets all values from obstacle to be edited
-            return View("EditDraft", draft);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> SaveEditedDraft(ObstacleCompleteModel editedDraft)
-        {
-            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(editedDraft);
-            await _repoDraft.EditDraft(obstacle);
-            
-            var queryResult = await _repo.GetObstacleById(editedDraft.ObstacleId);
-            ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
-            
-            return View("Overview", obstacleQuery);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> SubmitDraft(ObstacleCompleteModel draft)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("EditDraft", draft);
-            }
-            
-            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(draft);
-            await _repoDraft.EditDraft(obstacle);
-            await _repoDraft.SubmitDraft(obstacle);
-            
-            var queryResult = await _repo.GetObstacleById(draft.ObstacleId);
-            ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
-            
-            return View("Overview", obstacleQuery);
-        }
+       
     }
 }
