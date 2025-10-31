@@ -2,127 +2,134 @@
 
 <!-- Progressbar -->
 <div class="relative w-full flex justify-center py-4">
-    <div class="relative w-[80%] max-w-3xl flex flex-col items-center">
-        <div class="absolute top-1/2 left-[4%] right-[4%] h-[3px] bg-gray-200 -translate-y-1/2 z-0"></div>
+    <div class="relative w-[90%] max-w-3xl mx-auto flex flex-col items-center">
 
+        <!-- Selve linjen -->
+        <div class="absolute h-[3px] -translate-y-1/2 z-0 bg-gray-200" style="top: 35%; width: 70%;"></div>
+
+        <!-- Stegene -->
         <div class="relative flex justify-between items-center w-full z-10">
+
             <!-- Step 1 (aktiv) -->
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center w-1/3 text-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
                     1
                 </div>
-                <span class="text-xs sm:text-sm mt-2 text-blue-600 font-medium">Step 1</span>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-medium">
+                    Select Obstacle Type
+                </span>
             </div>
 
             <!-- Step 2 -->
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center w-1/3 text-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center shadow">
                     2
                 </div>
-                <span class="text-xs sm:text-sm mt-2 text-gray-600">Step 2</span>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-600 font-medium">
+                    Place Obstacle
+                </span>
             </div>
 
             <!-- Step 3 -->
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center w-1/3 text-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center shadow">
                     3
                 </div>
-                <span class="text-xs sm:text-sm mt-2 text-gray-600">Step 3</span>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-600 font-medium">
+                    Describe Obstacle
+                </span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="text-center">
-    <h1 class="display-4 py-2">Select Obstacle Type</h1>
 
-    <form method="post">
-        <div class="grid grid-cols-2 gap-x-2 gap-y-1 w-full mx-auto">
-            <!-- Power Line -->
-            <button type="button" id="PowerLine"
-                class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
-                style="height: 18dvh; width: 100%;">
-                <img src="https://static.thenounproject.com/png/126856-200.png"
-                    class="relative items-center mx-auto w-24 h-24 mb-5" alt="poweline picture" />
-                <div class="absolute bottom-8 inset-x-0 text-xl">
-                    Power Line
-                </div>
-            </button>
+<form method="post">
+    <div class="grid grid-cols-2 gap-x-2 gap-y-1 w-full mx-auto">
+        <!-- Power Line -->
+        <button type="button" id="PowerLine"
+            class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
+            style="height: 18dvh; width: 100%;">
+            <img src="https://static.thenounproject.com/png/126856-200.png"
+                class="relative items-center mx-auto w-24 h-24 mb-5" alt="poweline picture" />
+            <div class="absolute bottom-8 inset-x-0 text-xl">
+                Power Line
+            </div>
+        </button>
 
-            <!-- Pole -->
-            <button type="button" id="Pole"
-                class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
-                style="height: 18dvh; width: 100%;">
-                <img src="https://cdn-icons-png.flaticon.com/512/82/82556.png"
-                    class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture pole" />
-                <div class="absolute bottom-8 inset-x-0 text-xl">
-                    Pole
-                </div>
-            </button>
+        <!-- Pole -->
+        <button type="button" id="Pole"
+            class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
+            style="height: 18dvh; width: 100%;">
+            <img src="https://cdn-icons-png.flaticon.com/512/82/82556.png"
+                class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture pole" />
+            <div class="absolute bottom-8 inset-x-0 text-xl">
+                Pole
+            </div>
+        </button>
 
-            <!-- Building -->
-            <button type="button" id="Building"
-                class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
-                style="height: 18dvh; width: 100%;">
-                <img src="https://www.iconpacks.net/icons/1/free-building-icon-1062-thumb.png"
-                    class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture building" />
-                <div class="absolute bottom-8 inset-x-0 text-xl">
-                    Building
-                </div>
-            </button>
+        <!-- Building -->
+        <button type="button" id="Building"
+            class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
+            style="height: 18dvh; width: 100%;">
+            <img src="https://www.iconpacks.net/icons/1/free-building-icon-1062-thumb.png"
+                class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture building" />
+            <div class="absolute bottom-8 inset-x-0 text-xl">
+                Building
+            </div>
+        </button>
 
-            <!-- Construction -->
-            <button type="button" id="Construction"
-                class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
-                style="height: 18dvh; width: 100%;">
-                <img src="https://cdn-icons-png.flaticon.com/512/3752/3752632.png"
-                    class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture construction" />
-                <div class="absolute bottom-8 inset-x-0 text-xl">
-                    Construction
-                </div>
-            </button>
+        <!-- Construction -->
+        <button type="button" id="Construction"
+            class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
+            style="height: 18dvh; width: 100%;">
+            <img src="https://cdn-icons-png.flaticon.com/512/3752/3752632.png"
+                class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture construction" />
+            <div class="absolute bottom-8 inset-x-0 text-xl">
+                Construction
+            </div>
+        </button>
 
-            <!-- Natural -->
-            <button type="button" id="Natural"
-                class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
-                style="height: 18dvh; width: 100%;" >
-                <img src="https://cdn-icons-png.flaticon.com/128/902/902558.png"
-                    class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture Natural" />
-                <div class="absolute bottom-8 inset-x-0 text-xl">
-                    Natural
-                </div>
-            </button>
+        <!-- Natural -->
+        <button type="button" id="Natural"
+            class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
+            style="height: 18dvh; width: 100%;" >
+            <img src="https://cdn-icons-png.flaticon.com/128/902/902558.png"
+                class="relative items-center mx-auto w-16 h-16 mb-5" alt="picture Natural" />
+            <div class="absolute bottom-8 inset-x-0 text-xl">
+                Natural
+            </div>
+        </button>
 
-            <!-- Other -->
-            <button type="button" id="Other"
-                class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
-                style="height: 18dvh; width: 100%;">
-                <img src="https://cdn-icons-png.flaticon.com/512/5895/5895032.png"
-                    class="relative items-center mx-auto w-24 h-24 mb-5" alt="picture other" />
-                <div class="absolute bottom-8 inset-x-0 text-xl">
-                    Other
-                </div>
-            </button>
-        </div>
+        <!-- Other -->
+        <button type="button" id="Other"
+            class="but relative items-center rounded-lg w-1/3 text-2xl font-semibold  text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"
+            style="height: 18dvh; width: 100%;">
+            <img src="https://cdn-icons-png.flaticon.com/512/5895/5895032.png"
+                class="relative items-center mx-auto w-24 h-24 mb-5" alt="picture other" />
+            <div class="absolute bottom-8 inset-x-0 text-xl">
+                Other
+            </div>
+        </button>
+    </div>
 
-        <div class="font-bold">
-            <label asp-for="ObstacleHeightMeter">Height in meter</label>
-            <br />
-            <input class="rounded-lg mb-3 bg-blue-200 text-black text-center border-2 border-blue-900 "
-                   style="height: 5dvh; width: 100%; margin-left: auto; margin-right: auto"
-                   asp-for="ObstacleHeightMeter" />
-            <span asp-validation-for="ObstacleHeightMeter"></span>
-        </div>
-        <div class="grid grid-cols-2 gap-1 w-full">
+    <div class="font-bold">
+        <label asp-for="ObstacleHeightMeter">Height in meter</label>
+        <br />
+        <input class="rounded-lg mb-3 bg-blue-200 text-black text-center border-2 border-blue-900 "
+               style="height: 5dvh; width: 100%; margin-left: auto; margin-right: auto"
+               asp-for="ObstacleHeightMeter" />
+        <span asp-validation-for="ObstacleHeightMeter"></span>
+    </div>
+    <div class="grid grid-cols-2 gap-1 w-full">
         <button type="submit" class="Btn-PilotPrimary h-16 items-center justify-center"
                 formaction="/Obstacle/DataformStep1" id="savebutton">Save Draft</button>
         <button type="submit" class="Btn-PilotPrimary h-16 items-center justify-center "
             formaction="/Obstacle/DataformStep1" id="nextpage">Next Page</button>
-        </div>
-        <input type="hidden" asp-for="SaveDraft" id="save" />
-        <input type="hidden" asp-for="ObstacleType" id="ObstacleType" />
-    </form>
-</div>
+    </div>
+    <input type="hidden" asp-for="SaveDraft" id="save" />
+    <input type="hidden" asp-for="ObstacleType" id="ObstacleType" />
+</form>
 
 @section Scripts {
     <script src="~/js/ColorActiveButton.js"></script>
