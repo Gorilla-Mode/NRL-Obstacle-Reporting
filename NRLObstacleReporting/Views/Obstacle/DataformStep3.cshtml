@@ -67,25 +67,48 @@
                           style="height: 28dvh;"></textarea>
             </div>
 
-            <!-- Illumination -->
-            <div class="w-[92%] mb-10">
-                <label class="text-lg font-medium">Illumination</label>
-                <div class="grid grid-cols-2 gap-1 w-full mt-2">
-                    <button type="button" id="illuminated-yes"
-                            class="rounded-l-lg py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
-                        Illuminated
-                    </button>
-                    <button type="button" id="illuminated-no"
-                            class="rounded-r-lg py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
-                        Not Illuminated
-                    </button>
-                </div>
-                <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated" />
+        <!-- Illumination -->
+        <div class="w-[92%] mb-6">
+            <label class="text-lg font-medium">Illumination</label>
+            <div class="flex w-full mt-2">
+                <button type="button" id="illuminated-yes"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-l-lg">
+                    Illuminated
+                </button>
+                <button type="button" id="illuminated-unknown"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 -ml-[1px]">
+                    Unknown
+                </button>
+                <button type="button" id="illuminated-no"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-r-lg -ml-[1px]">
+                    Not Illuminated
+                </button>
+            </div>
+            <input type="hidden" asp-for="ObstacleIlluminated" id="ObstacleIlluminated" />
+        </div>
+
+        <!-- Marking -->
+        <div class="w-[92%] mb-10">
+            <label class="text-lg font-medium">Marking</label>
+            <div class="flex w-full mt-2">
+                <button type="button" id="marked-yes"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-l-lg">
+                    Marked
+                </button>
+                <button type="button" id="marked-unknown"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 -ml-[1px]">
+                    Unknown
+                </button>
+                <button type="button" id="marked-no"
+                        class="flex-1 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200 rounded-r-lg -ml-[1px]">
+                    Not Marked
+                </button>
             </div>
         </div>
 
+
         <!-- KNAPPSEKSJON  -->
-        <div class="mt-[5vh] w-full flex justify-center">
+        <div class="mt-[0vh] w-full flex justify-center">
             <div class="grid grid-cols-2 gap-1 w-[92%]">
                 <button type="submit"
                         class="Btn-PilotPrimary h-16 items-center justify-center w-full"
@@ -109,10 +132,21 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/ColorActiveButton.js"></script>
     <script>
-        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', true)
-        AssignValueByID('illuminated-no', 'ObstacleIlluminated', false)
-        AssignValueByID('SaveDraft', 'IsDraft', true)
-        AssignValueByID('Submit', 'IsDraft', false)
-        ColorActiveButton('bg-blue-200', 'bg-blue-500')
+        // --- Illumination ---
+        AssignValueByID('illuminated-yes', 'ObstacleIlluminated', 'True');
+        AssignValueByID('illuminated-no', 'ObstacleIlluminated', 'False');
+        AssignValueByID('illuminated-unknown', 'ObstacleIlluminated', 'Unknown');
+
+        // --- Marking ---
+        AssignValueByID('marked-yes', 'ObstacleMarked', 'Marked');
+        AssignValueByID('marked-no', 'ObstacleMarked', 'NotMarked');
+        AssignValueByID('marked-unknown', 'ObstacleMarked', 'Unknown');
+
+        // --- Save & Submit ---
+        AssignValueByID('SaveDraft', 'IsDraft', true);
+        AssignValueByID('Submit', 'IsDraft', false);
+
+        // --- Aktiv fargehåndtering ---
+        ColorActiveButton('bg-blue-200', 'bg-blue-500');
     </script>
 }
