@@ -23,73 +23,49 @@
         foreach (var draft in obstacleCompleteModels)
         {
             <div>
-                <table class="w-full table-fixed border-collapse">
-                    <tbody class = "divide-y divide-gray-100">
-                    <tr class = "bg-gray-50">
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Id </th>
-                        <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap"> @draft.ObstacleId </td>
-                        <button type="submit" formaction="/Obstacle/EditDraft">Edit</button>
-                    </tr>
-
-                    <tr class = "bg-white">
-                        <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
-                        <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.HeightMeter</td>
-                    </tr>
-                    <tr class = "bg-gray-50">
-                        <th class = "p-3 text-sm font-semibold tracking-wide text-left">Coordinates</th>
-                        <td class = "p-3 text-sm font-normal tracking-wide text-left break-words"> @draft.GeometryGeoJson</td>
-                    </tr>
-                    <tr class = "bg-white">
-                        <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
-                        <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Type</td>
-                    </tr>
-                    <tr class = "bg-gray-50">
-                        <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illuminated</th>
-                        <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Illuminated</td>
-                    </tr>
-                    <tr class = "bg-white">
-                        <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
-                        <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Description</td>
-                    </tr>
-                    <tr class = "bg-gray-50">
-                        <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
-                        <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Name</td>
-                    </tr>
-                    </tbody>
-                </table>
                 <form asp-controller="Draft" asp-action="EditDraft" method="post">
-                    <div class = "md:hidden overflow-auto rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
+                    <div class = "md:hidden rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
                         <table class= "w-full table-fixed border-collapse">
                             <thead>
-
-
                             </thead>
                             <tbody>
-                            <tr class = "bg-gray-50">
+                            <tr class = "bg-gray-50 w-full">
                                 <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> Id: @draft.ObstacleId</th>
                                 <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> </th>
-
                             </tr>
                             <tr>
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
                                 <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.HeightMeter</td>
-
                             </tr>
                             <tr class = "bg-gray-50 w-full">
                                 <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
                                 <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Type</td>
                             </tr>
+                            <tr >
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Name</td>
+                            </tr>
+                            <tr class = "bg-gray-50 w-full">
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Description</td>
+                            </tr>
+                            <tr >
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illumination</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Illuminated</td>
+                            </tr>
+                            <tr class = "bg-gray-50 w-full">
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Marking</td>
+                            </tr>
                             <tr class="bg-white w-full">
                                 <td colspan="2" class="p-0">
                                     <button type="submit"
-                                            formaction="/Obstacle/EditDraft"
+                                            formaction="/Draft/EditDraft"
                                             class="block w-full text-center bg-blue-300 hover:bg-blue-400 text-white font-semibold py-2 rounded-b-smd">
                                         Edit
                                     </button>
                                 </td>
                             </tr>
-
-
                             </tbody>
                         </table>
                     </div>
@@ -100,8 +76,7 @@
                     <input type="hidden" asp-for="Type" value="@draft.Type"/>
                     <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
                     <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
-
-                    <button type="submit" formaction="/Draft/EditDraft">Edit</button>
+                    
                 </form>
             </div>
         }
