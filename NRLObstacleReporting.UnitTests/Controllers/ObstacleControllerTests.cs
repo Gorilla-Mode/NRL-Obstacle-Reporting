@@ -19,7 +19,7 @@ public class ObstacleControllerTests
     /// Method Creates objectcontroller instance
     /// </summary>
     /// <returns></returns>
-    private ObstacleController InstanitateObstacleController()
+    private ObstacleController CreateObstacleController()
     {
         _obstacleRepository = Substitute.For<IObstacleRepository>();
         _mapper = Substitute.For<IMapper>();
@@ -30,7 +30,7 @@ public class ObstacleControllerTests
     public void DataformStep1ReturnsDataformStep1View()
     {
         //arrange
-        var controller = InstanitateObstacleController();
+        var controller = CreateObstacleController();
 
         //act
         var result = controller.DataformStep1();
@@ -44,7 +44,7 @@ public class ObstacleControllerTests
     public void DataformStep2ReturnsDataformStep2View()
     {
         //arrange
-        var controller = InstanitateObstacleController();
+        var controller = CreateObstacleController();
 
         //act
         var result = controller.DataformStep2();
@@ -58,7 +58,7 @@ public class ObstacleControllerTests
     public void DataformStep3ReturnsOverviewView()
     {
         //arrange
-        var controller = InstanitateObstacleController();
+        var controller = CreateObstacleController();
 
         //act
         var result = controller.DataformStep3();
@@ -73,7 +73,7 @@ public class ObstacleControllerTests
     public void DataFormStep1InvalidModelStateReturnsDataformStep1View()  
     {
         //arrange
-        var controller = InstanitateObstacleController();
+        var controller = CreateObstacleController();
         //adds error to model state
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
         
@@ -90,7 +90,7 @@ public class ObstacleControllerTests
     public void DataFormStep2InvalidModelStateReturnsDataformStep2View()
     {
         //arrange
-        var controller = InstanitateObstacleController();
+        var controller = CreateObstacleController();
         //adds error to model state
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
         
@@ -107,7 +107,7 @@ public class ObstacleControllerTests
     public void DataFormStep3InvalidModelStateReturnsDataformStep3View()
     {
         //arrange
-        var controller = InstanitateObstacleController();
+        var controller = CreateObstacleController();
         //adds error to model state
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
         
