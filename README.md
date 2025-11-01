@@ -37,7 +37,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 - Inject and run SQL on database container
 
 > [!IMPORTANT]
-> <details>
+> <details open>
 > <summary style="font-size: 14px; font-weight: bold">1. Run using powershell script (recommended) </summary>
 >
 >   1. Compile CSS 
