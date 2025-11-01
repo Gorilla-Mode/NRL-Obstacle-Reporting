@@ -1,32 +1,84 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep2Model
-<div class="overflow-hidden" >
-    <h1 class="display-4 text-center">Place your obstacle</h1>
-    <section>
-        <div id="map" style="height: 60dvh; width: 100%;" class="rounded-lg">
-        </div>
-        <div>
-            <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
-            <textarea id="CoordinatesPreview" class="rounded-lg mb-3 bg-blue-200 text-black text-center border-2 border-blue-900"
-                        style="height: 5dvh; width: 100%; margin-left: auto; margin-right: auto"
-                        readonly placeholder="Draw on the map to see coordinates here...">
-            </textarea>
-        </div>
-    <form asp-action="DataformStep2" method="post">
-        <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
-        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
 
-        <div class="gap-1 grid grid-cols-2 mx-auto fixed bottom-16 left-0 right-0 px-3" style="width: 100%;">
-            <button class="Btn-PilotPrimary"
-                    type="submit" formaction="/Obstacle/DataformStep2" id="savebutton" >Save Draft</button>
-            <button class="Btn-PilotPrimary "
-                    type="submit" formaction="/Obstacle/DataformStep2" id="nextpage">Next Page</button>
+<!-- Progressbar -->
+<div class="relative w-full flex justify-center py-4">
+    <div class="relative w-[90%] max-w-3xl mx-auto flex flex-col items-center">
+
+        <!-- Selve linjen -->
+        <div class="absolute h-[3px] -translate-y-1/2 z-0"
+             style="top: 35%; width: 70%; background: linear-gradient(to right, #2563eb 0%, #2563eb 50%, #e5e7eb 50%, #e5e7eb 100%);">
         </div>
-        <input type="hidden" asp-for="SaveDraft" id="save"/>
-    </form>
+
+        <!-- Stegene -->
+        <div class="relative flex justify-between items-center w-full z-10">
+
+            <!-- Step 1 -->
+            <div class="flex flex-col items-center w-1/3 text-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
+                    1
+                </div>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-medium">
+                    Select Obstacle Type
+                </span>
+            </div>
+
+            <!-- Step 2 (aktiv) -->
+            <div class="flex flex-col items-center w-1/3 text-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
+                    2
+                </div>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-medium">
+                    Place Obstacle
+                </span>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex flex-col items-center w-1/3 text-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center shadow">
+                    3
+                </div>
+                <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-600 font-medium">
+                    Describe Obstacle
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overflow-hidden mt-2">
+    <section class="mt-2">
+        <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg"></div>
+
+        <div class="mt-3">
+            <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
+            <textarea id="CoordinatesPreview"
+                      class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 w-full"
+                      style="height: 6dvh;"
+                      readonly></textarea>
+        </div>
+
+
+
+        <form asp-action="DataformStep2" method="post">
+            <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
+            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+
+            <!-- Knappene har samme bredde som kartet og textarea -->
+            <div class="grid grid-cols-2 gap-1 w-full mt-2">
+            <button type="submit"
+                        class="Btn-PilotPrimary h-16 items-center justify-center w-full"
+                        formaction="/Obstacle/DataformStep2" id="savebutton">Save Draft</button>
+
+                <button type="submit"
+                        class="Btn-PilotPrimary h-16 items-center justify-center w-full"
+                        formaction="/Obstacle/DataformStep2" id="nextpage">Next Page</button>
+            </div>
+
+            <input type="hidden" asp-for="SaveDraft" id="save" />
+        </form>
     </section>
 </div>
 
-@* Script to add a map to the view *@
 @section Scripts
 {
     <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
@@ -37,17 +89,14 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
     <script>
-        //save draft or next step
         AssignValueByID('savebutton', 'save', true)
         AssignValueByID('nextpage', 'save', false)
+
         const zoom = 17;
-        //Generates a simple map
         const map = GenerateMapGeolocate(zoom);
         GeolocateUser(zoom);
-        //Your choice of obstacle type from the previous view
+
         const choice = @TempData.Peek("ObstacleType");
-        
-        //Generate the specific features the map needs for DataformStep2
         GenerateMapItems_DataformStep2(map, choice);
     </script>
     <partial name="_ValidationScriptsPartial" />

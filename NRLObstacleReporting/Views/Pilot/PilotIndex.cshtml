@@ -5,27 +5,30 @@
 @{
     ViewData["Title"] = "Pilot - Start";
 }
-<div class="text-center">
-    <h1 class="display-4 s">Welcome to the pilot home screen</h1>
-</div>
+<div class="flex flex-col items-center text-center space-y-6 pt-4 mx-auto min-h-screen"
+     >
+    
+    <h1 class="text-3xl sm:text-5xl font-semibold mt-2 mb-2 sm:mb-7" > 
+        Welcome to the <br> Pilot home screen
+    </h1>
+    
 
-<div class="pt-4">
-    <a asp-action="DataformStep1" asp-controller="Obstacle"
-        class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
-        Register Obstacle
-    </a>
-</div>
+    <div class="flex flex-col gap-3 sm:gap-4">
+        <a asp-action="DataformStep1" asp-controller="Obstacle"
+           class="text-xl sm:text-2xl md:text-2xl w-full text-center rounded-lg py-16 sm:py-18 md:py-18 px-6 font-semibold 
+text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"> Register new Obstacle
 
-<div class="pt-4">
-    <a asp-action="PilotViewReports" asp-controller="Pilot"
-        class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
-        View Reports
-    </a>
-</div>
+        </a>
 
-<div class="pt-4">
-    <a asp-action="PilotDrafts" asp-controller="Pilot"
-        class="inline-block items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
-        View Drafts
-    </a>
+        <a asp-action="PilotViewReports" asp-controller="Pilot"
+           class="text-xl sm:text-2xl md:text-2xl w-full text-center rounded-lg py-6 sm:py-7 md:py-7 px-6 font-semibold 
+text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900">
+            View Reports
+        </a>
+      
+        <a asp-action="PilotDrafts" asp-controller="Draft"
+           class="text-xl sm:text-2xl md:text-2xl w-full text-center rounded-lg py-6 sm:py-7 md:py-7 px-6 font-semibold text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900">
+            View Drafts
+        </a>
+    </div>
 </div>

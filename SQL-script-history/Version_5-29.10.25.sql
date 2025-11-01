@@ -5,18 +5,37 @@ create table Illuminated
     IlluminatedName varchar(100) null
 );
 
-create table Marking
-(
-    Marking   int          not null
-        primary key,
-    MarkingName varchar(100) not null
-);
-
 create table ObstacleType
 (
     Type             int          not null
         primary key,
     ObstacleTypeName varchar(100) null
+);
+
+create table Status
+(
+    Status     int          not null
+        primary key,
+    StatusName varchar(100) null
+);
+
+create table Obstacle
+(
+    ObstacleID      int           not null
+primary key,
+    Heightmeter     int           null,
+    GeometryGeoJson varchar(5000) null,
+    Name            varchar(100)  null,
+    Description     varchar(1000) null,
+    Illuminated     int           null,
+    Type            int           null,
+    Status          int           null,
+    constraint ObstacleIlluminated_fk
+        foreign key (Illuminated) references Illuminated (Illuminated),
+    constraint ObstacleType_fk
+        foreign key (Type) references ObstacleType (Type),
+    constraint ObstacleStatus_fk
+            foreign key (Status) references Status (Status)
 );
 
 create table Pilot
@@ -36,34 +55,6 @@ create table Registrar
     Organization varchar(100) null
 );
 
-create table Status
-(
-    Status     int          not null
-        primary key,
-    StatusName varchar(100) null
-);
-
-create table Obstacle
-(
-    ObstacleID      int           not null
-        primary key,
-    Heightmeter     int           not null,
-    GeometryGeoJson varchar(5000) null,
-    Name            varchar(100)  null,
-    Description     varchar(1000) null,
-    Illuminated     int default 0 not null,
-    Type            int           not null,
-    Status          int default 0 not null,
-    Marking         int default 0 not null,
-    constraint ObstacleIlluminated_fk
-        foreign key (Illuminated) references Illuminated (Illuminated),
-    constraint ObstacleMarking_fk
-        foreign key (Marking) references Marking (Marking),
-    constraint ObstacleStatus_fk
-        foreign key (Status) references Status (Status),
-    constraint ObstacleType_fk
-        foreign key (Type) references ObstacleType (Type)
-);
 
 create table Report
 (
@@ -110,6 +101,6 @@ INSERT INTO Status (Status, StatusName) VALUES (2, 'Approved');
 INSERT INTO Status (Status, StatusName) VALUES (3, 'Rejected');
 INSERT INTO Status (Status, StatusName) VALUES (4, 'Deleted');
 
-INSERT INTO Marking (Marking, MarkingName) VALUES (0, 'Unknown');
-INSERT INTO Marking (Marking, MarkingName) VALUES (1, 'Not marked');
-INSERT INTO Marking (Marking, MarkingName) VALUES (2, 'Marked');
+
+
+

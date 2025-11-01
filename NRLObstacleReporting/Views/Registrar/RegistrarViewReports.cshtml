@@ -131,12 +131,12 @@ else
                 @foreach (var o in obstacles)
                 {
                     <tr class="hover:bg-gray-100 transition">
-                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleName</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleType</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleHeightMeter</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.Name</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.Type</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.HeightMeter</td>
                         <td class="border border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleIlluminated</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleDescription</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.Illuminated</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.Description</td>
                         <td class="border border-gray-300 px-4 py-2 text-center relative">
                             <div class="inline-block relative">
                                 <button class="status-btn rounded-full px-4 py-1 font-semibold text-xs transition bg-yellow-300 text-black hover:brightness-95"
