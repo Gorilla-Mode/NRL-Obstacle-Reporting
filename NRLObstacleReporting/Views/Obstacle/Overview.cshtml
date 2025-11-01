@@ -10,7 +10,7 @@
 <div class="flex justify-center mt-6 mx-auto">
     <table class="table-auto border border-gray-300 text-center">
         <caption class="caption-top text-lg font-bold mb-2">
-            Obstacle Report: @Model.GetHashCode()
+            Obstacle Report: @Model.ObstacleId
         </caption>
         <thead>
             <tr>
@@ -22,27 +22,37 @@
         <!-- ObstacleName -->
         <tr class="hover:bg-gray-50">
             <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Name</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleName</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Name</td>
         </tr>
         <!-- ObstacleHeight -->
         <tr class="hover:bg-gray-50">
             <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Height</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleHeightMeter</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.HeightMeter</td>
         </tr>
         <!-- ObstacleDescription -->
         <tr class="hover:bg-gray-50">
             <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Description</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleDescription</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Description</td>
         </tr>
         <!-- ObstacleType -->
         <tr class="hover:bg-gray-50">
             <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Type</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleType</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Type</td>
         </tr>
         <!-- Illuminated-->
         <tr class="hover:bg-gray-50">
             <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Illuminated</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.ObstacleIlluminated</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Illuminated</td>
+        </tr>
+        <!-- Status-->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Status</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Status</td>
+        </tr>
+        <!-- Status-->
+        <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Marking</td>
+            <td class="border border-gray-300 px-4 py-2">@Model.Marking</td>
         </tr>
         <!-- ObstacleCoordinates -->
         <tr class="hover:bg-gray-50">

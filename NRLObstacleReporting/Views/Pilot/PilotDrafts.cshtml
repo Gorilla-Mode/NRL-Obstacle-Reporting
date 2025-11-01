@@ -18,14 +18,7 @@ if (reports.Count == 0)
 }
 else
 {
-<div class="text-center">
-    <h1 class = "text-xl mb-2"> Registered drafts:</h1>
-</div>
 
-IEnumerable<ObstacleCompleteModel> drafts =
-from Report in reports
-where Report.IsDraft
-select Report;
 
 <div class="flex flex-col items-center justify-center space-y-8 w-full">
 @foreach (var obstacle in drafts)
@@ -110,11 +103,7 @@ select Report;
         <input type="hidden" asp-for="ObstacleType" value="@obstacle.ObstacleType"/>
         <input type="hidden" asp-for="ObstacleHeightMeter" value="@obstacle.ObstacleHeightMeter"/>
         <input type="hidden" asp-for="ObstacleId" value="@obstacle.ObstacleId"/>
-
-        
     </form>
-        
-        
 }
 </div>
 }

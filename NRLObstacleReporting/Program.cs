@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
+using NRLObstacleReporting.Repositories;
 using NRLObstacleReporting.StartupTests;
 
 
@@ -12,13 +13,15 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 var internalConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION");
 var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
 
-builder.Services.AddSingleton(internalMariaDbConnection);
+builder.Services.AddSingleton<IObstacleRepository, ObstacleRepository>();
+builder.Services.AddSingleton<IDraftRepository, DraftRepository>();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
     options.UseMySql(internalConnectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(internalConnectionString)));
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 IStartupDatabaseTest[] databaseTests =
 [

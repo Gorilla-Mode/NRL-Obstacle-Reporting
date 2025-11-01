@@ -15,8 +15,8 @@
             <tbody>
             <tr>
                 <th scope="row">Height</th>
-                <td><input asp-for="ObstacleHeightMeter" value="@Model.ObstacleHeightMeter"/>
-                    <span asp-validation-for="ObstacleHeightMeter"></span></td>
+                <td><input asp-for="HeightMeter" value="@Model.HeightMeter"/>
+                    <span asp-validation-for="HeightMeter"></span></td>
             </tr>
             <tr>
                 <th scope="row">Coordinates</th>
@@ -25,29 +25,34 @@
             </tr>
             <tr>
                 <th scope="row">Type</th>
-                <td><input asp-for="ObstacleType" value="@Model.ObstacleType"/>
-                    <span asp-validation-for="ObstacleType"></span></td>
-            </tr>
-            <tr>
-                <th scope="row">Illuminated</th>
-                <td><input asp-for="ObstacleIlluminated" value="@Model.ObstacleIlluminated"/>
-                    <span asp-validation-for="ObstacleIlluminated"></span></td>
+                <td><input asp-for="Type" value="@Model.Type"/>
+                    <span asp-validation-for="Type"></span></td>
             </tr>
             <tr>
                 <th scope="row">Description</th>
-                <td><input asp-for="ObstacleDescription" value="@Model.ObstacleDescription"/>
-                    <span asp-validation-for="ObstacleDescription"></span></td>
+                <td><input asp-for="Description" value="@Model.Description"/>
+                    <span asp-validation-for="Description"></span></td>
             </tr>
             <tr>
                 <th scope="row">Name</th>
-                <td><input asp-for="ObstacleName" value="@Model.ObstacleName"/>
-                    <span asp-validation-for="ObstacleName"></span></td>
+                <td><input asp-for="Name" value="@Model.Name"/>
+                    <span asp-validation-for="Name"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Illuminated</th>
+                <td><input asp-for="Illuminated" value="@Model.Illuminated"/>
+                    <span asp-validation-for="Illuminated"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Marking</th>
+                <td><input asp-for="Illuminated" value="@Model.Marking"/>
+                    <span asp-validation-for="Marking"></span></td>
             </tr>
             </tbody>
         </table>
         <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
-        <button type="submit" formaction="/Obstacle/SaveEditedDraft">Save draft</button>
-        <button type="submit" formaction="/Obstacle/SubmitDraft">Submit</button>
+        <button type="submit" formaction="/Draft/SaveEditedDraft">Save draft</button>
+        <button type="submit" formaction="/Draft/SubmitDraft">Submit</button>
     </form>
 </div>
 @section Scripts

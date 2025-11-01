@@ -4,16 +4,17 @@ public class ObstacleDto
 {
     public int ObstacleId { get; set; }
     
-    public int ObstacleTypeId { get; set; }               // FK til ObstacleTypeDatamodel
-    public ObstacleTypeDto? ObstacleType { get; set; } // navigasjon
-    
-    public int ObstacleHeightMeter { get; set; }
+    public int Type { get; set; }               // FK to ObstacleTypeDatamodel
+    public int Status { get; set; }               // FK to Status
+    public int Marking { get; set; }               //FK to Marking
+    public int HeightMeter { get; set; }
     
     public string? GeometryGeoJson { get; set; }
     
-    public string? ObstacleName { get; set; }
+    public string? Name { get; set; }
     
-    public string? ObstacleDescription { get; set; }
+    public string? Description { get; set; }
     
-    public bool? ObstacleIlluminated { get; set; }
+    public int Illuminated { get; set; }
+    
 }

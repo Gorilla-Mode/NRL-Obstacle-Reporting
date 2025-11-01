@@ -1,43 +1,57 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NRLObstacleReporting.db;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
+using NRLObstacleReporting.Repositories;
+
 namespace NRLObstacleReporting.Controllers
 {
     public class ObstacleController : Controller
     {
+        private readonly IObstacleRepository _repo;
+        private readonly IMapper _mapper;
+
+        public ObstacleController(IObstacleRepository repo, IMapper mapper)
+        {
+            _repo = repo;
+            _mapper = mapper;
+        }
+
         [HttpGet]
         public IActionResult DataformStep1()
         {
             return View();
         }
-
+        
         [HttpPost]
-        public IActionResult DataformStep1(ObstacleStep1Model obstacleModel)
+        public async Task<IActionResult> DataformStep1(ObstacleStep1Model obstacleModel)
         {
+            //Async to make sure db is updated before reading in case of save draft
+            //TODO: use guid or some better way to generate id
+            var rnd = new Random();
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            int obstacleId = Localdatabase.GetDatabase().Count + 1; //generates ID
+            int obstacleId = rnd.Next(); //generates ID
             
-            var obstacleReport = new ObstacleCompleteModel //New object of complete model, adds values from step1 model
+            ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
+            obstaclereport.ObstacleId = obstacleId;
+            
+             await _repo.InsertStep1(obstaclereport);
+             
+            if (obstacleModel.SaveDraft) //exits reporting process, gets current obstacle from db
             {
-                ObstacleId = obstacleId,
-                ObstacleType = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType,
-                ObstacleHeightMeter = obstacleModel.ObstacleHeightMeter,
-            };
-            
-            Localdatabase.AddObstacle(obstacleReport);
-            
-            if (obstacleModel.SaveDraft) //exits reporting process
-            {
-                return View("Overview", obstacleReport);
+              ObstacleDto queryResult = await _repo.GetObstacleById(obstacleId); //Must be done before mapping
+              ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+              
+              return View("Overview",  obstacleQuery);
             }
             
             //Values saved as cookies, to be used in next view in redirect
             TempData["id"] = obstacleId;
-            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.ObstacleType;
-            
+            TempData["ObstacleType"] = (ObstacleCompleteModel.ObstacleTypes)obstacleModel.Type!;
+
             return RedirectToAction("DataformStep2");
         }
 
@@ -48,19 +62,23 @@ namespace NRLObstacleReporting.Controllers
         }
 
         [HttpPost]
-        public ActionResult DataformStep2(ObstacleStep2Model obstacleModel)
+        public async Task<ActionResult> DataformStep2(ObstacleStep2Model obstacleModel)
         {
+            //Async to make sure db is updated before reading in case of save draft
             if (!ModelState.IsValid)
             {
                 return View();
             }
             
-            //Edits currently empty coordinates in database to match input. ID is supplied by tempdata.peek in view
-            Localdatabase.EditObstacleCoordinates(obstacleModel.ObstacleId, obstacleModel.GeometryGeoJson);
+            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
+            await _repo.InsertStep2(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
             
             if (obstacleModel.SaveDraft) //exits reporting process
             {
-                return View("Overview", Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId));
+                ObstacleDto queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
+                ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
+                
+                return View("Overview", obstacleQuery);
             }
             
             //Values saved as cookies, to be used in next view in redirect
@@ -76,54 +94,21 @@ namespace NRLObstacleReporting.Controllers
         }
         
         [HttpPost]
-        public ActionResult DataformStep3(ObstacleStep3Model obstacleModel)
+        public async Task<ActionResult> DataformStep3(ObstacleStep3Model obstacleModel)
         {
+            // async await, to prevent possible race condition with database write read.
             if (!ModelState.IsValid)
             {
                 return View();
             }
+    
+            ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
+            await _repo.InsertStep3(obstacle); // make sure this is completed before proceeding 
             
-            //gets object from database, supplied by tempdata. changes step 3 fields
-            ObstacleCompleteModel report = Localdatabase.GetObstacleCompleteModel(obstacleModel.ObstacleId);
-            report.ObstacleIlluminated = obstacleModel.ObstacleIlluminated;
-            report.ObstacleName = obstacleModel.ObstacleName;
-            report.ObstacleDescription = obstacleModel.ObstacleDescription;
-            report.IsDraft = obstacleModel.IsDraft;
+            var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
+            ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
-            Localdatabase.UpdateObstacle(report); //Updates database with new object
-            
-            return View("Overview", report);
-        }
-        
-        [HttpPost]
-        public IActionResult EditDraft(ObstacleCompleteModel draft)
-        {
-            //POST gets all values from obstacle to be edited
-            return View("EditDraft", draft);
-        }
-
-        [HttpPost]
-        public ActionResult SaveEditedDraft(ObstacleCompleteModel editedDraft)
-        {
-            //updates database with new draft
-            Localdatabase.UpdateObstacle(editedDraft);
-            
-            return View("Overview", editedDraft);
-        }
-
-        [HttpPost]
-        public ActionResult SubmitDraft(ObstacleCompleteModel draft)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("EditDraft", draft);
-            }
-            
-            //Object is no longer draft, updates database
-            draft.IsDraft = false;
-            Localdatabase.UpdateObstacle(draft);
-            
-            return View("Overview", draft);
-        }
+            return View("Overview", obstacleQuery);
+        } 
     }
 }
