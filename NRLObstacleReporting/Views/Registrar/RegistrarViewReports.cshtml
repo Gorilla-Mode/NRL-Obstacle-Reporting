@@ -1,15 +1,12 @@
 @{
     Layout = "~/Views/Shared/_LayoutRegistrar.cshtml";
 }
-
-@using NRLObstacleReporting.db
-
 @{
     ViewData["Title"] = "View Reports";
-    var obstacles = Localdatabase.GetDatabase();
+    var obstacles = (IEnumerable<ObstacleCompleteModel>)ViewData["reports"]!;
+    var obstacleCompleteModels = obstacles as ObstacleCompleteModel[] ?? obstacles.ToArray();
 }
-
-@if (!obstacles.Any())
+@if (obstacleCompleteModels.Count() == 0)
 {
     <div class="text-center py-12">
         <h1 class="text-2xl font-semibold text-gray-700">No obstacles registered</h1>
@@ -128,7 +125,7 @@ else
                 </tr>
             </thead>
             <tbody class="bg-white">
-                @foreach (var o in obstacles)
+                @foreach (var o in obstacleCompleteModels)
                 {
                     <tr class="hover:bg-gray-100 transition">
                         <td class="border border-gray-300 px-4 py-2">@o.Name</td>
