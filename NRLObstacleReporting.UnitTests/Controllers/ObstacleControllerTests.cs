@@ -119,22 +119,6 @@ public class ObstacleControllerTests
         Assert.Equal(null, viewResult!.ViewName);
     }
     
-    //checks that code takes appropriate path on invalid model state
-    // [Fact]
-    // public void SubmitDraftInvalidModelStateReturnsSubmitDraftView()
-    // {
-    //     //arrange
-    //     var controller = InstanitateObstacleController();
-    //     var model = Substitute.For<ObstacleCompleteModel>(); //Creates substitute model for method
-    //     //adds error to model state
-    //     controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
-    //     
-    //     //act
-    //     var result = controller.SubmitDraft(model);
-    //     var viewResult = result as ViewResult;
-    //     
-    //     //assert
-    //     Assert.Equal("EditDraft", viewResult!.ViewName);
-    // }
+    
     
 }

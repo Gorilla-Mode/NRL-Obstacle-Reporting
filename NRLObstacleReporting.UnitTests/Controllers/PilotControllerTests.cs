@@ -52,18 +52,7 @@ public class PilotControllerTests
         Assert.Null( viewResult!.ViewName);
     }
     
-    // [Fact]
-    // public void PilotDraftsReturnsPilotDraftsView()
-    // {
-    //     //arrange
-    //     var controller = new PilotController();
-    //     
-    //     //act
-    //     var result = controller.PilotDrafts();
-    //     var viewResult = result as ViewResult;
-    //     //assert
-    //     Assert.Equal(null, viewResult!.ViewName);
-    // }
+    
     
     
 }
