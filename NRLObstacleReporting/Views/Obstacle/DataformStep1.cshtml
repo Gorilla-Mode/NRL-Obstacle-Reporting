@@ -115,10 +115,14 @@
         </div>
         <input type="hidden" asp-for="SaveDraft" id="save" />
         <input type="hidden" asp-for="Type" id="ObstacleType" />
+        <div id="map" style="display: none" ></div>
+        <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
     </form>
 @section Scripts {
     <script src="~/js/ColorActiveButton.js"></script>
+<script src="~/js/MapScripts/GeojsonCoordinates.js"></script>
     <script>
+        GetGeoJsonCoordinates();
         //saves the value of the button/type you choose
         AssignValueByID("PowerLine", "ObstacleType", 0)
         AssignValueByID('Pole', 'ObstacleType', 1)
@@ -132,6 +136,7 @@
         AssignValueByID('nextpage', 'save', false)
 
         ColorActiveButton('bg-blue-200', 'bg-blue-500')
+    
     </script>
     <partial name="_ValidationScriptsPartial" />
 }
