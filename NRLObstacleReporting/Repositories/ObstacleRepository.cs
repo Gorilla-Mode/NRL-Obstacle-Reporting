@@ -29,7 +29,8 @@ namespace NRLObstacleReporting.Repositories
         {
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
-                        SET Name = @Name, Description = @Description, Illuminated = @Illuminated, Status = @Status
+                        SET Name = @Name, Description = @Description, Illuminated = @Illuminated, Status = @Status, 
+                            Marking = @Marking 
                         WHERE ObstacleID = @ObstacleId";
             await connection.ExecuteAsync(sql, data);
 
