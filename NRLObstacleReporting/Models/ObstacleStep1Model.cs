@@ -12,4 +12,6 @@ public class ObstacleStep1Model
     
     [Required] 
     public ObstacleCompleteModel.ObstacleTypes? Type { get; set; }
+    
+    public string? GeometryGeoJson { get; set; }
 }
