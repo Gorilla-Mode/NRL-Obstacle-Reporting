@@ -15,34 +15,52 @@
 
 <body class="bg-blue-0">
     <!-- color of the background -->
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-blue-300 border-b-3 border-blue-800 box-shadow mb-3">
-        <!-- choosing the color on the header -->
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">NRLObstacleReporting</a>
+    <nav class="navbar navbar-expand-sm !bg-transparent bg-gradient-to-b from-blue-200 to-blue-400 border-b-3 border-blue-800 shadow-md mb-3 py-6">
+        <div class="container-fluid relative flex items-center justify-between w-full px-4">
+
+            <!-- Venstreside -->
+            <a class="text-black font-semibold text-lg navbar-brand" asp-controller="Home" asp-action="Index">
+                NRLObstacleReporting
+            </a>
+
             <!-- Hamburgerknapp -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+            <!-- Midten (logoen) -->
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10
+            bg-white/30 backdrop-blur-md rounded-lg shadow-md flex items-center justify-center"
+                 style="height:90px; width:320px;">
+                <img src="~/lib/logo/aerobarrier-logo.svg"
+                     alt="AeroBarrier logo"
+                     style="height: 400px; width: auto;"
+                     class="drop-shadow-md mx-auto object-contain" />
+            </div>
+
+            <!-- Høyreside -->
+            <div class="collapse navbar-collapse justify-end" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Registrar" asp-action="RegistrarIndex">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-gray-900 font-semibold px-3 py-2 hover:bg-blue-200 rounded-md transition"
+                           asp-controller="Pilot" asp-action="PilotIndex">
+                            Log out
+                        </a>
                     </li>
                 </ul>
             </div>
-
-            <div class="ms-auto">
-                <a class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                   asp-controller="Pilot" asp-action="PilotIndex">Log out</a>
-            </div>
         </div>
     </nav>
-                
+
+
+
     <div class="container">
         <main role="main" style="padding-bottom: 10dvh">
             @RenderBody()
