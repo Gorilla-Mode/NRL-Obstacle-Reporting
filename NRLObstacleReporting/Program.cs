@@ -63,9 +63,9 @@ app.MapControllerRoute(
 
 app.Run();
 
-void SetupAuthentication(WebApplicationBuilder builder)
+void SetupAuthentication(WebApplicationBuilder authbuilder)
 {
-    builder.Services.Configure<IdentityOptions>(options =>
+    authbuilder.Services.Configure<IdentityOptions>(options =>
     {
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
         options.Lockout.MaxFailedAccessAttempts = 5;
@@ -76,20 +76,20 @@ void SetupAuthentication(WebApplicationBuilder builder)
         options.User.RequireUniqueEmail = true;
     });
 
-    builder.Services
+    authbuilder.Services
         .AddIdentityCore<IdentityUser>()
         .AddRoles<IdentityRole>()
         .AddRoleStore<NrlRoleStore>() // Dapper role store, do this for the other stores you need if not using EF 
         .AddSignInManager()
         .AddDefaultTokenProviders();
 
-    builder.Services.AddAuthentication(o =>
+    authbuilder.Services.AddAuthentication(o =>
     {
         o.DefaultScheme = IdentityConstants.ApplicationScheme;
         o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    }).AddIdentityCookies(o => { });
+    }).AddIdentityCookies(_ => { });
 
-    builder.Services.AddTransient<IEmailSender, AuthMessageSender>();
+    authbuilder.Services.AddTransient<IEmailSender, AuthMessageSender>();
 }
 
 public class AuthMessageSender : IEmailSender
