@@ -1,6 +1,5 @@
 ﻿/**
  * Creates a map and places marker on current location and sets geojson field to this.
- * @constructor
  */
 function GetGeoJsonCoordinates()
 {

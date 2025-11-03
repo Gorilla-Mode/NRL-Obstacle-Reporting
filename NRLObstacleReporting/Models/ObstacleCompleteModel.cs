@@ -8,13 +8,14 @@ public class ObstacleCompleteModel
     /// </summary>
     public enum ObstacleTypes
     {
-        PowerLine,
-        Pole,
+        AirSpan = 0,
+        PoleOrTower,
         Building,
         Construction,
-        Natural,
+        Bridge,
         Other
     }
+    
     /// <summary>
     /// Represents the possible states of illumination of an obstacle. First state (unknown) is default
     /// </summary>
@@ -24,6 +25,7 @@ public class ObstacleCompleteModel
         NotIlluminated,
         Illuminated
     }
+    
     /// <summary>
     /// Represents the possible states of Marking of an obstacle. First state (unknown) is default
     /// </summary>
@@ -46,6 +48,7 @@ public class ObstacleCompleteModel
         Rejected,
         Deleted
     }
+    
     public bool IsDraft { get; set; } = true; //TODO: remove this
     public int ObstacleId { get; set; }
     public ObstacleStatus Status { get; set; }
@@ -69,5 +72,4 @@ public class ObstacleCompleteModel
     public string? Description { get; set; }
 
     public Illumination Illuminated { get; set; }
-
 }
