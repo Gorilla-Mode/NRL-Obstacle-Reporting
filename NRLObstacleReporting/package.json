@@ -11,8 +11,7 @@
     "tailwindcss": "^3.4.17"
   },
   "scripts": {
-    "build:css": "npx tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --minify",
-    "watch:css": "npx tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --watch"
+    "build:css": "npx tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/output.css --watch"
   },
   "keywords": [],
   "author": "",
