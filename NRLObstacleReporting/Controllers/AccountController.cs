@@ -1,13 +1,12 @@
-﻿using Kartverket.Web.Models.Account;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Claims;
-using NRLObstacleReporting.Controllers;
+using NRLObstacleReporting.Models.Account;
 
-namespace Kartverket.Web.Controllers
+namespace NRLObstacleReporting.Controllers
 {
     public class AccountController : Controller
     {

@@ -3,7 +3,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Kartverket.Web.Models.Account;
+namespace NRLObstacleReporting.Models.Account;
 
 public class VerifyCodeViewModel
 {

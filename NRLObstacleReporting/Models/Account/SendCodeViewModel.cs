@@ -3,7 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Kartverket.Web.Models.Account;
+namespace NRLObstacleReporting.Models.Account;
 
 public class SendCodeViewModel
 {
