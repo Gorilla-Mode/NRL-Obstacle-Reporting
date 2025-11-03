@@ -2,13 +2,13 @@
     Layout = "~/Views/Shared/_LayoutPilot.cshtml";
 }
 @model ObstacleCompleteModel
-
 @{
     ViewData["Title"] = "View Reports";
 }
 @{
     var data = (IEnumerable<ObstacleCompleteModel>)ViewData["drafts"]!;
     var obstacleCompleteModels = data as ObstacleCompleteModel[] ?? data.ToArray();
+    
     if (obstacleCompleteModels.Count() == 0)
     {
         <div class="text-center">
@@ -18,52 +18,87 @@
     else
     {
         <div class="text-center">
-            <h1> Registered drafts:</h1>
+            <h1 class = "text-xl mb-2"> Registered drafts:</h1>
         </div>
 
         foreach (var draft in obstacleCompleteModels)
         {
+            var mapId = draft.ObstacleId.ToString();
             <div>
-                <table class="center">
-                    <caption>Obstacle Report: @draft.GetHashCode()</caption>
-                    <thead>
-                    <tr>
-                        <th scope="col">Data</th>
-                        <th scope="col">Response</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">Height</th>
-                        <td>@draft.HeightMeter</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Coordinates</th>
-                        <td>@draft.GeometryGeoJson</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Type</th>
-                        <td>@draft.Type</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Description</th>
-                        <td>@draft.Description</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Name</th>
-                        <td>@draft.Name</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Illuminated</th>
-                        <td>@draft.Illuminated</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Marking</th>
-                        <td>@draft.Marking</td>
-                    </tr>
-                    </tbody>
-                </table>
                 <form asp-controller="Draft" asp-action="EditDraft" method="post">
+                    <div class = "rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
+                        <table class= "w-full table-fixed border-collapse">
+                            <thead>
+                            </thead>
+                            <tbody>
+                            <tr class = "bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> Id: @draft.ObstacleId</th>
+                                <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> </th>
+                            </tr>
+                            <tr>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.HeightMeter</td>
+                            </tr>
+                            <tr class = "bg-gray-50 w-full">
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Type</td>
+                            </tr>
+                            <tr >
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Name</td>
+                            </tr>
+                            <tr class = "bg-gray-50 w-full">
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Description</td>
+                            </tr>
+                            <tr >
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illumination</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Illuminated</td>
+                            </tr>
+                            <tr class = "bg-gray-50 w-full">
+                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
+                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Marking</td>
+                            </tr>
+                            @if (draft.GeometryGeoJson != null)
+                            {
+                                <tr>
+                                    <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Map</th>
+                                    <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">
+                                        <details>
+                                            <summary>Map</summary>
+                                            
+                                            <div class="overflow-hidden rounded-xl">
+                                                <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
+                                            </div>
+                                            <script>
+                                                var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
+
+                                                L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+                                                    maxZoom: 19,
+                                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                                }).addTo(map);
+                                                var geojson = @Html.Raw(draft.GeometryGeoJson)
+                                                var geojsonLayer = L.geoJSON(geojson);
+                                                geojsonLayer.addTo(map);
+                                                map.setMaxBounds(geojsonLayer.getBounds())
+                                            </script>
+                                        </details>
+                                    </td>
+                                </tr> 
+                            }
+                            <tr class="bg-white w-full">
+                                <td colspan="2" class="p-0">
+                                    <button type="submit"
+                                            formaction="/Draft/EditDraft"
+                                            class="block w-full text-center bg-blue-300 hover:bg-blue-400 text-white font-semibold py-2 rounded-b-smd">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
                     <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson"/>
                     <input type="hidden" asp-for="Description" value="@draft.Description"/>
                     <input type="hidden" asp-for="Illuminated" value="@draft.Illuminated"/>
@@ -71,8 +106,7 @@
                     <input type="hidden" asp-for="Type" value="@draft.Type"/>
                     <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
                     <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
-
-                    <button type="submit" formaction="/Draft/EditDraft">Edit</button>
+                    
                 </form>
             </div>
         }
