@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Repositories;
+using NRLObstacleReporting.Repositories.IdentityStore;
 using NRLObstacleReporting.StartupTests;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+
 IStartupDatabaseTest[] databaseTests =
 [
     InternalDatabaseConnectionTest.GetInstance(),
@@ -34,6 +37,7 @@ foreach (var testclass in databaseTests)
     testclass.InvokeAllTests();
 }
 
+SetupAuthentication(builder);
 
 var app = builder.Build();
 
@@ -58,3 +62,43 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
+
+void SetupAuthentication(WebApplicationBuilder builder)
+{
+    builder.Services.Configure<IdentityOptions>(options =>
+    {
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.AllowedForNewUsers = false;
+        options.SignIn.RequireConfirmedPhoneNumber = false;
+        options.SignIn.RequireConfirmedEmail = false;
+        options.SignIn.RequireConfirmedAccount = false;
+        options.User.RequireUniqueEmail = true;
+    });
+
+    builder.Services
+        .AddIdentityCore<IdentityUser>()
+        .AddRoles<IdentityRole>()
+        .AddRoleStore<NrlRoleStore>() // Dapper role store, do this for the other stores you need if not using EF 
+        .AddSignInManager()
+        .AddDefaultTokenProviders();
+
+    builder.Services.AddAuthentication(o =>
+    {
+        o.DefaultScheme = IdentityConstants.ApplicationScheme;
+        o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    }).AddIdentityCookies(o => { });
+
+    builder.Services.AddTransient<IEmailSender, AuthMessageSender>();
+}
+
+public class AuthMessageSender : IEmailSender
+{
+    public Task SendEmailAsync(string email, string subject, string htmlMessage)
+    {
+        Console.WriteLine(email);
+        Console.WriteLine(subject);
+        Console.WriteLine(htmlMessage);
+        return Task.CompletedTask;
+    }
+}
