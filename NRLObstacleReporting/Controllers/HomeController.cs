@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
@@ -15,7 +16,7 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
-
+    [Authorize]
     public IActionResult Index()
     {
         return View();
