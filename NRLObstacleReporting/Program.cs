@@ -39,6 +39,7 @@ foreach (var testclass in databaseTests)
 
 SetupAuthentication(builder);
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -62,7 +63,7 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
-
+ 
 void SetupAuthentication(WebApplicationBuilder authbuilder)
 {
     authbuilder.Services.Configure<IdentityOptions>(options =>
@@ -79,6 +80,7 @@ void SetupAuthentication(WebApplicationBuilder authbuilder)
     authbuilder.Services
         .AddIdentityCore<IdentityUser>()
         .AddRoles<IdentityRole>()
+        .AddUserStore<NrlUserStore>()
         .AddRoleStore<NrlRoleStore>() // Dapper role store, do this for the other stores you need if not using EF 
         .AddSignInManager()
         .AddDefaultTokenProviders();
