@@ -16,37 +16,29 @@ else
     
 {
     <div class="min-h-screen bg-white p-8">
-
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
-    
-        <!-- 4 rectangle -->
-        <div class="flex w-screen gap-4 pt-4 mb-6">
+       
+        <div class="flex w-screen gap-4 pt-4 mb-6"> <!-- 4 rectangle -->
             <a asp-action="PilotViewReports" asp-controller="Pilot"
                class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
                 All
             </a>
-      
             <a asp-action="PilotViewReports" asp-controller="Pilot"
                class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200"> 
                 Pending
             </a>
-        
             <a asp-action="PilotViewReports" asp-controller="Pilot"
                class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-white hover:bg-blue-700 transition-colors duration-200">
                 Approved
             </a>
-
             <a asp-action="PilotViewReports" asp-controller="Pilot"
                class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-white hover:bg-blue-700 transition-colors duration-200"> 
                 Rejected
             </a>
         </div>
         
-        <!-- 6 filter-dropdowns -->
-        <div class="flex w-full gap-2 mb-6">
-     
-            <!-- Template for each filter -->
-            <div class="relative w-[120px]">
+        <div class="flex w-full gap-2 mb-6"> <!-- 6 filter-dropdowns -->
+            <div class="relative w-[120px]"><!-- Template for each filter -->
                 <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
                     Type
                 </button>
@@ -110,9 +102,11 @@ else
                 </div>
             </div>
         </div>
-
-        <!-- Tabell -->
-        <table class="border-collapse border border-gray-400 w-full text-left text-sm">
+        
+        <div> <!-- search reporter  -->
+            <button class="bg-white text-blck font-semibold py-2 px-6 rounded-full hover:bg-blue-600 transition-colors">Search Reporter</button>
+        </div>
+        <table class="border-collapse border border-gray-400 w-full text-left text-sm"><!-- Tabell -->
             <thead class="bg-gray-200">
                 <tr>
                     <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
@@ -129,6 +123,7 @@ else
                 {
                     <tr class="hover:bg-gray-100 transition">
                         <td class="border border-gray-300 px-4 py-2">@o.Name</td>
+                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleId</td>
                         <td class="border border-gray-300 px-4 py-2">@o.Type</td>
                         <td class="border border-gray-300 px-4 py-2">@o.HeightMeter</td>
                         <td class="border border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
@@ -166,49 +161,10 @@ else
 }
 
 @section Scripts {
-<script>
-    // ===== Status-knapp i tabellen =====
-    function toggleMenu(button) {
-        const td = button.closest('td');
-        const menu = td.querySelector('.status-menu');
-        menu.classList.toggle('hidden');
-    }
+    <script scr="/js/registerforer.js"></script>
 
-    function setStatus(button, status) {
-        const td = button.closest('td');
-        const statusBtn = td.querySelector('.status-btn');
-        statusBtn.textContent = status;
-        statusBtn.classList.remove('bg-yellow-200', 'bg-green-200', 'bg-red-200', 'text-yellow-800', 'text-green-800', 'text-red-800');
-        if (status === 'Pending') statusBtn.classList.add('bg-yellow-200', 'text-yellow-800');
-        else if (status === 'Approved') statusBtn.classList.add('bg-green-200', 'text-green-800');
-        else if (status === 'Rejected') statusBtn.classList.add('bg-red-200', 'text-red-800');
-        button.closest('.status-menu').classList.add('hidden');
-    }
-
-    // ===== Filter-knapper =====
-    function toggleFilterDropdown(button) {
-        const parent = button.parentElement;
-        const menu = parent.querySelector('.filter-menu');
-        menu.classList.toggle('hidden');
-    }
-
-    function setFilter(item) {
-        const parent = item.closest('.relative');
-        const button = parent.querySelector('.filter-btn');
-        button.textContent = item.textContent;
-        parent.querySelector('.filter-menu').classList.add('hidden');
-    }
-
-    // ===== Klikk utenfor for å lukke alle dropdowns =====
-    document.addEventListener('click', function(e) {
-        document.querySelectorAll('.status-menu').forEach(menu => {
-            const button = menu.previousElementSibling;
-            if (!menu.contains(e.target) && !button.contains(e.target)) menu.classList.add('hidden');
-        });
-        document.querySelectorAll('.filter-menu').forEach(menu => {
-            const button = menu.previousElementSibling;
-            if (!menu.contains(e.target) && !button.contains(e.target)) menu.classList.add('hidden');
-        });
-    });
-</script>
 }
+
+
+
+    
