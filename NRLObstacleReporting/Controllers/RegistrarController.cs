@@ -28,7 +28,6 @@ namespace NRLObstacleReporting.Controllers
             var submittedDrafts = await _repoObstacle.GetAllSubmittedObstacles();
             
             var obstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
-
             ViewData["reports"] = obstacles;
             return View();
         }
