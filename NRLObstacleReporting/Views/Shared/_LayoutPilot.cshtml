@@ -19,13 +19,20 @@
         <div class="container-fluid relative flex items-center justify-between w-full px-4">
 
             <!-- Venstreside -->
-            <a class="text-gray-800 font-semibold text-sm sm:text-base md:text-lg tracking-wide navbar-brand flex items-center gap-1 sm:gap-2"
-               asp-controller="Home" asp-action="Index">
-                NRL Obstacle Reporting
+            <a asp-controller="Home" asp-action="Index"
+               class="flex items-center gap-2 px-4 py-2 rounded-full 
+          bg-blue-100 hover:bg-blue-200 
+          text-blue-700 hover:text-blue-800 
+          font-semibold shadow-sm transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="2" stroke="currentColor"
+                     class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 9.75L12 4l9 5.75M4.5 10.5V19a1.5 1.5 0 001.5 1.5h3.75v-4.5h4.5V20.5H18a1.5 1.5 0 001.5-1.5v-8.5" />
+                </svg>
+                <span>Home</span>
             </a>
-
-
-
+            
             <!-- Hamburgerknapp -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
