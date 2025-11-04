@@ -28,11 +28,11 @@ else
                 Pending
             </a>
             <a asp-action="PilotViewReports" asp-controller="Pilot"
-               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-white hover:bg-blue-700 transition-colors duration-200">
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
                 Approved
             </a>
             <a asp-action="PilotViewReports" asp-controller="Pilot"
-               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-white hover:bg-blue-700 transition-colors duration-200"> 
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200"> 
                 Rejected
             </a>
         </div>
@@ -103,9 +103,12 @@ else
             </div>
         </div>
         
-        <div> <!-- search reporter  -->
-            <button class="bg-white text-blck font-semibold py-2 px-6 rounded-full hover:bg-blue-600 transition-colors">Search Reporter</button>
+        <div class="w-full flex justify-start mt-2"> <!-- Search -->
+            <button class="filter-btn border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold bg-white text-sm">
+                Search
+            </button>
         </div>
+        
         <table class="border-collapse border border-gray-400 w-full text-left text-sm"><!-- Tabell -->
             <thead class="bg-gray-200">
                 <tr>
