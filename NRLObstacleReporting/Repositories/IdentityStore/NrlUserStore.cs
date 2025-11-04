@@ -5,62 +5,87 @@ using System.Data;
 
 namespace NRLObstacleReporting.Repositories.IdentityStore;
 
-// Dapper-based user store implementing user, password and email store interfaces.
-public class NrlDapperUserStore : IUserStore<IdentityUser>, IUserPasswordStore<IdentityUser>, IUserEmailStore<IdentityUser>
+/// <summary>
+/// Dapper implementation of IUserStore, IUserPasswordStore and IUserEmailStore. Identity core, depends on this
+/// implementation
+/// </summary>
+public class NrlUserStore : IUserPasswordStore<IdentityUser>, IUserEmailStore<IdentityUser>
 {
     private readonly string _connectionString;
     private const string UsersTable = "AspNetUsers";
-
-    public NrlDapperUserStore()
+    
+    /// <summary>
+    /// Constructor, retrieves connection string from .env file
+    /// </summary>
+    public NrlUserStore()
     {
         _connectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
     }
 
+    /// <summary>
+    /// Establishes a new connection to the database
+    /// </summary>
+    /// <returns>new SQL connection to mariadb container</returns>
     private IDbConnection CreateConnection() => new MySqlConnection(_connectionString);
 
+    /// <inheritdoc/>
     public void Dispose()
     {
         // nothing to dispose (connections are per operation)
     }
 
-    // IUserStore
+    // -------------------- IUserStore Implementation ---------------------------------------
+    
+    /// <inheritdoc/>
     public Task<string> GetUserIdAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(user.Id);
     }
 
+    /// <inheritdoc/>
     public Task<string?> GetUserNameAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(user.UserName);
     }
 
+    /// <inheritdoc/>
     public Task SetUserNameAsync(IdentityUser user, string? userName, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         user.UserName = userName;
+        
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public Task<string?> GetNormalizedUserNameAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(user.NormalizedUserName);
     }
 
+    /// <inheritdoc/>
     public Task SetNormalizedUserNameAsync(IdentityUser user, string? normalizedName, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         user.NormalizedUserName = normalizedName;
+        
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityResult> CreateAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -70,8 +95,12 @@ public class NrlDapperUserStore : IUserStore<IdentityUser>, IUserPasswordStore<I
         user.SecurityStamp ??= Guid.NewGuid().ToString();
 
         const string sql = @$"INSERT INTO {UsersTable}
-            (Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp, Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount)
-            VALUES (@Id, @UserName, @NormalizedUserName, @PasswordHash, @SecurityStamp, @ConcurrencyStamp, @Email, @NormalizedEmail, @EmailConfirmed, @PhoneNumber, @PhoneNumberConfirmed, @TwoFactorEnabled, @LockoutEnabled, @AccessFailedCount)";
+                                    (Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp,
+                                     Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed,
+                                     TwoFactorEnabled, LockoutEnabled, AccessFailedCount)
+                              VALUES (@Id, @UserName, @NormalizedUserName, @PasswordHash, @SecurityStamp, 
+                                      @ConcurrencyStamp, @Email, @NormalizedEmail, @EmailConfirmed, @PhoneNumber, 
+                                      @PhoneNumberConfirmed, @TwoFactorEnabled,@LockoutEnabled, @AccessFailedCount)";
 
         using var conn = CreateConnection();
         await conn.ExecuteAsync(new CommandDefinition(sql, user, cancellationToken: cancellationToken));
@@ -79,6 +108,7 @@ public class NrlDapperUserStore : IUserStore<IdentityUser>, IUserPasswordStore<I
         return IdentityResult.Success;
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityResult> UpdateAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -108,12 +138,14 @@ public class NrlDapperUserStore : IUserStore<IdentityUser>, IUserPasswordStore<I
         return IdentityResult.Success;
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityResult> DeleteAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(user);
 
-        const string sql = @$"DELETE FROM {UsersTable} WHERE Id = @Id";
+        const string sql = @$"DELETE FROM {UsersTable}
+                              WHERE Id = @Id";
 
         using var conn = CreateConnection();
         await conn.ExecuteAsync(new CommandDefinition(sql, new { user.Id }, cancellationToken: cancellationToken));
@@ -121,108 +153,152 @@ public class NrlDapperUserStore : IUserStore<IdentityUser>, IUserPasswordStore<I
         return IdentityResult.Success;
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityUser?> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        const string sql = @$"SELECT Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp, Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount
+        const string sql = @$"SELECT Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp,
+                                     Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed,
+                                     TwoFactorEnabled, LockoutEnabled, AccessFailedCount
                               FROM {UsersTable}
                               WHERE Id = @Id LIMIT 1";
 
         using var conn = CreateConnection();
-        return await conn.QueryFirstOrDefaultAsync<IdentityUser>(new CommandDefinition(sql, new { Id = userId }, cancellationToken: cancellationToken));
+        
+        return await conn.QueryFirstOrDefaultAsync<IdentityUser>
+            (
+                new CommandDefinition(sql, new { Id = userId }, cancellationToken: cancellationToken)
+            );
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityUser?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        const string sql = @$"SELECT Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp, Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount
+        const string sql = @$"SELECT Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp,
+                                     Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed,
+                                     TwoFactorEnabled, LockoutEnabled, AccessFailedCount
                               FROM {UsersTable}
                               WHERE NormalizedUserName = @NormalizedUserName LIMIT 1";
 
         using var conn = CreateConnection();
-        return await conn.QueryFirstOrDefaultAsync<IdentityUser>(new CommandDefinition(sql, new { NormalizedUserName = normalizedUserName }, cancellationToken: cancellationToken));
+        
+        return await conn.QueryFirstOrDefaultAsync<IdentityUser>
+            (
+                new CommandDefinition(sql, new { NormalizedUserName = normalizedUserName }, cancellationToken: cancellationToken)
+            );
     }
 
-    // IUserPasswordStore
+    // --------------------- IUserPasswordStore Implementation ---------------------------------
+    
+    /// <inheritdoc/>
     public Task SetPasswordHashAsync(IdentityUser user, string? passwordHash, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         user.PasswordHash = passwordHash;
+        
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public Task<string?> GetPasswordHashAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(user.PasswordHash);
     }
 
+    /// <inheritdoc/>
     public Task<bool> HasPasswordAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
     }
 
-    // IUserEmailStore
+    // ---------------- IUserEmailStore implementation ----------------------------------
+    
+    /// <inheritdoc/>
     public Task SetEmailAsync(IdentityUser user, string? email, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
         user.Email = email;
+        
         return Task.CompletedTask;
     }
-
+    
+    /// <inheritdoc/>
     public Task<string?> GetEmailAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(user.Email);
     }
 
+    /// <inheritdoc/>
     public Task<bool> GetEmailConfirmedAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(user.EmailConfirmed);
     }
 
+    /// <inheritdoc/>
     public Task SetEmailConfirmedAsync(IdentityUser user, bool confirmed, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         user.EmailConfirmed = confirmed;
+        
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        const string sql = @$"SELECT Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp, Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount
+        const string sql = @$"SELECT Id, UserName, NormalizedUserName, PasswordHash, SecurityStamp, ConcurrencyStamp,
+                                     Email, NormalizedEmail, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed,
+                                     TwoFactorEnabled, LockoutEnabled, AccessFailedCount
                               FROM {UsersTable}
                               WHERE NormalizedEmail = @NormalizedEmail LIMIT 1";
 
         using var conn = CreateConnection();
-        return await conn.QueryFirstOrDefaultAsync<IdentityUser>(new CommandDefinition(sql, new { NormalizedEmail = normalizedEmail }, cancellationToken: cancellationToken));
+        
+        return await conn.QueryFirstOrDefaultAsync<IdentityUser>
+            (
+                new CommandDefinition(sql, new { NormalizedEmail = normalizedEmail }, cancellationToken: cancellationToken)
+            );
     }
 
+    /// <inheritdoc/>
     public Task<string?> GetNormalizedEmailAsync(IdentityUser user, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         return Task.FromResult(user.NormalizedEmail);
     }
 
+    /// <inheritdoc/>
     public Task SetNormalizedEmailAsync(IdentityUser user, string? normalizedEmail, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
+        
         user.NormalizedEmail = normalizedEmail;
+        
         return Task.CompletedTask;
     }
 }

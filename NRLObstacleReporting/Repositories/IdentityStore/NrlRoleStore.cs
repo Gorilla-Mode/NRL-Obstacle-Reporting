@@ -5,19 +5,35 @@ using System.Data;
 
 namespace NRLObstacleReporting.Repositories.IdentityStore;
 
-// Dapper-based implementation of IRoleStore without EF Core
+/// <summary>
+/// Dapper implementation of IRoleStore. Identity core depends on this implementation
+/// </summary>
 public class NrlRoleStore : IRoleStore<IdentityRole>
 {
     private readonly string _connectionString;
     private const string RolesTable = "AspNetRoles"; // default Identity roles table
 
+    /// <summary>
+    /// Constructor, retrieves connection string from .env file
+    /// </summary>
     public NrlRoleStore()
     {
         _connectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
     }
 
+    /// <summary>
+    /// Establishes a new connection to the database
+    /// </summary>
+    /// <returns>new SQL connection to mariadb container</returns>
     private IDbConnection CreateConnection() => new MySqlConnection(_connectionString);
+    
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        // Nothing to dispose; connections are disposed per operation.
+    }
 
+    /// <inheritdoc/>
     public async Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -33,6 +49,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return IdentityResult.Success;
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityResult> DeleteAsync(IdentityRole role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -47,11 +64,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return IdentityResult.Success;
     }
 
-    public void Dispose()
-    {
-        // Nothing to dispose; connections are disposed per operation.
-    }
-
+    /// <inheritdoc/>
     public async Task<IdentityRole?> FindByIdAsync(string roleId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -64,6 +77,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return await conn.QueryFirstOrDefaultAsync<IdentityRole>(new CommandDefinition(sql, new { Id = roleId }, cancellationToken: cancellationToken));
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityRole?> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -75,7 +89,8 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         using var conn = CreateConnection();
         return await conn.QueryFirstOrDefaultAsync<IdentityRole>(new CommandDefinition(sql, new { NormalizedName = normalizedRoleName }, cancellationToken: cancellationToken));
     }
-
+    
+    /// <inheritdoc/>
     public Task<string?> GetNormalizedRoleNameAsync(IdentityRole role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -84,6 +99,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return Task.FromResult(role.NormalizedName);
     }
 
+    /// <inheritdoc/>
     public Task<string> GetRoleIdAsync(IdentityRole role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -92,6 +108,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return Task.FromResult(role.Id);
     }
 
+    /// <inheritdoc/>
     public Task<string?> GetRoleNameAsync(IdentityRole role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -100,6 +117,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return Task.FromResult(role.Name);
     }
 
+    /// <inheritdoc/>
     public Task SetNormalizedRoleNameAsync(IdentityRole role, string? normalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -110,6 +128,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public Task SetRoleNameAsync(IdentityRole role, string? roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -120,6 +139,7 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public async Task<IdentityResult> UpdateAsync(IdentityRole role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();

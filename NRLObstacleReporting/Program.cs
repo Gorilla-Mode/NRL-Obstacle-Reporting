@@ -7,7 +7,6 @@ using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Repositories;
 using NRLObstacleReporting.Repositories.IdentityStore;
 using NRLObstacleReporting.StartupTests;
-using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +49,6 @@ builder.Services.AddDataProtection()
 
 SetupAuthentication(builder);
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -63,7 +61,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-// Ensure authentication is enabled before authorization
+// Ensure authentication is enabled before authorization, believe it or not
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -92,9 +90,8 @@ void SetupAuthentication(WebApplicationBuilder authbuilder)
     authbuilder.Services
         .AddIdentityCore<IdentityUser>()
         .AddRoles<IdentityRole>()
-        // Register single combined store that implements IUserStore, IUserPasswordStore and IUserEmailStore
-        .AddUserStore<NrlDapperUserStore>()
-        .AddRoleStore<NrlRoleStore>() // Dapper role store
+        .AddUserStore<NrlUserStore>()
+        .AddRoleStore<NrlRoleStore>() 
         .AddSignInManager()
         .AddDefaultTokenProviders();
 
