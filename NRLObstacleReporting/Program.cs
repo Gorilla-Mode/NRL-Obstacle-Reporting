@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Repositories;
 using NRLObstacleReporting.Repositories.IdentityStore;
 using NRLObstacleReporting.StartupTests;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,15 @@ foreach (var testclass in databaseTests)
     testclass.InvokeAllTests();
 }
 
+// Persist DataProtection keys to disk so antiforgery/cookie tokens survive restarts.
+// In Docker, mount a volume to this path or change to a shared path.
+var keysFolder = Path.Combine(builder.Environment.ContentRootPath, "DataProtection-Keys");
+Directory.CreateDirectory(keysFolder);
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
+    .SetApplicationName("NRLObstacleReporting");
+
 SetupAuthentication(builder);
 
 
@@ -46,13 +57,14 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
+// Ensure authentication is enabled before authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -63,7 +75,7 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
- 
+
 void SetupAuthentication(WebApplicationBuilder authbuilder)
 {
     authbuilder.Services.Configure<IdentityOptions>(options =>
@@ -80,11 +92,9 @@ void SetupAuthentication(WebApplicationBuilder authbuilder)
     authbuilder.Services
         .AddIdentityCore<IdentityUser>()
         .AddRoles<IdentityRole>()
-        .AddUserStore<NrlUserStore>()
-        .AddUserStore<NrlUserEmailStore>()
-        // Register the store that implements IUserPasswordStore<IdentityUser>
-        .AddUserStore<NrlUserPasswordStore>()
-        .AddRoleStore<NrlRoleStore>() // Dapper role store, do this for the other stores you need if not using EF 
+        // Register single combined store that implements IUserStore, IUserPasswordStore and IUserEmailStore
+        .AddUserStore<NrlDapperUserStore>()
+        .AddRoleStore<NrlRoleStore>() // Dapper role store
         .AddSignInManager()
         .AddDefaultTokenProviders();
 
