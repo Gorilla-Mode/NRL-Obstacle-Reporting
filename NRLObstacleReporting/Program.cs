@@ -81,6 +81,7 @@ void SetupAuthentication(WebApplicationBuilder authbuilder)
         .AddIdentityCore<IdentityUser>()
         .AddRoles<IdentityRole>()
         .AddUserStore<NrlUserStore>()
+        .AddUserStore<NrlUserEmailStore>()
         // Register the store that implements IUserPasswordStore<IdentityUser>
         .AddUserStore<NrlUserPasswordStore>()
         .AddRoleStore<NrlRoleStore>() // Dapper role store, do this for the other stores you need if not using EF 
