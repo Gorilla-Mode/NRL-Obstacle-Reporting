@@ -13,7 +13,6 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
 
     public NrlRoleStore()
     {
-        // Uses same connection string key as rest of app (kartverketdb)
         _connectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
     }
 
