@@ -1,4 +1,5 @@
-@{
+
+@{ 
     Layout = "~/Views/Shared/_LayoutRegistrar.cshtml";
 }
 @{
@@ -20,153 +21,141 @@ else
        
         <div class="flex w-screen gap-4 pt-4 mb-6"> <!-- 4 rectangle -->
             <a asp-action="PilotViewReports" asp-controller="Pilot"
-               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
                 All
             </a>
             <a asp-action="PilotViewReports" asp-controller="Pilot"
-               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200"> 
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-500 hover:bg-blue-700 transition-colors duration-200"> 
                 Pending
             </a>
             <a asp-action="PilotViewReports" asp-controller="Pilot"
-               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
                 Approved
             </a>
             <a asp-action="PilotViewReports" asp-controller="Pilot"
-               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-600 hover:bg-blue-700 transition-colors duration-200"> 
+               class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-black bg-blue-500 hover:bg-blue-700 transition-colors duration-200"> 
                 Rejected
             </a>
         </div>
         
-        <div class="flex w-full gap-2 mb-6"> <!-- 6 filter-dropdowns -->
-            <div class="relative w-[120px]"><!-- Template for each filter -->
-                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
-                    Type
-                </button>
-                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Account Settings</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Support</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">License</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Sign Out</div>
-                </div>
-            </div>
-
-            <div class="relative w-[120px]">
-                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
-                    Organization
-                </button>
-                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Item 1</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Item 2</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Item 3</div>
-                </div>
-            </div>
-
-            <div class="relative w-[120px]">
-                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
-                    Status
-                </button>
-                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Pending</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Approved</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Rejected</div>
-                </div>
-            </div>
-
-            <div class="relative w-[120px]">
-                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
-                    Org view
-                </button>
-                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">A</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">B</div>
-                </div>
-            </div>
-
-            <div class="relative w-[120px]">
-                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
-                    Start date
-                </button>
-                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">One</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Two</div>
-                </div>
-            </div>
-
-            <div class="relative w-[120px]">
-                <button onclick="toggleFilterDropdown(this)" class="filter-btn w-full border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold flex justify-between items-center bg-white text-sm">
-                    End date
-                </button>
-                <div class="filter-menu hidden absolute top-full mt-1 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">X</div>
-                    <div class="cursor-pointer hover:bg-gray-300 p-2 text-sm" onclick="setFilter(this)">Y</div>
-                </div>
-            </div>
-        </div>
+        <!-- Type Dropdown -->    
+        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-40 p-2.5">
+            <option value="" selected>Type</option>
+            <option value="Aerial Span">Aerial Span</option>
+            <option value="Building">Building</option>
+            <option value="Bridge">Bridge</option>
+            <option value="Pole/Tower">Pole/Tower</option>
+            <option value="Construction">Construction</option>
+            <option value="Other">Other</option>
+        </select>
+        <!-- Organization Dropdown --> 
+        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-40 p-2.5">
+            <option value="" selected>Organization</option>
+            <option value="Aerial Span">Første gangs tjeneste</option>
+            <option value="Building"></option>
+            <option value="Bridge"></option>
+            <option value="Pole/Tower"></option>
+            <option value="Construction"></option>
+            <option value="Other"></option>
+        </select>
+        <!-- Status --> 
+        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-40 p-2.5">
+            <option value="" selected>Status</option>
+            <option value="Aerial Span">Approved</option>
+            <option value="Building">Pending</option>
+            <option value="Bridge">Rejected</option>
+        </select>
+        <!-- Org View --> 
+        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-40 p-2.5">
+            <option value="" selected>Org View</option>
+            <option value="Aerial Span">Aerial Span</option>
+            <option value="Building">Building</option>
+            <option value="Bridge">Bridge</option>
+            <option value="Pole/Tower">Pole/Tower</option>
+            <option value="Construction">Construction</option>
+            <option value="Other">Other</option>
+        </select>
         
-        <div class="w-full flex justify-start mt-2"> <!-- Search -->
-            <button class="filter-btn border border-gray-400 px-3 py-2 rounded cursor-pointer font-bold bg-white text-sm">
-                Search
-            </button>
+        <div class="relative inline-block w-40">  <!-- Calender -->  
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                </svg>
+            </div>
+            <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+        </div>
+     
+        <div class="relative inline-block w-40">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                </svg>
+            </div>
+            <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
         </div>
         
         <table class="border-collapse border border-gray-400 w-full text-left text-sm"><!-- Tabell -->
             <thead class="bg-gray-200">
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Type</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Height</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Coordinates</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Illuminated</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Description</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Status</th>
-                </tr>
+            <tr>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Obstacle ID</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Type</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Height</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Coordinates</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Illuminated</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Marked</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Description</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Status</th>
+            </tr>
             </thead>
             <tbody class="bg-white">
-                @foreach (var o in obstacleCompleteModels)
-                {
-                    <tr class="hover:bg-gray-100 transition">
-                        <td class="border border-gray-300 px-4 py-2">@o.Name</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.ObstacleId</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.Type</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.HeightMeter</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.Illuminated</td>
-                        <td class="border border-gray-300 px-4 py-2">@o.Description</td>
-                        <td class="border border-gray-300 px-4 py-2 text-center relative">
-                            <div class="inline-block relative">
-                                <button class="status-btn rounded-full px-4 py-1 font-semibold text-xs transition bg-yellow-300 text-black hover:brightness-95"
-                                        onclick="toggleMenu(this)">
-                                    Pending
-                                </button>
-                                <div class="status-menu hidden absolute left-1/2 transform -translate-x-1/2 top-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg w-28 z-10">
-                                    <ul class="text-sm text-gray-700">
-                                        <li>
-                                            <button class="block w-full text-left px-3 py-1 hover:bg-yellow-300"
-                                                    onclick="setStatus(this, 'Pending')">Pending</button>
-                                        </li>
-                                        <li>
-                                            <button class="block w-full text-left px-3 py-1 hover:bg-green-300"
-                                                    onclick="setStatus(this, 'Approved')">Approved</button>
-                                        </li>
-                                        <li>
-                                            <button class="block w-full text-left px-3 py-1 hover:bg-red-300"
-                                                    onclick="setStatus(this, 'Rejected')">Rejected</button>
-                                        </li>
-                                    </ul>
-                                </div>
+            @foreach (var o in obstacleCompleteModels)
+            {
+                <tr class="hover:bg-gray-100 transition">
+                    <td class="border border-gray-300 px-4 py-2">@o.Name</td>
+                    <td class="border border-gray-300 px-4 py-2">@o.ObstacleId</td>
+                    <td class="border border-gray-300 px-4 py-2">@o.Type</td>
+                    <td class="border border-gray-300 px-4 py-2">@o.HeightMeter</td>
+                    <td class="border border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
+                    <td class="border border-gray-300 px-4 py-2">@o.Illuminated</td>
+                    <td class="border border-gray-300 px-4 py-2">@o.Marking</td>
+                    <td class="border border-gray-300 px-4 py-2">@o.Description</td>
+                    <td class="border border-gray-300 px-4 py-2 text-center relative">
+                        <div class="inline-block relative">
+                            <button class="status-btn rounded-full px-4 py-1 font-semibold text-xs transition bg-yellow-300 text-black hover:brightness-95"
+                                    onclick="toggleMenu(this)">
+                                Pending
+                            </button>
+                            <div class="status-menu hidden absolute left-1/2 transform -translate-x-1/2 top-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg w-28 z-10">
+                                <ul class="text-sm text-gray-700">
+                                    <li>
+                                        <button class="block w-full text-left px-3 py-1 hover:bg-yellow-300"
+                                                onclick="setStatus(this, 'Pending')">Pending</button>
+                                    </li>
+                                    <li>
+                                        <button class="block w-full text-left px-3 py-1 hover:bg-green-300"
+                                                onclick="setStatus(this, 'Approved')">Approved</button>
+                                    </li>
+                                    <li>
+                                        <button class="block w-full text-left px-3 py-1 hover:bg-red-300"
+                                                onclick="setStatus(this, 'Rejected')">Rejected</button>
+                                    </li>
+                                </ul>
                             </div>
-                        </td>
-                    </tr>
-                }
+                        </div>
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>
 }
 
+
+
 @section Scripts {
     <script>
-
-
+        
         // ===== Status-knapp i tabellen =====
         function toggleMenu(button) {
             const td = button.closest('td');
@@ -191,27 +180,6 @@ else
             const menu = parent.querySelector('.filter-menu');
             menu.classList.toggle('hidden');
         }
-
-        function setFilter(item) {
-            const parent = item.closest('.relative');
-            const button = parent.querySelector('.filter-btn');
-            button.textContent = item.textContent;
-            parent.querySelector('.filter-menu').classList.add('hidden');
-        }
-        // This is an anonymous (lambda) function used as a click event handler.
-        // It listens for clicks anywhere in the document and closes all dropdown menus
-        document.addEventListener('click', function(e) {
-            document.querySelectorAll('.status-menu').forEach(menu => {
-                const button = menu.previousElementSibling;
-                if (!menu.contains(e.target) && !button.contains(e.target)) menu.classList.add('hidden');
-            });
-            document.querySelectorAll('.filter-menu').forEach(menu => {
-                const button = menu.previousElementSibling;
-                if (!menu.contains(e.target) && !button.contains(e.target)) menu.classList.add('hidden');
-            });
-        });
-
-
 
     </script>
 
