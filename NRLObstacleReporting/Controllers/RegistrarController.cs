@@ -22,15 +22,13 @@ public class RegistrarController : Controller
     {
         return View();
     }
-    
+
     public async Task<IActionResult> RegistrarViewReports()
     {
-        
         var submittedDrafts = await _repoObstacle.GetAllSubmittedObstacles();
-        
         var obstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
-
         ViewData["reports"] = obstacles;
         return View();
     }
 }
+
