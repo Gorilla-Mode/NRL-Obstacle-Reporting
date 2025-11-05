@@ -39,6 +39,7 @@
 </div>
 <div class="flex flex-col justify-start items-center h-auto text-center pb-10">
     <form asp-action="DataformStep3" method="post"
+          @Html.AntiForgeryToken()
           class="flex flex-col items-center w-full max-w-3xl min-h-[100vh]">
         <div class="flex flex-col items-center w-full">
             <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
