@@ -9,7 +9,7 @@ using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Controllers;
-[Authorize]
+[Authorize(Roles = "Administrator, Pilot, Registrar")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -37,8 +37,7 @@ public class HomeController : Controller
         {
             return RedirectToAction("AdminIndex", "Admin", null);
         }
-
-
+        
         return View();
     }
 
