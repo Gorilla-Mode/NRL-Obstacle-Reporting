@@ -3,15 +3,12 @@
 <!-- Progressbar -->
 <div class="relative w-full flex justify-center py-4">
     <div class="relative w-[90%] max-w-3xl mx-auto flex flex-col items-center">
-
         <!-- Selve linjen -->
         <div class="absolute h-[3px] -translate-y-1/2 z-0"
              style="top: 35%; width: 70%; background: linear-gradient(to right, #2563eb 0%, #2563eb 50%, #e5e7eb 50%, #e5e7eb 100%);">
         </div>
-
         <!-- Stegene -->
         <div class="relative flex justify-between items-center w-full z-10">
-
             <!-- Step 1 -->
             <div class="flex flex-col items-center w-1/3 text-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
@@ -21,7 +18,6 @@
                     Select Obstacle Type
                 </span>
             </div>
-
             <!-- Step 2 (aktiv) -->
             <div class="flex flex-col items-center w-1/3 text-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow">
@@ -31,7 +27,6 @@
                     Place Obstacle
                 </span>
             </div>
-
             <!-- Step 3 -->
             <div class="flex flex-col items-center w-1/3 text-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center shadow">
@@ -44,37 +39,30 @@
         </div>
     </div>
 </div>
-
 <div class="overflow-hidden mt-2">
     <section class="mt-2">
         <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg"></div>
-
-        <div class="mt-3">
-            <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
-            <textarea id="CoordinatesPreview"
-                      class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 w-full"
-                      style="height: 6dvh;"
-                      readonly></textarea>
-        </div>
-
-
-
+            <div class="mt-3">
+                <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
+                <textarea id="CoordinatesPreview"
+                          class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 w-full"
+                          style="height: 6dvh;"
+                          readonly></textarea>
+            </div>
         <form asp-action="DataformStep2" method="post">
-            <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
-            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
-
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson"/>
+            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")"/>
             <!-- Knappene har samme bredde som kartet og textarea -->
             <div class="grid grid-cols-2 gap-1 w-full mt-2">
-            <button type="submit"
+                <button type="submit"
                         class="Btn-PilotPrimary h-16 items-center justify-center w-full"
                         formaction="/Obstacle/DataformStep2" id="savebutton">Save Draft</button>
-
                 <button type="submit"
                         class="Btn-PilotPrimary h-16 items-center justify-center w-full"
                         formaction="/Obstacle/DataformStep2" id="nextpage">Next Page</button>
             </div>
-
-            <input type="hidden" asp-for="SaveDraft" id="save" />
+            <input type="hidden" asp-for="SaveDraft" id="save"/>
         </form>
     </section>
 </div>

@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Repositories;
+using NRLObstacleReporting.Repositories.IdentityStore;
 using NRLObstacleReporting.StartupTests;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+
 IStartupDatabaseTest[] databaseTests =
 [
     InternalDatabaseConnectionTest.GetInstance(),
@@ -34,6 +38,16 @@ foreach (var testclass in databaseTests)
     testclass.InvokeAllTests();
 }
 
+// Persist DataProtection keys to disk so antiforgery/cookie tokens survive restarts.
+// In Docker, mount a volume to this path or change to a shared path.
+var keysFolder = Path.Combine(builder.Environment.ContentRootPath, "DataProtection-Keys");
+Directory.CreateDirectory(keysFolder);
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
+    .SetApplicationName("NRLObstacleReporting");
+
+SetupAuthentication(builder);
 
 var app = builder.Build();
 
@@ -41,13 +55,14 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
+// Ensure authentication is enabled before authorization, believe it or not
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -58,3 +73,44 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
+
+void SetupAuthentication(WebApplicationBuilder authbuilder)
+{
+    authbuilder.Services.Configure<IdentityOptions>(options =>
+    {
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.AllowedForNewUsers = false;
+        options.SignIn.RequireConfirmedPhoneNumber = false;
+        options.SignIn.RequireConfirmedEmail = false;
+        options.SignIn.RequireConfirmedAccount = false;
+        options.User.RequireUniqueEmail = true;
+    });
+
+    authbuilder.Services
+        .AddIdentityCore<IdentityUser>()
+        .AddRoles<IdentityRole>()
+        .AddUserStore<NrlUserStore>()
+        .AddRoleStore<NrlRoleStore>() 
+        .AddSignInManager()
+        .AddDefaultTokenProviders();
+
+    authbuilder.Services.AddAuthentication(o =>
+    {
+        o.DefaultScheme = IdentityConstants.ApplicationScheme;
+        o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    }).AddIdentityCookies(_ => { });
+
+    authbuilder.Services.AddTransient<IEmailSender, AuthMessageSender>();
+}
+
+public class AuthMessageSender : IEmailSender
+{
+    public Task SendEmailAsync(string email, string subject, string htmlMessage)
+    {
+        Console.WriteLine(email);
+        Console.WriteLine(subject);
+        Console.WriteLine(htmlMessage);
+        return Task.CompletedTask;
+    }
+}
