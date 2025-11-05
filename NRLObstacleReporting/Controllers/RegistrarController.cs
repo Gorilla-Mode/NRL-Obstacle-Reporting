@@ -1,18 +1,36 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NRLObstacleReporting.Models;
+using NRLObstacleReporting.Repositories;
 
+namespace NRLObstacleReporting.Controllers;
 
-namespace NRLObstacleReporting.Controllers
+[Authorize(Roles = "Registrar")]
+public class RegistrarController : Controller
 {
-    public class RegistrarController : Controller
+    private readonly IMapper _mapper;
+    private readonly IObstacleRepository _repoObstacle;
+
+    public RegistrarController(IMapper mapper, IObstacleRepository repo)
     {
-        public IActionResult RegistrarIndex()
-        {
-            return View();
-        }
+        _mapper = mapper;
+        _repoObstacle = repo;
+    }
+
+    public IActionResult RegistrarIndex()
+    {
+        return View();
+    }
+    
+    public async Task<IActionResult> RegistrarViewReports()
+    {
         
-        public IActionResult RegistrarViewReports()
-        {
-            return View();
-        }
+        var submittedDrafts = await _repoObstacle.GetAllSubmittedObstacles();
+        
+        var obstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
+
+        ViewData["reports"] = obstacles;
+        return View();
     }
 }

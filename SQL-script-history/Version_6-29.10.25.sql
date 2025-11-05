@@ -93,11 +93,11 @@ create table test
     test_column int null
 );
 
-INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (0, 'Powerline');
-INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (1, 'Pole');
+INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (0, 'AirSpan');
+INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (1, 'PoleOrTower');
 INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (2, 'Building');
 INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (3, 'Construction');
-INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (4, 'Natural');
+INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (4, 'Bridge');
 INSERT INTO ObstacleType (Type, ObstacleTypeName) VALUES (5, 'Other');
 
 INSERT INTO Illuminated (Illuminated, IlluminatedName) VALUES (0, 'Unknown');
