@@ -6,13 +6,15 @@ using System.Data;
 namespace NRLObstacleReporting.Repositories.IdentityStore;
 
 /// <summary>
-/// Dapper implementation of IUserStore, IUserPasswordStore and IUserEmailStore. Identity core, depends on this
-/// implementation
+/// Dapper implementation of IUserStore, IUserPasswordStore, IUserEmailStore and IUserRoleStore.
+/// Identity core depends on this implementation.
 /// </summary>
-public class NrlUserStore : IUserPasswordStore<IdentityUser>, IUserEmailStore<IdentityUser>
+public class NrlUserStore : IUserPasswordStore<IdentityUser>, IUserEmailStore<IdentityUser>, IUserRoleStore<IdentityUser>
 {
     private readonly string _connectionString;
     private const string UsersTable = "AspNetUsers";
+    private const string RolesTable = "AspNetRoles";
+    private const string UserRolesTable = "AspNetUserRoles";
     
     /// <summary>
     /// Constructor, retrieves connection string from .env file
@@ -300,5 +302,106 @@ public class NrlUserStore : IUserPasswordStore<IdentityUser>, IUserEmailStore<Id
         user.NormalizedEmail = normalizedEmail;
         
         return Task.CompletedTask;
+    }
+
+    // ---------------- IUserRoleStore implementation ----------------------------------
+
+    /// <inheritdoc/>
+    public async Task AddToRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        ArgumentNullException.ThrowIfNull(roleName);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string normalized = roleName.ToUpperInvariant();
+
+        const string getRoleSql = @$"SELECT Id FROM {RolesTable} WHERE NormalizedName = @NormalizedName LIMIT 1";
+        using var conn = CreateConnection();
+        var roleId = await conn.QueryFirstOrDefaultAsync<string>(new CommandDefinition(getRoleSql, new { NormalizedName = normalized }, cancellationToken: cancellationToken));
+        if (string.IsNullOrEmpty(roleId))
+        {
+            // role doesn't exist; silently return (alternatively create role or throw)
+            return;
+        }
+
+        const string insertSql = @$"INSERT IGNORE INTO {UserRolesTable} (UserId, RoleId) VALUES (@UserId, @RoleId)";
+        await conn.ExecuteAsync(new CommandDefinition(insertSql, new { UserId = user.Id, RoleId = roleId }, cancellationToken: cancellationToken));
+    }
+
+    /// <inheritdoc/>
+    public async Task RemoveFromRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        ArgumentNullException.ThrowIfNull(roleName);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string normalized = roleName.ToUpperInvariant();
+
+        const string getRoleSql = @$"SELECT Id FROM {RolesTable} WHERE NormalizedName = @NormalizedName LIMIT 1";
+        using var conn = CreateConnection();
+        var roleId = await conn.QueryFirstOrDefaultAsync<string>(new CommandDefinition(getRoleSql, new { NormalizedName = normalized }, cancellationToken: cancellationToken));
+        if (string.IsNullOrEmpty(roleId))
+        {
+            return;
+        }
+
+        const string deleteSql = @$"DELETE FROM {UserRolesTable} WHERE UserId = @UserId AND RoleId = @RoleId";
+        await conn.ExecuteAsync(new CommandDefinition(deleteSql, new { UserId = user.Id, RoleId = roleId }, cancellationToken: cancellationToken));
+    }
+
+    /// <inheritdoc/>
+    public async Task<IList<string>> GetRolesAsync(IdentityUser user, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        const string sql = @$"SELECT r.Name
+                              FROM {RolesTable} r
+                              INNER JOIN {UserRolesTable} ur ON ur.RoleId = r.Id
+                              WHERE ur.UserId = @UserId";
+
+        using var conn = CreateConnection();
+        var roles = await conn.QueryAsync<string>(new CommandDefinition(sql, new { UserId = user.Id }, cancellationToken: cancellationToken));
+        return roles.AsList();
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> IsInRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        ArgumentNullException.ThrowIfNull(roleName);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string normalized = roleName.ToUpperInvariant();
+
+        const string sql = @$"SELECT COUNT(1)
+                              FROM {RolesTable} r
+                              INNER JOIN {UserRolesTable} ur ON ur.RoleId = r.Id
+                              WHERE ur.UserId = @UserId AND r.NormalizedName = @NormalizedName";
+
+        using var conn = CreateConnection();
+        var count = await conn.ExecuteScalarAsync<int>(new CommandDefinition(sql, new { UserId = user.Id, NormalizedName = normalized }, cancellationToken: cancellationToken));
+        return count > 0;
+    }
+
+    /// <inheritdoc/>
+    public async Task<IList<IdentityUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(roleName);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string normalized = roleName.ToUpperInvariant();
+
+        const string sql = @$"SELECT u.Id, u.UserName, u.NormalizedUserName, u.PasswordHash, u.SecurityStamp, u.ConcurrencyStamp,
+                                     u.Email, u.NormalizedEmail, u.EmailConfirmed, u.PhoneNumber, u.PhoneNumberConfirmed,
+                                     u.TwoFactorEnabled, u.LockoutEnabled, u.AccessFailedCount
+                              FROM {UsersTable} u
+                              INNER JOIN {UserRolesTable} ur ON ur.UserId = u.Id
+                              INNER JOIN {RolesTable} r ON ur.RoleId = r.Id
+                              WHERE r.NormalizedName = @NormalizedName";
+
+        using var conn = CreateConnection();
+        var users = await conn.QueryAsync<IdentityUser>(new CommandDefinition(sql, new { NormalizedName = normalized }, cancellationToken: cancellationToken));
+        return users.AsList();
     }
 }
