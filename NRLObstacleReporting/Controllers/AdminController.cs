@@ -8,6 +8,7 @@ using NRLObstacleReporting.Models.Account;
 
 namespace NRLObstacleReporting.Controllers;
 
+[Authorize(Roles = "Administrator")]
 public class AdminController : Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
@@ -30,6 +31,8 @@ public class AdminController : Controller
             ModelState.AddModelError(string.Empty, error.Description);
         }
     }
+    
+    [HttpGet]
     public IActionResult AdminIndex()
     {
         return View();
@@ -37,7 +40,6 @@ public class AdminController : Controller
     
     // GET: /Account/Register
     [HttpGet]
-    [AllowAnonymous]
     public IActionResult Register(string? returnUrl = null)
     {
         ViewData["ReturnUrl"] = returnUrl;
@@ -47,7 +49,6 @@ public class AdminController : Controller
     //
     // POST: /Account/Register
     [HttpPost]
-    [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
     {
@@ -62,7 +63,7 @@ public class AdminController : Controller
 
                 _logger.LogInformation(3, "User created a new account with password.");
 
-                return RedirectToAction("Register");
+                return RedirectToAction("AdminIndex");
             }
             AddErrors(result);
         }
