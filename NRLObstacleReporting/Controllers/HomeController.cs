@@ -7,7 +7,7 @@ using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Controllers;
-[Authorize]
+[Authorize(Roles = "Pilot, Registrar")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

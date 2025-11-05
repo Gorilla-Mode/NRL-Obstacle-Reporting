@@ -7,7 +7,7 @@ using NRLObstacleReporting.Repositories;
 
 namespace NRLObstacleReporting.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Pilot")]
 public class PilotController : Controller
 {
     private readonly IObstacleRepository _repo;

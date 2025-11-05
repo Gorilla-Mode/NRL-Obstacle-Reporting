@@ -6,7 +6,7 @@ using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 
 namespace NRLObstacleReporting.Controllers;
-[Authorize]
+[Authorize(Roles = "Pilot")]
 public class DraftController : Controller
 {
     private readonly IMapper _mapper;

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NRLObstacleReporting.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Registrar")]
 public class RegistrarController : Controller
 {
     public IActionResult RegistrarIndex()
