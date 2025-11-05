@@ -26,6 +26,7 @@ public class ObstacleController : Controller
     }
     
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> DataformStep1(ObstacleStep1Model obstacleModel)
     {
         //Async to make sure db is updated before reading in case of save draft
@@ -64,6 +65,7 @@ public class ObstacleController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<ActionResult> DataformStep2(ObstacleStep2Model obstacleModel)
     {
         //Async to make sure db is updated before reading in case of save draft
@@ -96,6 +98,7 @@ public class ObstacleController : Controller
     }
     
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<ActionResult> DataformStep3(ObstacleStep3Model obstacleModel)
     {
         // async await, to prevent possible race condition with database write read.
@@ -113,4 +116,3 @@ public class ObstacleController : Controller
         return View("Overview", obstacleQuery);
     } 
 }
-

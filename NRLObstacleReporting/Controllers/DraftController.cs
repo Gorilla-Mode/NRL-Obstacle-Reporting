@@ -33,6 +33,7 @@ public class DraftController : Controller
     }
     //TODO: split into get so no resubittions
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult EditDraft(ObstacleCompleteModel draft)
     {
         //POST gets all values from obstacle to be edited
@@ -40,6 +41,7 @@ public class DraftController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<ActionResult> SaveEditedDraft(ObstacleCompleteModel editedDraft)
     {
         //async to make sure task is completed before resubmit
@@ -50,6 +52,7 @@ public class DraftController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<ActionResult> SubmitDraft(ObstacleCompleteModel draft)
     {
         //async to make sure task is completed before resubmit
