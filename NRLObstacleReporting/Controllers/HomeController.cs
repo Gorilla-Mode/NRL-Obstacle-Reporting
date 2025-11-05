@@ -33,6 +33,11 @@ public class HomeController : Controller
         {
             return RedirectToAction("RegistrarIndex", "Registrar", null);
         }
+        if (await _userManager.IsInRoleAsync((await currentUser)!, "Administrator"))
+        {
+            return RedirectToAction("AdminIndex", "Admin", null);
+        }
+
 
         return View();
     }
