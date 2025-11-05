@@ -63,6 +63,10 @@ namespace NRLObstacleReporting.Controllers
                 {
                     return RedirectToAction("RegistrarIndex", "Registrar", null);
                 }
+                if (await _userManager.IsInRoleAsync(currentUser!, "Administrator"))
+                {
+                    return RedirectToAction("AdminIndex", "Admin", null);
+                }
                 
                 
             }
@@ -81,45 +85,7 @@ namespace NRLObstacleReporting.Controllers
                 return View(model);
             }
         }
-
-        //
-        // GET: /Account/Register
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string? returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, LockoutEnabled = false, LockoutEnd = null };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    _logger.LogInformation(3, "User created a new account with password.");
-
-
-                    return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
+        
 
         // POST: /Account/LogOff
         [HttpPost]
