@@ -38,15 +38,15 @@
     </div>
 </div>
 <div class="flex flex-col justify-start items-center h-auto text-center pb-10">
-    <form asp-action="DataformStep3" method="post"
-          class="flex flex-col items-center w-full max-w-3xl min-h-[100vh]">
+    <form asp-action="DataformStep3" method="post" class="flex flex-col items-center w-full max-w-3xl min-h-[100vh]">
+        @Html.AntiForgeryToken()
         <div class="flex flex-col items-center w-full">
-            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")"/>
             <!-- Name -->
             <div class="w-[92%] mb-3">
                 <label class="text-lg font-medium">Obstacle Name</label>
                 <input asp-for="Name"
-                       class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 text-lg w-full h-12 mt-1" />
+                       class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 text-lg w-full h-12 mt-1"/>
             </div>
             <!-- Description -->
             <div class="w-[92%] mb-6">
@@ -104,7 +104,6 @@
                             formaction="/Obstacle/DataformStep3" id="Submit">
                         Submit Report
                     </button>
-                    
                 </div>
             </div>
         </div>

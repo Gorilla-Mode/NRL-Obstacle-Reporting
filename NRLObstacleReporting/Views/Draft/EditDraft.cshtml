@@ -4,6 +4,7 @@
 }
 <div>
     <form method="post" asp-action="SaveEditedDraft">
+        @Html.AntiForgeryToken()
         <table class="center">
             <caption>Obstacle Report: @Model.GetHashCode()</caption>
             <thead>
@@ -20,7 +21,7 @@
             </tr>
             <tr>
                 <th scope="row">Coordinates</th>
-                <td><input asp-for="GeometryGeoJson" value="@Model.GeometryGeoJson" />
+                <td><input asp-for="GeometryGeoJson" value="@Model.GeometryGeoJson"/>
                     <span asp-validation-for="GeometryGeoJson"></span></td>
             </tr>
             <tr>
