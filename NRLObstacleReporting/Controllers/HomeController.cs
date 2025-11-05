@@ -33,7 +33,8 @@ public class HomeController : Controller
         {
             return RedirectToAction("RegistrarIndex", "Registrar", null);
         }
-        return View():
+
+        return View();
     }
 
     public IActionResult Privacy()
