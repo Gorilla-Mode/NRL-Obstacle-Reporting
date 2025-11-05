@@ -12,12 +12,12 @@
                 <label asp-for="Type" class="block mb-2 text-sm font-medium text-gray-900">Obstacle type </label>
                 <select asp-for="Type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                     <option selected="">Select obstacle type</option>
-                    <option value="Aerial span">Aerial span</option>
-                    <option value="Pole/Tower">Pole/Tower</option>
-                    <option value="Building">Building</option>
-                    <option value="Construction">Construction</option>
-                    <option value="Bridge">Bridge</option>
-                    <option value="Other">Other</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleTypes.AirSpan)">Aerial span</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleTypes.PoleOrTower)">Pole/Tower</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleTypes.Building)">Building</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleTypes.Construction)">Construction</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleTypes.Bridge)">Bridge</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleTypes.Other)">Other</option>
                 </select>
             </div>
             <div class="w-full">
@@ -29,9 +29,9 @@
                 <label asp-for="Illuminated" class="block mb-2 text-sm font-medium text-gray-900">Illumination </label>
                 <select asp-for="Illuminated" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                     <option selected="">Select illumination status</option>
-                    <option value="Illuminated">Illuminated</option>
-                    <option value="Not illuminated">Not illuminated</option>
-                    <option value="Unknown">Unknown</option>
+                    <<option value="@((int)ObstacleCompleteModel.Illumination.Illuminated)">Illuminated</option>
+                    <option value="@((int)ObstacleCompleteModel.Illumination.NotIlluminated)">Not illuminated</option>
+                    <option value="@((int)ObstacleCompleteModel.Illumination.Unknown)">Unknown</option>
                 </select>
                 <span asp-validation-for="Illuminated"></span>
             </div>
@@ -39,9 +39,9 @@
                 <label asp-for="Marking" class="block mb-2 text-sm font-medium text-gray-900">Obstacle marking status </label>
                 <select asp-for="Marking" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                     <option selected="">Select obstacle marking status</option>
-                    <option value="Marked">Marked</option>
-                    <option value="Not marked">Not marked</option>
-                    <option value="Unknown">Unknown</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleMarking.Marked)">Marked</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleMarking.NotMarked)">Not marked</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleMarking.Unknown)">Unknown</option>
                 </select>
                 <span asp-validation-for="Marking"></span>
             </div>
@@ -171,23 +171,19 @@
                             map.on(L.Draw.Event.DELETED, onDeleted);
                             
 
-                                </Script> 
+                            </Script> 
                         </details>
-                        
                     </div>
                 </div>
             }
-            <div class = "text-xs font-bold text-gray-900" >Obstacle Report: @Model.GetHashCode()
-            </div>
+            <div class = "text-xs font-bold text-gray-900" >Obstacle Report: @Model.GetHashCode()</div>
         </div>
-
+        <input type="hidden" asp-for="Status" id="IsDraft"/>
         <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
-
-       
-            <div class="grid grid-cols-2 gap-6 w-full">
-                <button class="text-white bg-blue-500 hover:bg-blue-700 border-2 border-blue-500  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" type="submit" formaction="/Draft/SaveEditedDraft">Save draft</button>
-                <button class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" type="submit" formaction="/Draft/SubmitDraft">Submit</button>
-            </div>
+        <div class="grid grid-cols-2 gap-6 w-full">
+            <button id = "SaveDraft" class="text-white bg-blue-500 hover:bg-blue-700 border-2 border-blue-500  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" type="submit">Save draft</button>
+            <button id = "Submit" class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" type="submit">Submit</button>
+        </div>
         </form>
 </div>
 
@@ -201,7 +197,9 @@
     <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
     <script src="~/js/MapScripts/Geolocation.js" asp-append-version="true"></script>
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-   
-    
-    
+
+    <script>
+        AssignValueByID('SaveDraft', 'IsDraft', 0); // 0 = Draft
+        AssignValueByID('Submit', 'IsDraft', 1);    // 1 = Submitted
+    </script>
 }
