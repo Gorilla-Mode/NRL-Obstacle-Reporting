@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 
 namespace NRLObstacleReporting.Controllers;
-
+[Authorize]
 public class DraftController : Controller
 {
     private readonly IMapper _mapper;

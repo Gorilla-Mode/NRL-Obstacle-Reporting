@@ -7,7 +7,7 @@ using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Controllers;
-
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -16,7 +16,7 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
-    [Authorize]
+    
     public IActionResult Index()
     {
         return View();
