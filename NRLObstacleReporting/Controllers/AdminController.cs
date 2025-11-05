@@ -30,8 +30,6 @@ public class AdminController : Controller
             ModelState.AddModelError(string.Empty, error.Description);
         }
     }
-
-    [HttpGet]
     public IActionResult AdminIndex()
     {
         return View();
