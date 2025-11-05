@@ -118,6 +118,17 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
    3. Site is just plain html
       1. Run `npm run build:css` in `./NRLObstacleReporting/NRLObstacleReporting`
 
+### 4. Default Users
+
+1. Once the application is running use any of the default users to log in as their respecitve role.
+   1. To create a new user you must log in as the administrator
+
+| User name               | Default Password | Role          |
+|-------------------------|------------------|---------------|
+| pilot@pilot.com         | Pilot1.          | Pilot         |
+| registrar@registrar.com | Registrar1.      | Registrar     |
+| admin@admin.com         | Admin1.          | Administrator |
+
 ## Permanent Branches
 
 >[!WARNING]
@@ -168,8 +179,6 @@ e.g:
 e.g:
 `refactor/login-page-refactor`
 
-
-
 ## Working with branches
 
 - Avoid using `git pull` when a `push`is rejected due to the remote branch being ahead of the local; This will create a new branch and merge commit. To avoid this, instead use:
@@ -178,7 +187,7 @@ e.g:
 - DON'T REBASE PUSHED COMMITS, IT WILL CHANGE HASHES; IT IS BANNED!!!
 ![NO REBASING](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fb6%2F41%2F32%2Fb6413233b0c147d8e25ac8c6939003ec.jpg&f=1&nofb=1&ipt=e684870cc0f2f939c06bfc53af8ede80336966cf2877b4c2eaeab1dfda026a48)
 
-- - DON'T BRANCH OFF A BRANCH, IT WILL CREATE MERGE CONFLICTS; IT IS FORBIDDEN!!!
+- - DON'T WORK ON THE SAME FEATURE ON DIFFERENT BRANCHES, IT WILL CREATE MERGE CONFLICTS; IT IS FORBIDDEN!!!
 ![NO REBASING](https://y.yarn.co/9892718e-f9f9-400b-8273-9f5f78e36e22_text.gif)
 
 
