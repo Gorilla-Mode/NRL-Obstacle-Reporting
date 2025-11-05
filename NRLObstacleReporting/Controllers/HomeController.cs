@@ -1,24 +1,39 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Controllers;
-[Authorize(Roles = "Pilot, Registrar")]
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    
-    public HomeController(ILogger<HomeController> logger)
+    private readonly UserManager<IdentityUser> _userManager;
+
+    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
     {
         _logger = logger;
+        _userManager = userManager;
     }
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var currentUser = _userManager.FindByIdAsync(currentUserId!);
+        
+        if (await _userManager.IsInRoleAsync((await currentUser)!, "Pilot"))
+        {
+            return RedirectToAction("PilotIndex", "Pilot", null);
+        }
+        if (await _userManager.IsInRoleAsync((await currentUser)!, "Registrar"))
+        {
+            return RedirectToAction("RegistrarIndex", "Registrar", null);
+        }
+        return View():
     }
 
     public IActionResult Privacy()
