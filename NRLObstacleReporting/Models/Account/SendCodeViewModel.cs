@@ -11,7 +11,7 @@ public class SendCodeViewModel
 
     public ICollection<SelectListItem> Providers { get; set; }
 
-    public string? ReturnUrl { get; set; }
+    public string ReturnUrl { get; set; }
 
     public bool RememberMe { get; set; }
 }
