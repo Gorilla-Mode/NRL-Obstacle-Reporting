@@ -1,49 +1,92 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - NRLObstacleReporting</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/NRLObstacleReporting.styles.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true"/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NRLObstacleReporting.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.css" />
+    <!-- Tailwind SKAL ligge helt til slutt -->
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+
+    <!-- Leaflet -->
     <script src="~/lib/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        html, body {
+            min-height: 100%;
+            background: transparent !important;
+        }
+    </style>
 </head>
-<body class="bg-blue-0"> <!-- color of the background -->
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-blue-300 border-b-3 border-blue-800 box-shadow mb-3"> <!-- choosing the color on the header -->
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NRLObstacleReporting log out</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
+
+<body class="relative min-h-screen overflow-x-hidden font-sans text-gray-900">
+
+    <!-- Gradient som dekker hele bakgrunnen -->
+    <div class="fixed inset-0 bg-gradient-to-b from-blue-100 via-blue-50 to-white -z-10"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-sm !bg-transparent bg-gradient-to-b from-blue-200 to-blue-400 border-b border-blue-500/70 shadow-sm mb-3 py-6">
+        <!-- Top-right log in / log out (moved out of the collapsible menu) -->
+        <div class="d-flex align-items-center">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <form asp-controller="Account" asp-action="LogOff" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="text-gray-900 font-semibold px-3 py-2 hover:bg-blue-200 rounded-md transition btn btn-link p-0">Log out</button>
+                </form>
+            }
+            else
+            {
+                <a class="text-gray-900 font-semibold px-3 py-2 hover:bg-blue-200 rounded-md transition" asp-controller="Account" asp-action="Login">Log in</a>
+            }
+        </div>
+        <div class="container-fluid relative flex items-center justify-between w-full px-4">
+
+            <!-- Venstre side -->
+            <a asp-controller="Home" asp-action="Index"
+               class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-50 text-blue-700 hover:text-blue-800 font-semibold shadow-sm border border-blue-200 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="2" stroke="currentColor" class="w-5 h-5 transition-colors duration-300">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 9.75L12 4l9 5.75M4.5 10.5V19a1.5 1.5 0 001.5 1.5h3.75v-4.5h4.5V20.5H18a1.5 1.5 0 001.5-1.5v-8.5"/>
+                </svg>
+                <span>Home</span>
+            </a>
+
+            <!-- Midten (logoen) -->
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+            bg-white/30 backdrop-blur-md rounded-lg shadow-md flex items-center justify-center pointer-events-none"
+                 style="height:90px; width:320px; z-index:0;">
+                <img src="~/lib/logo/aerobarrier-logo.svg"
+                     alt="AeroBarrier logo"
+                     class="drop-shadow-md mx-auto object-contain h-[340px] sm:h-[380px] md:h-[420px] w-auto pointer-events-none"/>
+            </div>
+
+            <!-- Høyre side (tom nå, men klar for senere linker) -->
+            <div class="flex items-center gap-4">
+                <!-- Tom, men du kan legge til knapper eller brukerprofil her senere -->
             </div>
         </div>
     </nav>
-</header>
-<div class="container" >
-    <main role="main" style="padding-bottom: 10dvh">
+
+    <!-- Hovedinnhold -->
+    <main class="container mx-auto px-6 py-10 pb-20">
         @RenderBody()
     </main>
-</div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-<script src="~/js/AssignValueByID.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/AssignValueByID.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

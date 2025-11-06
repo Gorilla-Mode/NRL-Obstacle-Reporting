@@ -1,23 +1,40 @@
 ﻿@{
-    ViewData["Title"] = "Log inn page";
+    ViewData["Title"] = "Log in page";
 }
-    <div class="text-center">
-        <h1 class="display-4 s">Welcome!</h1>
-        <h1 class="display-6 s">Please log in</h1>
+
+<!-- Innhold -->
+<div class="flex flex-col items-center justify-start min-h-screen pt-8 pb-20 relative z-10">
+    
+    <!-- Kortet -->
+    <div class="bg-gradient-to-b from-white to-blue-50/30 bg-white/90 backdrop-blur-sm rounded-3xl 
+                shadow-[0_10px_40px_rgba(0,0,0,0.1)] p-10 sm:p-12 text-center 
+                w-full max-w-2xl sm:max-w-lg mx-auto space-y-10 transition-all">
+        
+        <!-- Header -->
+        <header class="space-y-2">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight">Welcome!</h1>
+            <p class="text-lg sm:text-xl text-gray-600">Please log in</p>
+        </header>
+
+        <!-- Knappene -->
+        <div class="grid gap-8">
+            <!-- Pilot box -->
+            <a asp-controller="Pilot" asp-action="PilotIndex"
+               class="block w-full rounded-2xl py-6 sm:py-7 px-6 border-2 border-blue-600
+                      bg-blue-50 hover:bg-blue-100 hover:shadow-[0_0_10px_rgba(37,99,235,0.3)]
+                      hover:scale-[1.02] active:scale-[0.98] active:translate-y-[1px]
+                      text-blue-700 font-semibold text-xl sm:text-2xl transition-all duration-200 ease-out">
+                Log in as Pilot
+            </a>
+
+            <!-- Registrar box -->
+            <a asp-controller="Registrar" asp-action="RegistrarIndex"
+               class="block w-full rounded-2xl py-6 sm:py-7 px-6 border-2 border-blue-600
+                      bg-blue-50 hover:bg-blue-100 hover:shadow-[0_0_10px_rgba(37,99,235,0.3)]
+                      hover:scale-[1.02] active:scale-[0.98] active:translate-y-[1px]
+                      text-blue-700 font-semibold text-xl sm:text-2xl transition-all duration-200 ease-out">
+                Log in as Registrar
+            </a>
+        </div>
     </div>
-
-
-
-<div class="text-center pt-4"> <!-- placing the button in the center -->
-    <a asp-action="PilotIndex" asp-controller="Pilot"
-       class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"> <!-- Choosing the color on the log in as pilot button -->
-        Log in as Pilot
-    </a>
-</div>
-
-<div class="text-center pt-4"> <!-- placing the button in the center -->
-    <a asp-action="RegistrarIndex" asp-controller="Registrar"
-       class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200"> <!--Choosing the color on the log in as reristrar  -->
-        Log in as Registrar
-    </a>
 </div>

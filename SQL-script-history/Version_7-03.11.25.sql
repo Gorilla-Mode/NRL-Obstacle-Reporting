@@ -158,37 +158,3 @@ create table if not EXISTS AspNetUserRoles
 insert into AspNetRoles(id, Name, NormalizedName) values('Administrator', 'Administrator', 'Administrator');
 insert into AspNetRoles(id, Name, NormalizedName) values('Pilot', 'Pilot', 'Pilot');
 insert into AspNetRoles(id, Name, NormalizedName) values('Registrar', 'Registrar', 'Registrar');
-
-INSERT INTO AspNetUsers (Id, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash,
-                         SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled,
-                         LockoutEnd, LockoutEnabled, AccessFailedCount)
-VALUES ('b5154125-4050-4522-afd0-d71a84938df3', 'admin@admin.com', 'ADMIN@ADMIN.COM', 'admin@admin.com', 'ADMIN@ADMIN.COM', true,
-        'AQAAAAIAAYagAAAAEE5UOcXNc0M2tDbFivSsqOqsMZrlLO+GUZXozDcylCr+NukWhQD7ZaPzwBp4RvIRpA==',
-        '6daad3e4-367b-4961-98bc-c1846778e7f9', '81d4a027-bd4f-4bad-ab8f-60f1dd1e615d', null, false, false, null, false,
-        0);
-INSERT INTO AspNetUsers (Id, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash,
-                         SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled,
-                         LockoutEnd, LockoutEnabled, AccessFailedCount)
-VALUES ('658bd502-a855-4a06-b0bd-a48e874e1803', 'pilot@pilot.com', 'PILOT@PILOT.COM', 'pilot@pilot.com', 'PILOT@PILOT.COM', true,
-        'AQAAAAIAAYagAAAAELOYsX4PP8SOfJdSoj+16nnkZii3rwcnsH39fQJ0RpCD1RZGNQiVfUjqfpKXcYD7cw==',
-        'c851a964-3dc1-459f-9e99-c80c47f98414', '772efdb9-8209-482e-9606-d75b711cf3e7', null, false, false, null, false,
-        0);
-
-INSERT INTO AspNetUsers (Id, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash,
-                             SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled,
-                             LockoutEnd, LockoutEnabled, AccessFailedCount)
-VALUES ('51d67027-dc61-4b05-b33b-d02481e9cb2b', 'registrar@registrar.com', 'REGISTRAR@REGISTRAR.COM', 'registrar@registrar.com',
-        'REGISTRAR@REGISTRAR.COM', true,
-        'AQAAAAIAAYagAAAAEDBuir2sH0Q4eCYdyWluFA+4ZiMaW72/Wcu0J28hu96bdJ4q160KQy5BygfW0K3L9g==',
-        '265585ee-c429-4815-bbd8-57e27824d377', '600b3f4e-e723-4301-8a13-2e51a77dddab', null, false, false, null, false,
-        0);
-
-INSERT INTO AspNetUserRoles (UserId, RoleId)
-VALUES ('b5154125-4050-4522-afd0-d71a84938df3', 'Administrator');
-
-INSERT INTO AspNetUserRoles (UserId, RoleId)
-VALUES ('658bd502-a855-4a06-b0bd-a48e874e1803', 'Pilot');
-
-INSERT INTO AspNetUserRoles (UserId, RoleId)
-VALUES ('51d67027-dc61-4b05-b33b-d02481e9cb2b', 'Registrar');
-
