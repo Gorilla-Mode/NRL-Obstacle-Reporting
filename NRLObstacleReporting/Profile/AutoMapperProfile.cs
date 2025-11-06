@@ -4,23 +4,29 @@ using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Profile;
 
-public class ObstacleProfile : AutoMapper.Profile
+public class AutoMapperProfile : AutoMapper.Profile
 {
-    public ObstacleProfile()
+    public AutoMapperProfile()
     {
-        CreateMap<ObstacleDto, ObstacleCompleteModel>()
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dest => dest.GeometryGeoJson, opt => opt.MapFrom(src => src.GeometryGeoJson))
-            .ForMember(dest => dest.Illuminated, opt => opt.MapFrom(src => src.Illuminated));
+        #region Obstacle mapping profile
         
-        CreateMap<ObstacleCompleteModel, ObstacleDto>();
-        
-        CreateMap<ObstacleStep1Model, ObstacleDto>();
-        
-        CreateMap<ObstacleStep2Model, ObstacleDto>();
-        
-        CreateMap<ObstacleStep3Model, ObstacleDto>();
-        
+            CreateMap<ObstacleDto, ObstacleCompleteModel>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.GeometryGeoJson, opt => opt.MapFrom(src => src.GeometryGeoJson))
+                .ForMember(dest => dest.Illuminated, opt => opt.MapFrom(src => src.Illuminated));
+            
+            CreateMap<ObstacleCompleteModel, ObstacleDto>();
+            
+            CreateMap<ObstacleStep1Model, ObstacleDto>();
+            
+            CreateMap<ObstacleStep2Model, ObstacleDto>();
+            
+            CreateMap<ObstacleStep3Model, ObstacleDto>();
+        #endregion
+
+        #region User mapping profile
+
         CreateMap<IdentityUser, UserViewModel>();
+        #endregion
     }
 }
