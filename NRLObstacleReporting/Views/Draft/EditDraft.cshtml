@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Edit Draft";
 }
-<div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+<div class="py-1 px-4 mx-auto max-w-2xl lg:py-3">
     <form method="post" asp-action="SaveEditedDraft">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson"/>
@@ -24,7 +24,7 @@
             </div>
             <div class="w-full">
                 <label asp-for="HeightMeter" class="block mb-2 text-sm font-medium text-gray-900">Height </label>
-                <input asp-for="HeightMeter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type obstacle HeightMeter" required=""/>
+                <input asp-for="HeightMeter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter obstacle height(m)" required=""/>
                 <span asp-validation-for="HeightMeter"></span>
             </div>
             <div>
@@ -51,12 +51,12 @@
             </div>
             <div class="sm:col-span-2">
                 <label asp-for="Name" class="block mb-2 text-sm font-medium text-gray-900">Name </label>
-                <input asp-for="Name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type obstacle name">
+                <input asp-for="Name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter obstacle name">
                 <span asp-validation-for="Name"></span>
             </div>
             <div class="sm:col-span-2">
                 <label asp-for="Description" class="block mb-2 text-sm font-medium text-gray-900">Description </label>
-                <textarea asp-for="Description" rows = "7" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type obstacle description"></textarea>
+                <textarea asp-for="Description" rows = "7" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter obstacle description"></textarea>
                 <span asp-validation-for="Description"></span>
             </div>
 
@@ -173,8 +173,6 @@
                                 map.on(L.Draw.Event.CREATED, onCreated);
                                 map.on(L.Draw.Event.EDITED, onEdited);
                                 map.on(L.Draw.Event.DELETED, onDeleted);
-
-
                             </Script>
                         </details>
                     </div>
