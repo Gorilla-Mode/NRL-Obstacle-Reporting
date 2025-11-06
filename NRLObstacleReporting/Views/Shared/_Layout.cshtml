@@ -32,57 +32,63 @@
     <!-- Gradient som dekker hele bakgrunnen -->
     <div class="fixed inset-0 bg-gradient-to-b from-blue-100 via-blue-50 to-white -z-10"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm !bg-transparent bg-gradient-to-b from-blue-200 to-blue-400 border-b border-blue-500/70 shadow-sm mb-3 py-6">
-        <!-- Top-right log in / log out (moved out of the collapsible menu) -->
-        <div class="d-flex align-items-center">
+    <!-- NAVBAR -->
+    <nav class="relative flex items-center justify-between w-full px-6 bg-gradient-to-b from-blue-200 to-blue-400 border-b border-blue-500/70 shadow-sm h-[92px]">
+
+        <!-- Venstre (Home) -->
+        <a asp-controller="Home" asp-action="Index"
+           class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-50 text-blue-700 hover:text-blue-800 font-semibold shadow-sm border border-blue-200 transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9.75L12 4l9 5.75M4.5 10.5V19a1.5 1.5 0 001.5 1.5h3.75v-4.5h4.5V20.5H18a1.5 1.5 0 001.5-1.5v-8.5"/>
+            </svg>
+            <span>Home</span>
+        </a>
+
+        <!-- Midten (logo med “riktig” glass) -->
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+              h-[72px] w-[340px] md:h-[76px] md:w-[380px]
+              bg-white/30 backdrop-blur-md rounded-lg shadow-md
+              flex items-center justify-center pointer-events-none z-10">
+            <img src="~/lib/logo/aerobarrier-logo.svg"
+                 alt="AeroBarrier logo"
+                 class="object-contain h-[52px] md:h-[58px] w-auto drop-shadow-md select-none" />
+        </div>
+
+        <!-- Høyre (Log in / Log out) -->
+        <div class="flex items-center gap-4">
             @if (SignInManager.IsSignedIn(User))
             {
-                <form asp-controller="Account" asp-action="LogOff" method="post" class="d-inline">
+                <form asp-controller="Account" asp-action="LogOff" method="post" class="inline">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="text-gray-900 font-semibold px-3 py-2 hover:bg-blue-200 rounded-md transition btn btn-link p-0">Log out</button>
+                    <button type="submit"
+                            class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-50 text-blue-700 hover:text-blue-800 font-semibold shadow-sm border border-blue-200 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3H6A2.25 2.25 0 003.75 5.25v13.5A2.25 2.25 0 006 21h7.5a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+                        </svg>
+                        Log out
+                    </button>
                 </form>
             }
             else
             {
-                <a class="text-gray-900 font-semibold px-3 py-2 hover:bg-blue-200 rounded-md transition" asp-controller="Account" asp-action="Login">Log in</a>
+                <a asp-controller="Account" asp-action="Login"
+                   class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-50 text-blue-700 hover:text-blue-800 font-semibold shadow-sm border border-blue-200 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3H6A2.25 2.25 0 003.75 5.25v13.5A2.25 2.25 0 006 21h7.5a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+                    </svg>
+                    Log in
+                </a>
             }
-        </div>
-        <div class="container-fluid relative flex items-center justify-between w-full px-4">
-
-            <!-- Venstre side -->
-            <a asp-controller="Home" asp-action="Index"
-               class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-50 text-blue-700 hover:text-blue-800 font-semibold shadow-sm border border-blue-200 transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                     stroke-width="2" stroke="currentColor" class="w-5 h-5 transition-colors duration-300">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M3 9.75L12 4l9 5.75M4.5 10.5V19a1.5 1.5 0 001.5 1.5h3.75v-4.5h4.5V20.5H18a1.5 1.5 0 001.5-1.5v-8.5"/>
-                </svg>
-                <span>Home</span>
-            </a>
-
-            <!-- Midten (logoen) -->
-            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-            bg-white/30 backdrop-blur-md rounded-lg shadow-md flex items-center justify-center pointer-events-none"
-                 style="height:90px; width:320px; z-index:0;">
-                <img src="~/lib/logo/aerobarrier-logo.svg"
-                     alt="AeroBarrier logo"
-                     class="drop-shadow-md mx-auto object-contain h-[340px] sm:h-[380px] md:h-[420px] w-auto pointer-events-none"/>
-            </div>
-
-            <!-- Høyre side (tom nå, men klar for senere linker) -->
-            <div class="flex items-center gap-4">
-                <!-- Tom, men du kan legge til knapper eller brukerprofil her senere -->
-            </div>
         </div>
     </nav>
 
-    <!-- Hovedinnhold -->
-    <main class="container mx-auto px-6 py-10 pb-20">
+
+    <!-- HOVEDINNHOLD -->
+    <main class="container mx-auto mt-6">
         @RenderBody()
     </main>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
