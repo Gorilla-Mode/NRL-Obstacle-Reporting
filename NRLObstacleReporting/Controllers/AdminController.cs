@@ -38,15 +38,12 @@ public class AdminController : Controller
         return View();
     }
     
-    // GET: /Account/Register
     [HttpGet]
     public IActionResult Register()
     {
         return View();
     }
-
-    //
-    // POST: /Account/Register
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model)
@@ -70,5 +67,11 @@ public class AdminController : Controller
         await _userManager.AddToRoleAsync(user, model.Role.ToString());
         
         return RedirectToAction("AdminIndex");
+    }
+
+    [HttpGet]
+    public IActionResult ManageUsers()
+    {
+        return View();
     }
 }
