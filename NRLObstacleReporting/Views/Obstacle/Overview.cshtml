@@ -76,6 +76,23 @@
     </div>
 }
 
+@{
+    // Safely prepare a JSON literal for client-side use.
+    string geoJsonForJs = "null";
+    if (!string.IsNullOrWhiteSpace(Model?.GeometryGeoJson))
+    {
+        try
+        {
+            using var doc = System.Text.Json.JsonDocument.Parse(Model.GeometryGeoJson);
+            geoJsonForJs = System.Text.Json.JsonSerializer.Serialize(doc.RootElement);
+        }
+        catch
+        {
+            geoJsonForJs = "null";
+        }
+    }
+}
+
 @section Scripts {
     @* Script to add a map to the view *@
     @if (Model?.GeometryGeoJson != null)
@@ -87,8 +104,8 @@
         <script>
         let map = GenerateMap(17);
     
-        let geojsonCoordinates = @Html.Raw(Model.GeometryGeoJson)
-        // var geojsonData = JSON.parse(geojsonCoordinates);
+        // geoJsonForJs is a safe JSON literal serialized server-side.
+        let geojsonCoordinates = @Html.Raw(geoJsonForJs);
         let geojsonLayer = L.geoJSON(geojsonCoordinates);
         geojsonLayer.addTo(map);
         
