@@ -1,9 +1,11 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Models.Account;
 
 namespace NRLObstacleReporting.Controllers;
@@ -15,13 +17,15 @@ public class AdminController : Controller
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IEmailSender _emailSender;
     private readonly ILogger<AccountController> _logger;
+    private readonly IMapper _mapper;
 
-    public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger)
+    public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger, IMapper mapper)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _emailSender = emailSender;
         _logger = logger;
+        _mapper = mapper;
     }
     
     private void AddErrors(IdentityResult result)
@@ -72,6 +76,8 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult ManageUsers()
     {
-        return View();
+        var modelListDraft = _mapper.Map<IEnumerable<UserViewModel>>(_userManager.Users);
+        
+        return View(modelListDraft);
     }
 }
