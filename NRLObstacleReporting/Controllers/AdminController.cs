@@ -57,15 +57,18 @@ public class AdminController : Controller
         }
         
         var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, LockoutEnabled = false, LockoutEnd = null };
-        var result = await _userManager.CreateAsync(user, model.Password);
+        var createAccResult = await _userManager.CreateAsync(user, model.Password);
         
-        if (!result.Succeeded)
+        if (!createAccResult.Succeeded)
         {
-            AddErrors(result);
+            AddErrors(createAccResult);
             return View(model);
         }
+        
         _logger.LogInformation(3, "User created a new account with password.");
-
+        
+        await _userManager.AddToRoleAsync(user, model.Role.ToString());
+        
         return RedirectToAction("AdminIndex");
     }
 }
