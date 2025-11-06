@@ -44,6 +44,22 @@
                 </tr>
                 </tbody>
             </table>
+            @{
+                // Safely prepare a JSON literal for client-side use.
+                string geoJsonForJs = "null";
+                if (!string.IsNullOrWhiteSpace(report?.GeometryGeoJson))
+                {
+                    try
+                    {
+                        using var doc = System.Text.Json.JsonDocument.Parse(report.GeometryGeoJson);
+                        geoJsonForJs = System.Text.Json.JsonSerializer.Serialize(doc.RootElement);
+                    }
+                    catch
+                    {
+                        geoJsonForJs = "null";
+                    }
+                }
+            }
             @if (report.GeometryGeoJson != null)
             {
                 <div class="overflow-hidden rounded-xl">
@@ -57,7 +73,7 @@
                     maxZoom: 19,
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
-                var geojson = @Html.Raw(report.GeometryGeoJson)
+                var geojson = @Html.Raw(geoJsonForJs)
                 var geojsonLayer = L.geoJSON(geojson);
                 geojsonLayer.addTo(map);
                 map.setMaxBounds(geojsonLayer.getBounds())
