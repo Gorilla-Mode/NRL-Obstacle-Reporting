@@ -40,9 +40,8 @@ public class AdminController : Controller
     
     // GET: /Account/Register
     [HttpGet]
-    public IActionResult Register(string? returnUrl = null)
+    public IActionResult Register()
     {
-        ViewData["ReturnUrl"] = returnUrl;
         return View();
     }
 
@@ -50,25 +49,23 @@ public class AdminController : Controller
     // POST: /Account/Register
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
+    public async Task<IActionResult> Register(RegisterViewModel model)
     {
-        ViewData["ReturnUrl"] = returnUrl;
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, LockoutEnabled = false, LockoutEnd = null };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                _logger.LogInformation(3, "User created a new account with password.");
-
-                return RedirectToAction("AdminIndex");
-            }
-            AddErrors(result);
+            return View(model);
         }
+        
+        var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, LockoutEnabled = false, LockoutEnd = null };
+        var result = await _userManager.CreateAsync(user, model.Password);
+        
+        if (!result.Succeeded)
+        {
+            AddErrors(result);
+            return View(model);
+        }
+        _logger.LogInformation(3, "User created a new account with password.");
 
-        // If we got this far, something failed, redisplay form
-        return View(model);
+        return RedirectToAction("AdminIndex");
     }
 }
