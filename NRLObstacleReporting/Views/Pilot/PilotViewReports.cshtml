@@ -42,6 +42,14 @@
                     <th scope="row">Name</th>
                     <td>@report.Name</td>
                 </tr>
+                <tr>
+                    <th scope="row">Report Created:</th>
+                    <td>@report.CreationTime</td>
+                </tr>
+                <tr>
+                    <th scope="row">Report Updated:</th>
+                    <td>@report.UpdatedTime</td>
+                </tr>
                 </tbody>
             </table>
             @if (report.GeometryGeoJson != null)
