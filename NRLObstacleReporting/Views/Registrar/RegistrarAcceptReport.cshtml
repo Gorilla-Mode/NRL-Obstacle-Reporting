@@ -1,43 +1,61 @@
 @model ObstacleCompleteModel
-@{
-    Layout = "~/Views/Shared/_LayoutRegistrar.cshtml";
-}
+
 
 <h2 class="text-xl font-bold mb-4">Report Details</h2>
 
 <div class="bg-white p-6 rounded shadow text-sm text-gray-900">
-    <p>Email           Phonenumber             Organization</p>
-    <div class="grid grid-cols-2 gap-6">
-        <div>
-            <span class="font-semibold text-gray-700">Name</span><br/>
-            <span>@Model.Name</span>
+    <div class="flex justify-between items-center text-sm font-semibold text-gray-800 gap-8">
+        <!-- Email -->
+        <div class="flex items-center gap-2">
+            <span>Email:</span>
+            <span class="text-gray-500">email</span>
         </div>
-        <div>
-            <span class="font-semibold text-gray-700">Type</span><br/>
-            <span>@Model.Type</span>
+
+        <!-- Phonenumber -->
+        <div class="flex items-center gap-2">
+            <span>Phonenumber:</span>
+            <span class="text-gray-500">mobilnummer</span>
         </div>
-        <div>
-            <span class="font-semibold text-gray-700">Height</span><br/>
-            <span>@Model.HeightMeter m</span>
+
+        <!-- Organization -->
+        <div class="flex items-center gap-2">
+            <span>Organization:</span>
+            <span class="text-gray-500">organisasjonen</span>
         </div>
-        <div>
-            <span class="font-semibold text-gray-700">Illuminated</span><br/>
-            <span>@Model.Illuminated</span>
+    </div>
+    
+    <!-- Horisontal Line -->
+    <hr class="border-gray-500 dark:border-neutral-500">
+    <div class="flex flex-wrap gap-4 text-sm font-semibold text-gray-800">
+        <div class="flex items-center gap-2">
+            <span>Name</span>
+            <span class="text-gray-500">@Model.Name</span>
         </div>
-        <div>
-            <span class="font-semibold text-gray-700">Marked</span><br/>
-            <span>@Model.Marking</span>
+        <div class="flex items-center gap-2">
+            <span>Type</span>
+            <span class="text-gray-500">@Model.Type</span>
         </div>
-        <div>
-            <span class="font-semibold text-gray-700">Status</span><br/>
-            <span class="text-yellow-400 font-semibold">Pending</span>
+        <div class="flex items-center gap-2">
+            <span>Height</span>
+            <span class="text-gray-500">@Model.HeightMeter</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Illuminated</span>
+            <span class="text-gray-500">@Model.Illuminated</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Marked</span>
+            <span class="text-gray-500">@Model.Marking</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Status</span>
+            <span class="text-gray-500">Pending</span>
         </div>
     </div>
 </div>
 
 
 <div class="flex gap-4 m-4">
-
     <!-- Attachments-boksen -->
     <div class="box-border rounded-lg h-auto w-[26rem] p-4 border-2 border-blue-500">
         <p class="font-semibold mb-3">Attachments</p>
@@ -57,21 +75,53 @@
             </div>
         </div>
     </div>
-        <!-- Status-knapper horisontalt -->
-        <div class="flex gap-2 mt-4">
-            <button class="rounded-lg h-16 w-32 p-2 font-semibold  text-black bg-red-400 text-sm">
+    <!-- Status-knapper horisontalt -->
+    <div class="flex gap-2 mt-4">
+        <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+            <input type="hidden" name="id" value="@Model.ObstacleId" />
+            <input type="hidden" name="status" value="Approved" />
+            <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-green-400 text-sm">
                 Accept
             </button>
-            <button class="rounded-lg h-16 w-32 p-2 font-semibold  text-black bg-yellow-400 text-sm">
+        </form>
+        <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+            <input type="hidden" name="id" value="@Model.ObstacleId" />
+            <input type="hidden" name="status" value="Pending" />
+            <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-yellow-400 text-sm">
                 Pending
             </button>
-            <button class="rounded-lg h-16 w-32 p-2 font-semibold text-black  bg-green-400 text-sm">
+        </form>
+        <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+            <input type="hidden" name="id" value="@Model.ObstacleId" />
+            <input type="hidden" name="status" value="Rejected" />
+            <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-red-400 text-sm">
                 Reject
             </button>
-        </div>
-    </div>
+        </form>
+    </div> 
+</div>
+<!-- Map in a dropdown-->
 
+<div class="mt-6">
+    <h2 class="text-xl font-bold mb-2">Obstacle Location</h2>
+    <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg border border-gray-300 shadow"></div>
+</div>
 
+@section Scripts
+{
+    <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+    <script>
+        const zoom = 17;
+        const map = GenerateMapGeolocate(zoom);
 
+        const geoJson = @Html.Raw(Json.Serialize(Model.GeometryGeoJson));
+        if (geoJson) {
+            const layer = L.geoJSON(JSON.parse(geoJson), {
+                style: { color: '#2563eb', weight: 3 },
+                pointToLayer: (feature, latlng) => L.circleMarker(latlng, { radius: 6, color: '#2563eb' })
+            }).addTo(map);
 
-    
+            map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+        }
+    </script>
+}
