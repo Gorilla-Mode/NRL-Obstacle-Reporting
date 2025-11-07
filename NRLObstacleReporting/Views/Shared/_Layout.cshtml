@@ -44,16 +44,16 @@
             <span>Home</span>
         </a>
 
-        <!-- Midten (logo med “riktig” glass) -->
+        <!-- Midten (logo med glass-effekt) -->
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-              h-[72px] w-[340px] md:h-[76px] md:w-[380px]
-              bg-white/30 backdrop-blur-md rounded-lg shadow-md
-              flex items-center justify-center pointer-events-none z-10">
+            h-[92px] w-[360px] md:h-[92px] md:w-[400px]
+            bg-white/30 backdrop-blur-md rounded-lg shadow-md
+            flex items-center justify-center pointer-events-none z-10">
             <img src="~/lib/logo/aerobarrier-logo.svg"
                  alt="AeroBarrier logo"
-                 class="object-contain h-[52px] md:h-[58px] w-auto drop-shadow-md select-none" />
+                 class="object-contain scale-[5] h-[80px] md:h-[84px] w-auto drop-shadow-md select-none" />
         </div>
-
+        
         <!-- Høyre (Log in / Log out) -->
         <div class="flex items-center gap-4">
             @if (SignInManager.IsSignedIn(User))
