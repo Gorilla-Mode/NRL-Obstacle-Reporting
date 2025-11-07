@@ -9,4 +9,6 @@ public class ObstacleStep3Model
     public string? Name { get; set; }
     [MaxLength(100)]
     public string? Description { get; set; }
+    
+    public DateTime UpdatedTime { get; set; } = DateTime.Now;
 }

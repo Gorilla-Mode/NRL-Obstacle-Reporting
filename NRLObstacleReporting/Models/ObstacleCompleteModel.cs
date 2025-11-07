@@ -54,6 +54,9 @@ public class ObstacleCompleteModel
     public ObstacleStatus Status { get; set; }
     public ObstacleMarking Marking { get; set; }
     
+    public DateTime CreationTime { get; set; }
+    public DateTime UpdatedTime { get; set; }
+    
     //Step 1 felt
     public ObstacleTypes Type { get; set; }
     

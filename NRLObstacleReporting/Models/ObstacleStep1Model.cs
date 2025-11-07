@@ -14,4 +14,9 @@ public class ObstacleStep1Model
     public ObstacleCompleteModel.ObstacleTypes? Type { get; set; }
     
     public string? GeometryGeoJson { get; set; }
+    
+    public DateTime CreationTime { get; set; } = DateTime.Now;
+    
+    public DateTime UpdatedTime { get; set; } = DateTime.Now;
+
 }

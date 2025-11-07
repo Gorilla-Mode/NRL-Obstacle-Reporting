@@ -17,4 +17,7 @@ public class ObstacleDto
     
     public int Illuminated { get; set; }
     
+    public DateTime CreationTime { get; set; }
+    
+    public DateTime UpdatedTime { get; set; }
 }
