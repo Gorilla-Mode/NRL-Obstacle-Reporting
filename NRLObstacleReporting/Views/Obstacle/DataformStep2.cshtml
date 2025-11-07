@@ -37,8 +37,8 @@
                         1
                     </div>
                     <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-medium">
-          Select Obstacle Type
-        </span>
+                      Select Obstacle Type
+                    </span>
                 </div>
 
                 <!-- Step 2 (aktiv, med blå ring) -->
@@ -52,8 +52,8 @@
                         </div>
                     </div>
                     <span class="text-xs sm:text-sm md:text-base mt-2 text-blue-600 font-semibold">
-          Place Obstacle
-        </span>
+                      Place Obstacle
+                    </span>
                 </div>
 
                 <!-- Step 3 -->
@@ -64,8 +64,8 @@
                         3
                     </div>
                     <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-600 font-medium">
-          Describe Obstacle
-        </span>
+                       Describe Obstacle
+                    </span>
                 </div>
 
             </div>
@@ -76,10 +76,12 @@
     <!-- Innhold -->
     <section class="flex flex-col justify-start flex-grow pb-6">
         <!-- Kart -->
-        <div id="map" style="height: 54dvh; width: 100%;" class="rounded-lg shadow-sm"></div>
+        <div id="map"
+             style="height: 54dvh; width: 100%;"
+             class="rounded-lg shadow-md"></div>
 
         <!-- Koordinater -->
-        <div class="mt-2">
+        <div class="mt-1.5">
             <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">Coordinates Preview</label>
             <textarea id="CoordinatesPreview"
                       class="rounded-lg bg-blue-200 text-black text-center border-2 border-blue-900 w-full text-sm"
@@ -88,7 +90,7 @@
         </div>
 
         <!-- Knappene -->
-        <form asp-action="DataformStep2" method="post" class="mt-4 mb-2">
+        <form asp-action="DataformStep2" method="post" class="mt-2 mb-1.5">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
             <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
