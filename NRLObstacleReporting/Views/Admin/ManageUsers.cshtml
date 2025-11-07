@@ -3,8 +3,7 @@
 @{
     ViewData["Title"] = "Admin Page";
 }
-<div class="flex flex-col items-center text-center space-y-6 pt-4 mx-auto min-h-screen">
-    Users
+<div class="flex flex-col items-center text-center pt-4 mx-auto">
     @{
         
         if (!Model.Any())
@@ -20,6 +19,9 @@
                     <tr class="w-full border-gray-500 bg-blue-300">
                         <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">User ID</th>
                         <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Username</th>
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Email</th>
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Phone Number</th>
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Role</th>
                     </tr>
                     @{ 
                         for(int i = 0; i < Model.Count(); i++)
