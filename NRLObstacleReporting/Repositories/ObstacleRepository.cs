@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using MySqlConnector;
-using System.Data;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
@@ -12,7 +11,7 @@ namespace NRLObstacleReporting.Repositories
         {
             using var connection = CreateConnection();
             var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type, GeometryGeoJson) 
-                        VALUES (@ObstacleId, @HeightMeter, @Type, @GeometryGeoJson)"; 
+                        VALUES (@ObstacleId, @HeightMeter, @Type, @GeometryGeoJson)";
             await connection.ExecuteAsync(sql, data);
         }
 
@@ -29,33 +28,39 @@ namespace NRLObstacleReporting.Repositories
         {
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
-                        SET Name = @Name, Description = @Description, Illuminated = @Illuminated, Status = @Status, 
-                            Marking = @Marking 
+                        SET Name = @Name, Description = @Description, Illuminated = @Illuminated, 
+                            Status = @Status, Marking = @Marking 
                         WHERE ObstacleID = @ObstacleId";
             await connection.ExecuteAsync(sql, data);
-
         }
 
         public async Task<ObstacleDto> GetObstacleById(int id)
         {
             using var connection = CreateConnection();
-            connection.Open();
             var sql = "SELECT * FROM Obstacle WHERE ObstacleID = @id";
-
             return await connection.QuerySingleAsync<ObstacleDto>(sql, new { Id = id });
         }
 
         public async Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles()
         {
-            //Needs to be updated to only get form ceatain users when IdentityCore is implemented
             using var connection = CreateConnection();
-            var sql = @$"SELECT * 
-                         FROM Obstacle 
+            var sql = @$"SELECT * FROM Obstacle 
                          WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}";
-            await connection.ExecuteAsync(sql);
-            
-            return connection.Query<ObstacleDto>(sql);
+            return await connection.QueryAsync<ObstacleDto>(sql);
         }
-        
+
+        public async Task<IEnumerable<ObstacleDto>> GetReportsByStatusAsync(ObstacleCompleteModel.ObstacleStatus status)
+        {
+            using var connection = CreateConnection();
+            var sql = "SELECT * FROM Obstacle WHERE Status = @Status";
+            return await connection.QueryAsync<ObstacleDto>(sql, new { Status = (int)status });
+        }
+
+        public async Task UpdateObstacleStatus(int obstacleId, ObstacleCompleteModel.ObstacleStatus status)
+        {
+            using var connection = CreateConnection();
+            var sql = "UPDATE Obstacle SET Status = @Status WHERE ObstacleID = @ObstacleId";
+            await connection.ExecuteAsync(sql, new { Status = (int)status, ObstacleId = obstacleId });
+        }
     }
 }
