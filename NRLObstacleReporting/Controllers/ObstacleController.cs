@@ -37,7 +37,8 @@ public class ObstacleController : Controller
             return View();
         }
         int obstacleId = rnd.Next(); //generates ID
-        
+
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
         ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
         obstaclereport.ObstacleId = obstacleId;
         
