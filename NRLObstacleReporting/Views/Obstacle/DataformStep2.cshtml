@@ -50,18 +50,19 @@
                           readonly></textarea>
             </div>
         <form asp-action="DataformStep2" method="post">
-            <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
-            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson"/>
+            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")"/>
             <!-- Knappene har samme bredde som kartet og textarea -->
             <div class="grid grid-cols-2 gap-1 w-full mt-2">
-            <button type="submit"
+                <button type="submit"
                         class="Btn-PilotPrimary h-16 items-center justify-center w-full"
                         formaction="/Obstacle/DataformStep2" id="savebutton">Save Draft</button>
                 <button type="submit"
                         class="Btn-PilotPrimary h-16 items-center justify-center w-full"
                         formaction="/Obstacle/DataformStep2" id="nextpage">Next Page</button>
             </div>
-            <input type="hidden" asp-for="SaveDraft" id="save" />
+            <input type="hidden" asp-for="SaveDraft" id="save"/>
         </form>
     </section>
 </div>

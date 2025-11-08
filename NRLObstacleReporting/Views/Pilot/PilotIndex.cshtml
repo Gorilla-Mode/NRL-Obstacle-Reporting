@@ -1,34 +1,51 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutPilot.cshtml";
-}
-
-@{
     ViewData["Title"] = "Pilot - Start";
 }
-<div class="flex flex-col items-center text-center space-y-6 pt-4 mx-auto min-h-screen"
-     >
-    
-    <h1 class="text-3xl sm:text-5xl font-semibold mt-2 mb-2 sm:mb-7" > 
-        Welcome to the <br> Pilot home screen
-    </h1>
-    
 
-    <div class="flex flex-col gap-3 sm:gap-4">
-        <a asp-action="DataformStep1" asp-controller="Obstacle"
-           class="text-xl sm:text-2xl md:text-2xl w-full text-center rounded-lg py-16 sm:py-18 md:py-18 px-6 font-semibold 
-text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900"> Register new Obstacle
+<div class="flex flex-col items-center justify-start min-h-screen pt-10 pb-20 px-6 relative z-10">
 
-        </a>
+    <!-- Kort / hovedcontainer -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-10 sm:p-14 w-full max-w-xl mx-auto text-center space-y-10 -mt-6">
 
-        <a asp-action="PilotViewReports" asp-controller="Pilot"
-           class="text-xl sm:text-2xl md:text-2xl w-full text-center rounded-lg py-6 sm:py-7 md:py-7 px-6 font-semibold 
-text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900">
-            View Reports
-        </a>
-      
-        <a asp-action="PilotDrafts" asp-controller="Draft"
-           class="text-xl sm:text-2xl md:text-2xl w-full text-center rounded-lg py-6 sm:py-7 md:py-7 px-6 font-semibold text-black bg-blue-200 hover:bg-blue-400 transition-colors duration-200 mb-2 border-2 border-blue-900">
-            View Drafts
-        </a>
+        <!-- Header -->
+        <header class="space-y-2">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
+                Welcome, <span class="text-blue-500">Pilot!</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-gray-600">
+                Choose what you want to do
+            </p>
+        </header>
+
+        <!-- Knapp-seksjon -->
+        <div class="grid gap-6 sm:gap-8">
+
+            <!-- Primær knapp -->
+            <a asp-action="DataformStep1" asp-controller="Obstacle"
+               class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-600 
+                      bg-blue-500 text-white text-xl sm:text-2xl font-semibold 
+                      hover:bg-blue-600 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] 
+                      transition-all duration-200 ease-out">
+                Register new Obstacle
+            </a>
+
+            <!-- Sekundær knapp -->
+            <a asp-action="PilotViewReports" asp-controller="Pilot"
+               class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-400 
+                      bg-blue-100 text-blue-700 text-xl sm:text-2xl font-medium 
+                      hover:bg-blue-200 hover:shadow-md hover:scale-[1.01] active:scale-[0.98] 
+                      transition-all duration-200 ease-out">
+                View Reports
+            </a>
+
+            <!-- Sekundær knapp -->
+            <a asp-action="PilotDrafts" asp-controller="Draft"
+               class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-300 
+                      bg-blue-50 text-blue-600 text-xl sm:text-2xl font-medium 
+                      hover:bg-blue-100 hover:shadow-md hover:scale-[1.01] active:scale-[0.98] 
+                      transition-all duration-200 ease-out">
+                View Drafts
+            </a>
+        </div>
     </div>
 </div>

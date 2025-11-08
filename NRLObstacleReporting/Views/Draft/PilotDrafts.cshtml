@@ -1,6 +1,4 @@
-﻿@{
-    Layout = "~/Views/Shared/_LayoutPilot.cshtml";
-}
+﻿
 @model ObstacleCompleteModel
 @{
     ViewData["Title"] = "View Reports";
@@ -26,12 +24,13 @@
             var mapId = draft.ObstacleId.ToString();
             <div>
                 <form asp-controller="Draft" asp-action="EditDraft" method="post">
-                    <div class = "rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
-                        <table class= "w-full table-fixed border-collapse">
+                    @Html.AntiForgeryToken()
+                    <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
+                        <table class="w-full table-fixed border-collapse">
                             <thead>
                             </thead>
                             <tbody>
-                            <tr class = "bg-gray-50 w-full">
+                            <tr class="bg-gray-50 w-full">
                                 <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> Id: @draft.ObstacleId</th>
                                 <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> </th>
                             </tr>
@@ -39,34 +38,34 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
                                 <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.HeightMeter</td>
                             </tr>
-                            <tr class = "bg-gray-50 w-full">
-                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
-                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Type</td>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Type</td>
                             </tr>
                             <tr >
-                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
-                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Name</td>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Name</td>
                             </tr>
-                            <tr class = "bg-gray-50 w-full">
-                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
-                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Description</td>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Description</td>
                             </tr>
                             <tr >
-                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illumination</th>
-                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Illuminated</td>
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illumination</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Illuminated</td>
                             </tr>
-                            <tr class = "bg-gray-50 w-full">
-                                <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
-                                <td class = "p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Marking</td>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Marking</td>
                             </tr>
                             @if (draft.GeometryGeoJson != null)
                             {
                                 <tr>
-                                    <th class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Map</th>
+                                    <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Map</th>
                                     <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">
                                         <details>
                                             <summary>Map</summary>
-                                            
+
                                             <div class="overflow-hidden rounded-xl">
                                                 <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
                                             </div>
@@ -84,7 +83,7 @@
                                             </script>
                                         </details>
                                     </td>
-                                </tr> 
+                                </tr>
                             }
                             <tr class="bg-white w-full">
                                 <td colspan="2" class="p-0">
@@ -97,7 +96,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        
+
                     </div>
                     <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson"/>
                     <input type="hidden" asp-for="Description" value="@draft.Description"/>
@@ -106,7 +105,7 @@
                     <input type="hidden" asp-for="Type" value="@draft.Type"/>
                     <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
                     <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
-                    
+
                 </form>
             </div>
         }
