@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Edit Draft";
 }
+
 <div class="py-1 px-4 mx-auto max-w-2xl lg:py-3">
     <form method="post" asp-action="SaveEditedDraft">
         @Html.AntiForgeryToken()
@@ -13,7 +14,7 @@
                 <!--dropdown obstacle type -->
                 <label asp-for="Type" class="block mb-2 text-sm font-medium text-gray-900">Obstacle type </label>
                 <select asp-for="Type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                    <option selected="">Select obstacle type</option>
+                    <option value="">Select obstacle type</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleTypes.AirSpan)">Aerial span</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleTypes.PoleOrTower)">Pole/Tower</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleTypes.Building)">Building</option>
@@ -31,7 +32,7 @@
                 <!--dropdown illuminated -->
                 <label asp-for="Illuminated" class="block mb-2 text-sm font-medium text-gray-900">Illumination </label>
                 <select asp-for="Illuminated" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                    <option selected="">Select illumination status</option>
+                    <option value="">Select illumination status</option>
                     <option value="@((int)ObstacleCompleteModel.Illumination.Illuminated)">Illuminated</option>
                     <option value="@((int)ObstacleCompleteModel.Illumination.NotIlluminated)">Not illuminated</option>
                     <option value="@((int)ObstacleCompleteModel.Illumination.Unknown)">Unknown</option>
@@ -42,10 +43,10 @@
                 <!--dropdown marking -->
                 <label asp-for="Marking" class="block mb-2 text-sm font-medium text-gray-900">Obstacle marking status </label>
                 <select asp-for="Marking" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                    <option selected="">Select obstacle marking status</option>
-                    <option value="@((int)ObstacleCompleteModel.ObstacleMarking.Marked)">Marked</option>
-                    <option value="@((int)ObstacleCompleteModel.ObstacleMarking.NotMarked)">Not marked</option>
+                    <option value="">Select obstacle marking status</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleMarking.Unknown)">Unknown</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleMarking.NotMarked)">Not marked</option>
+                    <option value="@((int)ObstacleCompleteModel.ObstacleMarking.Marked)">Marked</option>
                 </select>
                 <span asp-validation-for="Marking"></span>
             </div>
@@ -80,105 +81,11 @@
                                           style="height: 6dvh;"
                                           readonly></textarea>
                             </div>
-                            <script>
-
-                                //leaflet 
-                                var map = L.map('map').setView([58.14671, 7.9956], 17);
-
-                                //adjustment of map color
-                                L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-                                    maxZoom: 19,
-                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                }).addTo(map); //adds map object so its actually being shown
-
-                                var drawnItems = new L.FeatureGroup();
-                                map.addLayer(drawnItems);
-                                function captureData() {
-
-                                    // Convert all layers to one GeoJSON object 
-                                    let geojson = drawnItems.toGeoJSON();
-
-                                    // Save JSON text to hidden field 
-                                    document.getElementById('GeometryGeoJson').value = JSON.stringify(geojson);
-
-                                    // Save preview text to hidden field
-                                    document.getElementById('CoordinatesPreview').value = JSON.stringify(geojson);
-                                }
-                                function deleteData() {
-                                    drawnItems.clearLayers();
-                                    document.getElementById('GeometryGeoJson').value = "";
-                                    document.getElementById('CoordinatesPreview').value = "";
-                                }
-
-                                function onCreated(e) {
-                                    drawnItems.addLayer(e.layer);
-                                    captureData();
-                                }
-
-                                function onEdited() {
-                                    captureData();
-                                }
-
-                                function onDeleted() {
-                                    deleteData();
-                                }
-
-                                //Loads saved GeoJSON data, adds it to the map, fits the view, and updates the data fields
-                                var geojson = @Html.Raw(Model.GeometryGeoJson)//collects data from geometryGeojson, makes it a valid javascript object
-                                if (geojson) {
-                                    var geojsonLayer = L.geoJSON(geojson);
-                                    geojsonLayer.eachLayer(function(layer) {
-                                        drawnItems.addLayer(layer); //legg alle eksisterende lag i drawnItems
-                                    });
-                                    map.fitBounds(geojsonLayer.getBounds());
-                                    captureData();
-                                }
-                                //adds a toolbar
-                                let drawControl = new L.Control.Draw({
-                                    draw: {
-                                        polygon: false,
-                                        polyline: true,
-                                        marker: true,
-                                        circle: false,  // Disable circle drawing
-                                        rectangle: false,
-                                        circlemarker: false
-                                    },
-                                    edit: {
-                                        featureGroup: drawnItems
-                                    }
-                                });
-                                map.addControl(drawControl);
-
-                                map.on('draw:created', function (e) {
-                                    var type = e.layerType,
-                                        layer = e.layer;
-
-                                    if (type === 'marker') {
-                                        // Do marker specific actions
-                                    }
-
-                                    // Do whatever else you need to. (save to db, add to map etc)
-                                    drawnItems.addLayer(layer);
-                                });
-
-                                map.on('draw:edited', function () {
-                                    // Update db to save latest changes.
-                                });
-
-                                map.on('draw:deleted', function () {
-                                    // Update db to save latest changes.
-                                });
-
-                                // Event handlers
-                                map.on(L.Draw.Event.CREATED, onCreated);
-                                map.on(L.Draw.Event.EDITED, onEdited);
-                                map.on(L.Draw.Event.DELETED, onDeleted);
-                            </Script>
                         </details>
                     </div>
                 </div>
             }
-            <div class="text-xs font-bold text-gray-900">Obstacle Report: @Model.GetHashCode()</div>
+            <div class="text-xs font-bold text-gray-900">Obstacle Report: @Model.ObstacleId</div>
         </div>
         <input type="hidden" asp-for="Status" id="IsDraft"/>
         <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
@@ -192,6 +99,7 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
@@ -199,6 +107,7 @@
     <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
     <script src="~/js/MapScripts/Geolocation.js" asp-append-version="true"></script>
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="~/js/MapScripts/EditDraftMap.js" asp-append-version="true"></script>
 
     <script>
         AssignValueByID('SaveDraft', 'IsDraft', 0); // 0 = Draft
