@@ -16,7 +16,7 @@
     else
     {
         <div class="text-center">
-            <h1 class = "text-xl mb-2"> Registered drafts:</h1>
+            <h1 class ="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900"> Registered drafts</h1>
         </div>
         foreach (var draft in obstacleCompleteModels)
         {
@@ -24,7 +24,7 @@
             <div>
                 <form asp-controller="Draft" asp-action="EditDraft" method="post">
                     @Html.AntiForgeryToken()
-                    <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
+                    <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 mb-10 w-full">
                         <table class="w-full table-fixed border-collapse">
                             <thead>
                             </thead>
