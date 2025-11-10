@@ -18,7 +18,6 @@
         <div class="text-center">
             <h1 class = "text-xl mb-2"> Registered drafts:</h1>
         </div>
-
         foreach (var draft in obstacleCompleteModels)
         {
             var mapId = draft.ObstacleId.ToString();
@@ -96,7 +95,6 @@
                             </tr>
                             </tbody>
                         </table>
-
                     </div>
                     <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson"/>
                     <input type="hidden" asp-for="Description" value="@draft.Description"/>
@@ -105,12 +103,9 @@
                     <input type="hidden" asp-for="Type" value="@draft.Type"/>
                     <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
                     <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
-
+                    <input type="hidden" asp-for="Marking" value="@draft.Marking"/>
                 </form>
             </div>
         }
     }
 }
-
-
-

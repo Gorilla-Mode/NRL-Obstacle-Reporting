@@ -1,0 +1,60 @@
+﻿@using Dapper
+@model IEnumerable<UserViewModel>
+@{
+    ViewData["Title"] = "Admin Page";
+}
+<div class="flex flex-col items-center text-center pt-4 mx-auto">
+    @{
+        
+        if (!Model.Any())
+        {
+            <div>
+                No users in database
+            </div>
+        }
+        else
+        {
+            <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
+                <table class="w-full table-fixed border-collapse">
+                    <tr class="w-full border-gray-500 bg-blue-300">
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">User ID</th>
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Username</th>
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Email</th>
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Phone Number</th>
+                        <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">Role</th>
+                    </tr>
+                    @{ 
+                        for(int i = 0; i < Model.Count(); i++)
+                        {
+                            //changes row color for even and odd row numbers
+                            string rowBg = "bg-blue-200";
+                            if (i % 2 == 0) 
+                            {
+                                rowBg = "bg-blue-100";
+                            }
+                            <tr class=@($"{rowBg}")>
+                                <td class="p-3  tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).Id
+                                </td>
+                                <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).UserName
+                                </td>
+                                <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).Email
+                                </td>
+                                <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).PhoneNumber
+                                </td>
+                                <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).Role
+                                </td>
+                                
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        }
+        
+    }
+</div>
