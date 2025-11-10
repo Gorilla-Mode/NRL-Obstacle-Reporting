@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,7 +20,8 @@ public class AdminController : Controller
     private readonly ILogger<AccountController> _logger;
     private readonly IMapper _mapper;
 
-    public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger, IMapper mapper)
+    public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
+        IEmailSender emailSender, ILogger<AccountController> logger, IMapper mapper)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -76,7 +78,14 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult ManageUsers()
     {
+        var users = _userManager.Users;
         var modelListDraft = _mapper.Map<IEnumerable<UserViewModel>>(_userManager.Users);
+
+        //map roles to user view model
+        for (int i = 0; i < users.Count(); i++)
+        {
+            modelListDraft.ElementAt(i).Role = _userManager.GetRolesAsync(users.ElementAt(i)).Result[0]; //Users can only have one role
+        }
         
         return View(modelListDraft);
     }

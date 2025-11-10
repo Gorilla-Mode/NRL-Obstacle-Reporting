@@ -34,11 +34,21 @@
                             }
                             <tr class=@($"{rowBg}")>
                                 <td class="p-3  tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
-                                    @Model.ElementAt(i).id
+                                    @Model.ElementAt(i).Id
                                 </td>
                                 <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
                                     @Model.ElementAt(i).UserName
                                 </td>
+                                <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).Email
+                                </td>
+                                <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).PhoneNumber
+                                </td>
+                                <td class="p-3 tracking-wide text-left whitespace-nowrap" style="font-size: 12px">
+                                    @Model.ElementAt(i).Role
+                                </td>
+                                
                             </tr>
                         }
                     }
