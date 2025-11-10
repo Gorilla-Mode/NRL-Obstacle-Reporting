@@ -58,6 +58,14 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
                                 <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Marking</td>
                             </tr>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Creation Time</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.CreationTime</td>
+                            </tr>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Updated Time</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.UpdatedTime</td>
+                            </tr>
                             @if (draft.GeometryGeoJson != null)
                             {
                                 <tr>
@@ -105,7 +113,6 @@
                     <input type="hidden" asp-for="Type" value="@draft.Type"/>
                     <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
                     <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
-
                 </form>
             </div>
         }
