@@ -21,8 +21,6 @@
                     @Html.AntiForgeryToken()
                     <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 mb-10 w-full">
                         <table class="w-full table-fixed border-collapse">
-                            <thead>
-                            </thead>
                             <tbody>
                             <tr class="bg-gray-50 w-full">
                                 <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> Id: @report.ObstacleId</th>
@@ -52,21 +50,20 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
                                 <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.Marking</td>
                             </tr>
-                </tbody>
-         
-            @if (report.GeometryGeoJson != null)
-            {
-                <tr>
-                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Map</th>
-                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">
-                <details>
-                    <summary>Map</summary>
-                            <div class="overflow-hidden rounded-xl">
-                                <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
-                            </div>
-                    <script>
-                    var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
 
+
+                            @if (report.GeometryGeoJson != null)
+                            {
+                                <tr>
+                                    <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Map</th>
+                                    <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">
+                                        <details>
+                                            <summary>Map</summary>
+                                            <div class="overflow-hidden rounded-xl">
+                                                <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
+                                            </div>
+                                            <script>
+                    var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
                     L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
                         maxZoom: 19,
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -75,14 +72,14 @@
                     var geojsonLayer = L.geoJSON(geojson);
                     geojsonLayer.addTo(map);
                     map.setMaxBounds(geojsonLayer.getBounds())
-            
-            </script>
-                </details>
-                </td>
-                </tr>
-                }
-                            </table>
-        </div>
+                                            </script>
+                                        </details>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
     }
 
 
