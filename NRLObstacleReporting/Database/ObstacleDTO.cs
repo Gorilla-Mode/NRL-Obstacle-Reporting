@@ -2,7 +2,7 @@
 
 public class ObstacleDto
 {
-    public int ObstacleId { get; set; }
+    public string ObstacleId { get; set; }
     
     public int Type { get; set; }               // FK to ObstacleTypeDatamodel
     public int Status { get; set; }               // FK to Status

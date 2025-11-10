@@ -36,7 +36,7 @@ namespace NRLObstacleReporting.Repositories
 
         }
 
-        public async Task<ObstacleDto> GetObstacleById(int id)
+        public async Task<ObstacleDto> GetObstacleById(string? id)
         {
             using var connection = CreateConnection();
             connection.Open();

@@ -50,7 +50,7 @@ public class ObstacleCompleteModel
     }
     
     public bool IsDraft { get; set; } = true; //TODO: remove this
-    public int ObstacleId { get; set; }
+    public string ObstacleId { get; set; }
     public ObstacleStatus Status { get; set; }
     public ObstacleMarking Marking { get; set; }
     
