@@ -55,12 +55,11 @@
                             @if (report.GeometryGeoJson != null)
                             {
                                 <tr>
-                                    <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Map</th>
-                                    <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">
+                                    <td colspan="2" class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
                                         <details>
                                             <summary>Map</summary>
-                                            <div class="overflow-hidden rounded-xl">
-                                                <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
+                                            <div class="w-full overflow-hidden rounded-xl">
+                                                <div id="@mapId" class="w-full mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
                                             </div>
                                             <script>
                     var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
