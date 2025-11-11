@@ -50,6 +50,14 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
                                 <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.Marking</td>
                             </tr>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Report Created:</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.CreationTime</td>
+                            </tr>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Report Updated:</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.UpdatedTime</td>
+                            </tr>
 
 
                             @if (report.GeometryGeoJson != null)
