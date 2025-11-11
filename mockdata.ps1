@@ -12,6 +12,7 @@ if($h)
     Write-Host "    -h: helper. Displays what you're reading rn"
     Write-Host "    -i: inject. Injects and executes sql in container"
     Write-Host "        -c: clear. Deletes generated sql file from root folder. must run -i for this option"
+    Write-Host "    -r: rebuild. Drops current database, rebuilds database and injects db.sql script"
     return
 }
 
@@ -19,6 +20,23 @@ $scriptAbsolutePath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $sciptoutputname = "mockdataoutput.sql"
 $scriptoutputpath = ($scriptAbsolutePath + "/" + $sciptoutputname)
 $envAbsolutePath = $scriptAbsolutePath+"/.env"
+$sqlAbsolutePath = $scriptAbsolutePath+"/db.sql"
+
+# tests
+$sqlFileExists = Test-Path -Path $sqlAbsolutePath
+$envFileExists = Test-Path -Path $envAbsolutePath
+if(!$sqlFileExists)
+{
+    Write-Host "Error: db.sql not found"
+    return
+}
+if(!$envFileExists)
+{
+    Write-Host "Error: .env file not found, make sure to make env file first"
+    return
+}
+
+
 
 #stores env file as hashtable, for ease of access
 $envHash = @{}
@@ -45,6 +63,7 @@ for ($index = 0; $index -le $rowNum; $index++)
     $Users.Add("$index")
 }
 
+Write-Host "Generating $rowNum user inserts"
 for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible 
 {
     Add-Content -Path ($scriptoutputpath) -Value (
@@ -54,7 +73,9 @@ for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible
     VALUES ('$index', null, null, null, null, true, null, null, null,
             null, false, false, null, false, 0);")
 }
+Write-Host "    $rowNum user inserts generated"
 
+Write-Host "Generating $rowNum obstacle inserts"
 for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible 
 {
     #obstacle table fields
@@ -73,6 +94,7 @@ for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible
     "INSERT INTO Obstacle (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated, Type, Status, Marking)
     VALUES ($obstacleId, $heightMeter, '$geometryGeoJson', '$name', '$description', $illuminated, $type, $status, $marking);")
 }
+Write-Host "    $rowNum obstacle inserts generated"
 
 if($r) #goofy script maybe redo
 {
@@ -106,13 +128,24 @@ if($r) #goofy script maybe redo
 
 if ($i) #inject into container
 {
-    docker cp $scriptoutputpath db:/
-    docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <$sciptoutputname" 
-    
-    if($c) #delete script from local machine
+    try
     {
-        Remove-Item -Path $scriptoutputpath
+        Write-Host "Injecting and executing script on container"
+        Write-Host "    Injecting sql from @ $scriptoutputpath to container..."
+        docker cp $scriptoutputpath db:/
+        Write-Host "        Mock data script copied to container"
+
+        Write-Host "    Executing sql script on $($envHash['MYSQL_DATABASE'])..."
+        docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <$sciptoutputname"
+        Write-Host "COMPLETE: Sql executed, generated rows inserted"
+        
+        if($c) #delete script from local machine
+        {
+            Remove-Item -Path $scriptoutputpath
+        } 
+    }
+    catch
+    {
+        return
     }
 }
-
-
