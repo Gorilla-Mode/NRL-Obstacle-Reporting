@@ -4,6 +4,7 @@ namespace NRLObstacleReporting.Models;
 public class ObstacleStep1Model
 {
     public string? ObstacleId { get; set; }
+    public string? UserId { get; set; }
     public ObstacleCompleteModel.ObstacleStatus Status { get; set; } = 0;
     public bool SaveDraft { get; set; }
    

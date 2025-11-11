@@ -4,6 +4,8 @@ public class ObstacleDto
 {
     public string ObstacleId { get; set; }
     
+    public string UserId { get; set; }
+    
     public int Type { get; set; }               // FK to ObstacleTypeDatamodel
     public int Status { get; set; }               // FK to Status
     public int Marking { get; set; }               //FK to Marking
