@@ -34,5 +34,5 @@ public interface IObstacleRepository
     /// <param name="id">ID of the obstacle to get from the database</param>
     /// <returns>Task:ObstacleDto </returns>
     Task<ObstacleDto> GetObstacleById(string? id);
-    Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles(); 
+    Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles(string? userId); 
 }
