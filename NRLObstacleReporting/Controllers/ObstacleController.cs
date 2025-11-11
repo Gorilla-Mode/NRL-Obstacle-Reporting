@@ -30,16 +30,17 @@ public class ObstacleController : Controller
     public async Task<IActionResult> DataformStep1(ObstacleStep1Model obstacleModel)
     {
         //Async to make sure db is updated before reading in case of save draft
-        //TODO: use guid or some better way to generate id
-        var rnd = new Random();
         if (!ModelState.IsValid)
         {
             return View();
         }
-        int obstacleId = rnd.Next(); //generates ID
+
+        string? obstacleId = Guid.NewGuid().ToString(); //generates ID
+
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
+        obstacleModel.ObstacleId = obstacleId;
         
         ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
-        obstaclereport.ObstacleId = obstacleId;
         
          await _repo.InsertStep1(obstaclereport);
          

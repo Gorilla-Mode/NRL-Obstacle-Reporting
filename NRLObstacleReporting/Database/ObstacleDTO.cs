@@ -2,7 +2,7 @@
 
 public class ObstacleDto
 {
-    public int ObstacleId { get; set; }
+    public string ObstacleId { get; set; }
     
     public int Type { get; set; }               // FK to ObstacleTypeDatamodel
     public int Status { get; set; }               // FK to Status
@@ -17,4 +17,7 @@ public class ObstacleDto
     
     public int Illuminated { get; set; }
     
+    public DateTime CreationTime { get; set; }
+    
+    public DateTime UpdatedTime { get; set; }
 }

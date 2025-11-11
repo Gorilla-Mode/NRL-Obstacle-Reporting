@@ -2,16 +2,20 @@
     ViewData["Title"] = "Admin Page";
 }
 
-<div class="flex flex-col items-center text-center space-y-6 pt-4 mx-auto min-h-screen"
->
-    
-    <h1 class="text-3xl sm:text-5xl font-semibold mt-2 mb-2 sm:mb-7" > 
-        Welcome to the <br> Admin home screen
+<div class="flex flex-col items-center text-center space-y-6 pt-4 mx-auto min-h-screen">
+    <h1 class="text-3xl sm:text-5xl font-semibold " > 
+        Administrator Panel
     </h1>
     <div class="flex flex-col gap-3 sm:gap-4">
         <a asp-action="Register" asp-controller="Admin"
            class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
             Create User
+        </a>
+    </div>
+    <div class="flex flex-col gap-3 sm:gap-4">
+        <a asp-action="ManageUsers" asp-controller="Admin"
+           class="inline-block min-w-[200px] items-center rounded-lg py-3 px-6 font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-colors duration-200">
+            Manage Users
         </a>
     </div>
 </div>
