@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
@@ -12,11 +13,13 @@ public class ObstacleController : Controller
 {
     private readonly IObstacleRepository _repo;
     private readonly IMapper _mapper;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public ObstacleController(IObstacleRepository repo, IMapper mapper)
+    public ObstacleController(IObstacleRepository repo, IMapper mapper, SignInManager<IdentityUser> signInManager)
     {
         _repo = repo;
         _mapper = mapper;
+        _signInManager = signInManager;
     }
 
     [HttpGet]
@@ -34,11 +37,12 @@ public class ObstacleController : Controller
         {
             return View();
         }
-
+        string? userId = _signInManager.UserManager.GetUserId(User);
         string? obstacleId = Guid.NewGuid().ToString(); //generates ID
 
         System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
         obstacleModel.ObstacleId = obstacleId;
+        obstacleModel.UserId = userId;
         
         ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
         
