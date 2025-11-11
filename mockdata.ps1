@@ -16,13 +16,17 @@ if($h)
     return
 }
 
+#Important variables!
 $scriptAbsolutePath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $sciptoutputname = "mockdataoutput.sql"
 $scriptoutputpath = ($scriptAbsolutePath + "/" + $sciptoutputname)
 $envAbsolutePath = $scriptAbsolutePath+"/.env"
 $sqlAbsolutePath = $scriptAbsolutePath+"/db.sql"
 
-# tests
+$Users = [System.Collections.Generic.List[string]]::new() #store user id
+$envHash = @{} #stores env file as hashtable, for ease of access
+
+# ests
 $sqlFileExists = Test-Path -Path $sqlAbsolutePath
 $envFileExists = Test-Path -Path $envAbsolutePath
 if(!$sqlFileExists)
@@ -36,11 +40,6 @@ if(!$envFileExists)
     return
 }
 
-
-
-#stores env file as hashtable, for ease of access
-$envHash = @{}
-
 #populates hashtable with variables and values from env
 Get-Content $envAbsolutePath | foreach {
     $variable, $value = $_.split('=')
@@ -52,17 +51,17 @@ Get-Content $envAbsolutePath | foreach {
     $envHash["$variable"] = "$value"
 }
 
+# ----------------- main script functionality below -----------------------------------
 New-Item -Path $scriptAbsolutePath -Name $sciptoutputname -ItemType "File" -Force
 
 $rowNum = Read-Host "Input number of rows to generate"
-
-$Users = [System.Collections.Generic.List[string]]::new() #store user id
 
 for ($index = 0; $index -le $rowNum; $index++)
 {
     $Users.Add("$index")
 }
 
+#generate sql for users
 Write-Host "Generating $rowNum user inserts"
 for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible 
 {
@@ -75,6 +74,7 @@ for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible
 }
 Write-Host "    $rowNum user inserts generated"
 
+#generate sql for obstacles
 Write-Host "Generating $rowNum obstacle inserts"
 for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible 
 {
@@ -96,8 +96,11 @@ for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible
 }
 Write-Host "    $rowNum obstacle inserts generated"
 
-if($r) #goofy script maybe redo
+#----------------------------------injecting script into docker container------------------------------------------
+#   Clear database
+if($r) 
 {
+    #TODO: goofy script maybe redo
     try
     {
         Write-Host "Rebuilding Database"
