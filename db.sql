@@ -28,7 +28,7 @@ create table Status
 
 create table Obstacle
 (
-    ObstacleID      int           not null
+    ObstacleID      varchar(300)  not null
         primary key,
     Heightmeter     int           not null,
     GeometryGeoJson varchar(5000) null,
@@ -38,6 +38,8 @@ create table Obstacle
     Type            int           not null,
     Status          int default 0 not null,
     Marking         int default 0 not null,
+    CreationTime    datetime      null,
+    UpdatedTime     datetime      null,
     constraint ObstacleIlluminated_fk
         foreign key (Illuminated) references Illuminated (Illuminated),
     constraint ObstacleMarking_fk
@@ -47,6 +49,10 @@ create table Obstacle
     constraint ObstacleType_fk
         foreign key (Type) references ObstacleType (Type)
 );
+
+
+
+
 
 create table test
 (

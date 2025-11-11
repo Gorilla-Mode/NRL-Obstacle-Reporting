@@ -11,8 +11,8 @@ namespace NRLObstacleReporting.Repositories
         public async Task InsertStep1(ObstacleDto data)
         {
             using var connection = CreateConnection();
-            var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type, GeometryGeoJson) 
-                        VALUES (@ObstacleId, @HeightMeter, @Type, @GeometryGeoJson)"; 
+            var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type, GeometryGeoJson, CreationTime, UpdatedTime) 
+                        VALUES (@ObstacleId, @HeightMeter, @Type, @GeometryGeoJson,  @CreationTime, @UpdatedTime)"; 
             await connection.ExecuteAsync(sql, data);
         }
 
@@ -20,7 +20,7 @@ namespace NRLObstacleReporting.Repositories
         {
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
-                        SET GeometryGeoJson = @GeometryGeoJson 
+                        SET GeometryGeoJson = @GeometryGeoJson, UpdatedTime = @UpdatedTime 
                         WHERE ObstacleID = @ObstacleId";
             await connection.ExecuteAsync(sql, data);
         }
@@ -30,13 +30,13 @@ namespace NRLObstacleReporting.Repositories
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
                         SET Name = @Name, Description = @Description, Illuminated = @Illuminated, Status = @Status, 
-                            Marking = @Marking 
+                            Marking = @Marking, UpdatedTime = @UpdatedTime 
                         WHERE ObstacleID = @ObstacleId";
             await connection.ExecuteAsync(sql, data);
 
         }
 
-        public async Task<ObstacleDto> GetObstacleById(int id)
+        public async Task<ObstacleDto> GetObstacleById(string? id)
         {
             using var connection = CreateConnection();
             connection.Open();

@@ -16,7 +16,7 @@
     else
     {
         <div class="text-center">
-            <h1 class = "text-xl mb-2"> Registered drafts:</h1>
+            <h1 class ="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900"> Registered drafts</h1>
         </div>
         foreach (var draft in obstacleCompleteModels)
         {
@@ -24,7 +24,7 @@
             <div>
                 <form asp-controller="Draft" asp-action="EditDraft" method="post">
                     @Html.AntiForgeryToken()
-                    <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 w-full">
+                    <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 mb-10 w-full">
                         <table class="w-full table-fixed border-collapse">
                             <thead>
                             </thead>
@@ -57,14 +57,20 @@
                                 <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
                                 <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Marking</td>
                             </tr>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Creation Time</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.CreationTime</td>
+                            </tr>
+                            <tr class="bg-gray-50 w-full">
+                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Updated Time</th>
+                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.UpdatedTime</td>
+                            </tr>
                             @if (draft.GeometryGeoJson != null)
                             {
                                 <tr>
-                                    <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Map</th>
-                                    <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">
+                                    <td colspan="2" class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
                                         <details>
                                             <summary>Map</summary>
-
                                             <div class="overflow-hidden rounded-xl">
                                                 <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
                                             </div>
@@ -82,7 +88,7 @@
                                             </script>
                                         </details>
                                     </td>
-                                </tr>
+                                </tr>   
                             }
                             <tr class="bg-white w-full">
                                 <td colspan="2" class="p-0">
