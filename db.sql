@@ -26,38 +26,6 @@ create table Status
     StatusName varchar(100) null
 );
 
-create table Obstacle
-(
-    ObstacleID      varchar(300)  not null
-        primary key,
-    Heightmeter     int           not null,
-    GeometryGeoJson varchar(5000) null,
-    Name            varchar(100)  null,
-    Description     varchar(1000) null,
-    Illuminated     int default 0 not null,
-    Type            int           not null,
-    Status          int default 0 not null,
-    Marking         int default 0 not null,
-    CreationTime    datetime      null,
-    UpdatedTime     datetime      null,
-    UserId          varchar(255)  not null,
-    constraint ObstacleIlluminated_fk
-        foreign key (Illuminated) references Illuminated (Illuminated),
-    constraint ObstacleMarking_fk
-        foreign key (Marking) references Marking (Marking),
-    constraint ObstacleStatus_fk
-        foreign key (Status) references Status (Status),
-    constraint ObstacleType_fk
-        foreign key (Type) references ObstacleType (Type),
-    constraint Obstacle_UserId_fk
-        foreign key (UserId) references AspNetUserRoles (UserId)
-);
-
-
-
-
-
-
 create table test
 (
     test_column int null
@@ -163,6 +131,33 @@ create table if not EXISTS AspNetUserRoles
         references AspNetUsers(Id),
     foreign key(RoleId)
         references AspNetRoles(Id)
+);
+
+create table Obstacle
+(
+    ObstacleID      varchar(300)  not null
+        primary key,
+    Heightmeter     int           not null,
+    GeometryGeoJson varchar(5000) null,
+    Name            varchar(100)  null,
+    Description     varchar(1000) null,
+    Illuminated     int default 0 not null,
+    Type            int           not null,
+    Status          int default 0 not null,
+    Marking         int default 0 not null,
+    CreationTime    datetime      null,
+    UpdatedTime     datetime      null,
+    UserId          varchar(255)  not null,
+    constraint ObstacleIlluminated_fk
+        foreign key (Illuminated) references Illuminated (Illuminated),
+    constraint ObstacleMarking_fk
+        foreign key (Marking) references Marking (Marking),
+    constraint ObstacleStatus_fk
+        foreign key (Status) references Status (Status),
+    constraint ObstacleType_fk
+        foreign key (Type) references ObstacleType (Type),
+    constraint Obstacle_UserId_fk
+        foreign key (UserId) references AspNetUserRoles (UserId)
 );
 
 insert into AspNetRoles(id, Name, NormalizedName) values('Administrator', 'Administrator', 'Administrator');
