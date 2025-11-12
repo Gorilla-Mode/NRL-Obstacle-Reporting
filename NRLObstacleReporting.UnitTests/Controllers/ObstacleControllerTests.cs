@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
 using NRLObstacleReporting.Models;
@@ -14,6 +15,7 @@ public class ObstacleControllerTests
 {
     private IObstacleRepository _obstacleRepository;
     private IMapper _mapper;
+    private SignInManager<IdentityUser> _signInManager;
 
     /// <summary>
     /// Method Creates objectcontroller instance
@@ -23,7 +25,8 @@ public class ObstacleControllerTests
     {
         _obstacleRepository = Substitute.For<IObstacleRepository>();
         _mapper = Substitute.For<IMapper>();
-        var controller = new ObstacleController(_obstacleRepository, _mapper);
+        _signInManager = Substitute.For<SignInManager<IdentityUser>>();
+        var controller = new ObstacleController(_obstacleRepository, _mapper, _signInManager);
         return controller;
     }
     [Fact]

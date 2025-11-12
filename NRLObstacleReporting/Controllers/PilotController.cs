@@ -3,6 +3,7 @@ using NRLObstacleReporting.Models;
 using System.Diagnostics;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using NRLObstacleReporting.Repositories;
 
 namespace NRLObstacleReporting.Controllers;
@@ -12,11 +13,13 @@ public class PilotController : Controller
 {
     private readonly IObstacleRepository _repo;
     private readonly IMapper _mapper;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public PilotController(IObstacleRepository repo,  IMapper mapper)
+    public PilotController(IObstacleRepository repo,  IMapper mapper, SignInManager<IdentityUser> signInManager)
     {
         _repo = repo;
         _mapper = mapper;
+        _signInManager = signInManager;
     }
 
     public IActionResult PilotIndex()
@@ -33,7 +36,9 @@ public class PilotController : Controller
     [HttpGet]
     public async Task<IActionResult> PilotViewReports()
     {
-        var submittedReports = await _repo.GetAllSubmittedObstacles();
+        string? UserId = _signInManager.UserManager.GetUserId(User);
+        
+        var submittedReports = await _repo.GetAllSubmittedObstacles(UserId);
         
         var modelList = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedReports);
 
