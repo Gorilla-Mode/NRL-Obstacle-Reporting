@@ -52,7 +52,15 @@ Get-Content $envAbsolutePath | foreach {
 }
 
 # ----------------- main script functionality below -----------------------------------
-New-Item -Path $scriptAbsolutePath -Name $sciptoutputname -ItemType "File" -Force
+
+try
+{
+    New-Item -Path $scriptAbsolutePath -Name $sciptoutputname -ItemType "File" -Force
+}
+catch
+{
+    return
+}
 
 $rowNum = Read-Host "Input number of rows to generate"
 
@@ -74,12 +82,21 @@ for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible
 }
 Write-Host "    $rowNum user inserts generated"
 
-#generate sql for obstacles
-Write-Host "Generating $rowNum obstacle inserts"
+Write-Host "Generating $rowNum userRole inserts"
 for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible 
 {
+    Add-Content -Path ($scriptoutputpath) -Value (
+    "INSERT INTO AspNetUserRoles (UserId, RoleId)
+     VALUES ('$index', 'Pilot');")
+}
+Write-Host "    $rowNum userRole inserts generated"
+
+#generate sql for obstacles
+Write-Host "Generating $rowNum obstacle inserts"
+for ($index = 1; $index -le $rowNum; $index++) 
+{
     #obstacle table fields
-    $userId = $Users[(Get-Random -Maximum $Users.Count)] #TODO: add later when users are assigned to obstacle
+    $userId = $Users[(Get-Random -Minimum 1 -Maximum $Users.Count)]
     $obstacleId = $index
     $heightMeter = (Get-Random -Maximum 150)
     $geometryGeoJson = (Get-Random -Maximum 5000)
@@ -91,8 +108,8 @@ for ($index = 1; $index -le $rowNum; $index++) #creates most basic user possible
     $marking = (Get-Random -Maximum 3) #marking table has 2 options from 0-2
     
     Add-Content -Path ($scriptoutputpath) -Value (
-    "INSERT INTO Obstacle (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated, Type, Status, Marking)
-    VALUES ($obstacleId, $heightMeter, '$geometryGeoJson', '$name', '$description', $illuminated, $type, $status, $marking);")
+    "INSERT INTO Obstacle (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated, Type, Status, Marking, UserId)
+    VALUES ($obstacleId, $heightMeter, '$geometryGeoJson', '$name', '$description', $illuminated, $type, $status, $marking, $userId);")
 }
 Write-Host "    $rowNum obstacle inserts generated"
 
