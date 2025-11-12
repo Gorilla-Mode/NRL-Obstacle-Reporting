@@ -106,10 +106,12 @@ for ($index = 1; $index -le $rowNum; $index++)
     $type = (Get-Random -Maximum 6) #type  table has 6 options from 0-5
     $status = (Get-Random -Maximum 5) #status table has 4 options from 0-4
     $marking = (Get-Random -Maximum 3) #marking table has 2 options from 0-2
+    # date time format YYYY:MM:DD HH:MM:SS
+    $creationTime = ("$(Get-Random -Minimum 2021 -Maximum 2026)-$(Get-Random -Minimum 1 -Maximum 13)-$(Get-Random -Minimum 1 -Maximum 29) $(Get-Random -Minimum 1 -Maximum 24):$(Get-Random -Minimum 1 -Maximum 60):$(Get-Random -Minimum 1 -Maximum 60)")
     
     Add-Content -Path ($scriptoutputpath) -Value (
-    "INSERT INTO Obstacle (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated, Type, Status, Marking, UserId)
-    VALUES ($obstacleId, $heightMeter, '$geometryGeoJson', '$name', '$description', $illuminated, $type, $status, $marking, $userId);")
+    "INSERT INTO Obstacle (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated, Type, Status, Marking, CreationTime, UserId)
+    VALUES ($obstacleId, $heightMeter, '$geometryGeoJson', '$name', '$description', $illuminated, $type, $status, $marking, '$creationTime', $userId);")
 }
 Write-Host "    $rowNum obstacle inserts generated"
 
