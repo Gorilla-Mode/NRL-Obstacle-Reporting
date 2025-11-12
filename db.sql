@@ -160,6 +160,12 @@ create table Obstacle
         foreign key (UserId) references AspNetUserRoles (UserId)
 );
 
+create index Obstacle_CreationTime_index
+    on Obstacle (CreationTime);
+
+create index Obstacle_Heightmeter_index
+    on Obstacle (Heightmeter);
+
 insert into AspNetRoles(id, Name, NormalizedName) values('Administrator', 'Administrator', 'Administrator');
 insert into AspNetRoles(id, Name, NormalizedName) values('Pilot', 'Pilot', 'Pilot');
 insert into AspNetRoles(id, Name, NormalizedName) values('Registrar', 'Registrar', 'Registrar');
