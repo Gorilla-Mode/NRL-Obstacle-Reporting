@@ -59,7 +59,7 @@ create table if not EXISTS AspNetRoles
     NormalizedName  varchar(255),
     ConcurrencyStamp  varchar(255),
     CONSTRAINT U_ROLE_ID_PK PRIMARY KEY (Id)
-);
+    );
 
 create table if not EXISTS AspNetUsers
 (
@@ -79,7 +79,7 @@ create table if not EXISTS AspNetUsers
     LockoutEnabled bit not null,
     AccessFailedCount int not null,
     CONSTRAINT PK_AspNetUsers PRIMARY KEY (Id)
-);
+    );
 create table if not EXISTS AspNetUserTokens
 (
     UserId varchar(255) not null,
@@ -87,7 +87,7 @@ create table if not EXISTS AspNetUserTokens
     Name  varchar(255) not null,
     Value  varchar(255),
     CONSTRAINT PK_AspNetUserTokens PRIMARY KEY (UserId, LoginProvider)
-);
+    );
 
 create table if not EXISTS AspNetRoleClaims
 (
@@ -97,8 +97,8 @@ create table if not EXISTS AspNetRoleClaims
     RoleId  varchar(255),
     CONSTRAINT PK_AspNetRoleClaims PRIMARY KEY (Id),
     foreign key(RoleId)
-        references AspNetRoles(Id)
-);
+    references AspNetRoles(Id)
+    );
 
 create table if not EXISTS AspNetUserClaims
 (
@@ -108,8 +108,8 @@ create table if not EXISTS AspNetUserClaims
     UserId  varchar(255),
     CONSTRAINT PK_AspNetRoleClaims PRIMARY KEY (Id),
     foreign key(UserId)
-        references AspNetUsers(Id)
-);
+    references AspNetUsers(Id)
+    );
 
 create table if not EXISTS AspNetUserLogins
 (
@@ -119,8 +119,8 @@ create table if not EXISTS AspNetUserLogins
     UserId  varchar(255) not null,
     CONSTRAINT PK_AspNetUserLogins PRIMARY KEY (LoginProvider),
     foreign key(UserId)
-        references AspNetUsers(Id)
-);
+    references AspNetUsers(Id)
+    );
 
 create table if not EXISTS AspNetUserRoles
 (
@@ -128,10 +128,10 @@ create table if not EXISTS AspNetUserRoles
     RoleId varchar(255) not null,
     CONSTRAINT PK_AspNetUserRoles PRIMARY KEY (UserId,RoleId),
     foreign key(UserId)
-        references AspNetUsers(Id),
+    references AspNetUsers(Id),
     foreign key(RoleId)
-        references AspNetRoles(Id)
-);
+    references AspNetRoles(Id)
+    );
 
 create table Obstacle
 (
@@ -180,8 +180,8 @@ VALUES ('658bd502-a855-4a06-b0bd-a48e874e1803', 'pilot@pilot.com', 'PILOT@PILOT.
         0);
 
 INSERT INTO AspNetUsers (Id, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash,
-                             SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled,
-                             LockoutEnd, LockoutEnabled, AccessFailedCount)
+                         SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled,
+                         LockoutEnd, LockoutEnabled, AccessFailedCount)
 VALUES ('51d67027-dc61-4b05-b33b-d02481e9cb2b', 'registrar@registrar.com', 'REGISTRAR@REGISTRAR.COM', 'registrar@registrar.com',
         'REGISTRAR@REGISTRAR.COM', true,
         'AQAAAAIAAYagAAAAEDBuir2sH0Q4eCYdyWluFA+4ZiMaW72/Wcu0J28hu96bdJ4q160KQy5BygfW0K3L9g==',

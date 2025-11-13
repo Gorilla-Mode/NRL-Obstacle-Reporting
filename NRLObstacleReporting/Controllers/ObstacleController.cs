@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
@@ -12,11 +13,13 @@ public class ObstacleController : Controller
 {
     private readonly IObstacleRepository _repo;
     private readonly IMapper _mapper;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public ObstacleController(IObstacleRepository repo, IMapper mapper)
+    public ObstacleController(IObstacleRepository repo, IMapper mapper, SignInManager<IdentityUser> signInManager)
     {
         _repo = repo;
         _mapper = mapper;
+        _signInManager = signInManager;
     }
 
     [HttpGet]
@@ -30,16 +33,18 @@ public class ObstacleController : Controller
     public async Task<IActionResult> DataformStep1(ObstacleStep1Model obstacleModel)
     {
         //Async to make sure db is updated before reading in case of save draft
-        //TODO: use guid or some better way to generate id
-        var rnd = new Random();
         if (!ModelState.IsValid)
         {
             return View();
         }
-        int obstacleId = rnd.Next(); //generates ID
+        string? userId = _signInManager.UserManager.GetUserId(User);
+        string? obstacleId = Guid.NewGuid().ToString(); //generates ID
+
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
+        obstacleModel.ObstacleId = obstacleId;
+        obstacleModel.UserId = userId;
         
         ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
-        obstaclereport.ObstacleId = obstacleId;
         
          await _repo.InsertStep1(obstaclereport);
          
@@ -75,6 +80,8 @@ public class ObstacleController : Controller
         }
         
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
+        obstacle.UserId = _signInManager.UserManager.GetUserId(User);
+
         await _repo.InsertStep2(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
         
         if (obstacleModel.SaveDraft) //exits reporting process
@@ -108,6 +115,7 @@ public class ObstacleController : Controller
         }
 
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
+        obstacle.UserId = _signInManager.UserManager.GetUserId(User);
         await _repo.InsertStep3(obstacle); // make sure this is completed before proceeding 
         
         var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
