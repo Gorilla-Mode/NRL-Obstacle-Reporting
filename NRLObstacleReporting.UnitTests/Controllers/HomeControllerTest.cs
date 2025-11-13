@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
 using NSubstitute;
@@ -9,6 +10,8 @@ namespace NRLObstacleReporting.UnitTests.Controllers;
 [TestSubject(typeof(HomeController))]
 public class HomeControllerTest
 {
+    private UserManager<IdentityUser> _userManager;
+
     /// <summary>
     /// Method Creates model with a substitute for logger interface
     /// </summary>
@@ -16,8 +19,9 @@ public class HomeControllerTest
     private HomeController HomeControllerLogger()
     {
         var logger = Substitute.For<Microsoft.Extensions.Logging.ILogger<HomeController>>();
-        
-        return new HomeController(logger);
+
+        _userManager = Substitute.For<UserManager<IdentityUser>>();
+        return new HomeController(logger, _userManager);
     }
 
     [Fact]
@@ -31,7 +35,7 @@ public class HomeControllerTest
         var viewResult = result as ViewResult;
         
         //assert
-        Assert.Null(viewResult!.ViewName);
+       Assert.Null(viewResult!.ViewName);
     }
     
     [Fact]

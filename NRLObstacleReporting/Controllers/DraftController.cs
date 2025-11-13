@@ -44,6 +44,8 @@ public class DraftController : Controller
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> SaveEditedDraft(ObstacleCompleteModel editedDraft)
     {
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
+        editedDraft.UpdatedTime = DateTime.Now;
         //async to make sure task is completed before resubmit
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(editedDraft);
         await _repoDraft.EditDraft(obstacle);
@@ -55,12 +57,13 @@ public class DraftController : Controller
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> SubmitDraft(ObstacleCompleteModel draft)
     {
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
         //async to make sure task is completed before resubmit
         if (!ModelState.IsValid)
         {
             return View("EditDraft", draft);
         }
-            
+        draft.UpdatedTime = DateTime.Now;
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(draft);
         await _repoDraft.EditDraft(obstacle);
         await _repoDraft.SubmitDraft(obstacle);

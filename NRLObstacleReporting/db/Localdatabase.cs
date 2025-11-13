@@ -21,7 +21,7 @@ public static class Localdatabase
     /// </summary>
     /// <param name="obstacleId">ID of obstacle to edit</param>
     /// <param name="geometryGeoJson">New GeoJSON</param>
-    public static void EditObstacleCoordinates(int obstacleId, string? geometryGeoJson)
+   /*  public static void EditObstacleCoordinates(int obstacleId, string? geometryGeoJson)
     {
         for (var i = 0; i < _obstacles.Count; i++)
         {
@@ -31,7 +31,8 @@ public static class Localdatabase
             }
         }
     }
-    
+    */
+   
     /// <summary>
     /// Method Replaces obstacle with the same id as the obstacle inputted in the database
     /// </summary>
@@ -53,7 +54,7 @@ public static class Localdatabase
     /// <param name="obstacleId"> ID to get from database</param>
     /// <returns></returns>
     /// <exception cref="Exception"> Obstacle not found</exception>
-    public static ObstacleCompleteModel GetObstacleCompleteModel(int obstacleId)
+   /* public static ObstacleCompleteModel GetObstacleCompleteModel(int obstacleId)
     {
         foreach (var report in _obstacles)
         {
@@ -64,7 +65,7 @@ public static class Localdatabase
         }
         throw new Exception("Obstacle not found");
     }
-
+*/
     /// <summary>
     /// Method Delets object at specified index
     /// </summary>

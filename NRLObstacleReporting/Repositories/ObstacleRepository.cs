@@ -11,8 +11,8 @@ namespace NRLObstacleReporting.Repositories
         public async Task InsertStep1(ObstacleDto data)
         {
             using var connection = CreateConnection();
-            var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type, GeometryGeoJson) 
-                        VALUES (@ObstacleId, @HeightMeter, @Type, @GeometryGeoJson)"; 
+            var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type, GeometryGeoJson, CreationTime, UpdatedTime, UserId) 
+                        VALUES (@ObstacleId, @HeightMeter, @Type, @GeometryGeoJson,  @CreationTime, @UpdatedTime, @UserId)"; 
             await connection.ExecuteAsync(sql, data);
         }
 
@@ -20,8 +20,8 @@ namespace NRLObstacleReporting.Repositories
         {
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
-                        SET GeometryGeoJson = @GeometryGeoJson 
-                        WHERE ObstacleID = @ObstacleId";
+                        SET GeometryGeoJson = @GeometryGeoJson, UpdatedTime = @UpdatedTime 
+                        WHERE ObstacleID = @ObstacleId AND UserId = @UserId";
             await connection.ExecuteAsync(sql, data);
         }
 
@@ -30,13 +30,13 @@ namespace NRLObstacleReporting.Repositories
             using var connection = CreateConnection();
             var sql = @"UPDATE Obstacle 
                         SET Name = @Name, Description = @Description, Illuminated = @Illuminated, Status = @Status, 
-                            Marking = @Marking 
-                        WHERE ObstacleID = @ObstacleId";
+                            Marking = @Marking, UpdatedTime = @UpdatedTime 
+                        WHERE ObstacleID = @ObstacleId AND UserId = @UserId";
             await connection.ExecuteAsync(sql, data);
 
         }
 
-        public async Task<ObstacleDto> GetObstacleById(int id)
+        public async Task<ObstacleDto> GetObstacleById(string? id)
         {
             using var connection = CreateConnection();
             connection.Open();
@@ -45,17 +45,13 @@ namespace NRLObstacleReporting.Repositories
             return await connection.QuerySingleAsync<ObstacleDto>(sql, new { Id = id });
         }
 
-        public async Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles()
+        public async Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles(string? userId)
         {
             //Needs to be updated to only get form ceatain users when IdentityCore is implemented
             using var connection = CreateConnection();
-            var sql = @$"SELECT * 
-                         FROM Obstacle 
-                         WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}";
-            await connection.ExecuteAsync(sql);
+            var sql = $"SELECT * FROM Obstacle WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft} AND UserId = @userId";
             
-            return connection.Query<ObstacleDto>(sql);
+            return await connection.QueryAsync<ObstacleDto>(sql, new { UserId = userId });
         }
-        
     }
 }

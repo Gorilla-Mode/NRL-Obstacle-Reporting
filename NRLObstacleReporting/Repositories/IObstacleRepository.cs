@@ -33,6 +33,6 @@ public interface IObstacleRepository
     /// </summary>
     /// <param name="id">ID of the obstacle to get from the database</param>
     /// <returns>Task:ObstacleDto </returns>
-    Task<ObstacleDto> GetObstacleById(int id);
-    Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles(); 
+    Task<ObstacleDto> GetObstacleById(string? id);
+    Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles(string? userId); 
 }

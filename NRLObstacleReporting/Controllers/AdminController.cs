@@ -1,9 +1,12 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Models.Account;
 
 namespace NRLObstacleReporting.Controllers;
@@ -15,13 +18,16 @@ public class AdminController : Controller
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IEmailSender _emailSender;
     private readonly ILogger<AccountController> _logger;
+    private readonly IMapper _mapper;
 
-    public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger)
+    public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
+        IEmailSender emailSender, ILogger<AccountController> logger, IMapper mapper)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _emailSender = emailSender;
         _logger = logger;
+        _mapper = mapper;
     }
     
     private void AddErrors(IdentityResult result)
@@ -38,37 +44,49 @@ public class AdminController : Controller
         return View();
     }
     
-    // GET: /Account/Register
     [HttpGet]
-    public IActionResult Register(string? returnUrl = null)
+    public IActionResult Register()
     {
-        ViewData["ReturnUrl"] = returnUrl;
         return View();
     }
-
-    //
-    // POST: /Account/Register
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
+    public async Task<IActionResult> Register(RegisterViewModel model)
     {
-        ViewData["ReturnUrl"] = returnUrl;
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, LockoutEnabled = false, LockoutEnd = null };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                _logger.LogInformation(3, "User created a new account with password.");
-
-                return RedirectToAction("AdminIndex");
-            }
-            AddErrors(result);
+            return View(model);
         }
+        
+        var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, LockoutEnabled = false, LockoutEnd = null };
+        var createAccResult = await _userManager.CreateAsync(user, model.Password);
+        
+        if (!createAccResult.Succeeded)
+        {
+            AddErrors(createAccResult);
+            return View(model);
+        }
+        
+        _logger.LogInformation(3, "User created a new account with password.");
+        
+        await _userManager.AddToRoleAsync(user, model.Role.ToString());
+        
+        return RedirectToAction("AdminIndex");
+    }
 
-        // If we got this far, something failed, redisplay form
-        return View(model);
+    [HttpGet]
+    public IActionResult ManageUsers()
+    {
+        var users = _userManager.Users;
+        var modelListDraft = _mapper.Map<IEnumerable<UserViewModel>>(_userManager.Users);
+
+        //map roles to user view model
+        for (int i = 0; i < users.Count(); i++)
+        {
+            modelListDraft.ElementAt(i).Role = _userManager.GetRolesAsync(users.ElementAt(i)).Result[0]; //Users can only have one role
+        }
+        
+        return View(modelListDraft);
     }
 }
