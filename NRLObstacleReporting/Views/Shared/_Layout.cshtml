@@ -4,21 +4,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - NRLObstacleReporting</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/NRLObstacleReporting.styles.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true"/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NRLObstacleReporting.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    <!-- Tailwind SKAL ligge helt til slutt -->
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+
+    <!-- Leaflet -->
     <script src="~/lib/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+
+    <style>
+        html, body {
+            min-height: 100%;
+            background: transparent !important;
+        }
+    </style>
 </head>
 
-<body class="bg-blue-0">
+<body class="relative min-h-screen overflow-x-hidden font-sans text-gray-900">
+
+    <!-- Gradient som dekker hele bakgrunnen -->
+    <div class="fixed inset-0 bg-gradient-to-b from-blue-100 via-blue-50 to-white -z-10"></div>
+
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm !bg-transparent bg-gradient-to-b from-blue-200 to-blue-400 border-b-3 border-blue-800 shadow-md mb-3 py-6">
+    <nav class="navbar navbar-expand-sm !bg-transparent bg-gradient-to-b from-blue-200 to-blue-400 border-b border-blue-500/70 shadow-sm mb-3 py-6">
         <!-- Top-right log in / log out (moved out of the collapsible menu) -->
         <div class="d-flex align-items-center">
             @if (SignInManager.IsSignedIn(User))
@@ -35,42 +53,37 @@
         </div>
         <div class="container-fluid relative flex items-center justify-between w-full px-4">
 
-            <!-- Venstreside -->
-            <a class="text-gray-800 font-semibold text-sm sm:text-base md:text-lg tracking-wide navbar-brand flex items-center gap-1 sm:gap-2"
-               asp-controller="Home" asp-action="Index">
-                NRL Obstacle Reporting
+            <!-- Venstre side -->
+            <a asp-controller="Home" asp-action="Index"
+               class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-50 text-blue-700 hover:text-blue-800 font-semibold shadow-sm border border-blue-200 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="2" stroke="currentColor" class="w-5 h-5 transition-colors duration-300">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 9.75L12 4l9 5.75M4.5 10.5V19a1.5 1.5 0 001.5 1.5h3.75v-4.5h4.5V20.5H18a1.5 1.5 0 001.5-1.5v-8.5"/>
+                </svg>
+                <span>Home</span>
             </a>
 
-            
             <!-- Midten (logoen) -->
             <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
             bg-white/30 backdrop-blur-md rounded-lg shadow-md flex items-center justify-center pointer-events-none"
                  style="height:90px; width:320px; z-index:0;">
                 <img src="~/lib/logo/aerobarrier-logo.svg"
                      alt="AeroBarrier logo"
-                     class="drop-shadow-md mx-auto object-contain h-[120px] sm:h-[150px] md:h-[200px] w-auto pointer-events-none" />
+                     class="drop-shadow-md mx-auto object-contain h-[340px] sm:h-[380px] md:h-[420px] w-auto pointer-events-none"/>
             </div>
 
-            <!-- Høyreside (collapsible links) -->
-            <div class="collapse navbar-collapse justify-end" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Registrar" asp-action="RegistrarIndex">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
+            <!-- Høyre side (tom nå, men klar for senere linker) -->
+            <div class="flex items-center gap-4">
+                <!-- Tom, men du kan legge til knapper eller brukerprofil her senere -->
             </div>
         </div>
     </nav>
 
     <!-- Hovedinnhold -->
-    <div class="container">
-        <main role="main" style="padding-bottom: 10dvh">
-            @RenderBody()
-        </main>
-    </div>
+    <main class="container mx-auto px-6 py-10 pb-20">
+        @RenderBody()
+    </main>
 
     <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
 using NRLObstacleReporting.Repositories;
@@ -13,12 +14,14 @@ public class PilotControllerTests
 {
     private IObstacleRepository _obstacleRepository;
     private IMapper _mapper;
+    private SignInManager<IdentityUser> _signInManager;
 
     private PilotController CreatePilotController()
     {
         _obstacleRepository = Substitute.For<IObstacleRepository>();
         _mapper = Substitute.For<IMapper>();
-        var controller = new PilotController(_obstacleRepository, _mapper);
+        _signInManager = Substitute.For<SignInManager<IdentityUser>>();
+        var controller = new PilotController(_obstacleRepository, _mapper, _signInManager);
         return controller;
     }
     
