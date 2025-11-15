@@ -38,17 +38,19 @@
     <div class="bg-gradient-layer"></div>
 
     <!-- NAVBAR -->
-    <nav class="nav-theme relative flex items-center justify-between w-full px-6 shadow-sm h-[92px]">
+    <!-- NAVBAR -->
+    <nav class="relative flex items-center justify-between w-full px-6 shadow-sm h-[92px]
+    bg-blue-300/30 dark:bg-blue-800/30 backdrop-blur-xl border-b border-blue-300/30">
 
         <!-- Venstre: toggle + home -->
         <div class="flex flex-col items-center justify-center space-y-2 py-1">
 
             <!-- Toggle -->
             <button id="theme-toggle"
-                    class="relative flex items-center justify-between w-[120px] h-[32px]
-                           bg-gray-200 dark:bg-gray-800 rounded-full border border-blue-300
-                           overflow-hidden shadow-inner transition-all duration-500">
-                <div class="flex justify-between w-full px-4 items-center text-gray-600 dark:text-gray-300 z-10">
+                    class="relative flex items-center justify-between w-[110px] h-[34px]
+                       bg-white/60 dark:bg-gray-800/60 text-gray-700 dark:text-gray-200
+                       rounded-full border border-blue-300/40 shadow-inner transition-all duration-500 px-4">
+                <div class="flex justify-between w-full items-center z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414M16.95 16.95l1.414 1.414M7.05 7.05L5.636 5.636M12 8a4 4 0 100 8 4 4 0 000-8z"/>
@@ -57,19 +59,23 @@
                         <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
                     </svg>
                 </div>
+
                 <div id="toggle-circle"
-                     class="absolute left-0 top-0 w-1/2 h-full bg-blue-500 rounded-full shadow-md
-                            transform transition-transform duration-500 dark:translate-x-full">
+                     class="absolute left-0 top-0 w-1/2 h-full bg-blue-500 dark:bg-blue-600
+                        rounded-full shadow-md transform transition-transform duration-500
+                        dark:translate-x-full">
                 </div>
             </button>
 
             <!-- Home -->
             <a asp-controller="Home" asp-action="Index"
-               class="btn-theme flex items-center gap-2 px-3 py-1.5 rounded-full
-                      font-semibold shadow-sm transition-all duration-300
-                      w-[120px] justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" class="w-5 h-5">
+               class="flex items-center justify-center gap-2 w-[110px] h-[34px]
+                  rounded-full font-medium shadow-md transition-all duration-300
+                  text-white bg-blue-600 hover:bg-blue-700
+                  dark:bg-blue-500 dark:hover:bg-blue-400">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="M3 9.75L12 4l9 5.75M4.5 10.5V19a1.5 1.5 0 001.5 1.5h3.75v-4.5h4.5V20.5H18a1.5 1.5 0 001.5-1.5v-8.5"/>
                 </svg>
@@ -79,9 +85,9 @@
 
         <!-- Midten: logo -->
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-                    h-[92px] w-[360px] md:w-[400px]
-                    bg-white/30 backdrop-blur-md rounded-lg shadow-md
-                    flex items-center justify-center pointer-events-none z-10">
+                h-[92px] w-[360px] md:w-[400px]
+                bg-white/20 backdrop-blur-md rounded-lg shadow-md
+                flex items-center justify-center pointer-events-none z-10">
             <img src="~/lib/logo/aerobarrier-logo.svg"
                  alt="AeroBarrier logo"
                  class="object-contain scale-[5] h-[80px] md:h-[84px] w-auto drop-shadow-md select-none" />
@@ -93,7 +99,11 @@
             {
                 <form asp-controller="Account" asp-action="LogOff" method="post" class="inline">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn-theme flex items-center gap-2 px-4 py-2 rounded-full font-semibold shadow-sm transition-all duration-300">
+                    <button type="submit"
+                            class="flex items-center justify-center gap-2 px-4 h-[34px]
+                               rounded-full font-semibold shadow-md
+                               text-white bg-blue-700 hover:bg-blue-800
+                               dark:bg-blue-500 dark:hover:bg-blue-400 transition">
                         Log out
                     </button>
                 </form>
@@ -101,13 +111,16 @@
             else
             {
                 <a asp-controller="Account" asp-action="Login"
-                   class="btn-theme flex items-center gap-2 px-4 py-2 rounded-full font-semibold shadow-sm transition-all duration-300">
+                   class="flex items-center justify-center gap-2 px-4 h-[34px]
+                      rounded-full font-semibold shadow-md
+                      text-white bg-blue-700 hover:bg-blue-800
+                      dark:bg-blue-500 dark:hover:bg-blue-400 transition">
                     Log in
                 </a>
             }
         </div>
     </nav>
-
+    
     <!-- Hovedinnhold -->
     <main class="container mx-auto mt-6">
         @RenderBody()
