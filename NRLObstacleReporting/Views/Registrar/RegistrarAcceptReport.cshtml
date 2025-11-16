@@ -1,6 +1,5 @@
 @model ObstacleCompleteModel
 
-
 <h2 class="text-xl font-bold mb-4">Report Details</h2>
 
 <div class="bg-white p-6 rounded shadow text-sm text-gray-900">
@@ -10,22 +9,16 @@
             <span>Email:</span>
             <span class="text-gray-500">email</span>
         </div>
-
-        <!-- Phonenumber -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2"> <!-- Phonenumber -->
             <span>Phonenumber:</span>
             <span class="text-gray-500">mobilnummer</span>
         </div>
-
-        <!-- Organization -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2"> <!-- Organization -->
             <span>Organization:</span>
             <span class="text-gray-500">organisasjonen</span>
         </div>
     </div>
-    
-    <!-- Horisontal Line -->
-    <hr class="border-gray-500 dark:border-neutral-500">
+    <hr class="border-gray-500 dark:border-neutral-500"> <!-- Horisontal Line -->
     <div class="flex flex-wrap gap-4 text-sm font-semibold text-gray-800">
         <div class="flex items-center gap-2">
             <span>Name</span>
@@ -53,11 +46,8 @@
         </div>
     </div>
 </div>
-
-
-<div class="flex gap-4 m-4">
-    <!-- Attachments-boksen -->
-    <div class="box-border rounded-lg h-auto w-[26rem] p-4 border-2 border-blue-500">
+<div class="flex gap-4 m-4"> <!-- Attachments-box -->
+    <div class="box-border rounded-lg h-auto w-[26rem] p-4 border-2 border-blue-500"> 
         <p class="font-semibold mb-3">Attachments</p>
 
         <div class="flex gap-2 w-full">
@@ -75,8 +65,7 @@
             </div>
         </div>
     </div>
-    <!-- Status-knapper horisontalt -->
-    <div class="flex gap-2 mt-4">
+    <div class="flex gap-2 mt-4"> <!-- Status buttons horizontal -->
         <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
             <input type="hidden" name="id" value="@Model.ObstacleId" />
             <input type="hidden" name="status" value="Approved" />
@@ -100,28 +89,20 @@
         </form>
     </div> 
 </div>
-<!-- Map in a dropdown-->
-
-<div class="mt-6">
+<div class="mt-6"> <!-- Map in a dropdown-->
     <h2 class="text-xl font-bold mb-2">Obstacle Location</h2>
     <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg border border-gray-300 shadow"></div>
 </div>
-
 @section Scripts
 {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
     <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+    
     <script>
-        const zoom = 17;
-        const map = GenerateMapGeolocate(zoom);
-
-        const geoJson = @Html.Raw(Json.Serialize(Model.GeometryGeoJson));
-        if (geoJson) {
-            const layer = L.geoJSON(JSON.parse(geoJson), {
-                style: { color: '#2563eb', weight: 3 },
-                pointToLayer: (feature, latlng) => L.circleMarker(latlng, { radius: 6, color: '#2563eb' })
-            }).addTo(map);
-
-            map.fitBounds(layer.getBounds(), { padding: [20, 20] });
-        }
+        let geoJson = @Html.Raw(Model.GeometryGeoJson)
+        const mapZoom = 17;
+        
+        GenerateMapWithGeojson(mapZoom, geoJson)
     </script>
 }

@@ -19,11 +19,13 @@ public class RegistrarController : Controller
         _repoRegistrar = repo;
     }
 
+    [HttpGet]
     public IActionResult RegistrarIndex()
     {
         return View();
     }
 
+    [HttpGet]
     public async Task<IActionResult> RegistrarViewReports()
     {
         
@@ -35,15 +37,15 @@ public class RegistrarController : Controller
         return View();
     }
     
-    
-    // public async Task<IActionResult> RegistrarAcceptReport(string id)
-    // {
-    //     var obstacle = await _repoRegistrar.GetObstacleById(id);
-    //     if (obstacle == null) return NotFound();
-    //     
-    //     var model = _mapper.Map<ObstacleCompleteModel>(obstacle);
-    //     return View(model);
-    // }
+    [HttpGet]
+    public async Task<IActionResult> RegistrarAcceptReport(string id)
+    {
+        var obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
+        if (obstacle == null) return NotFound();
+        
+        var model = _mapper.Map<ObstacleCompleteModel>(obstacle);
+        return View(model);
+    }
 
 }
 
