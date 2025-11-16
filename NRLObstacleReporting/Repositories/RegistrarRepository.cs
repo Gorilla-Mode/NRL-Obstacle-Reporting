@@ -19,5 +19,15 @@ namespace NRLObstacleReporting.Repositories
             
             return await connection.QueryAsync<ObstacleDto>(sql);
         }
+
+        public async Task<ObstacleDto> GetSubmittedObstacleById(string id)
+        {
+            using var connection = CreateConnection();
+            var sql = $@"SELECT * 
+                        FROM Obstacle
+                        WHERE ObstacleID = @id AND Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}";
+
+            return await connection.QuerySingleAsync<ObstacleDto>(sql, new { Id = id });
+        }
     }
 }
