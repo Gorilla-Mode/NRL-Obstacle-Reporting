@@ -72,37 +72,4 @@ public class ObstacleCompleteModel
     public string? Description { get; set; }
 
     public Illumination Illuminated { get; set; }
-    
-    public string StatusText
-    {
-        get
-        {
-            return Status switch
-            {
-                ObstacleStatus.Pending => "Pending",
-                ObstacleStatus.Approved => "Accepted",
-                ObstacleStatus.Rejected => "Rejected",
-                ObstacleStatus.Draft => "Draft",
-                ObstacleStatus.Deleted => "Deleted",
-                _ => "Unknown"
-            };
-        }
-    }
-
-    public string StatusColor
-    {
-        get
-        {
-            return Status switch
-            {
-                ObstacleStatus.Pending => "text-yellow-600",
-                ObstacleStatus.Approved => "text-green-600",
-                ObstacleStatus.Rejected => "text-red-600",
-                ObstacleStatus.Draft => "text-gray-500",
-                ObstacleStatus.Deleted => "text-gray-400",
-                _ => "text-gray-600"
-            };
-        }
-    }
-
 }
