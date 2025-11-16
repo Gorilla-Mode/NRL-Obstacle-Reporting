@@ -22,7 +22,7 @@ else
         {
             <div class="border p-4 rounded mb-4 bg-white shadow">
                 <p><strong>Name:</strong> @report.Name</p>
-                <p><strong>Status:</strong> <span class="@report.StatusColor">@report.StatusText</span></p>
+                <p><strong>Status:</strong> <span class="">@report.Type</span></p>
                 <a asp-action="RegistrarAcceptReport" asp-route-id="@report.ObstacleId"
                    class="text-blue-600 underline text-sm">View details</a>
             </div>
