@@ -15,19 +15,19 @@ else
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
         
         <div class="flex w-full gap-4 pt-4 mb-6"> <!-- 4 rektangel  -->
-            <a asp-action="ViewAllReports" asp-controller="Registrar"
+            <a asp-action="ListReports" asp-controller="Registrar"
                class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
                 All
             </a>
-            <a asp-action="ViewPendingReports" asp-controller="Registrar"
+            <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Pending" asp-controller="Registrar"
                class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
                 Pending
             </a>
-            <a asp-action="ViewAcceptedReports" asp-controller="Registrar"
+            <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Approved" asp-controller="Registrar"
                class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
                 Approved
             </a>
-            <a asp-action="ViewRejectedReports" asp-controller="Registrar"
+            <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Rejected" asp-controller="Registrar"
                class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
                 Rejected
             </a>
