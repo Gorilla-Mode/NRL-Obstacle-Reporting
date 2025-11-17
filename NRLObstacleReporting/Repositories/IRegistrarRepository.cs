@@ -1,4 +1,5 @@
 using NRLObstacleReporting.Database;
+using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Repositories;
 
@@ -22,4 +23,6 @@ public interface IRegistrarRepository
     /// </summary>
     /// <param name="data"></param>
     Task UpdateObstacleStatus(ObstacleDto data);
+
+    Task<IEnumerable<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus status);
 }

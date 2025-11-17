@@ -40,4 +40,15 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
                     WHERE ObstacleID = @ObstacleId";
         await connection.ExecuteAsync(sql, data);
     }
+
+    public async Task<IEnumerable<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus status)
+    {
+        using var connection = CreateConnection();
+        
+        var sql = $@"SELECT *
+                    FROM Obstacle
+                    WHERE Status = {(int)status}";
+        
+        return await connection.QueryAsync<ObstacleDto>(sql, status);
+    }
 }
