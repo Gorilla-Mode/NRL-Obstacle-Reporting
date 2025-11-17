@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
@@ -11,11 +12,13 @@ public class RegistrarController : Controller
 {
     private readonly IMapper _mapper;
     private readonly IObstacleRepository _repoObstacle;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public RegistrarController(IMapper mapper, IObstacleRepository repo)
+    public RegistrarController(IMapper mapper, IObstacleRepository repo,  SignInManager<IdentityUser> signInManager)
     {
         _mapper = mapper;
         _repoObstacle = repo;
+        _signInManager = signInManager;
     }
 
     public IActionResult RegistrarIndex()
@@ -25,7 +28,8 @@ public class RegistrarController : Controller
 
     public async Task<IActionResult> RegistrarViewReports()
     {
-        var submittedDrafts = await _repoObstacle.GetAllSubmittedObstacles();
+        string? UserId = _signInManager.UserManager.GetUserId(User);
+        var submittedDrafts = await _repoObstacle.GetAllSubmittedObstacles(UserId);
         var obstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
         ViewData["reports"] = obstacles;
         return View();
