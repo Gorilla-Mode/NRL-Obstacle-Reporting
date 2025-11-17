@@ -16,4 +16,10 @@ public interface IRegistrarRepository
     /// <param name="id">Id of the obstacle to retireve from db</param>
     /// <returns>obstacle dto of the obstacle row in db</returns>
     Task<ObstacleDto> GetSubmittedObstacleById(string id);
+
+    /// <summary>
+    /// Updates the status of an obstacle to match provided data
+    /// </summary>
+    /// <param name="data"></param>
+    Task UpdateObstacleStatus(ObstacleDto data);
 }
