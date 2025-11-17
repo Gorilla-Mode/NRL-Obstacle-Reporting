@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Components.Forms
 @model ObstacleCompleteModel
 
 <h2 class="text-xl font-bold mb-4">Report Details</h2>
@@ -7,15 +8,15 @@
         <!-- Email -->
         <div class="flex items-center gap-2">
             <span>Email:</span>
-            <span class="text-gray-500">email</span>
+            <span class="text-gray-500">PLACEHOLDER</span>
         </div>
         <div class="flex items-center gap-2"> <!-- Phonenumber -->
             <span>Phonenumber:</span>
-            <span class="text-gray-500">mobilnummer</span>
+            <span class="text-gray-500">PLACEHOLDER</span>
         </div>
         <div class="flex items-center gap-2"> <!-- Organization -->
             <span>Organization:</span>
-            <span class="text-gray-500">organisasjonen</span>
+            <span class="text-gray-500">PLACEHOLDER</span>
         </div>
     </div>
     <hr class="border-gray-500 dark:border-neutral-500"> <!-- Horisontal Line -->
@@ -42,7 +43,19 @@
         </div>
         <div class="flex items-center gap-2">
             <span>Status</span>
-            <span class="text-gray-500">Pending</span>
+            <span class="text-gray-500">@Model.Status</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Date Created</span>
+            <span class="text-gray-500">@Model.CreationTime</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Last Modified</span>
+            <span class="text-gray-500">@Model.UpdatedTime</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Obstacle ID</span>
+            <span class="text-gray-500">@Model.ObstacleId</span>
         </div>
     </div>
 </div>
@@ -65,24 +78,27 @@
             </div>
         </div>
     </div>
-    <div class="flex gap-2 mt-4"> <!-- Status buttons horizontal -->
+    <div class="flex gap-2 mt-4"> <!-- change status buttons  -->
         <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
-            <input type="hidden" name="id" value="@Model.ObstacleId" />
-            <input type="hidden" name="status" value="Approved" />
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Approved)"/>
             <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-green-400 text-sm">
                 Accept
             </button>
         </form>
         <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
-            <input type="hidden" name="id" value="@Model.ObstacleId" />
-            <input type="hidden" name="status" value="Pending" />
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Pending)"/>
             <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-yellow-400 text-sm">
                 Pending
             </button>
         </form>
         <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
-            <input type="hidden" name="id" value="@Model.ObstacleId" />
-            <input type="hidden" name="status" value="Rejected" />
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
             <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-red-400 text-sm">
                 Reject
             </button>

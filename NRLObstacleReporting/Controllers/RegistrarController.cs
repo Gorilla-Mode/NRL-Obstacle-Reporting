@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 
@@ -28,7 +28,6 @@ public class RegistrarController : Controller
     [HttpGet]
     public async Task<IActionResult> RegistrarViewReports()
     {
-        
         var submittedDrafts = await _repoRegistrar.GetAllSubmittedObstacles();
         var obstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
        
@@ -40,12 +39,22 @@ public class RegistrarController : Controller
     [HttpGet]
     public async Task<IActionResult> RegistrarAcceptReport(string id)
     {
-        var obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
-        if (obstacle == null) return NotFound();
+        ObstacleDto obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
         
         var model = _mapper.Map<ObstacleCompleteModel>(obstacle);
+        
         return View(model);
     }
 
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdateReportStatus(ObstacleCompleteModel model)
+    {
+        ObstacleDto data = _mapper.Map<ObstacleDto>(model);
+        
+        await _repoRegistrar.UpdateObstacleStatus(data); //Wouldn't want to refresh if data isn't done writing to db 
+        
+        return RedirectToAction("RegistrarAcceptReport", new { id = model.ObstacleId }); //redirect so we get updated data
+    }
 }
-
