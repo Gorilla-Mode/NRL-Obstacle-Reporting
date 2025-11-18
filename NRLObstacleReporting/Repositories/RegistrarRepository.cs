@@ -21,14 +21,14 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
     }
 
     /// <inheritdoc/>
-    public async Task<ObstacleDto> GetSubmittedObstacleById(string id)
+    public async Task<ViewObstacleUserDto> GetSubmittedObstacleById(string id)
     {
         using var connection = CreateConnection();
         var sql = $@"SELECT * 
-                    FROM Obstacle
+                    FROM view_ObstacleUser
                     WHERE ObstacleID = @id AND Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}";
 
-        return await connection.QuerySingleAsync<ObstacleDto>(sql, new { Id = id });
+        return await connection.QuerySingleAsync<ViewObstacleUserDto>(sql, new { Id = id });
     }
 
     /// <inheritdoc/>

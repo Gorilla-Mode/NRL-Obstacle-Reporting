@@ -22,11 +22,19 @@ public class AutoMapperProfile : AutoMapper.Profile
             CreateMap<ObstacleStep2Model, ObstacleDto>();
             
             CreateMap<ObstacleStep3Model, ObstacleDto>();
+            
         #endregion
 
         #region User mapping profile
 
-        CreateMap<IdentityUser, UserViewModel>();
+            CreateMap<IdentityUser, UserViewModel>();
+        
+        #endregion
+
+        #region Registrar report mapping profile
+
+            CreateMap<ViewObstacleUserDto, ObstacleUserModel>();
+
         #endregion
     }
 }
