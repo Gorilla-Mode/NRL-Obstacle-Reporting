@@ -7,46 +7,70 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<div class="mx-auto w-1/2">
-    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="mx-auto" role="form">
-        <h4>Use a local account to log in.</h4>
-        @Html.AntiForgeryToken()
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Email" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+
+<div class="flex min-h-[70vh] items-start justify-center pt-10 bg-transparent">
+    <div class="w-full max-w-xl rounded-3xl bg-white p-12 shadow-lg hover:shadow-2xl transition-shadow duration-300">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-semibold text-gray-800 tracking-tight">Login</h2>
+            <p class="text-gray-500 text-sm mt-2">Welcome back! Please use a local account to log in.</p>
         </div>
-        <div class="form-group">
-            <label asp-for="Password" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <label asp-for="RememberMe">
-                        <input asp-for="RememberMe" />
-                        @Html.DisplayNameFor(m => m.RememberMe)
-                    </label>
-                    <p>
-                        <a asp-action="ForgotPassword">Forgot your password?</a>
-                    </p>
+
+        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="space-y-6">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+
+            <!-- Email -->
+            <div>
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2.94 6.34A2 2 0 0 1 4.87 5h10.26a2 2 0 0 1 1.93 1.34L10 10.88 2.94 6.34zM2 7.58v6.92A2 2 0 0 0 4 17h12a2 2 0 0 0 2-2V7.58l-7.38 4.63a1 1 0 0 1-1.24 0L2 7.58z" />
+            </svg>
+        </span>
+                    <input asp-for="Email"
+                           autocomplete="username"
+                           class="w-full rounded-lg border border-gray-300 bg-gray-50 pl-10 pr-3 py-3 text-base text-gray-900 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 focus:shadow-sm focus:shadow-sky-100 outline-none transition" />
                 </div>
+                <span asp-validation-for="Email" class="text-red-500 text-xs"></span>
             </div>
-            
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-default">Log in</button>
+
+            <!-- Password -->
+            <div>
+                <label asp-for="Password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <!-- Lock icon (Heroicon) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a4 4 0 0 0-4 4v2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1V6a4 4 0 0 0-4-4zm-2 6V6a2 2 0 1 1 4 0v2H8z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                    <input asp-for="Password"
+                           type="password"
+                           class="w-full rounded-lg border border-gray-300 bg-gray-50 pl-10 pr-3 py-3 text-base text-gray-900 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 focus:shadow-sm focus:shadow-sky-100 outline-none transition" />
+                </div>
+                <span asp-validation-for="Password" class="text-red-500 text-xs"></span>
             </div>
-        </div>
-    </form>
+
+            <!-- Remember / Forgot -->
+            <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center gap-2 text-gray-600">
+                    <input asp-for="RememberMe" class="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+                <a asp-action="ForgotPassword" class="text-sky-600 hover:text-sky-700 font-medium transition">
+                    Forgot your password?
+                </a>
+            </div>
+
+            <!-- Button -->
+            <button type="submit"
+                    class="w-full rounded-lg bg-gradient-to-r from-sky-600 to-blue-500 py-3 text-white font-semibold hover:from-sky-700 hover:to-blue-600 focus:ring-2 focus:ring-sky-300 focus:outline-none transition-all duration-200 disabled:opacity-60">
+                Log in
+            </button>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
