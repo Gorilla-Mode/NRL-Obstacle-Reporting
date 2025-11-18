@@ -39,9 +39,9 @@ public class RegistrarController : Controller
     [HttpGet]
     public async Task<IActionResult> RegistrarAcceptReport(string id)
     {
-        ObstacleDto obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
+        ViewObstacleUserDto obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
         
-        var model = _mapper.Map<ObstacleCompleteModel>(obstacle);
+        var model = _mapper.Map<ObstacleUserModel>(obstacle);
         
         return View(model);
     }

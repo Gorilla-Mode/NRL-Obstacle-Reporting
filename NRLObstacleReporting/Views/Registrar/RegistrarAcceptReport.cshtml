@@ -1,5 +1,5 @@
 @using Microsoft.AspNetCore.Components.Forms
-@model ObstacleCompleteModel
+@model ObstacleUserModel
 
 <h2 class="text-xl font-bold mb-4">Report Details</h2>
 
@@ -8,11 +8,11 @@
         <!-- Email -->
         <div class="flex items-center gap-2">
             <span>Email:</span>
-            <span class="text-gray-500">PLACEHOLDER</span>
+            <span class="text-gray-500">@Model.Email</span>
         </div>
         <div class="flex items-center gap-2"> <!-- Phonenumber -->
             <span>Phonenumber:</span>
-            <span class="text-gray-500">PLACEHOLDER</span>
+            <span class="text-gray-500">@Model.Phonenumber</span>
         </div>
         <div class="flex items-center gap-2"> <!-- Organization -->
             <span>Organization:</span>
