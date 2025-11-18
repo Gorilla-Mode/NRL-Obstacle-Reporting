@@ -1,16 +1,11 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep1Model
 <!-- Progressbar -->
-<div class="relative w-full flex justify-center -mt-8 pt-0 pb-0">
+<div class="relative w-full flex justify-center mt-10 pt-0 pb-0">
     <div class="relative w-[90%] max-w-3xl mx-auto flex flex-col items-center">
 
         <!-- Full bakgrunnslinje (grå) -->
         <div class="absolute top-[35%] left-[15%] h-[3px] rounded-full z-0 bg-gray-300" style="width: 70%;"></div>
-
-        <!-- Aktiv del (gradient frem til step 2) -->
-        <div class="absolute top-[35%] left-[15%] h-[3px] rounded-full z-0"
-             style="width: 37%; background: linear-gradient(to right, #2563eb 0%, #60a5fa 80%, rgba(96,165,250,0.1) 100%);">
-        </div>
-
+        
         <!-- Stegene -->
         <div class="relative flex justify-between items-center w-full z-10">
 
@@ -50,103 +45,120 @@
     </div>
 </div>
 
-<form method="post" class="mt-4 space-y-4">
+<form method="post" class="mt-7 space-y-4">
     @Html.AntiForgeryToken()
-    <div class="grid grid-cols-2 gap-x-2 gap-y-2 w-full mx-auto">
-        <!-- Air span -->
+    <div class="grid grid-cols-2 gap-3 w-full mx-auto">
+        <!-- Air Span -->
         <button type="button" id="AirSpan"
-                class="but relative items-center rounded-lg text-2xl font-semibold text-black bg-blue-200 hover:bg-blue-400 
-                   transition-colors duration-200 border-2 border-blue-900"
-                style="height: 16dvh; width: 100%;">
-            <img src="https://static.thenounproject.com/png/126856-200.png"
-                 class="relative mx-auto w-20 h-20 mb-2" alt="poweline picture" />
-            <div class="absolute bottom-5 inset-x-0 text-lg">
-                Aerial Span
+                class="but flex flex-col items-center justify-center rounded-xl text-gray-900 
+               bg-blue-200 hover:bg-blue-400 transition-all duration-200 border-2 border-blue-900 
+               shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                style="height: 17dvh;">
+            <div class="flex items-center justify-center w-24 h-20 mb-3">
+                <img src="https://static.thenounproject.com/png/126856-200.png"
+                     class="max-h-full max-w-full object-contain" alt="Aerial Span icon" />
             </div>
+            <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
+            Aerial Span
+        </span>
         </button>
 
-        <!-- Pole / tower -->
+        <!-- Pole/Tower -->
         <button type="button" id="Pole"
-                class="but relative items-center rounded-lg text-2xl font-semibold text-black bg-blue-200 hover:bg-blue-400 
-                   transition-colors duration-200 border-2 border-blue-900"
-                style="height: 16dvh; width: 100%;">
-            <img src="https://cdn-icons-png.flaticon.com/512/82/82556.png"
-                 class="relative mx-auto w-14 h-14 mb-2" alt="picture pole" />
-            <div class="absolute bottom-5 inset-x-0 text-lg">
-                Pole/Tower
+                class="but flex flex-col items-center justify-center rounded-xl text-gray-900 
+               bg-blue-200 hover:bg-blue-400 transition-all duration-200 border-2 border-blue-900 
+               shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                style="height: 17dvh;">
+            <div class="flex items-center justify-center w-24 h-20 mb-3">
+                <img src="https://cdn-icons-png.flaticon.com/512/82/82556.png"
+                     class="max-h-full max-w-full object-contain" alt="Pole/Tower icon" />
             </div>
+            <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
+            Pole/Tower
+        </span>
         </button>
 
         <!-- Building -->
         <button type="button" id="Building"
-                class="but relative items-center rounded-lg text-2xl font-semibold text-black bg-blue-200 hover:bg-blue-400 
-                   transition-colors duration-200 border-2 border-blue-900"
-                style="height: 16dvh; width: 100%;">
-            <img src="https://www.iconpacks.net/icons/1/free-building-icon-1062-thumb.png"
-                 class="relative mx-auto w-14 h-14 mb-2" alt="picture building" />
-            <div class="absolute bottom-5 inset-x-0 text-lg">
-                Building
+                class="but flex flex-col items-center justify-center rounded-xl text-gray-900 
+               bg-blue-200 hover:bg-blue-400 transition-all duration-200 border-2 border-blue-900 
+               shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                style="height: 17dvh;">
+            <div class="flex items-center justify-center w-24 h-20 mb-3">
+                <img src="https://www.iconpacks.net/icons/1/free-building-icon-1062-thumb.png"
+                     class="max-h-full max-w-full object-contain" alt="Building icon" />
             </div>
+            <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
+            Building
+        </span>
         </button>
 
         <!-- Construction -->
         <button type="button" id="Construction"
-                class="but relative items-center rounded-lg text-2xl font-semibold text-black bg-blue-200 hover:bg-blue-400 
-                   transition-colors duration-200 border-2 border-blue-900"
-                style="height: 16dvh; width: 100%;">
-            <img src="https://cdn-icons-png.flaticon.com/512/3752/3752632.png"
-                 class="relative mx-auto w-14 h-14 mb-2" alt="picture construction" />
-            <div class="absolute bottom-5 inset-x-0 text-lg">
-                Construction
+                class="but flex flex-col items-center justify-center rounded-xl text-gray-900 
+               bg-blue-200 hover:bg-blue-400 transition-all duration-200 border-2 border-blue-900 
+               shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                style="height: 17dvh;">
+            <div class="flex items-center justify-center w-24 h-20 mb-3">
+                <img src="https://cdn-icons-png.flaticon.com/512/3752/3752632.png"
+                     class="max-h-full max-w-full object-contain" alt="Construction icon" />
             </div>
+            <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
+            Construction
+        </span>
         </button>
 
         <!-- Bridge -->
         <button type="button" id="Bridge"
-                class="but relative items-center rounded-lg text-2xl font-semibold text-black bg-blue-200 hover:bg-blue-400 
-                   transition-colors duration-200 border-2 border-blue-900"
-                style="height: 16dvh; width: 100%;">
-            <img src="https://www.svgrepo.com/show/490584/bridge.svg"
-                 class="relative mx-auto w-20 h-20 mb-2" alt="picture bridge" />
-            <div class="absolute bottom-5 inset-x-0 text-lg">
-                Bridge
+                class="but flex flex-col items-center justify-center rounded-xl text-gray-900 
+               bg-blue-200 hover:bg-blue-400 transition-all duration-200 border-2 border-blue-900 
+               shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                style="height: 17dvh;">
+            <div class="flex items-center justify-center w-24 h-20 mb-3">
+                <img src="https://www.svgrepo.com/show/490584/bridge.svg"
+                     class="max-h-full max-w-full object-contain" alt="Bridge icon" />
             </div>
+            <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
+            Bridge
+        </span>
         </button>
 
         <!-- Other -->
         <button type="button" id="Other"
-                class="but relative items-center rounded-lg text-2xl font-semibold text-black bg-blue-200 hover:bg-blue-400 
-                   transition-colors duration-200 border-2 border-blue-900"
-                style="height: 16dvh; width: 100%;">
-            <img src="https://cdn-icons-png.flaticon.com/512/5895/5895032.png"
-                 class="relative mx-auto w-20 h-20 mb-2" alt="picture other" />
-            <div class="absolute bottom-5 inset-x-0 text-lg">
-                Other
+                class="but flex flex-col items-center justify-center rounded-xl text-gray-900 
+               bg-blue-200 hover:bg-blue-400 transition-all duration-200 border-2 border-blue-900 
+               shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                style="height: 17dvh;">
+            <div class="flex items-center justify-center w-24 h-20 mb-3">
+                <img src="https://cdn-icons-png.flaticon.com/512/5895/5895032.png"
+                     class="max-h-full max-w-full object-contain" alt="Other icon" />
             </div>
+            <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
+            Other
+        </span>
         </button>
     </div>
 
     <!-- Height input -->
     <div class="font-semibold mt-6">
-        <label asp-for="HeightMeter" class="text-gray-700 text-base mb-3 block">Height in meter</label>
+        <label asp-for="HeightMeter" class="text-gray-700 text-base mb-2 block">Height in meter</label>
         <input asp-for="HeightMeter"
                class="rounded-2xl bg-white text-gray-900 text-center border-2 border-blue-400 focus:border-blue-600 
-                  focus:ring-4 focus:ring-blue-100 w-full h-20 text-2xl font-semibold shadow-md hover:shadow-lg 
-                  transition-all duration-300 placeholder-gray-400 tracking-wide"
+              focus:ring-4 focus:ring-blue-100 w-full h-16 text-xl font-semibold shadow-md hover:shadow-lg 
+              transition-all duration-300 placeholder-gray-400 tracking-wide"
                placeholder="Enter height (m)" />
         <span asp-validation-for="HeightMeter" class="text-red-500 text-sm mt-1 block"></span>
     </div>
 
     <!-- Action buttons -->
-    <div class="flex justify-between mt-8 w-full">
+    <div class="flex justify-between w-full mt-6 mb-1.5">
         <!-- Save Draft -->
         <button type="submit"
-                class="w-[48.5%] h-20 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 
-               text-white text-xl font-semibold tracking-wide shadow-md 
-               hover:shadow-lg hover:brightness-110 active:scale-[0.98] 
-               border border-blue-700 transition-all duration-200 flex items-center justify-center gap-3"
+                class="w-[48.5%] h-20 rounded-2xl bg-gradient-to-r from-blue-100 to-blue-200 
+                   text-blue-700 text-xl font-semibold tracking-wide border border-blue-300
+                   hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] 
+                   transition-all duration-200 flex items-center justify-center gap-3"
                 formaction="/Obstacle/DataformStep1" id="savebutton">
-            <!-- Bookmark/Save Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke-width="2" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -157,10 +169,10 @@
 
         <!-- Next Page -->
         <button type="submit"
-                class="w-[48.5%] h-20 rounded-2xl bg-gradient-to-r from-blue-100 to-blue-200 
-               text-blue-700 text-xl font-semibold tracking-wide border border-blue-300
-               hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] 
-               transition-all duration-200 flex items-center justify-center gap-3"
+                class="w-[48.5%] h-20 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 
+                   text-white text-xl font-semibold tracking-wide shadow-md 
+                   hover:shadow-lg hover:brightness-110 active:scale-[0.98] 
+                   border border-blue-700 transition-all duration-200 flex items-center justify-center gap-3"
                 formaction="/Obstacle/DataformStep1" id="nextpage">
             Next Page
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -169,7 +181,8 @@
             </svg>
         </button>
     </div>
-    
+
+
     <input type="hidden" asp-for="SaveDraft" id="save" />
     <input type="hidden" asp-for="Type" id="ObstacleType" />
     <div id="map" style="display: none"></div>
