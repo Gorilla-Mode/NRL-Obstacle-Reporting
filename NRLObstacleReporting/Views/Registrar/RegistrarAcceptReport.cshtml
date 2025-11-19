@@ -4,22 +4,60 @@
 <h2 class="text-xl font-bold mb-4">Report Details</h2>
 
 <div class="bg-white p-6 rounded shadow text-sm text-gray-900">
-    <div class="flex justify-between items-center text-sm font-semibold text-gray-800 gap-8">
-        <!-- Email -->
-        <div class="flex items-center gap-2">
-            <span>Email:</span>
-            <span class="text-gray-500">@Model.Email</span>
+    <div class="flex flex-row justify-start text-sm font-semibold text-gray-800 gap-8 ">
+        <div class="basis-auto">
+            User Information
+            <hr/>
+            <div class="flex gap-2"> <!-- Email -->
+                <span>Email:</span>
+                <span class="text-gray-500">@Model.Email</span>
+            </div>
+            <div class="flex  gap-2"> <!-- Phonenumber -->
+                <span>Phonenumber:</span>
+                <span class="text-gray-500">@Model.Phonenumber</span>
+            </div>
+            <div class="flex gap-2"> <!-- Organization -->
+                <span>Organization:</span>
+                <span class="text-gray-500">PLACEHOLDER</span>
+            </div>
         </div>
-        <div class="flex items-center gap-2"> <!-- Phonenumber -->
-            <span>Phonenumber:</span>
-            <span class="text-gray-500">@Model.Phonenumber</span>
+        <div style="width: 75%;">
+            Meta Data
+            <hr/>
+            <div class="flex gap-2">
+                <span>Status: </span>
+                <span class="text-gray-500">@Model.Status</span>
+            </div>
+            <div class="flex gap-2"> 
+                <span>Created:</span>
+                <span class="text-gray-500">@Model.CreationTime</span>
+            </div>
+            <div class="flex items-center gap-2"> 
+                <span>Last Modified:</span>
+                <span class="text-gray-500">@Model.UpdatedTime</span>
+            </div>
+            <div class="flex gap-2"> 
+                <span>ObstacleID:</span>
+                <span class="text-gray-500">@Model.ObstacleId</span>
+            </div>
+            <div class="flex gap-2"> 
+                <span>UserID:</span>
+                <span class="text-gray-500">@Model.UserId</span>
+            </div>
         </div>
-        <div class="flex items-center gap-2"> <!-- Organization -->
-            <span>Organization:</span>
-            <span class="text-gray-500">PLACEHOLDER</span>
+        <div class="basis-auto">
+            Raw GeoJson
+            <hr/>
+            <div class="flex gap-2">
+                <span>GeoJson:</span>
+                <span class="text-gray-500">@Model.GeometryGeoJson</span>
+            </div>
         </div>
     </div>
+    <br/>
     <hr class="border-gray-500 dark:border-neutral-500"> <!-- Horisontal Line -->
+    <br/>
+    Obstacle Information:
     <div class="flex flex-wrap gap-4 text-sm font-semibold text-gray-800">
         <div class="flex items-center gap-2">
             <span>Name</span>
@@ -40,22 +78,6 @@
         <div class="flex items-center gap-2">
             <span>Marked</span>
             <span class="text-gray-500">@Model.Marking</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span>Status</span>
-            <span class="text-gray-500">@Model.Status</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span>Date Created</span>
-            <span class="text-gray-500">@Model.CreationTime</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span>Last Modified</span>
-            <span class="text-gray-500">@Model.UpdatedTime</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span>Obstacle ID</span>
-            <span class="text-gray-500">@Model.ObstacleId</span>
         </div>
     </div>
 </div>
