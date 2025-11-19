@@ -4,15 +4,15 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Report Overview</h1>
+    <h1 class ="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900"> Report Overview </h1>
 </div>
 @Html.AntiForgeryToken()
 <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 mt-10 w-full">
     <table class="w-full table-fixed border-collapse">
         <tbody>
         <tr class="bg-gray-50 w-full">
-            <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap "> Id: @Model.ObstacleId</th>
-            <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> </th>
+            <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap "> Id </th>
+            <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap">  @Model.ObstacleId </th>
         </tr>
         <tr>
             <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
