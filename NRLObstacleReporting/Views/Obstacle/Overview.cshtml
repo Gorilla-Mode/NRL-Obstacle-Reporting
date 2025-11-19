@@ -4,77 +4,58 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Overview</h1>
+    <h1 class="display-4">Report Overview</h1>
 </div>
-
-<div class="flex justify-center mt-6 mx-auto">
-    <table class="table-auto border border-gray-300 text-center">
-        <caption class="caption-top text-lg font-bold mb-2">
-            Obstacle Report: @Model.ObstacleId
-        </caption>
-        <thead>
-            <tr>
-                <th class="border border-gray-300 px-4 py-2 bg-blue-300 text-black rounded-tl-md">Data</th>
-                <th class="border border-gray-300 px-4 py-2 bg-blue-300 text-black rounded-tr-md">Response</th>
-            </tr>
-        </thead>
+@Html.AntiForgeryToken()
+<div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 mt-10 w-full">
+    <table class="w-full table-fixed border-collapse">
         <tbody>
-        <!-- ObstacleName -->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Name</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.Name</td>
+        <tr class="bg-gray-50 w-full">
+            <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap "> Id: @Model.ObstacleId</th>
+            <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> </th>
         </tr>
-        <!-- ObstacleHeight -->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Height</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.HeightMeter</td>
+        <tr>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.HeightMeter</td>
         </tr>
-        <!-- ObstacleDescription -->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Description</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.Description</td>
+        <tr class="bg-gray-50 w-full">
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.Type</td>
         </tr>
-        <!-- ObstacleType -->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Type</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.Type</td>
+        <tr >
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.Name</td>
         </tr>
-        <!-- Illuminated-->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Illuminated</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.Illuminated</td>
+        <tr class="bg-gray-50 w-full">
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.Description</td>
         </tr>
-        <!-- Status-->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Status</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.Status</td>
+        <tr >
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illumination</th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.Illuminated</td>
         </tr>
-        <!-- Status-->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Marking</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.Marking</td>
+        <tr class="bg-gray-50 w-full">
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.Marking</td>
         </tr>
-        <!-- ObstacleCoordinates -->
-        <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Coordinates</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.GeometryGeoJson</td>
+        <tr>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Report Created:</th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.CreationTime</td>
         </tr>
-        <tr class="hover:bg-gray-50"> <!-- Report Creation Time -->
-            <td class="border border-gray-300 px-4 py-2 text-black rounded-tr-md font-bold">Time</td>
-            <td class="border border-gray-300 px-4 py-2">@Model.CreationTime</td>
+        <tr class="bg-gray-50 w-full">
+            <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Report Updated:</th>
+            <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@Model.UpdatedTime</td>
         </tr>
-        
         </tbody>
     </table>
 </div>
 
 @if (Model?.GeometryGeoJson != null)
 {
-    <div class="h-dvh overflow-hidden rounded-xl mx-auto my-2">
-
+    <div class="overflow-hidden mx-auto mt-0">
         <section>
             <div class="mx-auto "
-                id="map" style="height: 50dvh; width: 100%; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e7eb; z-index: 0">
+                 id="map" style="height: 50dvh; width: 100%;  overflow: hidden; border: 1px solid #e5e7eb; z-index: 0">
             </div>
         </section>
     </div>
@@ -83,20 +64,20 @@
 @section Scripts {
     @* Script to add a map to the view *@
     @if (Model?.GeometryGeoJson != null)
-    { 
+    {
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
         <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
         <script src="~/js/MapScripts/GeoJsonExtractCoordinates.js" asp-append-version="true"></script>
         <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
         <script>
-        let map = GenerateMap(17);
-    
-        let geojsonCoordinates = @Html.Raw(Model.GeometryGeoJson)
-        // var geojsonData = JSON.parse(geojsonCoordinates);
-        let geojsonLayer = L.geoJSON(geojsonCoordinates);
-        geojsonLayer.addTo(map);
-        
-        map.setView(GeoJsonExtractCoordinates(geojsonCoordinates));
-         </script>
+            let map = GenerateMap(17);
+
+            let geojsonCoordinates = @Html.Raw(Model.GeometryGeoJson)
+            // var geojsonData = JSON.parse(geojsonCoordinates);
+            let geojsonLayer = L.geoJSON(geojsonCoordinates);
+            geojsonLayer.addTo(map);
+
+            map.setView(GeoJsonExtractCoordinates(geojsonCoordinates));
+        </script>
     }
 }
