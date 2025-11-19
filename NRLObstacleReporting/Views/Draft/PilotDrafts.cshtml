@@ -1,8 +1,8 @@
-﻿
-@model ObstacleCompleteModel
+﻿@model ObstacleCompleteModel
 @{
-    ViewData["Title"] = "View Reports";
+    ViewData["Title"] = "Drafts";
 }
+
 @{
     var data = (IEnumerable<ObstacleCompleteModel>)ViewData["drafts"]!;
     var obstacleCompleteModels = data as ObstacleCompleteModel[] ?? data.ToArray();
@@ -10,8 +10,9 @@
     if (obstacleCompleteModels.Count() == 0)
     {
         <div class="text-center">
-            <h1>No drafts registered</h1>
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">No drafts registered</h1>
         </div>
+    }
     }
     else
     {
@@ -77,41 +78,52 @@
                                             <script>
                                                 var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
 
-                                                L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-                                                    maxZoom: 19,
-                                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                                }).addTo(map);
-                                                var geojson = @Html.Raw(draft.GeometryGeoJson)
-                                                var geojsonLayer = L.geoJSON(geojson);
-                                                geojsonLayer.addTo(map);
-                                                map.setMaxBounds(geojsonLayer.getBounds())
-                                            </script>
-                                        </details>
-                                    </td>
-                                </tr>   
-                            }
-                            <tr class="bg-white w-full">
-                                <td colspan="2" class="p-0">
-                                    <button type="submit"
-                                            formaction="/Draft/EditDraft"
-                                            class="block w-full text-center bg-blue-300 hover:bg-blue-400 text-white font-semibold py-2 rounded-b-smd">
-                                        Edit
-                                    </button>
+                                            L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+                                                maxZoom: 19,
+                                                attribution: '&copy; OpenStreetMap contributors'
+                                            }).addTo(map);
+
+                                            var geojson = @Html.Raw(draft.GeometryGeoJson);
+                                            var geojsonLayer = L.geoJSON(geojson).addTo(map);
+
+                                            map.setMaxBounds(geojsonLayer.getBounds());
+                                        </script>
+
+                                    </details>
+
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson"/>
-                    <input type="hidden" asp-for="Description" value="@draft.Description"/>
-                    <input type="hidden" asp-for="Illuminated" value="@draft.Illuminated"/>
-                    <input type="hidden" asp-for="Name" value="@draft.Name"/>
-                    <input type="hidden" asp-for="Type" value="@draft.Type"/>
-                    <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
-                    <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
-                    <input type="hidden" asp-for="Marking" value="@draft.Marking"/>
-                </form>
+                        }
+
+                        <!-- EDIT BUTTON -->
+                        <tr class="!bg-white dark:!bg-gray-800">
+                            <td colspan="2" class="p-0">
+                                <button type="submit"
+                                        formaction="/Draft/EditDraft"
+                                        class="block w-full text-center
+                                               bg-blue-600 hover:bg-blue-700
+                                               dark:bg-blue-500 dark:hover:bg-blue-400
+                                               text-white font-semibold py-3 rounded-b-xl
+                                               transition-colors">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
             </div>
-        }
+
+            <!-- Hidden inputs -->
+            <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson" />
+            <input type="hidden" asp-for="Description" value="@draft.Description" />
+            <input type="hidden" asp-for="Illuminated" value="@draft.Illuminated" />
+            <input type="hidden" asp-for="Name" value="@draft.Name" />
+            <input type="hidden" asp-for="Type" value="@draft.Type" />
+            <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter" />
+            <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId" />
+            <input type="hidden" asp-for="Marking" value="@draft.Marking" />
+        </form>
     }
 }
