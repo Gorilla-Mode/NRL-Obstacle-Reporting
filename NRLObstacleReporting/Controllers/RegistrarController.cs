@@ -51,6 +51,7 @@ public class RegistrarController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateReportStatus(ObstacleCompleteModel model)
     {
+        
         ObstacleDto data = _mapper.Map<ObstacleDto>(model);
         
         await _repoRegistrar.UpdateObstacleStatus(data); //Wouldn't want to refresh if data isn't done writing to db 
@@ -59,7 +60,7 @@ public class RegistrarController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> ListReports(ObstacleCompleteModel.ObstacleStatus status)
+    public async Task<IActionResult> ListReports([FromQuery]ObstacleCompleteModel.ObstacleStatus[] status)
     {
         var queriedObstacles = await _repoRegistrar.GetObstaclesByStatus(status);
         var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);

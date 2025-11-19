@@ -3,22 +3,28 @@
     var obstacles = (IEnumerable<ObstacleCompleteModel>)ViewData["reports"]!;
     var obstacleCompleteModels = obstacles as ObstacleCompleteModel[] ?? obstacles.ToArray();
 }
+
 @if (obstacleCompleteModels.Count() == 0)
 {
     <div class="text-center py-12">
         <h1 class="text-2xl font-semibold text-gray-700">No obstacles registered</h1>
     </div>
 }
+
 else
 {
     <div class="bg-white">
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
-        
         <div class="flex w-full gap-4 pt-4 mb-6"> <!-- 4 rektangel  -->
-            <a asp-action="ListReports" asp-controller="Registrar"
-               class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
-                All
-            </a>
+            <form asp-action="ListReports" asp-controller="Registrar" method="get"  class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
+                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
+                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
+                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
+                <button type="submit" style="margin-left: -1.5rem; width: calc(100% + 3rem); margin-top: -1.125rem; height: calc(100% + 2.5rem)"> <!-- ignore padding of parent class, if padding is updated make sure rems here match -->
+                    All
+                </button>
+            </form>
             <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Pending" asp-controller="Registrar"
                class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
                 Pending
