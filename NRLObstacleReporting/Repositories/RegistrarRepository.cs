@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Immutable;
 using Dapper;
 using MySqlConnector;
 using System.Data;
@@ -41,14 +43,27 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
         await connection.ExecuteAsync(sql, data);
     }
 
-    public async Task<IEnumerable<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus status)
+    public async Task<IList<ObstacleDto>> GetObstaclesByStatus(params ObstacleCompleteModel.ObstacleStatus[] status)
     {
         using var connection = CreateConnection();
+        var queryResult = new List<ObstacleDto>();
         
-        var sql = $@"SELECT *
+        foreach (var query in status)
+        {
+            var sql = $@"SELECT *
                     FROM Obstacle
-                    WHERE Status = {(int)status}";
+                    WHERE Status = {(int)query}";
+            var filteredResult = await connection.QueryAsync<ObstacleDto>(sql);
+
+            foreach (var obstacle in filteredResult)
+            {
+                if (queryResult != null)
+                {
+                    queryResult.Add(obstacle);
+                }
+            }
+        }
         
-        return await connection.QueryAsync<ObstacleDto>(sql, status);
+        return queryResult ?? throw new InvalidOperationException();
     }
 }

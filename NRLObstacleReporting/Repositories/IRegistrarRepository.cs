@@ -24,5 +24,5 @@ public interface IRegistrarRepository
     /// <param name="data"></param>
     Task UpdateObstacleStatus(ObstacleDto data);
 
-    Task<IEnumerable<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus status);
+    Task<IList<ObstacleDto>> GetObstaclesByStatus(params ObstacleCompleteModel.ObstacleStatus[] status);
 }
