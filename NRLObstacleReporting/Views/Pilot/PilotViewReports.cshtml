@@ -1,93 +1,126 @@
 ﻿@using NRLObstacleReporting.db
 @model PilotViewReportsModel
 
-
-
-@if (Model.SubmittedReports.Count() == 0)
-    {
+@if (!Model.SubmittedReports.Any())
+{
     <div class="text-center">
-        <h1>No reports registered</h1>
+        <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">No reports registered</h1>
     </div>
-    }
-    else
-    {
-        <div class="text-center">
-        <h1 class = "py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900"> Registered reports</h1>
-        </div>
-    }
-    @foreach (var report in Model.SubmittedReports)
-    {
-        var mapId = report.ObstacleId.ToString();
-                    @Html.AntiForgeryToken()
-                    <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 mb-10 w-full">
-                        <table class="w-full table-fixed border-collapse">
-                            <tbody>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> Id: @report.ObstacleId</th>
-                                <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> </th>
-                            </tr>
-                            <tr>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.HeightMeter</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.Type</td>
-                            </tr>
-                            <tr >
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.Name</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.Description</td>
-                            </tr>
-                            <tr>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illumination</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.Illuminated</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.Marking</td>
-                            </tr>
-                            <tr>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Report Created:</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.CreationTime</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Report Updated:</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@report.UpdatedTime</td>
-                            </tr>
+}
+else
+{
+    <div class="text-center mb-6">
+        <h1 class="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900 dark:text-gray-100">Registered reports</h1>
+    </div>
+}
 
+@foreach (var report in Model.SubmittedReports)
+{
+    var mapId = report.ObstacleId.ToString();
 
-                            @if (report.GeometryGeoJson != null)
-                            {
-                                <tr>
-                                    <td colspan="2" class = "p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
-                                        <details>
-                                            <summary>Map</summary>
-                                            <div class="w-full overflow-hidden rounded-xl">
-                                                <div id="@mapId" class="w-full mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
-                                            </div>
-                                            <script>
-                    var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
-                    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    }).addTo(map);
-                    var geojson = @Html.Raw(report.GeometryGeoJson)
-                    var geojsonLayer = L.geoJSON(geojson);
-                    geojsonLayer.addTo(map);
-                    map.setMaxBounds(geojsonLayer.getBounds())
-                                            </script>
-                                        </details>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-    }
+    @Html.AntiForgeryToken()
 
+    <div class="rounded-xl border border-gray-300 dark:border-gray-700 
+                bg-white dark:bg-gray-800 
+                shadow-lg p-4 mb-10 w-full transition-colors duration-300">
 
+        <table class="w-full table-fixed border-collapse 
+                      !bg-transparent !text-black dark:!text-gray-100">
+            <tbody>
 
+                <!-- HEADER ROW -->
+                <tr class="!bg-gray-200 dark:!bg-gray-700">
+                    <th class="p-3 text-sm font-bold text-left !text-black dark:!text-gray-100">
+                        Id: @report.ObstacleId
+                    </th>
+                    <th class="p-3"></th>
+                </tr>
+
+                <!-- Height -->
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Height</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.HeightMeter</td>
+                </tr>
+
+                <!-- Type -->
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Type</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Type</td>
+                </tr>
+
+                <!-- Name -->
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Name</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Name</td>
+                </tr>
+
+                <!-- Description -->
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Description</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Description</td>
+                </tr>
+
+                <!-- Illuminated -->
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Illumination</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Illuminated</td>
+                </tr>
+
+                <!-- Marking -->
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Marking</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Marking</td>
+                </tr>
+
+                <!-- Created -->
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Report Created:</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.CreationTime</td>
+                </tr>
+
+                <!-- Updated -->
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Report Updated:</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.UpdatedTime</td>
+                </tr>
+
+                <!-- MAP -->
+                @if (report.GeometryGeoJson != null)
+                {
+                    <tr class="!bg-white dark:!bg-gray-800">
+                        <td colspan="2" class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">
+
+                            <details class="cursor-pointer">
+                                <summary class="text-blue-600 dark:text-blue-400">Map</summary>
+
+                                <div class="w-full overflow-hidden rounded-xl mt-3 border border-gray-300 dark:border-gray-700">
+                                    <div id="@mapId"
+                                         class="w-full mx-auto mb-2"
+                                         style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
+                                </div>
+
+                                <script>
+                                    var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
+
+                                    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+                                        maxZoom: 19,
+                                        attribution: '&copy; OpenStreetMap contributors'
+                                    }).addTo(map);
+
+                                    var geojson = @Html.Raw(report.GeometryGeoJson);
+                                    var geojsonLayer = L.geoJSON(geojson).addTo(map);
+
+                                    map.setMaxBounds(geojsonLayer.getBounds());
+                                </script>
+
+                            </details>
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+}

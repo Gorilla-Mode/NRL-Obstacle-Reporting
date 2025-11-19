@@ -7,6 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - NRLObstacleReporting</title>
 
+    <!-- Dark mode pre-load (hindrer flash) -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        })();
+    </script>
+
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -16,8 +26,10 @@
     <link rel="stylesheet" href="~/NRLObstacleReporting.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
-    <link rel="stylesheet" href="~/css/theme.css" asp-append-version="true" />
-    <!-- Tailwind skal være sist -->
+
+    <!-- Fjernet theme.css -->
+
+    <!-- Tailwind CSS -->
     <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
 
     <!-- Leaflet -->
@@ -27,29 +39,35 @@
     <style>
         html, body {
             min-height: 100%;
-            background: transparent !important;
         }
     </style>
 </head>
 
-<body class="relative min-h-screen overflow-x-hidden font-[Inter] text-gray-900 transition-colors duration-500">
+<body class="relative min-h-screen overflow-x-hidden font-[Inter]
+             bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100
+             transition-colors duration-500">
 
-    <!-- Bakgrunnsgradient -->
-    <div class="bg-gradient-layer"></div>
-
-    <!-- NAVBAR -->
+    <!-- Bakgrunn -->
+    <div class="fixed inset-0 -z-10 min-h-full 
+    bg-[linear-gradient(to_bottom,_#bfdbfe_0%,_#eff6ff_50%,_#ffffff_100%)]
+    dark:bg-[linear-gradient(to_bottom,_#1e232d_0%,_#232a36_50%,_#1c222b_100%)]
+    transition-all duration-700">
+    </div>
+    
     <!-- NAVBAR -->
     <nav class="relative flex items-center justify-between w-full px-6 shadow-sm h-[92px]
-    bg-blue-300/30 dark:bg-blue-800/30 backdrop-blur-xl border-b border-blue-300/30">
+                bg-blue-300/30 dark:bg-gray-800/40
+                backdrop-blur-xl border-b border-blue-300/30 dark:border-gray-700
+                transition-colors duration-500">
 
-        <!-- Venstre: toggle + home -->
         <div class="flex flex-col items-center justify-center space-y-2 py-1">
 
             <!-- Toggle -->
             <button id="theme-toggle"
                     class="relative flex items-center justify-between w-[110px] h-[34px]
-                       bg-white/60 dark:bg-gray-800/60 text-gray-700 dark:text-gray-200
-                       rounded-full border border-blue-300/40 shadow-inner transition-all duration-500 px-4">
+                           bg-white/60 dark:bg-gray-800/60 text-gray-700 dark:text-gray-200
+                           rounded-full border border-blue-300/40 shadow-inner
+                           transition-all duration-500 px-4">
                 <div class="flex justify-between w-full items-center z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -62,17 +80,17 @@
 
                 <div id="toggle-circle"
                      class="absolute left-0 top-0 w-1/2 h-full bg-blue-500 dark:bg-blue-600
-                        rounded-full shadow-md transform transition-transform duration-500
-                        dark:translate-x-full">
+                            rounded-full shadow-md transform transition-transform duration-500
+                            dark:translate-x-full">
                 </div>
             </button>
 
             <!-- Home -->
             <a asp-controller="Home" asp-action="Index"
                class="flex items-center justify-center gap-2 w-[110px] h-[34px]
-                  rounded-full font-medium shadow-md transition-all duration-300
-                  text-white bg-blue-600 hover:bg-blue-700
-                  dark:bg-blue-500 dark:hover:bg-blue-400">
+                      rounded-full font-medium shadow-md transition-all duration-300
+                      text-white bg-blue-600 hover:bg-blue-700
+                      dark:bg-blue-500 dark:hover:bg-blue-400">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                      fill="none" stroke="currentColor" stroke-width="2"
                      class="w-4 h-4">
@@ -83,17 +101,17 @@
             </a>
         </div>
 
-        <!-- Midten: logo -->
+        <!-- LOGO -->
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-                h-[92px] w-[360px] md:w-[400px]
-                bg-white/20 backdrop-blur-md rounded-lg shadow-md
-                flex items-center justify-center pointer-events-none z-10">
+                    h-[92px] w-[360px] md:w-[400px]
+                    bg-white/20 dark:bg-gray-700/20 backdrop-blur-md rounded-lg shadow-md
+                    flex items-center justify-center pointer-events-none z-10">
             <img src="~/lib/logo/aerobarrier-logo.svg"
                  alt="AeroBarrier logo"
                  class="object-contain scale-[5] h-[80px] md:h-[84px] w-auto drop-shadow-md select-none" />
         </div>
 
-        <!-- Høyre: log in/out -->
+        <!-- Login -->
         <div class="flex items-center gap-4">
             @if (SignInManager.IsSignedIn(User))
             {
@@ -101,9 +119,9 @@
                     @Html.AntiForgeryToken()
                     <button type="submit"
                             class="flex items-center justify-center gap-2 px-4 h-[34px]
-                               rounded-full font-semibold shadow-md
-                               text-white bg-blue-700 hover:bg-blue-800
-                               dark:bg-blue-500 dark:hover:bg-blue-400 transition">
+                                   rounded-full font-semibold shadow-md
+                                   text-white bg-blue-700 hover:bg-blue-800
+                                   dark:bg-blue-500 dark:hover:bg-blue-400 transition">
                         Log out
                     </button>
                 </form>
@@ -112,15 +130,15 @@
             {
                 <a asp-controller="Account" asp-action="Login"
                    class="flex items-center justify-center gap-2 px-4 h-[34px]
-                      rounded-full font-semibold shadow-md
-                      text-white bg-blue-700 hover:bg-blue-800
-                      dark:bg-blue-500 dark:hover:bg-blue-400 transition">
+                          rounded-full font-semibold shadow-md
+                          text-white bg-blue-700 hover:bg-blue-800
+                          dark:bg-blue-500 dark:hover:bg-blue-400 transition">
                     Log in
                 </a>
             }
         </div>
     </nav>
-    
+
     <!-- Hovedinnhold -->
     <main class="container mx-auto mt-6">
         @RenderBody()
@@ -132,6 +150,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/AssignValueByID.js" asp-append-version="true"></script>
     <script src="~/js/MapScripts/darkUx.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
