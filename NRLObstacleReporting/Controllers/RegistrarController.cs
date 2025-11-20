@@ -20,12 +20,6 @@ public class RegistrarController : Controller
     }
 
     [HttpGet]
-    public IActionResult RegistrarIndex()
-    {
-        return View();
-    }
-
-    [HttpGet]
     public async Task<IActionResult> RegistrarViewReports()
     {
         var submittedDrafts = await _repoRegistrar.GetAllSubmittedObstacles();
@@ -45,7 +39,6 @@ public class RegistrarController : Controller
         
         return View(model);
     }
-
     
     [HttpPost]
     [ValidateAntiForgeryToken]
