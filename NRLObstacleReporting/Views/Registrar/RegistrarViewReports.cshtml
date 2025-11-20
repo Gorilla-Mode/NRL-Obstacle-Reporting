@@ -13,7 +13,7 @@
 
 else
 {
-    <div class="bg-white">
+    <div>
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
         <div class="flex w-full gap-4 pt-4 mb-6"> <!-- 4 rektangel  -->
             <form asp-action="ListReports" asp-controller="Registrar" method="get"  class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
@@ -110,7 +110,7 @@ else
             </select>
         </div>
     </div>
-    <table class="border-collapse border border-gray-400 w-full text-left text-sm mt-6"> <!-- tabell -->
+    <table class="border-collapse border border-gray-400 w-full text-center text-sm mt-6 mb-52"> <!-- tabell -->
         <thead class="bg-gray-200">
         <tr>
             <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
@@ -146,15 +146,21 @@ else
         }
         </tbody>
     </table>
-    <body class="text-top-left"> <!-- Assigned Tasks -->
-    <div class="box-border rounded-lg h-32 w-[20rem] p-4 border-2 border-blue-500 m-4">
-        <p class="font-semibold mb-3">Assigned Tasks</p>
-        <div class="flex items-center gap-2 w-full mb-6"> <!-- Dropdown + Button side-by-side -->
-            <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2">
-                <option selected>Registrar</option>
-                <option>Jonathan</option>
-            </select>
-            <button type="button" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send</button>
+    
+    <body class="text-top-left " > <!-- Assigned Tasks -->
+    <div style="position: fixed; bottom: 0" >
+        <div class="py-1">
+            <button onclick="HideAssignTask()" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Hide</button>
+        </div>
+        <div id="AssignTask" class="box-border rounded-lg h-32 w-[20rem] p-4 border-2 border-blue-500 mb-2 bg-white">
+            <p class="font-semibold mb-3">Assigned Tasks</p>
+            <div class="flex items-center gap-2 w-full mb-6"> <!-- Dropdown + Button side-by-side -->
+                <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2">
+                    <option selected>Registrar</option>
+                    <option>Jonathan</option>
+                </select>
+                <button type="button" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send</button>
+            </div>
         </div>
     </div>
     </body>
@@ -162,5 +168,6 @@ else
 @section Scripts
 {
     <script src="~/js/SearchTable.js"></script>
+    <script src="~/js/hideAssignTask.js"></script>
     <script>searchTable("table", "search")</script>
 }
