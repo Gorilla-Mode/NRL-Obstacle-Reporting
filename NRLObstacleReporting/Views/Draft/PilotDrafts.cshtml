@@ -26,81 +26,58 @@ else
 @foreach (var draft in obstacleCompleteModels)
 {
     var mapId = draft.ObstacleId.ToString();
-
     <div class="rounded-xl 
             border border-[#1c2b45]/40 dark:border-[#0f172a]/40
             bg-[#f8fafc] dark:bg-[#1e293b]
             shadow-[0_4px_12px_rgba(0,0,0,0.15)]
             p-4 mb-10 w-full 
             transition-colors duration-300">
-
         <form asp-controller="Draft" asp-action="EditDraft" method="post">
             @Html.AntiForgeryToken()
-
             <table class="w-full table-fixed border-collapse 
                           !bg-transparent !text-black dark:!text-gray-100">
                 <tbody>
-
-                    <!-- HEADER ROW -->
-                    <tr class="!bg-gray-200 dark:!bg-gray-700">
+                    <tr class="!bg-gray-200 dark:!bg-gray-700"> <!-- HEADER ROW -->
                         <th class="p-3 text-sm font-bold text-left !text-black dark:!text-gray-100">
                             Id: @draft.ObstacleId
                         </th>
                         <th class="p-3"></th>
                     </tr>
-
-                    <!-- Height -->
-                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Height -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Height</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.HeightMeter</td>
                     </tr>
-
-                    <!-- Type -->
-                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Type -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Type</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Type</td>
                     </tr>
-
-                    <!-- Name -->
-                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Name -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Name</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Name</td>
                     </tr>
-
-                    <!-- Description -->
-                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Description -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Description</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Description</td>
                     </tr>
-
-                    <!-- Illuminated -->
-                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Illuminated -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Illumination</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Illuminated</td>
                     </tr>
-
-                    <!-- Marking -->
-                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Marking -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Marking</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Marking</td>
                     </tr>
-
-                    <!-- Created Time -->
-                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Created Time -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Creation Time</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.CreationTime</td>
                     </tr>
-
-                    <!-- Updated Time -->
-                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                    <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Updated Time -->
                         <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Updated Time</th>
                         <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.UpdatedTime</td>
                     </tr>
-
-                    <!-- MAP -->
-                    @if (!string.IsNullOrWhiteSpace(draft.GeometryGeoJson))
+                    @if (!string.IsNullOrWhiteSpace(draft.GeometryGeoJson)) 
                     {
-                        <tr class="!bg-white dark:!bg-gray-800">
+                        <tr class="!bg-white dark:!bg-gray-800"> <!-- MAP -->
                             <td colspan="2" class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">
                                 <details class="cursor-pointer">
                                     <summary class="text-blue-600 dark:text-blue-400">Map</summary>
@@ -110,7 +87,6 @@ else
                                              class="w-full mx-auto mb-2"
                                              style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
                                     </div>
-
                                     <script>
                                         var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
 
@@ -128,26 +104,18 @@ else
                             </td>
                         </tr>
                     }
-
-                    <!-- EDIT BUTTON -->
-                    <tr class="!bg-white dark:!bg-gray-800">
+                    <tr class="!bg-white dark:!bg-gray-800">  <!-- EDIT BUTTON -->
                         <td colspan="2" class="p-0">
                             <button type="submit"
                                     formaction="/Draft/EditDraft"
-                                    class="block w-full text-center
-                                           bg-blue-600 hover:bg-blue-700
-                                           dark:bg-blue-500 dark:hover:bg-blue-400
-                                           text-white font-semibold py-3 rounded-b-xl
-                                           transition-colors">
+                                    class="block w-full text-center bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 text-white font-semibold py-3 rounded-b-xl transition-colors">
                                 Edit
                             </button>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
-
-            <!-- Hidden inputs -->
+            <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson" />
             <input type="hidden" asp-for="Description" value="@draft.Description" />
             <input type="hidden" asp-for="Illuminated" value="@draft.Illuminated" />
             <input type="hidden" asp-for="Name" value="@draft.Name" />
