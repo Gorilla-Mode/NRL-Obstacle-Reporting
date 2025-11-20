@@ -72,36 +72,39 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
         ObstacleCompleteModel.ObstacleMarking[] markings)
     {
         using var connection = CreateConnection();
-        string? statusList = null;
-        string? typeList = null;
-        string? illuminationList = null;
-        string? markingList = null;
+        
+        string sql = $@"SELECT * 
+                        FROM Obstacle 
+                        WHERE 1=1
+                        AND Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}"; //base sql returns whole table
+        
         if (status.Length != 0)
         {
-            statusList = string.Join(", ", status.Select(s => (int)s));
+            string statusList = string.Join(", ", status.Select(s => (int)s));
+
+            sql += $" AND Status IN ({statusList})";
         }
 
         if (type.Length != 0)
         {
-            typeList = string.Join(", ", type.Select(t => (int)t));
+            string typeList = string.Join(", ", type.Select(t => (int)t));
+            
+            sql += $" AND Type IN ({typeList})";
         }
         
         if (illuminations.Length != 0)
         {
-            illuminationList = string.Join(", ", markings.Select(m => (int)m));
+            string illuminationList = string.Join(", ", illuminations.Select(m => (int)m));
+            
+            sql += $" AND Illuminated IN ({illuminationList})";
         }
         
         if (markings.Length != 0)
         {
-            markingList = string.Join(", ", illuminations.Select(i => (int)i));
+            string markingList = string.Join(", ", markings.Select(i => (int)i));
+            
+            sql += $" AND Marking IN ({markingList})";
         }
-        
-        var sql = $@"SELECT *
-                    FROM Obstacle
-                    WHERE Status IN ({statusList}) 
-                    AND Type IN ({typeList})
-                    AND Marking IN ({markingList})
-                    AND Illuminated IN ({illuminationList})"; 
         
         var queryResult = await connection.QueryAsync<ObstacleDto>(sql);
         return queryResult.ToList();
