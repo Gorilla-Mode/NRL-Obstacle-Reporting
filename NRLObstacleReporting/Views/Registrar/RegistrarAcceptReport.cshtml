@@ -1,0 +1,146 @@
+@using Microsoft.AspNetCore.Components.Forms
+@model ObstacleUserModel
+
+<h2 class="text-xl font-bold mb-4">Report Details</h2>
+
+<div class="bg-white p-6 rounded shadow text-sm text-gray-900">
+    <div class="flex flex-row justify-start text-sm font-semibold text-gray-800 gap-8 ">
+        <div class="basis-auto">
+            User Information
+            <hr/>
+            <div class="flex gap-2"> <!-- Email -->
+                <span>Email:</span>
+                <span class="text-gray-500">@Model.Email</span>
+            </div>
+            <div class="flex  gap-2"> <!-- Phonenumber -->
+                <span>Phonenumber:</span>
+                <span class="text-gray-500">@Model.Phonenumber</span>
+            </div>
+            <div class="flex gap-2"> <!-- Organization -->
+                <span>Organization:</span>
+                <span class="text-gray-500">PLACEHOLDER</span>
+            </div>
+        </div>
+        <div style="width: 75%;">
+            Meta Data
+            <hr/>
+            <div class="flex gap-2">
+                <span>Status: </span>
+                <span class="text-gray-500">@Model.Status</span>
+            </div>
+            <div class="flex gap-2"> 
+                <span>Created:</span>
+                <span class="text-gray-500">@Model.CreationTime</span>
+            </div>
+            <div class="flex items-center gap-2"> 
+                <span>Last Modified:</span>
+                <span class="text-gray-500">@Model.UpdatedTime</span>
+            </div>
+            <div class="flex gap-2"> 
+                <span>ObstacleID:</span>
+                <span class="text-gray-500">@Model.ObstacleId</span>
+            </div>
+            <div class="flex gap-2"> 
+                <span>UserID:</span>
+                <span class="text-gray-500">@Model.UserId</span>
+            </div>
+        </div>
+        <div class="basis-auto">
+            Raw GeoJson
+            <hr/>
+            <div class="flex gap-2">
+                <span>GeoJson:</span>
+                <span class="text-gray-500">@Model.GeometryGeoJson</span>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <hr class="border-gray-500 dark:border-neutral-500"> <!-- Horisontal Line -->
+    <br/>
+    Obstacle Information:
+    <div class="flex flex-wrap gap-4 text-sm font-semibold text-gray-800">
+        <div class="flex items-center gap-2">
+            <span>Name</span>
+            <span class="text-gray-500">@Model.Name</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Type</span>
+            <span class="text-gray-500">@Model.Type</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Height</span>
+            <span class="text-gray-500">@Model.HeightMeter</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Illuminated</span>
+            <span class="text-gray-500">@Model.Illuminated</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span>Marked</span>
+            <span class="text-gray-500">@Model.Marking</span>
+        </div>
+    </div>
+</div>
+<div class="flex gap-4 m-4"> <!-- Attachments-box -->
+    <div class="box-border rounded-lg h-auto w-[26rem] p-4 border-2 border-blue-500"> 
+        <p class="font-semibold mb-3">Attachments</p>
+
+        <div class="flex gap-2 w-full">
+            <div class="box-border rounded-lg h-12 w-28 p-2 border-2 border-blue-500 flex items-center justify-center">
+                <p class="text-sm font-semibold">Upload</p>
+            </div>
+            <div class="box-border rounded-lg h-12 w-28 p-2 border-2 border-blue-500 flex items-center justify-center">
+                <p class="text-sm font-semibold">Preview</p>
+            </div>
+            <div class="box-border rounded-lg h-12 w-28 p-2 border-2 border-blue-500 flex items-center justify-center">
+                <p class="text-sm font-semibold">Download</p>
+            </div>
+            <div class="box-border rounded-lg h-12 w-28 p-2 border-2 border-blue-500 flex items-center justify-center">
+                <p class="text-sm font-semibold">Delete</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex gap-2 mt-4"> <!-- change status buttons  -->
+        <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Approved)"/>
+            <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-green-400 text-sm">
+                Accept
+            </button>
+        </form>
+        <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Pending)"/>
+            <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-yellow-400 text-sm">
+                Pending
+            </button>
+        </form>
+        <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
+            <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-red-400 text-sm">
+                Reject
+            </button>
+        </form>
+    </div> 
+</div>
+<div class="mt-6"> <!-- Map in a dropdown-->
+    <h2 class="text-xl font-bold mb-2">Obstacle Location</h2>
+    <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg border border-gray-300 shadow"></div>
+</div>
+@section Scripts
+{
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+    
+    <script>
+        let geoJson = @Html.Raw(Model.GeometryGeoJson)
+        const mapZoom = 17;
+        
+        GenerateMapWithGeojson(mapZoom, geoJson)
+    </script>
+}

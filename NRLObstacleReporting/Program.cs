@@ -18,6 +18,7 @@ var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
 
 builder.Services.AddSingleton<IObstacleRepository, ObstacleRepository>();
 builder.Services.AddSingleton<IDraftRepository, DraftRepository>();
+builder.Services.AddSingleton<IRegistrarRepository, RegistrarRepository>();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {

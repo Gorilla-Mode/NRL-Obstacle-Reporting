@@ -65,7 +65,6 @@
                 </select>
                 <span asp-validation-for="Marking"></span>
             </div>
-
             <div class="sm:col-span-2">
                 <label asp-for="Name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Name</label>
                 <input asp-for="Name"
@@ -159,7 +158,9 @@
     <script src="~/js/MapScripts/EditDraftMap.js" asp-append-version="true"></script>
 
     <script>
-        AssignValueByID('SaveDraft', 'IsDraft', 0);
-        AssignValueByID('Submit', 'IsDraft', 1);
+        //TODO: cast to int from model enum, more readable
+        AssignValueByID('SaveDraft', 'IsDraft', 0); // 0 = Draft
+        AssignValueByID('Submit', 'IsDraft', 1);    // 1 = Submitted
+    
     </script>
 }
