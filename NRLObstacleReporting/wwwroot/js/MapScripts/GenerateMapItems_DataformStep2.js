@@ -22,11 +22,27 @@ function GenerateMapItems_DataformStep2(map, choice) {
         },
     );
 
-    if (choice === 0 || choice === 3 || choice === 4 || choice === 5) {
+    if (choice === 0 || choice === 4 ) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
                 polyline: true,
+                marker: false,
+                circle: false,  // Disable circle drawing
+                rectangle: false,
+                circlemarker: false
+            },
+            edit: {
+                featureGroup: drawnItems
+            }
+        });
+        map.addControl(drawControl);
+    } 
+    else if (choice === 1 || choice === 2 || choice === 3) {
+        let drawControl = new L.Control.Draw({
+            draw: {
+                polygon: false,
+                polyline: false,
                 marker: true,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
@@ -37,11 +53,12 @@ function GenerateMapItems_DataformStep2(map, choice) {
             }
         });
         map.addControl(drawControl);
-    } else {
+    }
+    else {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: false,
+                polyline: true,
                 marker: true,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
