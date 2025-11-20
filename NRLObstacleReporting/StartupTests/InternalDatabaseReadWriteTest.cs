@@ -103,7 +103,6 @@ public class InternalDatabaseReadWriteTest : RepositoryBase, IStartupDatabaseTes
         }
     }
     
-    //TODO: Make these tests actually do something
     [UsedImplicitly]
     string CheckDatabaseWrite()
     {
