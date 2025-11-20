@@ -112,17 +112,17 @@
         <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
-            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Pending)"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
             <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-yellow-400 text-sm">
-                Pending
+                Reject
             </button>
         </form>
         <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
-            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
+            <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Deleted)"/>
             <button type="submit" class="rounded-lg h-16 w-32 p-2 font-semibold text-black bg-red-400 text-sm">
-                Reject
+                Delete
             </button>
         </form>
     </div> 

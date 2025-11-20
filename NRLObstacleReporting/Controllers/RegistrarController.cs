@@ -20,12 +20,6 @@ public class RegistrarController : Controller
     }
 
     [HttpGet]
-    public IActionResult RegistrarIndex()
-    {
-        return View();
-    }
-
-    [HttpGet]
     public async Task<IActionResult> RegistrarViewReports()
     {
         var submittedDrafts = await _repoRegistrar.GetAllSubmittedObstacles();
@@ -37,6 +31,19 @@ public class RegistrarController : Controller
     }
     
     [HttpGet]
+    public async Task<IActionResult> RegistrarFilterReports(ObstacleCompleteModel.ObstacleStatus[] status,
+        ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illumination,
+        ObstacleCompleteModel.ObstacleMarking[] marking)
+    {
+        var queriedObstacles = await _repoRegistrar.GetObstaclesFiltered(status, type, illumination, marking);
+        var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
+        
+        ViewData["reports"] = mappedObstacles;
+        
+        return View("RegistrarViewReports");
+    }
+    
+    [HttpGet]
     public async Task<IActionResult> RegistrarAcceptReport(string id)
     {
         ViewObstacleUserDto obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
@@ -45,7 +52,6 @@ public class RegistrarController : Controller
         
         return View(model);
     }
-
     
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -60,7 +66,7 @@ public class RegistrarController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> ListReports([FromQuery]ObstacleCompleteModel.ObstacleStatus[] status)
+    public async Task<IActionResult> ListReports(ObstacleCompleteModel.ObstacleStatus[] status)
     {
         var queriedObstacles = await _repoRegistrar.GetObstaclesByStatus(status);
         var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
