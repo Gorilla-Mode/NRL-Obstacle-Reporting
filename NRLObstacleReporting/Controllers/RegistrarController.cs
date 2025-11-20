@@ -31,9 +31,11 @@ public class RegistrarController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> RegistrarFilterReports([FromQuery]ObstacleCompleteModel.ObstacleStatus[] status)
+    public async Task<IActionResult> RegistrarFilterReports(ObstacleCompleteModel.ObstacleStatus[] status,
+        ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illumination,
+        ObstacleCompleteModel.ObstacleMarking[] marking)
     {
-        var queriedObstacles = await _repoRegistrar.GetObstaclesByStatus(status);
+        var queriedObstacles = await _repoRegistrar.GetObstaclesFiltered(status, type, illumination, marking);
         var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
         
         ViewData["reports"] = mappedObstacles;
@@ -64,7 +66,7 @@ public class RegistrarController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> ListReports([FromQuery]ObstacleCompleteModel.ObstacleStatus[] status)
+    public async Task<IActionResult> ListReports(ObstacleCompleteModel.ObstacleStatus[] status)
     {
         var queriedObstacles = await _repoRegistrar.GetObstaclesByStatus(status);
         var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
