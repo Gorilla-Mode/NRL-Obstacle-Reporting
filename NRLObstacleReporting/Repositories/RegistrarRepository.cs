@@ -43,7 +43,8 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
         await connection.ExecuteAsync(sql, data);
     }
 
-    public async Task<IList<ObstacleDto>> GetObstaclesByStatus(params ObstacleCompleteModel.ObstacleStatus[] status)
+    /// <inheritdoc/>
+    public async Task<IList<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus[] status)
     {
         using var connection = CreateConnection();
         var queryResult = new List<ObstacleDto>();
@@ -65,5 +66,44 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
         }
         
         return queryResult ?? throw new InvalidOperationException();
+    }
+
+    public async Task<IList<ObstacleDto>> GetObstaclesFiltered(ObstacleCompleteModel.ObstacleStatus[] status, ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
+        ObstacleCompleteModel.ObstacleMarking[] markings)
+    {
+        using var connection = CreateConnection();
+        string? statusList = null;
+        string? typeList = null;
+        string? illuminationList = null;
+        string? markingList = null;
+        if (status.Length != 0)
+        {
+            statusList = string.Join(", ", status.Select(s => (int)s));
+        }
+
+        if (type.Length != 0)
+        {
+            typeList = string.Join(", ", type.Select(t => (int)t));
+        }
+        
+        if (illuminations.Length != 0)
+        {
+            illuminationList = string.Join(", ", markings.Select(m => (int)m));
+        }
+        
+        if (markings.Length != 0)
+        {
+            markingList = string.Join(", ", illuminations.Select(i => (int)i));
+        }
+        
+        var sql = $@"SELECT *
+                    FROM Obstacle
+                    WHERE Status IN ({statusList}) 
+                    AND Type IN ({typeList})
+                    AND Marking IN ({markingList})
+                    AND Illuminated IN ({illuminationList})"; 
+        
+        var queryResult = await connection.QueryAsync<ObstacleDto>(sql);
+        return queryResult.ToList();
     }
 }
