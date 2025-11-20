@@ -1,7 +1,6 @@
 ﻿@model NRLObstacleReporting.Models.ObstacleStep3Model
 
-<!-- Wrapper uten egen bakgrunn – lar layouten styre bakgrunnen -->
-<div class="flex flex-col justify-start items-center w-full text-center pb-4 mt-0">
+<div class="flex flex-col justify-start items-center w-full text-center pb-4 mt-0 min-h-screen">
 
     <!-- Progressbar -->
     <div class="relative w-full flex justify-center py-3">
@@ -18,14 +17,14 @@
             </div>
 
             <div class="relative flex justify-between items-center w-full z-20">
+
                 <!-- Step 1 -->
                 <div class="flex flex-col items-center w-1/3 text-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white
                                 flex items-center justify-center shadow">
                         1
                     </div>
-                    <span class="text-sm md:text-base mt-2 
-                                 text-blue-600 dark:text-blue-300">
+                    <span class="text-sm md:text-base mt-2 text-blue-600 dark:text-blue-300">
                         Select Obstacle Type
                     </span>
                 </div>
@@ -36,21 +35,19 @@
                                 flex items-center justify-center shadow">
                         2
                     </div>
-                    <span class="text-sm md:text-base mt-2 
-                                 text-blue-600 dark:text-blue-300">
+                    <span class="text-sm md:text-base mt-2 text-blue-600 dark:text-blue-300">
                         Place Obstacle
                     </span>
                 </div>
 
-                <!-- Step 3 (aktiv) -->
+                <!-- Step 3 -->
                 <div class="flex flex-col items-center w-1/3 text-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white
                                 flex items-center justify-center shadow-md
                                 ring-2 ring-offset-2 ring-blue-400 transition-all">
                         3
                     </div>
-                    <span class="text-sm md:text-base mt-2 font-semibold 
-                                 text-blue-600 dark:text-blue-300">
+                    <span class="text-sm md:text-base mt-2 font-semibold text-blue-600 dark:text-blue-300">
                         Describe Obstacle
                     </span>
                 </div>
@@ -58,22 +55,27 @@
         </div>
     </div>
 
-    <!-- Innholdspanel -->
+    <!-- Form -->
     <form asp-action="DataformStep3" method="post" class="flex flex-col items-center w-full">
         @Html.AntiForgeryToken()
 
-        <div class="shadow-2xl rounded-2xl w-[95%] max-w-6xl py-10 px-12 mt-3 min-h-[70vh]
-     bg-white border border-blue-100
-     dark:!bg-[#0b1220] dark:!border-[#1c2c4a] dark:text-gray-100">
-            
-        <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+        <div class="shadow-2xl rounded-2xl w-[95%] max-w-6xl px-12 mt-2 min-h-[75vh]
+    pb-12 pt-6 bg-white border border-blue-100
+    dark:!bg-[#0b1220] dark:!border-[#1c2c4a] dark:text-gray-100">
 
-            <div class="flex flex-col w-full items-center space-y-8">
+        <div class="w-full text-center mb-1 pt-4">
+                <p class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    Step 3 is optional - you may submit without entering details.
+                </p>
+            </div>
 
-                <!-- Obstacle name -->
+            <!-- REAL WRAPPER (only one) -->
+            <div class="flex flex-col w-full items-center space-y-6">
+                <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
+
+                <!-- Name -->
                 <div class="w-full max-w-3xl">
-                    <label class="text-lg font-semibold block text-left mb-2 
-                                  text-gray-900 dark:text-gray-200">
+                    <label class="text-lg font-semibold block text-left mb-2 text-gray-900 dark:text-gray-200">
                         Obstacle Name
                     </label>
                     <input asp-for="Name"
@@ -85,8 +87,7 @@
 
                 <!-- Description -->
                 <div class="w-full max-w-3xl">
-                    <label class="text-lg font-semibold block text-left mb-2 
-                                  text-gray-900 dark:text-gray-200">
+                    <label class="text-lg font-semibold block text-left mb-2 text-gray-900 dark:text-gray-200">
                         Obstacle Description
                     </label>
                     <textarea asp-for="Description"
@@ -98,8 +99,7 @@
 
                 <!-- Illumination -->
                 <div class="w-full max-w-3xl">
-                    <label class="text-lg font-semibold block text-left mb-2 
-                                  text-gray-900 dark:text-gray-200">
+                    <label class="text-lg font-semibold block text-left mb-2 text-gray-900 dark:text-gray-200">
                         Obstacle illuminated?
                     </label>
 
@@ -107,23 +107,17 @@
                                 border border-blue-200 bg-blue-50
                                 dark:border-gray-700 dark:bg-gray-800">
                         <button type="button" id="illuminated-yes"
-                                class="illumination flex-1 py-2.5 font-medium
-                                       bg-blue-50 text-blue-700 hover:bg-blue-100
-                                       dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                                class="illumination flex-1 py-2.5 font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
                             Illuminated
                         </button>
 
                         <button type="button" id="illuminated-unknown"
-                                class="illumination flex-1 py-2.5 font-medium border-l border-blue-200
-                                       bg-blue-50 text-blue-700 hover:bg-blue-100
-                                       dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:border-gray-700">
+                                class="illumination flex-1 py-2.5 font-medium bg-blue-600 text-white shadow-md">
                             Unknown
                         </button>
 
                         <button type="button" id="illuminated-no"
-                                class="illumination flex-1 py-2.5 font-medium border-l border-blue-200
-                                       bg-blue-50 text-blue-700 hover:bg-blue-100
-                                       dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:border-gray-700">
+                                class="illumination flex-1 py-2.5 font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
                             Not Illuminated
                         </button>
                     </div>
@@ -131,8 +125,7 @@
 
                 <!-- Marking -->
                 <div class="w-full max-w-3xl">
-                    <label class="text-lg font-semibold block text-left mb-2 
-                                  text-gray-900 dark:text-gray-200">
+                    <label class="text-lg font-semibold block text-left mb-2 text-gray-900 dark:text-gray-200">
                         Obstacle marked?
                     </label>
 
@@ -140,49 +133,43 @@
                                 border border-blue-200 bg-blue-50
                                 dark:border-gray-700 dark:bg-gray-800">
                         <button type="button" id="marked-yes"
-                                class="marking flex-1 py-2.5 font-medium
-                                       bg-blue-50 text-blue-700 hover:bg-blue-100
-                                       dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                                class="marking flex-1 py-2.5 font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
                             Marked
                         </button>
 
                         <button type="button" id="marked-unknown"
-                                class="marking flex-1 py-2.5 font-medium border-l border-blue-200
-                                       bg-blue-50 text-blue-700 hover:bg-blue-100
-                                       dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:border-gray-700">
+                                class="marking flex-1 py-2.5 font-medium bg-blue-600 text-white shadow-md">
                             Unknown
                         </button>
 
                         <button type="button" id="marked-no"
-                                class="marking flex-1 py-2.5 font-medium border-l border-blue-200
-                                       bg-blue-50 text-blue-700 hover:bg-blue-100
-                                       dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:border-gray-700">
+                                class="marking flex-1 py-2.5 font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
                             Not Marked
                         </button>
+
                     </div>
                 </div>
 
                 <!-- Buttons -->
-                <div class="flex justify-between w-full max-w-3xl mt-8 gap-6">
+                <div class="flex justify-between w-full max-w-3xl mt-4 gap-6">
 
                     <button type="submit"
                             class="w-[48.5%] h-20 rounded-2xl 
-               bg-gradient-to-r from-blue-100 to-blue-200 
-               text-blue-700 text-xl font-semibold tracking-wide
-               border border-blue-300
-               hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]
-               transition-all duration-200 flex items-center justify-center gap-3
-               dark:bg-gray-800 dark:text-blue-700 dark:border-blue-700 dark:hover:bg-gray-700"
+                   bg-gradient-to-r from-blue-100 to-blue-200 
+                   text-blue-700 text-xl font-semibold tracking-wide
+                   border border-blue-300
+                   hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]
+                   transition-all duration-200
+                   dark:bg-gray-800 dark:text-blue-700 dark:border-blue-700 dark:hover:bg-gray-700"
                             formaction="/Obstacle/DataformStep3" id="SaveDraft">
                         Save Draft
                     </button>
 
                     <button type="submit"
                             class="w-[48.5%] h-20 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 
-                                   text-white text-xl font-semibold tracking-wide shadow-md 
-                                   hover:shadow-lg hover:brightness-110 active:scale-[0.98] 
-                                   border border-blue-700 transition-all duration-200
-                                   flex items-center justify-center gap-3"
+                   text-white text-xl font-semibold tracking-wide shadow-md 
+                   hover:shadow-lg hover:brightness-110 active:scale-[0.98] 
+                   border border-blue-700 transition-all duration-200"
                             formaction="/Obstacle/DataformStep3" id="Submit">
                         Submit Report
                     </button>
