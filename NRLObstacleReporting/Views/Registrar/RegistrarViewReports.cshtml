@@ -40,36 +40,27 @@ else
         </div>
     </div>
     <div class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
-        <select class=" flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block p-2.5"> <!-- Type Dropdown -->
-            <option selected>Type</option>
-            <option>Aerial Span</option>
-            <option>Building</option>
-            <option>Bridge</option>
-            <option>Pole/Tower</option>
-            <option>Construction</option>
-            <option>Other</option>
-        </select>
-        <select class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5"> <!-- Organization Dropdown -->
-            <option selected>Organization</option>
-            <option>Første gangs tjeneste</option>
-        </select>
-        <select class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5"> <!-- Status -->
-            <option selected>Status</option>
-            <option>Approved</option>
-            <option>Pending</option>
-            <option>Rejected</option>
-        </select>
-        <select class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5"> <!-- Org View -->
-            <option selected>Org View</option>
-            <option>balbalabla</option>
-        </select>
-        <div class="relative flex-1 min-w-0"> <!-- Calender -->
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
+        <form asp-controller="Registrar" method="get" asp-action="RegistrarFilterReports" class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
+        <div class="dropdown">
+            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">Status:</div>
+            <div class="dropdown-content">
+                <div>
+                    <input id="StatusPending" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
+                    <label for="StatusPending">Pending</label><br/>
+                </div>
+                <div>
+                    <input id="StatusApproved" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
+                    <label for="StatusApproved">Approved</label><br/>
+                </div>
+                <div>
+                    <input id="StatusRejected" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
+                    <label for="StatusRejected">Rejected</label><br/>
+                </div>
+                <div>
+                    <input id="StatusDeleted" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
+                    <label for="StatusDeleted">Deleted</label><br/>
+                </div>
             </div>
-            <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
         </div>
         <div class="relative flex-1 min-w-0"> <!-- Calender -->
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -79,6 +70,18 @@ else
             </div>
             <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
         </div>
+        <div class="relative flex-1 min-w-0"> <!-- Calender -->
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                </svg>
+            </div>
+            <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+        </div>
+        <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            Filter
+        </button>
+        </form>
     </div>
     <div class="flex items-center gap-4 mb-6"> <!-- search  -->
         <div class="flex-1 flex rounded-full border-2 border-blue-500 overflow-hidden">

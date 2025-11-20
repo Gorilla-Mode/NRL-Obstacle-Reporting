@@ -31,6 +31,17 @@ public class RegistrarController : Controller
     }
     
     [HttpGet]
+    public async Task<IActionResult> RegistrarFilterReports([FromQuery]ObstacleCompleteModel.ObstacleStatus[] status)
+    {
+        var queriedObstacles = await _repoRegistrar.GetObstaclesByStatus(status);
+        var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
+        
+        ViewData["reports"] = mappedObstacles;
+        
+        return View("RegistrarViewReports");
+    }
+    
+    [HttpGet]
     public async Task<IActionResult> RegistrarAcceptReport(string id)
     {
         ViewObstacleUserDto obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
