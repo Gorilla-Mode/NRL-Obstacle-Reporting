@@ -23,8 +23,9 @@ public interface IDraftRepository
     Task SubmitDraft(ObstacleDto data);
     
     /// <summary>
-    /// Gets all drafts from database
+    /// Sql returns all drafts submitted by a user
     /// </summary>
-    /// <returns></returns>
+    /// <param name="userId">ID of the user</param>
+    /// <returns>IEnumerable containing all drafts a given user has</returns>
     Task<IEnumerable<ObstacleDto>> GetAllDrafts(string userId);
 }

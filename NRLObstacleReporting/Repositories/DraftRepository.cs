@@ -6,6 +6,7 @@ namespace NRLObstacleReporting.Repositories;
 
 public class DraftRepository : RepositoryBase, IDraftRepository
 {
+    /// <inheritdoc/>
     public async Task EditDraft(ObstacleDto data)
     {
         using var connection = CreateConnection();
@@ -19,6 +20,7 @@ public class DraftRepository : RepositoryBase, IDraftRepository
         await connection.ExecuteAsync(sql, data);
     }
 
+    /// <inheritdoc/>
     public async Task SubmitDraft(ObstacleDto data)
     {
         using var connection = CreateConnection();
@@ -31,6 +33,7 @@ public class DraftRepository : RepositoryBase, IDraftRepository
         await connection.ExecuteAsync(sql, data);
     }
 
+    /// <inheritdoc/>
     public async Task<IEnumerable<ObstacleDto>> GetAllDrafts(string userId)
     {
         using var connection = CreateConnection();
