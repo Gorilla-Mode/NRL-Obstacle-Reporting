@@ -55,7 +55,7 @@ public class DraftRepository : RepositoryBase, IDraftRepository
         using var connection = CreateConnection();
         var sql = @"SELECT *
                     FROM Obstacle
-                    WHERE ObstacleID = @obstacleId AND UserId = userId";
+                    WHERE ObstacleID = @obstacleId AND UserId = @userId";
 
         return await connection.QuerySingleAsync<ObstacleDto>(sql, new { UserId = userId, ObstacleId = obstacleId });
     }
