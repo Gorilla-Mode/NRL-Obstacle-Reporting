@@ -21,11 +21,10 @@ public interface IDraftRepository
     /// <param name="data">The obstacle that should be submitted</param>
     /// <returns></returns>
     Task SubmitDraft(ObstacleDto data);
-
-    //TODO: once users are implemented, this should get a users draft. Not all
+    
     /// <summary>
     /// Gets all drafts from database
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<ObstacleDto>> GetAllDrafts();
+    Task<IEnumerable<ObstacleDto>> GetAllDrafts(string userId);
 }

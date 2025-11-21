@@ -6,16 +6,15 @@ namespace NRLObstacleReporting.Repositories;
 
 public class DraftRepository : RepositoryBase, IDraftRepository
 {
-    
-    //TODO: Implements these things
     public async Task EditDraft(ObstacleDto data)
     {
         using var connection = CreateConnection();
+        
         var sql = @"UPDATE Obstacle 
                     SET Heightmeter = @HeightMeter, GeometryGeoJson = @GeometryGeoJson, Name = @Name, 
                         Description = @Description, Illuminated = @Illuminated, Type = @Type, Status = @Status,
                         Marking = @Marking, UpdatedTime = @UpdatedTime
-                    WHERE ObstacleID = @ObstacleId";
+                    WHERE ObstacleID = @ObstacleId AND UserId = @UserId";
         
         await connection.ExecuteAsync(sql, data);
     }
@@ -24,21 +23,23 @@ public class DraftRepository : RepositoryBase, IDraftRepository
     {
         using var connection = CreateConnection();
         const int statusId = (int)ObstacleCompleteModel.ObstacleStatus.Pending;
+        
         var sql = @$"UPDATE Obstacle
                      SET Status = {statusId} 
-                     WHERE ObstacleID = @ObstacleID";
+                     WHERE ObstacleID = @ObstacleID AND UserId = @UserId";
         
         await connection.ExecuteAsync(sql, data);
     }
 
-    public async Task<IEnumerable<ObstacleDto>> GetAllDrafts()
+    public async Task<IEnumerable<ObstacleDto>> GetAllDrafts(string userId)
     {
         using var connection = CreateConnection();
         const int statusId = (int)ObstacleCompleteModel.ObstacleStatus.Draft;
+        
         var sql = @$"SELECT * 
                      FROM Obstacle 
-                     WHERE Status = {statusId}";
+                     WHERE Status = {statusId} AND UserId = @userId";
         
-        return await connection.QueryAsync<ObstacleDto>(sql);
+        return await connection.QueryAsync<ObstacleDto>(sql, new { UserId = userId });
     }
 }
