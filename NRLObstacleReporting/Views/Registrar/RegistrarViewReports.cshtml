@@ -7,13 +7,12 @@
 @if (obstacleCompleteModels.Count() == 0)
 {
     <div class="text-center py-12">
-        <h1 class="text-2xl font-semibold text-gray-700">No obstacles registered</h1>
+        <h1 class="text-2xl font-semibold text-gray-700">Invalid Query</h1>
     </div>
 }
-
 else
 {
-    <div class="bg-white">
+    <div>
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
         <div class="flex w-full gap-4 pt-4 mb-6"> <!-- 4 rektangel  -->
             <form asp-action="ListReports" asp-controller="Registrar" method="get"  class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
@@ -40,85 +39,124 @@ else
         </div>
     </div>
     <div class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
-        <select class=" flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block p-2.5"> <!-- Type Dropdown -->
-            <option selected>Type</option>
-            <option>Aerial Span</option>
-            <option>Building</option>
-            <option>Bridge</option>
-            <option>Pole/Tower</option>
-            <option>Construction</option>
-            <option>Other</option>
-        </select>
-        <select class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5"> <!-- Organization Dropdown -->
-            <option selected>Organization</option>
-            <option>Første gangs tjeneste</option>
-        </select>
-        <select class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5"> <!-- Status -->
-            <option selected>Status</option>
-            <option>Approved</option>
-            <option>Pending</option>
-            <option>Rejected</option>
-        </select>
-        <select class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5"> <!-- Org View -->
-            <option selected>Org View</option>
-            <option>balbalabla</option>
-        </select>
-        <div class="relative flex-1 min-w-0"> <!-- Calender -->
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-        </div>
-        <div class="relative flex-1 min-w-0"> <!-- Calender -->
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-        </div>
-    </div>
-    <div class="flex items-center gap-4 mb-6"> <!-- search  -->
         <div class="flex-1 flex rounded-full border-2 border-blue-500 overflow-hidden">
-            <input type="email" placeholder="Search Something..."
-                   class="w-full outline-none bg-white text-sm px-5 py-3"/>
-            <button type='button' class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 px-6">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" width="18px" class="fill-white">
-                    <path
-                        d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z">
-                    </path>
-                </svg>
+            <input type="text" placeholder="Search Something..." class="w-full outline-none bg-white text-sm px-5 py-3" id="search"/>
+        </div>
+        <form asp-controller="Registrar" method="get" asp-action="RegistrarFilterReports" class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
+            <div class="dropdown">
+                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                    Status:
+                </div>
+                <div class="dropdown-content">
+                    <div>
+                        <input id="StatusPending" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
+                        <label for="StatusPending">Pending</label><br/>
+                    </div>
+                    <div>
+                        <input id="StatusApproved" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
+                        <label for="StatusApproved">Approved</label><br/>
+                    </div>
+                    <div>
+                        <input id="StatusRejected" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
+                        <label for="StatusRejected">Rejected</label><br/>
+                    </div>
+                    <div>
+                        <input id="StatusDeleted" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
+                        <label for="StatusDeleted">Deleted</label><br/>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                    Type:
+                </div>
+                <div class="dropdown-content">
+                    <div>
+                        <input id="TypeAirspan" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.AirSpan"/>
+                        <label for="TypeAirspan">Air span</label><br/>
+                    </div>
+                    <div>
+                        <input id="TypeBridge" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Bridge"/>
+                        <label for="TypeBridge">Bridge</label><br/>
+                    </div>
+                    <div>
+                        <input id="TypeBuilding" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Building"/>
+                        <label for="TypeBuilding">Building</label><br/>
+                    </div>
+                    <div>
+                        <input id="TypeConstruction" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Construction"/>
+                        <label for="TypeConstruction">Construction</label><br/>
+                    </div>
+                    <div>
+                        <input id="TypePoleortower" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.PoleOrTower"/>
+                        <label for="TypePoleortower">Pole or tower</label><br/>
+                    </div>
+                    <div>
+                        <input id="TypeOther" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Other"/>
+                        <label for="TypeOther">Other</label><br/>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                    Illumination:
+                </div>
+                <div class="dropdown-content">
+                    <div>
+                        <input id="IlluminationYes" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Illuminated"/>
+                        <label for="IlluminationYes">Illuminated</label><br/>
+                    </div>
+                    <div>
+                        <input id="IlluminationNo" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.NotIlluminated"/>
+                        <label for="IlluminationNo">Not Illuminated</label><br/>
+                    </div>
+                    <div>
+                        <input id="IlluminationUnknown" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Unknown"/>
+                        <label for="IlluminationUnknown">Unknown</label><br/>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                    Marking:
+                </div>
+                <div class="dropdown-content">
+                    <div>
+                        <input id="MarkingYes" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Marked"/>
+                        <label for="MarkingYes">Marked</label><br/>
+                    </div>
+                    <div>
+                        <input id="MarkingNo" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.NotMarked"/>
+                        <label for="MarkingNo">Not Marked</label><br/>
+                    </div>
+                    <div>
+                        <input id="MarkingUnknown" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Unknown"/>
+                        <label for="MarkingUnknown">Unknown</label><br/>
+                    </div>
+                </div>
+            </div>
+            <div class="relative flex-1 min-w-0"> <!-- Calender -->
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                    </svg>
+                </div>
+                <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+            </div>
+            <div class="relative flex-1 min-w-0"> <!-- Calender -->
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                    </svg>
+                </div>
+                <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+            </div>
+            <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                Filter
             </button>
-        </div>
-        <div>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-32 p-2.5"> <!-- Date -->
-                <option selected>Date</option>
-                <option>Dato</option>
-            </select>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-32 p-2.5"> <!-- type -->
-                <option selected>Type </option>
-                <option>Aerial Span</option>
-                <option>Building</option>
-                <option>Bridge</option>
-                <option>Pole/Tower</option>
-                <option>Construction</option>
-                <option>Other</option>
-            </select>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-32 p-2.5"> <!-- Org -->
-                <option selected>Org</option>
-                <option>Første gangstjenesten</option>
-            </select>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block w-32 p-2.5"> <!-- Status -->
-                <option selected>Status</option>
-                <option>Approved</option>
-                <option>Pending</option>
-                <option>Rejected</option>
-            </select>
-        </div>
+        </form>
     </div>
-    <table class="border-collapse border border-gray-400 w-full text-left text-sm mt-6"> <!-- tabell -->
+    <table class="border-collapse border border-gray-400 w-full text-center text-sm mt-6 mb-52"> <!-- tabell -->
         <thead class="bg-gray-200">
         <tr>
             <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
@@ -134,7 +172,7 @@ else
             <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Last modified</th>
         </tr>
         </thead>
-        <tbody class="bg-white">
+        <tbody id="table" class="bg-white">
         @foreach (var o in obstacleCompleteModels)
         {
             <tr class="cursor-pointer hover:bg-gray-100 transition"
@@ -154,16 +192,26 @@ else
         }
         </tbody>
     </table>
-    <body class="text-top-left"> <!-- Assigned Tasks -->
-    <div class="box-border rounded-lg h-32 w-[20rem] p-4 border-2 border-blue-500 m-4">
-        <p class="font-semibold mb-3">Assigned Tasks</p>
-        <div class="flex items-center gap-2 w-full mb-6"> <!-- Dropdown + Button side-by-side -->
-            <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2">
-                <option selected>Registrar</option>
-                <option>Jonathan</option>
-            </select>
-            <button type="button" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send</button>
+    <!-- Assigned Tasks -->
+    <div class="text-top-left" style="position: fixed; bottom: 0" >
+        <div class="py-1">
+            <button onclick="HideAssignTask()" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Hide</button>
+        </div>
+        <div id="AssignTask" class="box-border rounded-lg h-32 w-[20rem] p-4 border-2 border-blue-500 mb-2 bg-white">
+            <p class="font-semibold mb-3">Assigned Tasks</p>
+            <div class="flex items-center gap-2 w-full mb-6"> <!-- Dropdown + Button side-by-side -->
+                <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2">
+                    <option selected>Registrar</option>
+                    <option>Jonathan</option>
+                </select>
+                <button type="button" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send</button>
+            </div>
         </div>
     </div>
-    </body>
+}
+@section Scripts
+{
+    <script src="~/js/SearchTable.js"></script>
+    <script src="~/js/hideAssignTask.js"></script>
+    <script>searchTable("table", "search")</script>
 }

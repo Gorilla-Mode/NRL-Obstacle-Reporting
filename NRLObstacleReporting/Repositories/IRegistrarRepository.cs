@@ -24,5 +24,16 @@ public interface IRegistrarRepository
     /// <param name="data"></param>
     Task UpdateObstacleStatus(ObstacleDto data);
 
-    Task<IList<ObstacleDto>> GetObstaclesByStatus(params ObstacleCompleteModel.ObstacleStatus[] status);
+    /// <summary>
+    /// Gets every obstacle from db where status matches input statues
+    /// </summary>
+    /// <param name="status"> array of statuses to return</param>
+    /// <returns>A list obstacles where status matches</returns>
+    Task<IList<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus[] status);
+    
+    
+    Task<IList<ObstacleDto>> GetObstaclesFiltered(ObstacleCompleteModel.ObstacleStatus[] status,
+        ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
+        ObstacleCompleteModel.ObstacleMarking[] markings);
+    
 }

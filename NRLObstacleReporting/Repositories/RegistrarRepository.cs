@@ -43,7 +43,8 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
         await connection.ExecuteAsync(sql, data);
     }
 
-    public async Task<IList<ObstacleDto>> GetObstaclesByStatus(params ObstacleCompleteModel.ObstacleStatus[] status)
+    /// <inheritdoc/>
+    public async Task<IList<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus[] status)
     {
         using var connection = CreateConnection();
         var queryResult = new List<ObstacleDto>();
@@ -65,5 +66,47 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
         }
         
         return queryResult ?? throw new InvalidOperationException();
+    }
+
+    public async Task<IList<ObstacleDto>> GetObstaclesFiltered(ObstacleCompleteModel.ObstacleStatus[] status, ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
+        ObstacleCompleteModel.ObstacleMarking[] markings)
+    {
+        using var connection = CreateConnection();
+        
+        string sql = $@"SELECT * 
+                        FROM Obstacle 
+                        WHERE 1=1
+                        AND Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}"; //base sql returns whole table
+        
+        if (status.Length != 0)
+        {
+            string statusList = string.Join(", ", status.Select(s => (int)s));
+
+            sql += $" AND Status IN ({statusList})";
+        }
+
+        if (type.Length != 0)
+        {
+            string typeList = string.Join(", ", type.Select(t => (int)t));
+            
+            sql += $" AND Type IN ({typeList})";
+        }
+        
+        if (illuminations.Length != 0)
+        {
+            string illuminationList = string.Join(", ", illuminations.Select(m => (int)m));
+            
+            sql += $" AND Illuminated IN ({illuminationList})";
+        }
+        
+        if (markings.Length != 0)
+        {
+            string markingList = string.Join(", ", markings.Select(i => (int)i));
+            
+            sql += $" AND Marking IN ({markingList})";
+        }
+        
+        var queryResult = await connection.QueryAsync<ObstacleDto>(sql);
+        return queryResult.ToList();
     }
 }
