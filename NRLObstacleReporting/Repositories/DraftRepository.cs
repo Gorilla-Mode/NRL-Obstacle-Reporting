@@ -45,4 +45,15 @@ public class DraftRepository : RepositoryBase, IDraftRepository
         
         return await connection.QueryAsync<ObstacleDto>(sql, new { UserId = userId });
     }
+
+    /// <inheritdoc/>
+    public async Task<ObstacleDto> GetDraftById(string obstacleId, string userId)
+    {
+        using var connection = CreateConnection();
+        var sql = @"SELECT *
+                    FROM Obstacle
+                    WHERE ObstacleID = @obstacleId AND UserId = userId";
+
+        return await connection.QuerySingleAsync<ObstacleDto>(sql, new { UserId = userId, ObstacleId = obstacleId });
+    }
 }

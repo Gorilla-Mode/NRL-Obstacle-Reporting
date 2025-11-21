@@ -28,4 +28,12 @@ public interface IDraftRepository
     /// <param name="userId">ID of the user</param>
     /// <returns>IEnumerable containing all drafts a given user has</returns>
     Task<IEnumerable<ObstacleDto>> GetAllDrafts(string userId);
+
+    /// <summary>
+    /// Gets data of a draft from db
+    /// </summary>
+    /// <param name="obstacleId">ID of the obstacle to retrieve</param>
+    /// <param name="userId">ID of the user </param>
+    /// <returns></returns>
+    Task<ObstacleDto> GetDraftById(string obstacleId, string userId);
 }
