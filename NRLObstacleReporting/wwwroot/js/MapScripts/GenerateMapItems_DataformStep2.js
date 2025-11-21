@@ -37,6 +37,9 @@ function GenerateMapItems_DataformStep2(map, choice) {
             }
         });
         map.addControl(drawControl);
+
+        // start polyline drawing immediately (use handler, not control)
+        new L.Draw.Polyline(map, drawControl.options.draw.polyline).enable();
     } 
     else if (choice === 1 || choice === 2 || choice === 3) {
         let drawControl = new L.Control.Draw({
@@ -51,8 +54,11 @@ function GenerateMapItems_DataformStep2(map, choice) {
             edit: {
                 featureGroup: drawnItems
             }
-        });
+            });
         map.addControl(drawControl);
+
+        // start marker drawing immediately (use handler, not control)
+        new L.Draw.Marker(map, drawControl.options.draw.marker).enable();
     }
     else {
         let drawControl = new L.Control.Draw({
@@ -69,6 +75,9 @@ function GenerateMapItems_DataformStep2(map, choice) {
             }
         });
         map.addControl(drawControl);
+
+        // choose which tool to start; here we start the marker by default
+        new L.Draw.Marker(map, drawControl.options.draw.marker).enable();
     }
 
     let form = document.getElementById('DataformStep2');
