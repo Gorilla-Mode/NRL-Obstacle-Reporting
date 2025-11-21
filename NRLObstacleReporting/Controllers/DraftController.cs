@@ -27,7 +27,6 @@ public class DraftController : Controller
     public async Task<IActionResult> PilotDrafts()
     {
         //method async, to prevent possible race conditions.
-
         string userId = _signInManager.UserManager.GetUserId(User) ?? throw new InvalidOperationException(); //make sure a user is logged in
         var submittedDrafts = await _repoDraft.GetAllDrafts(userId);
             
@@ -40,6 +39,7 @@ public class DraftController : Controller
     [HttpGet]
     public async Task<IActionResult> EditDraft(string obstacleId)
     {
+        //method async, to prevent possible race conditions.
         string userId = _signInManager.UserManager.GetUserId(User) ?? throw new InvalidOperationException(); //make sure a user is logged in
         var obstacle = await _repoDraft.GetDraftById(obstacleId, userId);
         
@@ -57,9 +57,11 @@ public class DraftController : Controller
         System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
         editedDraft.UpdatedTime = DateTime.Now;
         
-        //async to make sure task is completed before resubmit
+        editedDraft.UserId = userId;
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(editedDraft);
-        await _repoDraft.EditDraft(obstacle, userId);
+       
+        
+        await _repoDraft.EditDraft(obstacle);
         
         return RedirectToAction("PilotDrafts");
     }
@@ -69,18 +71,21 @@ public class DraftController : Controller
     public async Task<ActionResult> SubmitDraft(ObstacleCompleteModel draft)
     {
         string userId = _signInManager.UserManager.GetUserId(User) ?? throw new InvalidOperationException();
-        
         System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
-        //async to make sure task is completed before resubmit
+       
+        
         if (!ModelState.IsValid)
         {
             return View("EditDraft", draft);
         }
         
         draft.UpdatedTime = DateTime.Now;
+        draft.UserId = userId;
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(draft);
-        await _repoDraft.EditDraft(obstacle, userId);
-        await _repoDraft.SubmitDraft(obstacle, userId);
+        
+        //Await to make sure tasks is completed before resubmit
+        await _repoDraft.EditDraft(obstacle);
+        await _repoDraft.SubmitDraft(obstacle);
             
         return RedirectToAction("PilotDrafts");
     }

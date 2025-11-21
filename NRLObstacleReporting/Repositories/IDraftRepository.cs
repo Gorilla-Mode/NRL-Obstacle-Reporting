@@ -10,17 +10,16 @@ public interface IDraftRepository
     /// <summary>
     /// Edits the fields of an obstacle in the database with draft status
     /// </summary>
-    /// <param name="id">ID of the obstacle to edit in the database</param>
-    /// <param name="data">Data which will update the obstacle in the database</param>
+    /// <param name="data">Data which will update the obstacle in the database. must contain valid id and user id</param>
     /// <returns></returns>
-    Task EditDraft(ObstacleDto data, string userId);
+    Task EditDraft(ObstacleDto data);
 
     /// <summary>
     /// Submits an obstacle, by changing its status to pending (submitted) 
     /// </summary>
-    /// <param name="data">The obstacle that should be submitted</param>
+    /// <param name="data">The obstacle that should be submitted. must contain valid id and user id</param>
     /// <returns></returns>
-    Task SubmitDraft(ObstacleDto data, string userId);
+    Task SubmitDraft(ObstacleDto data);
     
     /// <summary>
     /// Sql returns all drafts submitted by a user

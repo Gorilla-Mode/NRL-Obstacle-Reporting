@@ -7,10 +7,9 @@ namespace NRLObstacleReporting.Repositories;
 public class DraftRepository : RepositoryBase, IDraftRepository
 {
     /// <inheritdoc/>
-    public async Task EditDraft(ObstacleDto data, string userId)
+    public async Task EditDraft(ObstacleDto data)
     {
         using var connection = CreateConnection();
-        data.UserId = userId;
         
         var sql = @"UPDATE Obstacle 
                     SET Heightmeter = @HeightMeter, GeometryGeoJson = @GeometryGeoJson, Name = @Name, 
@@ -22,11 +21,10 @@ public class DraftRepository : RepositoryBase, IDraftRepository
     }
 
     /// <inheritdoc/>
-    public async Task SubmitDraft(ObstacleDto data, string userId)
+    public async Task SubmitDraft(ObstacleDto data)
     {
         using var connection = CreateConnection();
         
-        data.UserId = userId;
         const int statusId = (int)ObstacleCompleteModel.ObstacleStatus.Pending;
         
         var sql = @$"UPDATE Obstacle
