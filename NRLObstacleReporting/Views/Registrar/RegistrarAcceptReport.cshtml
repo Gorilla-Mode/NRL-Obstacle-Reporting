@@ -61,21 +61,6 @@
             </table>
         </div>
         
-        <div class="flex-1 min-w-0">
-            <h3 class="text-xl font-bold mb-4">Obstacle information:</h3>
-            <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
-            <tbody>
-            <tr>
-                <th class=" border border-black px-4 py-2 font-semibold text-black bg-blue-300">Name</th>
-                <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Name</td>
-            </tr>
-            <tr>
-                <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Description</th>
-                <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Description</td>
-            </tr>
-            </tbody>
-            </table>
-        </div>
         <!-- Obstacle information -->
         <div class="flex-1 min-w-0">
             <h3 class="text-xl font-bold mb-4">Obstacle information:</h3>
@@ -101,8 +86,26 @@
             </table>
         </div>
     </div>
-
-   
+    <div class="flex-1 min-w-0">
+        <div class="sm:col-span-2">
+            <label asp-for="Name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Name</label>
+            <input asp-for="Name"
+                   class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+                              text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                              focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                   placeholder="Enter obstacle name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="sm:col-span-2">
+            <label asp-for="Description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Description</label>
+            <textarea asp-for="Description" rows="7"
+                          class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+                                 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                                 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="Enter obstacle description"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+    </div>
     <!-- Attachment -->
     <div class="flex gap-4 m-4">
         <div class="box-border rounded-lg h-auto w-3/4 p-4 border-2 border-blue-500">
@@ -151,21 +154,23 @@
         </div>
     </div>
 </div>
-    <div class="mt-6"> <!-- Map -->
-    <h2 class="text-xl font-bold mb-2">Obstacle Location</h2>
-    <!-- Coordinates -->
-    <div class="flex-1 min-w-0">
-        <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
-            <tbody>
-            <tr>
-                <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Coordinates</th>
-                <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.GeometryGeoJson</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="mt-4"> <!-- Map -->
+        <h2 class="text-xl font-bold mb-2">Obstacle Location</h2>
+    <div class="flex gap-4">
+        <div id="map" style="height: 58dvh; width: 75%;" class="rounded-lg border border-gray-300 shadow"></div>
+        <!-- Coordinates -->
+        <div class="sm:col-span-2">
+            <label asp-for="GeometryGeoJson" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Coordinates</label>
+            <textarea asp-for="GeometryGeoJson" rows="7"
+                          class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+                                 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                                 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="Enter obstacle description"></textarea>
+            <span asp-validation-for="GeometryGeoJson"></span>
+        </div>
     </div>
-    <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg border border-gray-300 shadow"></div>
-</div>
+    </div>
+ 
 
 @section Scripts
 {
