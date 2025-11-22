@@ -48,3 +48,31 @@
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 
+/* Overwrites the lines around the HeightMeter field in red when the user forgets to enter a value */
+input.input-validation-error {
+    border-color: #ef4444 !important; /* red-500 */
+    border-width: 2px !important;
+    outline: none !important;
+}
+
+/* Overwrites the shadowed line of the HeightMeter field when the user forgets to enter a value */
+input.input-validation-error:focus {
+    border-color: #dc2626 !important;   /* red-600 */
+    box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.5) !important; /* red-100 ring */
+}
+/*Overwrites the lines around types when no one selected*/
+.obstacle-error {
+    border-color: #ef4444 !important;/* red */
+    border-width: 2px !important; /*border*/
+}
+
+
+
+/* Error state - red border 
+input.input-validation-error {
+    @apply border-red-500 focus:border-red-600 focus:ring-red-100 !important;
+}*/
+/* Error state - red border
+form:has(input.input-validation-error) .but.bg-blue-500 {
+    @apply border-red-500 !important;
+}*/

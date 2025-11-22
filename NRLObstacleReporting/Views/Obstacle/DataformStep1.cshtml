@@ -145,12 +145,11 @@
             Height in meter
         </label>
         <input asp-for="HeightMeter"
-               class="rounded-2xl bg-white text-gray-900 text-center border-2 border-blue-400 focus:border-blue-600 
-              focus:ring-4 focus:ring-blue-100 w-full h-16 text-xl font-semibold shadow-md hover:shadow-lg 
+               class="rounded-2xl bg-white text-gray-900 text-center border-2 border-blue-400 focus:border-blue-600 focus:ring-blue-100
+              focus:ring-4  w-full h-16 text-xl font-semibold shadow-md hover:shadow-lg 
               transition-all duration-300 placeholder-gray-400 tracking-wide"
                placeholder="Enter height (m)" />
-        <span asp-validation-for="HeightMeter" class="text-red-500 text-sm mt-1 block"></span>
-    </div>
+        </div>
 
     <!-- Action buttons -->
     <div class="flex justify-between w-full mt-6 mb-1.5">
@@ -209,6 +208,73 @@
         AssignValueByID('nextpage', 'save', false)
 
         ColorActiveButton('bg-blue-200', 'bg-blue-500')
+        document.getElementById("nextpage").addEventListener("click", function (e) {
+           
+            const typeValue = document.getElementById("ObstacleType").value; //hidden input, saves the user input, .value value of the input field
+            const heightInput = document.querySelector('input[placeholder="Enter height (m)"]'); //Select the HeightMeter input element using its placeholder
+
+            let hasError = false;//tracks where the error has occured
+
+            const existingError = document.getElementById("height-error-message");// Gets the existing height error message element, if it exists
+
+            if (existingError) { //removes the previous error message
+                existingError.remove();
+            }
+
+            // Remove previous error styling
+            heightInput.classList.remove('input-validation-error');
+            document.querySelectorAll(".but").forEach(btn => {
+                btn.classList.remove("obstacle-error");
+            });
+
+            // Hvis ingen type er valgt
+            if (!typeValue || typeValue === "0") {
+                e.preventDefault();
+
+                document.querySelectorAll(".but").forEach(btn => {
+                    btn.classList.add("obstacle-error");
+                });
+                hasError = true;
+            }
+
+            // Check height validation
+            if (!heightInput.value) {
+                e.preventDefault();
+                heightInput.classList.add('input-validation-error');
+
+                // Add error message below the input
+                const errorMsg = document.createElement('span');
+                errorMsg.id = "height-error-message";
+                errorMsg.className = "text-red-500 text-sm mt-1 block";
+                errorMsg.textContent = "Height is required";
+                heightInput.parentElement.appendChild(errorMsg);
+
+                hasError = true;
+            }
+
+            if (hasError) {
+                return false;
+            }
+});
+        // Remove error styling and message when user starts typing in height field
+        const heightInput = document.querySelector('input[placeholder="Enter height (m)"]');
+        if (heightInput) {
+            heightInput.addEventListener('input', function() {
+                this.classList.remove('input-validation-error');
+                const errorMsg = document.getElementById("height-error-message");
+                if (errorMsg) {
+                    errorMsg.remove();
+                }
+            });
+        }
+        // Remove error styling from type buttons when user clicks them
+        document.querySelectorAll(".but").forEach(btn => {
+            btn.addEventListener("click", function() {
+                document.querySelectorAll(".but").forEach(b => {
+                    b.classList.remove("obstacle-error");
+                });
+            });
+        });
     
     </script>
     <partial name="_ValidationScriptsPartial" />
