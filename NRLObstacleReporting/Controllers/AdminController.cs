@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Models.Account;
+using NRLObstacleReporting.Repositories;
 
 namespace NRLObstacleReporting.Controllers;
 
@@ -15,19 +16,17 @@ namespace NRLObstacleReporting.Controllers;
 public class AdminController : Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly IEmailSender _emailSender;
     private readonly ILogger<AccountController> _logger;
     private readonly IMapper _mapper;
+    private readonly IAdminRepository _adminRepository;
 
-    public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
-        IEmailSender emailSender, ILogger<AccountController> logger, IMapper mapper)
+    public AdminController(UserManager<IdentityUser> userManager, ILogger<AccountController> logger, IMapper mapper,
+        IAdminRepository adminRepository)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
-        _emailSender = emailSender;
         _logger = logger;
         _mapper = mapper;
+        _adminRepository = adminRepository;
     }
     
     private void AddErrors(IdentityResult result)
@@ -76,16 +75,10 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public IActionResult ManageUsers()
+    public async Task<IActionResult> ManageUsers()
     {
-        var users = _userManager.Users;
-        var modelListDraft = _mapper.Map<IEnumerable<UserViewModel>>(_userManager.Users);
-
-        //map roles to user view model
-        for (int i = 0; i < users.Count(); i++)
-        {
-            modelListDraft.ElementAt(i).Role = _userManager.GetRolesAsync(users.ElementAt(i)).Result[0]; //Users can only have one role
-        }
+        var users = await _adminRepository.GetAllUsers();
+        var modelListDraft = _mapper.Map<IEnumerable<UserViewModel>>(users);
         
         return View(modelListDraft);
     }
