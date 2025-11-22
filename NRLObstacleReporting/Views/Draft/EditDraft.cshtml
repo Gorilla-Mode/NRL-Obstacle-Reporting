@@ -77,8 +77,6 @@
                           placeholder="Enter obstacle description"></textarea>
                 <span asp-validation-for="Description"></span>
             </div>
-            @if (Model.GeometryGeoJson != null)
-            {
                 <div class="sm:col-span-2">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Map</label>
                     <div class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
@@ -104,8 +102,7 @@
                             </div>
                         </details>
                     </div>
-                </div>
-            }
+            </div>
             <div class="text-xs font-bold text-gray-900 dark:text-gray-200">Obstacle Report: @Model.ObstacleId</div>
         </div>
         <input type="hidden" asp-for="Status" id="IsDraft"/>

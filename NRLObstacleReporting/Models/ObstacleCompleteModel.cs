@@ -67,6 +67,7 @@ public class ObstacleCompleteModel
 
     //Step 2 felt
     [Required(ErrorMessage = "This field is required")]
+    [MaxLength(5000)]
     public string? GeometryGeoJson { get; set; }
     //Step 3 felt
     [MaxLength(100)]
