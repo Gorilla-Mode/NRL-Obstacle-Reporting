@@ -50,6 +50,12 @@ builder.Services.AddDataProtection()
 
 SetupAuthentication(builder);
 
+// hide server header
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.AddServerHeader = false;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,12 +64,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
-
-// hide server header
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.AddServerHeader = false;
-});
 
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -78,7 +78,7 @@ app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
+/*
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
@@ -86,12 +86,23 @@ app.Use(async (context, next) =>
     context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
     context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
     context.Response.Headers.Add("Referrer-Policy", "no-referrer");
-    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
+
+    // Updated Content-Security-Policy to allow the external scripts/styles/fonts/images you use:
+    // - local assets ('self')
+    // - inline scripts/styles used across Layout and pages ('unsafe-inline') � consider replacing with nonces/hashes later
+    // - unpkg (leaflet-draw), jsDelivr (locate control), Google Fonts, and tile server for Leaflet
+    context.Response.Headers.Add("Content-Security-Policy",
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm; " +
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; " +
+        "font-src 'self' https://fonts.gstatic.com; " +
+        "img-src 'self' data: https://tiles.stadiamaps.com; " +
+        "connect-src 'self';");
+
     // Add other headers as needed
     await next();
 });
-
-
+*/
 
 app.Run();
 
