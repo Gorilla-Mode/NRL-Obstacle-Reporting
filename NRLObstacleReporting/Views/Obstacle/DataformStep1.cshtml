@@ -59,8 +59,8 @@
                      class="max-h-full max-w-full object-contain" alt="Aerial Span icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Aerial Span
-        </span>
+                Aerial Span
+            </span>
         </button>
 
         <!-- Pole/Tower -->
@@ -74,8 +74,8 @@
                      class="max-h-full max-w-full object-contain" alt="Pole/Tower icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Pole/Tower
-        </span>
+                Pole/Tower
+            </span>
         </button>
 
         <!-- Building -->
@@ -89,8 +89,8 @@
                      class="max-h-full max-w-full object-contain" alt="Building icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Building
-        </span>
+                Building
+            </span>
         </button>
 
         <!-- Construction -->
@@ -104,8 +104,8 @@
                      class="max-h-full max-w-full object-contain" alt="Construction icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Construction
-        </span>
+                Construction
+            </span>
         </button>
 
         <!-- Bridge -->
@@ -119,8 +119,8 @@
                      class="max-h-full max-w-full object-contain" alt="Bridge icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Bridge
-        </span>
+                Bridge
+            </span>
         </button>
 
         <!-- Other -->
@@ -134,17 +134,20 @@
                      class="max-h-full max-w-full object-contain" alt="Other icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Other
-        </span>
+                Other
+            </span>
         </button>
     </div>
+    <span asp-validation-for="Type" class="text-red-500 text-sm mt-1 block"></span>
 
     <!-- Height input -->
     <div class="font-semibold mt-6">
-        <label asp-for="HeightMeter" class="text-gray-700 text-base mb-2 block">Height in meter</label>
+        <label asp-for="HeightMeter" class="text-gray-700 dark:text-white text-base mb-2 block">
+            Height in meter
+        </label>
         <input asp-for="HeightMeter"
-               class="rounded-2xl bg-white text-gray-900 text-center border-2 border-blue-400 focus:border-blue-600 
-              focus:ring-4 focus:ring-blue-100 w-full h-16 text-xl font-semibold shadow-md hover:shadow-lg 
+               class="rounded-2xl bg-white text-gray-900 text-center border-2 border-blue-400 focus:border-blue-600 focus:ring-blue-100
+              focus:ring-4  w-full h-16 text-xl font-semibold shadow-md hover:shadow-lg 
               transition-all duration-300 placeholder-gray-400 tracking-wide"
                placeholder="Enter height (m)" />
         <span asp-validation-for="HeightMeter" class="text-red-500 text-sm mt-1 block"></span>
@@ -192,6 +195,8 @@
 @section Scripts {
     <script src="~/js/ColorActiveButton.js"></script>
     <script src="~/js/MapScripts/GeojsonCoordinates.js"></script>
+    <script src="~/js/AssignValueByID.js"></script>
+    
     <script>
         GetGeoJsonCoordinates();
         //saves the value of the button/type you choose
@@ -206,8 +211,48 @@
         AssignValueByID('savebutton', 'save', true)
         AssignValueByID('nextpage', 'save', false)
 
-        ColorActiveButton('bg-blue-200', 'bg-blue-500')
-    
+        ColorActiveButton('bg-blue-200', 'bg-blue-500');
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // CLIENT-SIDE: Add red borders when clicking Next without selecting type
+            document.getElementById("nextpage").addEventListener("click", function (e) {
+                const typeValue = document.getElementById("ObstacleType").value;
+
+                // Check if no type is selected (value is 0 or empty)
+                if (typeValue === "") {
+                    // Add red borders to all type buttons
+                    document.querySelectorAll(".but").forEach(btn => {
+                        btn.classList.add("obstacle-error");
+                    });
+                }
+            });
+
+            // SERVER-SIDE: Add red borders if validation failed after postback
+            const typeInput = document.getElementById("ObstacleType");
+
+            if (typeInput && typeInput.value === "") {
+                // Check if there are any validation errors on the page
+                const hasValidationErrors = document.querySelector('.field-validation-error, .input-validation-error');
+
+                if (hasValidationErrors) {
+                    document.querySelectorAll(".but").forEach(btn => {
+                        btn.classList.add("obstacle-error");
+                    });
+                }
+            }
+
+            // Remove red borders when user clicks on a type button
+            document.querySelectorAll(".but").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    document.querySelectorAll(".but").forEach(b => {
+                        b.classList.remove("obstacle-error");
+                    });
+                });
+            });
+
+        }); 
+
     </script>
     <partial name="_ValidationScriptsPartial" />
 }

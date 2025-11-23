@@ -1,0 +1,182 @@
+@using Microsoft.AspNetCore.Components.Forms
+@model ObstacleUserModel
+
+<h1 class="text-center text-xl font-bold mb-4">Report Details</h1>
+
+ <!-- User information -->
+<div class="space-y-2">
+    <h3 class="text-xl font-bold mb-4">User Information:</h3>
+    <table class="w-full text-left text-sm border border-black border-collapse rounded-lg overflow-hidden">
+        <thead>
+        <tr>
+            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
+                Email
+            </th>
+            <td class="border border-black px-4 py-2 text-black bg-gray-100">
+                pilot@pilot.com
+            </td>
+            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
+                Phone number
+            </th>
+            <td class="border border-black px-4 py-2 text-black bg-gray-100">
+                –
+            </td>
+            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
+                Organization
+            </th>
+            <td class="border border-black px-4 py-2 text-black bg-gray-100">
+                PLACEHOLDER
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <div class="flex gap-6">
+
+        <!-- Meta data -->
+        <div class="flex-1 min-w-0">
+            <h3 class="text-xl font-bold mb-4">Meta data:</h3>
+            <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
+                <tbody>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Status</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Status</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Created</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.CreationTime</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Last modified</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.UpdatedTime</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">ObstacleID</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.ObstacleId</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">UserID</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.UserId</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="flex-1 min-w-0">
+            <h3 class="text-xl font-bold mb-4">Obstacle information:</h3>
+            <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
+            <tbody>
+            <tr>
+                <th class=" border border-black px-4 py-2 font-semibold text-black bg-blue-300">Name</th>
+                <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Name</td>
+            </tr>
+            <tr>
+                <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Description</th>
+                <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Description</td>
+            </tr>
+            </tbody>
+            </table>
+        </div>
+        <!-- Obstacle information -->
+        <div class="flex-1 min-w-0">
+            <h3 class="text-xl font-bold mb-4">Obstacle information:</h3>
+            <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
+                <tbody>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Type</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Type</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold black bg-blue-300">Height in Meter</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.HeightMeter</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Illuminated</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Illuminated</td>
+                </tr>
+                <tr>
+                    <th class=" border border-black px-4 py-2 font-semibold text-black bg-blue-300">Marked</th>
+                    <td class=" border border-black px-4 py-2 text-black bg-gray-100">@Model.Marking</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+   
+    <!-- Attachment -->
+    <div class="flex gap-4 m-4">
+        <div class="box-border rounded-lg h-auto w-3/4 p-4 border-2 border-blue-500">
+            <p class="font-semibold mb-3">Attachments</p>
+            <div class="flex gap-2 w-full flex-wrap">
+                <div class="box-border rounded-lg h-12 w-40 p-2 border-2 border-blue-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Upload</p>
+                </div>
+                <div class="box-border rounded-lg h-12 w-40 p-2 border-2 border-blue-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Preview</p>
+                </div>
+                <div class="box-border rounded-lg h-12 w-40 p-2 border-2 border-blue-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Download</p>
+                </div>
+                <div class="box-border rounded-lg h-12 w-40 p-2 border-2 border-blue-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Delete</p>
+                </div>
+            </div>
+        </div>
+        <!-- Status-knapper -->
+        <div class="flex gap-2 mt-4">
+            <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Approved)"/>
+                <button type="submit" class="rounded-lg h-16 w-48 p-2 font-semibold text-black bg-green-400 text-sm">
+                    Accept
+                </button>
+            </form>
+            <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
+                <button type="submit" class="rounded-lg h-16 w-48 p-2 font-semibold text-black bg-yellow-300 text-sm">
+                    Reject
+                </button>
+            </form>
+            <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Deleted)"/>
+                <button type="submit" class="rounded-lg h-16 w-48 p-2 font-semibold text-black bg-red-400 text-sm">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+    <div class="mt-6"> <!-- Map -->
+    <h2 class="text-xl font-bold mb-2">Obstacle Location</h2>
+    <!-- Coordinates -->
+    <div class="flex-1 min-w-0">
+        <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
+            <tbody>
+            <tr>
+                <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Coordinates</th>
+                <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.GeometryGeoJson</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="map" style="height: 58dvh; width: 100%;" class="rounded-lg border border-gray-300 shadow"></div>
+</div>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+    
+    <script>
+        let geoJson = @Html.Raw(Model.GeometryGeoJson)
+        const mapZoom = 17;
+        
+        GenerateMapWithGeojson(mapZoom, geoJson)
+    </script>
+}
