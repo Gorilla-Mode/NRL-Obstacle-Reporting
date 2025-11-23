@@ -86,9 +86,9 @@
             </table>
         </div>
     </div>
-    <div class="flex-1 min-w-0">
+    <div class="flex-1 min-w-0">   <!-- Name kolonne -->
         <div class="sm:col-span-2">
-            <label asp-for="Name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Name</label>
+            <label asp-for="Name" class="text-xl font-bold mb-4">Name</label>
             <input asp-for="Name"
                    class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
                               text-gray-900 dark:text-gray-100 text-sm rounded-lg
@@ -96,8 +96,9 @@
                    placeholder="Enter obstacle name" />
             <span asp-validation-for="Name"></span>
         </div>
-        <div class="sm:col-span-2">
-            <label asp-for="Description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Description</label>
+        
+        <div class="sm:col-span-2">   <!-- Description kolonne -->
+            <label asp-for="Description" class="text-xl font-bold mb-4">Description</label>
             <textarea asp-for="Description" rows="7"
                           class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
                                  text-gray-900 dark:text-gray-100 text-sm rounded-lg
@@ -160,7 +161,7 @@
         <div id="map" style="height: 58dvh; width: 75%;" class="rounded-lg border border-gray-300 shadow"></div>
         <!-- Coordinates -->
         <div class="sm:col-span-2">
-            <label asp-for="GeometryGeoJson" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Coordinates</label>
+            <label asp-for="GeometryGeoJson" class="text-xl font-bold mb-4">Coordinates</label>
             <textarea asp-for="GeometryGeoJson" rows="7"
                           class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
                                  text-gray-900 dark:text-gray-100 text-sm rounded-lg
@@ -174,9 +175,14 @@
 
 @section Scripts
 {
+    <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/Geolocation.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/GeojsonCoordinates.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/GeoJsonExtractCoordinates.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-    <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+  
     
     <script>
         let geoJson = @Html.Raw(Model.GeometryGeoJson)
