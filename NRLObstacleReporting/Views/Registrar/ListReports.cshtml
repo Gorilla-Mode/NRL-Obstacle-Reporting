@@ -1,3 +1,4 @@
+@using Microsoft.CodeAnalysis
 @model IEnumerable<ObstacleCompleteModel>
 @{
     ViewData["Title"] = "View Reports";
@@ -11,14 +12,61 @@
 }
 else
 {
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
-        @foreach (var report in obstacleCompleteModels) // Rapportliste
-        {
-            <div class="border p-4 rounded mb-4 bg-white shadow">
-                <p><strong>ID:</strong> @report.ObstacleId</p> <span> <p><strong>Status:</strong> <span class="">@report.Status</span></p></span>
-                
-                <a asp-action="RegistrarAcceptReport" asp-route-id="@report.ObstacleId"
-                   class="text-blue-600 underline text-sm">View details</a>
-            </div>
-        }
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
+    
+    {
+        <div class="relative overflow-x-auto bg-gray-100 shadow-sm rounded-lg border border-gray-300">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-800">
+                <thead class="text-sm text-gray-800 bg-gray-200 border-b border-gray-300">
+                <tr>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Date
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Type
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Height
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Status
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Details
+                    </th>
+                </tr>
+                </thead>
+                @foreach (var report in obstacleCompleteModels)
+                {
+                    <tbody>
+                    <tr class=" cursor-pointer bg-gray-50 border-b border-gray-300 hover:bg-gray-100"
+                        onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = report.ObstacleId })}'")>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @report.CreationTime
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @report.Type
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @report.HeightMeter
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @report.Name
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @report.Status
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <a asp-action="RegistrarAcceptReport" asp-route-id="@report.ObstacleId"
+                               class="text-blue-600 underline text-sm">View details</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    }
 }
