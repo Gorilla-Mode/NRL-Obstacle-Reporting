@@ -26,83 +26,80 @@ else
             shadow-[0_4px_12px_rgba(0,0,0,0.15)]
             p-4 mb-10 w-full 
             transition-colors duration-300">
-
-        <table class="w-full table-fixed border-collapse 
-                      !bg-transparent !text-black dark:!text-gray-100">
+        <table class="w-full text-left text-sm border !border-black dark:!border-gray-100 border-collapse rounded-lg overflow-hidden">
             <tbody>
-
+            <table class="w-full text-left text-sm border border-black border-collapse rounded-lg overflow-hidden">
                 <!-- HEADER ROW -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700">
-                    <th class="p-3 text-sm font-bold text-left !text-black dark:!text-gray-100">
-                        Id: @report.ObstacleId
-                    </th>
-                    <th class="p-3"></th>
+                <tr class="  border !border-black dark:!border-gray-100 !text-black dark:!text-gray-100">
+                    <th class="p-3 text-sm font-semibold !border-black dark:!border-gray-100 bg-blue-400 !text-black dark:!text-gray-100">ObstacleID</th>
+                    <td class="p-3 text-sm border !border-black dark:!border-gray-100 !text-black dark:!text-gray-100">@report.ObstacleId</td>
                 </tr>
 
                 <!-- Height -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Height</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.HeightMeter</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400 !text-black dark:!text-gray-100">Height</th>
+                    <td class="p-3 text-sm border !border-black dark:!border-gray-100 !text-black dark:!text-gray-100">@report.HeightMeter</td>
                 </tr>
 
                 <!-- Type -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Type</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Type</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400 !text-black dark:!text-gray-100">Type</th>
+                    <td class="p-3 text-sm border !border-black dark:!border-gray-100   !text-black dark:!text-gray-100">@report.Type</td>
                 </tr>
 
                 <!-- Name -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Name</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Name</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400 !text-black dark:!text-gray-100">Name</th>
+                    <td class="p-3 text-sm border !border-black dark:!border-gray-100 !text-black dark:!text-gray-100">@report.Name</td>
                 </tr>
 
                 <!-- Description -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Description</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Description</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400 text-black dark:!text-gray-100 ">Description</th>
+                    <td class="p-3 text-sm border !border-black dark:!border-gray-100 !text-black dark:!text-gray-100">@report.Description</td>
                 </tr>
 
                 <!-- Illuminated -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Illumination</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Illuminated</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400 !text-black dark:!text-gray-100">Illumination</th>
+                    <td class="p-3 text-sm border !border-black dark:!border-gray-100 !text-black dark:!text-gray-100">@report.Illuminated</td>
                 </tr>
 
                 <!-- Marking -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Marking</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Marking</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400 !text-black dark:!text-gray-100">Marking</th>
+                    <td class="p-3 text-sm border !border-black  dark:!border-gray-100 !text-black dark:!text-gray-100">@report.Marking</td>
                 </tr>
 
                 <!-- Created -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Report Created:</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.CreationTime</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400 !text-black dark:!text-gray-100">Report Created:</th>
+                    <td class="p-3 text-sm border !border-black  dark:!border-gray-100 !text-black dark:!text-gray-100">@report.CreationTime</td>
                 </tr>
 
                 <!-- Updated -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Report Updated:</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.UpdatedTime</td>
+                <tr>
+                    <th class="p-3 text-sm font-semibold border !border-black dark:!border-gray-100 bg-blue-400  !text-black dark:!text-gray-100">Report Updated:</th>
+                    <td class="p-3 text-sm border !border-black  dark:!border-gray-100 !text-black dark:!text-gray-100">@report.UpdatedTime</td>
                 </tr>
+                
+            </table>
+            <!-- MAP -->
+            @if (report.GeometryGeoJson != null)
+            {
+                <tr class="!bg-white dark:!bg-gray-800">
+                    <td colspan="2" class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">
 
-                <!-- MAP -->
-                @if (report.GeometryGeoJson != null)
-                {
-                    <tr class="!bg-white dark:!bg-gray-800">
-                        <td colspan="2" class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">
+                        <details class="cursor-pointer">
+                            <summary class="text-blue-600 dark:text-blue-400">Map</summary>
 
-                            <details class="cursor-pointer">
-                                <summary class="text-blue-600 dark:text-blue-400">Map</summary>
+                            <div class="w-full overflow-hidden rounded-xl mt-3 border border-gray-300 dark:border-gray-700">
+                                <div id="@mapId"
+                                     class="w-full mx-auto mb-2"
+                                     style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
+                            </div>
 
-                                <div class="w-full overflow-hidden rounded-xl mt-3 border border-gray-300 dark:border-gray-700">
-                                    <div id="@mapId"
-                                         class="w-full mx-auto mb-2"
-                                         style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
-                                </div>
-
-                                <script>
+                            <script>
                                     var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
 
                                     L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
@@ -116,11 +113,11 @@ else
                                     map.setMaxBounds(geojsonLayer.getBounds());
                                 </script>
 
-                            </details>
+                        </details>
 
-                        </td>
-                    </tr>
-                }
+                    </td>
+                </tr>
+            }
 
             </tbody>
         </table>
