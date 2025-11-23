@@ -1,11 +1,9 @@
-
-
 //leaflet 
 document.addEventListener('DOMContentLoaded', function() {
 var map = L.map('map').setView([58.14671, 7.9956], 17);
 
-//adjustment of map color
-L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+// Use OpenStreetMap tiles (no API key required)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map); //adds map object so its actually being shown
