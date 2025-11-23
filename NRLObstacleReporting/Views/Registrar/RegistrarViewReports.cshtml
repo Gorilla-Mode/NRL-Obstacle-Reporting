@@ -147,7 +147,7 @@
         </button>
     </form>
 </div>
-<table id="table" class="border-collapse border border-gray-400 w-full text-center text-sm mt-6 mb-52"> <!-- tabell -->
+<table class="border-collapse border border-gray-400 w-full text-center text-sm mt-6 mb-52"> <!-- tabell -->
     <thead class="bg-gray-200">
     <tr>
         <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
@@ -163,12 +163,12 @@
         <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Last modified</th>
     </tr>
     </thead>
-    <tbody class="bg-white">
+    <tbody id="table" class="bg-white">
     @if (obstacleCompleteModels.Count() != 0)
     {
         foreach (var o in obstacleCompleteModels)
         {
-            <tr class="cursor-pointer hover:bg-gray-100 transition"
+            <tr  class="cursor-pointer hover:bg-gray-100 transition"
                 onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = o.ObstacleId })}'")>
                 <td class="border border-gray-300 px-4 py-2">@o.Name</td>
                 <td class="border border-gray-300 px-4 py-2">@o.Type</td>
