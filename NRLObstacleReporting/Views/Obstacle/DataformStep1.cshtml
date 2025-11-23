@@ -59,8 +59,8 @@
                      class="max-h-full max-w-full object-contain" alt="Aerial Span icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Aerial Span
-        </span>
+                Aerial Span
+            </span>
         </button>
 
         <!-- Pole/Tower -->
@@ -74,8 +74,8 @@
                      class="max-h-full max-w-full object-contain" alt="Pole/Tower icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Pole/Tower
-        </span>
+                Pole/Tower
+            </span>
         </button>
 
         <!-- Building -->
@@ -89,8 +89,8 @@
                      class="max-h-full max-w-full object-contain" alt="Building icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Building
-        </span>
+                Building
+            </span>
         </button>
 
         <!-- Construction -->
@@ -104,8 +104,8 @@
                      class="max-h-full max-w-full object-contain" alt="Construction icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Construction
-        </span>
+                Construction
+            </span>
         </button>
 
         <!-- Bridge -->
@@ -119,8 +119,8 @@
                      class="max-h-full max-w-full object-contain" alt="Bridge icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Bridge
-        </span>
+                Bridge
+            </span>
         </button>
 
         <!-- Other -->
@@ -134,10 +134,11 @@
                      class="max-h-full max-w-full object-contain" alt="Other icon" />
             </div>
             <span class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
-            Other
-        </span>
+                Other
+            </span>
         </button>
     </div>
+    <span asp-validation-for="Type" class="text-red-500 text-sm mt-1 block"></span>
 
     <!-- Height input -->
     <div class="font-semibold mt-6">
@@ -210,90 +211,48 @@
         AssignValueByID('savebutton', 'save', true)
         AssignValueByID('nextpage', 'save', false)
 
-        ColorActiveButton('bg-blue-200', 'bg-blue-500')
-        document.getElementById("nextpage").addEventListener("click", function (e) {
-            const typeValue = document.getElementById("ObstacleType").value;
-            const heightInput = document.querySelector('input[placeholder="Enter height (m)"]');
-            let hasError = false;
+        ColorActiveButton('bg-blue-200', 'bg-blue-500');
 
-            // Fjern gamle feilmeldinger
-            const existingError = document.getElementById("height-error-message");
-            if (existingError) {
-                existingError.remove();
-            }
+        document.addEventListener('DOMContentLoaded', function() {
 
-            // Fjern LIVE validation dersom brukeren ignorerer det
-            const liveError = document.getElementById("height-error-live");
-            if (liveError) liveError.remove();
+            // CLIENT-SIDE: Add red borders when clicking Next without selecting type
+            document.getElementById("nextpage").addEventListener("click", function (e) {
+                const typeValue = document.getElementById("ObstacleType").value;
 
-            // Fjern røde borders - dobbeltsjekk om denne trengs eller ikke
-            /*heightInput.classList.remove('input-validation-error');
-            document.querySelectorAll(".but").forEach(btn => {
-                btn.classList.remove("obstacle-error");
-            });*/
-
-            // Sjekk type
-            if (!typeValue || typeValue === "0") {
-                e.preventDefault();
-                document.querySelectorAll(".but").forEach(btn => {
-                    btn.classList.add("obstacle-error");
-                });
-                hasError = true;
-            }
-            // Sjekk height
-            const heightValue = parseFloat(heightInput.value);
-            
-            if (hasError) {
-                return false;
-            }
-        });
-
-        // Fjern error når bruker skriver i height-feltet
-        // LIVE VALIDATION FOR HEIGHT (0–150)
-        const heightInput = document.querySelector('input[placeholder="Enter height (m)"]');
-
-        if (heightInput) {
-            heightInput.addEventListener("input", function () {
-                const val = parseFloat(this.value);
-
-                // Fjern serverfeilmelding (asp-validation-for)
-                const serverError = document.querySelector("[data-valmsg-for='HeightMeter']");
-                if (serverError) serverError.innerText = "";
-
-                // Fjern tidligere JS-feilmelding
-                const existingLiveError = document.getElementById("height-error-live");
-                if (existingLiveError) existingLiveError.remove();
-
-                // Hvis tom → ikke vis noe (bruker skriver fortsatt)
-                if (this.value.trim() === "") {
-                    this.classList.remove("input-validation-error");
-                    return;
+                // Check if no type is selected (value is 0 or empty)
+                if (typeValue === "") {
+                    // Add red borders to all type buttons
+                    document.querySelectorAll(".but").forEach(btn => {
+                        btn.classList.add("obstacle-error");
+                    });
                 }
-
-                // RANGE CHECK (0–150)
-                /*if (val < 0 || val > 150) {
-                    this.classList.add("input-validation-error");
-
-                    const msg = document.createElement("span");
-                    msg.id = "height-error-live";
-                    msg.className = "text-red-500 text-sm mt-1 block";
-                    msg.innerText = "Height must be between 0 and 150 meter";
-
-                    this.parentElement.appendChild(msg);
-                } else {
-                    this.classList.remove("input-validation-error");
-                }*/
             });
-        }
-        // Fjern rød border når bruker klikker på en type-knapp
-        document.querySelectorAll(".but").forEach(btn => {
-            btn.addEventListener("click", function() {
-                document.querySelectorAll(".but").forEach(b => {
-                    b.classList.remove("obstacle-error");
+
+            // SERVER-SIDE: Add red borders if validation failed after postback
+            const typeInput = document.getElementById("ObstacleType");
+
+            if (typeInput && typeInput.value === "") {
+                // Check if there are any validation errors on the page
+                const hasValidationErrors = document.querySelector('.field-validation-error, .input-validation-error');
+
+                if (hasValidationErrors) {
+                    document.querySelectorAll(".but").forEach(btn => {
+                        btn.classList.add("obstacle-error");
+                    });
+                }
+            }
+
+            // Remove red borders when user clicks on a type button
+            document.querySelectorAll(".but").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    document.querySelectorAll(".but").forEach(b => {
+                        b.classList.remove("obstacle-error");
+                    });
                 });
             });
-        });
-    
+
+        }); 
+
     </script>
     <partial name="_ValidationScriptsPartial" />
 }

@@ -68,11 +68,3 @@ input.input-validation-error:focus {
 
 
 
-/* Error state - red border 
-input.input-validation-error {
-    @apply border-red-500 focus:border-red-600 focus:ring-red-100 !important;
-}*/
-/* Error state - red border
-form:has(input.input-validation-error) .but.bg-blue-500 {
-    @apply border-red-500 !important;
-}*/
