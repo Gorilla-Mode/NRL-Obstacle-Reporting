@@ -34,6 +34,6 @@ public interface IRegistrarRepository
     
     Task<IList<ObstacleDto>> GetObstaclesFiltered(ObstacleCompleteModel.ObstacleStatus[] status,
         ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
-        ObstacleCompleteModel.ObstacleMarking[] markings);
+        ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateStart, DateOnly dateEnd);
     
 }
