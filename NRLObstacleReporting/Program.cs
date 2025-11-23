@@ -66,6 +66,35 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Security headers middleware (placed early so static files get the header too)
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+    context.Response.Headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload";
+    context.Response.Headers["Referrer-Policy"] = "no-referrer";
+
+    // Content-Security-Policy:
+    // - 'self' covers scripts served from your app (e.g. /js/MapScripts/*.js)
+    // - add external CDNs and image/tile hosts used by the site
+    // Note: 'unsafe-inline' is present to keep current inline scripts working; migrate to nonces/hashes later.
+    var csp = string.Join(" ",
+        "default-src 'self';",
+        "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm;",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net;",
+        "font-src 'self' https://fonts.gstatic.com;",
+        // allow OpenStreetMap tile hosts and the image hosts used in DataformStep1 and CDN images (leaflet.draw sprites)
+        "img-src 'self' data: https://{s}.tile.openstreetmap.org https://tile.openstreetmap.org https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org https://static.thenounproject.com https://cdn-icons-png.flaticon.com https://www.iconpacks.net https://www.svgrepo.com https://unpkg.com https://cdn.jsdelivr.net;",
+        "connect-src 'self' https://tile.openstreetmap.org https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org https://unpkg.com https://cdn.jsdelivr.net;"
+    );
+
+    context.Response.Headers["Content-Security-Policy"] = csp;
+
+    await next();
+});
+
 app.UseRouting();
 
 // Ensure authentication is enabled before authorization, believe it or not
@@ -78,31 +107,6 @@ app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-/*
-app.Use(async (context, next) =>
-{
-    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-    context.Response.Headers.Add("X-Frame-Options", "DENY");
-    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-    context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
-    context.Response.Headers.Add("Referrer-Policy", "no-referrer");
-
-    // Updated Content-Security-Policy to allow the external scripts/styles/fonts/images you use:
-    // - local assets ('self')
-    // - inline scripts/styles used across Layout and pages ('unsafe-inline') � consider replacing with nonces/hashes later
-    // - unpkg (leaflet-draw), jsDelivr (locate control), Google Fonts, and tile server for Leaflet
-    context.Response.Headers.Add("Content-Security-Policy",
-        "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm; " +
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; " +
-        "font-src 'self' https://fonts.gstatic.com; " +
-        "img-src 'self' data: https://tiles.stadiamaps.com; " +
-        "connect-src 'self';");
-
-    // Add other headers as needed
-    await next();
-});
-*/
 
 app.Run();
 
