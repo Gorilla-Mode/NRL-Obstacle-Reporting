@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using Dapper;
 using MySqlConnector;
 using System.Data;
+using System.Globalization;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
@@ -68,9 +69,12 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
         return queryResult ?? throw new InvalidOperationException();
     }
 
-    public async Task<IList<ObstacleDto>> GetObstaclesFiltered(ObstacleCompleteModel.ObstacleStatus[] status, ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
-        ObstacleCompleteModel.ObstacleMarking[] markings)
+    public async Task<IList<ObstacleDto>> GetObstaclesFiltered(ObstacleCompleteModel.ObstacleStatus[] status,
+        ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
+        ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateStart, DateOnly dateEnd)
     {
+        //TODO: Parameterize the variables
+        
         using var connection = CreateConnection();
         
         string sql = $@"SELECT * 
@@ -105,8 +109,17 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
             
             sql += $" AND Marking IN ({markingList})";
         }
+
+        if (dateStart.ToString() != String.Empty && dateEnd.ToString() != String.Empty)
+        {
+           string formattedDateStart = dateStart.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+           string formattedDateEnd = dateEnd.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+           
+            sql += $" AND CreationTime BETWEEN '{formattedDateStart}' AND '{formattedDateEnd}'";
+        }
         
         var queryResult = await connection.QueryAsync<ObstacleDto>(sql);
+        
         return queryResult.ToList();
     }
 }

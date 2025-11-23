@@ -31,11 +31,19 @@ public class RegistrarController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> RegistrarFilterReports(ObstacleCompleteModel.ObstacleStatus[] status,
-        ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illumination,
-        ObstacleCompleteModel.ObstacleMarking[] marking)
+    public async Task<IActionResult> RegistrarFilterReports([FromQuery]ObstacleCompleteModel.ObstacleStatus[] status,
+        [FromQuery]ObstacleCompleteModel.ObstacleTypes[] type,
+        [FromQuery]ObstacleCompleteModel.Illumination[] illumination,
+        [FromQuery]ObstacleCompleteModel.ObstacleMarking[] marking,
+        DateOnly dateStart,
+        DateOnly dateEnd)
     {
-        var queriedObstacles = await _repoRegistrar.GetObstaclesFiltered(status, type, illumination, marking);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var queriedObstacles = await _repoRegistrar.GetObstaclesFiltered(status, type, illumination, marking, dateStart, dateEnd);
         var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
         
         ViewData["reports"] = mappedObstacles;
