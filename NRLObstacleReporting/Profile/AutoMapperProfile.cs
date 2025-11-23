@@ -36,5 +36,11 @@ public class AutoMapperProfile : AutoMapper.Profile
             CreateMap<ViewObstacleUserDto, ObstacleUserModel>();
 
         #endregion
+
+        #region admin mapping profile
+
+        CreateMap<ViewUserRoleDto, UserViewModel>();
+        
+        #endregion
     }
 }
