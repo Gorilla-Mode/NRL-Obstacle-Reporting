@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -39,6 +40,8 @@ foreach (var testclass in databaseTests)
     testclass.InvokeAllTests();
 }
 
+builder.Services.AddHttpContextAccessor();
+
 // Persist DataProtection keys to disk so antiforgery/cookie tokens survive restarts.
 // In Docker, mount a volume to this path or change to a shared path.
 var keysFolder = Path.Combine(builder.Environment.ContentRootPath, "DataProtection-Keys");
@@ -67,25 +70,32 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Security headers middleware (placed early so static files get the header too)
+// Security headers middleware (nonce-based CSP for scripts)
 app.Use(async (context, next) =>
 {
+    // generate a per-response cryptographic nonce
+    var nonceBytes = RandomNumberGenerator.GetBytes(16);
+    var nonce = Convert.ToBase64String(nonceBytes);
+
+    // expose nonce to Razor views
+    context.Items["CSPNonce"] = nonce;
+     
     context.Response.Headers["X-Content-Type-Options"] = "nosniff";
     context.Response.Headers["X-Frame-Options"] = "DENY";
     context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
     context.Response.Headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload";
     context.Response.Headers["Referrer-Policy"] = "no-referrer";
 
-    // Content-Security-Policy:
-    // - 'self' covers scripts served from your app (e.g. /js/MapScripts/*.js)
-    // - add external CDNs and image/tile hosts used by the site
-    // Note: 'unsafe-inline' is present to keep current inline scripts working; migrate to nonces/hashes later.
+    // CSP:
+    // - default-src 'none' to be restrictive
+    // - script-src: allow 'self' and this nonce, and trusted CDNs for external libs
+    // - style-src keeps 'unsafe-inline' for now (many inline style attributes); remove later when you migrate styles
+    // - img-src allows data: and the known tile/icon hosts
     var csp = string.Join(" ",
-        "default-src 'self';",
-        "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm;",
+        "default-src 'none';",
+        $"script-src 'self' 'nonce-{nonce}' https://unpkg.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm;",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net;",
         "font-src 'self' https://fonts.gstatic.com;",
-        // allow OpenStreetMap tile hosts and the image hosts used in DataformStep1 and CDN images (leaflet.draw sprites)
         "img-src 'self' data: https://{s}.tile.openstreetmap.org https://tile.openstreetmap.org https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org https://static.thenounproject.com https://cdn-icons-png.flaticon.com https://www.iconpacks.net https://www.svgrepo.com https://unpkg.com https://cdn.jsdelivr.net;",
         "connect-src 'self' https://tile.openstreetmap.org https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org https://unpkg.com https://cdn.jsdelivr.net;"
     );
@@ -97,7 +107,7 @@ app.Use(async (context, next) =>
 
 app.UseRouting();
 
-// Ensure authentication is enabled before authorization, believe it or not
+// Ensure authentication is enabled before authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
