@@ -70,14 +70,18 @@
 
 @if (Model?.GeometryGeoJson != null)
 {
-    <div class="overflow-hidden mx-auto mt-0">
-        <section>
-            <div id="map"
-                 class="mx-auto border border-gray-300 dark:border-gray-700"
-                 style="height: 50dvh; width: 100%; overflow: hidden; z-index: 0">
+   <div class="mt-4">
+        <details>
+            <summary>Map</summary>
+
+            <div class="mt-2">
+                <div id="map"
+                     style="height: 40dvh; width: 100%; overflow: hidden; z-index: 0">
+                </div>
             </div>
-        </section>
+        </details>
     </div>
+
 
     <div class="w-full px-6 mt-6 mb-10">
         <a asp-controller="Home"
@@ -86,7 +90,6 @@
                  bg-blue-600 hover:bg-blue-700 text-white transition"> OK
         </a>
     </div>
-
 
 }
 
