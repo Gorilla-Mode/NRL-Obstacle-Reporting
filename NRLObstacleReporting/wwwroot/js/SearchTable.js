@@ -16,4 +16,9 @@ function searchTable(TableId, SeachInput)
             return !~text.indexOf(val);
         }).hide();
     });
+
+    $(`#${SeachInput}`).keyup(debounce(function() {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        // etc...
+    }, 300));
 }
