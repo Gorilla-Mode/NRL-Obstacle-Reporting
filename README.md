@@ -129,6 +129,10 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 | registrar@registrar.com | Registrar1.      | Registrar     |
 | admin@admin.com         | Admin1.          | Administrator |
 
+[!WARNING]
+
+Passwords must be typed in manually, copy/paste does not work!
+
 ## Permanent Branches
 
 >[!WARNING]
