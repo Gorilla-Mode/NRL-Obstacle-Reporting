@@ -20,11 +20,19 @@ function GetGeoJsonCoordinates()
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
-            L.marker([latitude, longitude]).addTo(drawnItems)
+            var marker = L.marker([latitude, longitude])
                 .bindPopup('GPS Coordinates')
-                .openPopup();
-            let geojson = drawnItems.toGeoJSON();
+                .openPopup()
 
+            feature = marker.feature = marker.feature || {}; // Initialize feature
+            feature.type = feature.type || "Feature"; // Initialize feature.type
+            var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+            marker.feature.properties.name = 'gpsCoordinates';
+            
+            marker.addTo(drawnItems);
+            
+            let geojson = drawnItems.toGeoJSON();
+            
             // Save JSON text to hidden field 
             document.getElementById('GeometryGeoJson').value = JSON.stringify(geojson);
         },

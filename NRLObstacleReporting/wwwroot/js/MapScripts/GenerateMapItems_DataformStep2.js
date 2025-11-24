@@ -17,9 +17,16 @@ function GenerateMapItems_DataformStep2(map, choice) {
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
-            L.marker([latitude, longitude]).addTo(drawnItems)
-                .bindPopup('GPS Coordinates')
-                .openPopup();
+            var marker = L.marker([latitude, longitude])
+            .bindPopup('GPS Coordinates')
+            .openPopup()
+
+            feature = marker.feature = marker.feature || {}; // Initialize feature
+            feature.type = feature.type || "Feature"; // Initialize feature.type
+            var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+            marker.feature.properties.name = 'gpsCoordinates';
+
+            marker.addTo(drawnItems);
                 
             captureData();
         },
