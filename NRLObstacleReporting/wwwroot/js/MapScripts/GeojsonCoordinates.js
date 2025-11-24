@@ -5,10 +5,10 @@ function GetGeoJsonCoordinates()
 {
     var map = L.map('map').setView([58.14671, 7.9956], 12);
 
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
         maxZoom: 19,
         minZoom: 4,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '&copy; <a href="https://cache.kartverket.no/">© Kartverket</a>'
     }).addTo(map);
 
     let drawnItems = new L.FeatureGroup();
