@@ -158,28 +158,24 @@
                 <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
             </span>
             </th>
-
             <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
             <span class="flex items-center gap-1">
                 Obstacle ID
                 <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
             </span>
             </th>
-
             <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
             <span class="flex items-center gap-1">
                 Height
                 <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
             </span>
             </th>
-
             <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
             <span class="flex items-center gap-1">
                 Coordinates
                 <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
             </span>
             </th>
-
             <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
             <span class="flex items-center gap-1">
                 Illuminated
@@ -212,7 +208,6 @@
             </th>
         </tr>
         </thead>
-
         <tbody id="table" class="bg-white">
         @if (obstacleCompleteModels.Count() != 0)
         {
@@ -229,15 +224,16 @@
                             {
                                 var json = JsonNode.Parse(o.GeometryGeoJson);
                                 var features = json?["features"]?.AsArray();
-
                                 if (features != null)
                                 {
+                                    int index = 1;
                                     foreach (var feature in features)
                                     {
                                         var coords = feature?["geometry"]?["coordinates"]?.AsArray();
                                         if (coords != null && coords.Count >= 2)
                                         {
-                                            <div>[ @(coords[0]), @(coords[1]) ]</div>
+                                            <div> @index. [ @(coords[0]), @(coords[1]) ]</div>
+                                            index++;
                                         }
                                     }
                                 }
@@ -247,16 +243,13 @@
                                 }
                             }
                             else
-                            {
-                                <span>No data</span>
+                                {
+                                    <span>No data</span>
+                                }
                             }
-                        }
                     </td>
-
-
                     <td class="border-b border-gray-300 px-4 py-2">@o.Illuminated</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.Marking</td>
-
                     <td class="border-b border-gray-300 px-6 py-4">
                         @switch (o.Status)
                         {
@@ -282,7 +275,6 @@
         </tbody>
     </table>
 </div>
-
 @if (obstacleCompleteModels.Count() == 0)
 {
     <div class="text-center py-12">
@@ -304,7 +296,6 @@
         </div>
     </div>
 </div>
-
     @section Scripts
     {
         <script src="~/js/SearchTable.js"></script>
