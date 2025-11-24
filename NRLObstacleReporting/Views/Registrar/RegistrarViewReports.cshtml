@@ -152,59 +152,59 @@
     <table class="w-full text-sm text-left rtl:text-right text-gray-800">
         <thead class="text-sm text-gray-800 bg-gray-200 border-b border-gray-300">
         <tr>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
-            <span class="flex items-center gap-1">
-                Type
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
-            </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
             <span class="flex items-center gap-1">
                 Obstacle ID
                 <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
             </span>
             </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
-            <span class="flex items-center gap-1">
-                Height
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Type
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
             </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
-            <span class="flex items-center gap-1">
-                Coordinates
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Height
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
             </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
-            <span class="flex items-center gap-1">
-                Illuminated
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Coordinates
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
             </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700">
-            <span class="flex items-center gap-1">
-                Marked
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Illuminated
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
             </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">
-            <span class="flex items-center justify-center gap-1">
-                Status
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Marked
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
             </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">
-            <span class="flex items-center justify-center gap-1">
-                Date Created
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center hover:bg-gray-300">
+                <span class="flex items-center justify-center gap-1">
+                    Status
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
             </th>
-            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">
-            <span class="flex items-center justify-center gap-1">
-                Last modified
-                <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
-            </span>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center hover:bg-gray-300">
+                <span class="flex items-center justify-center gap-1">
+                    Date Created
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center hover:bg-gray-300">
+                <span class="flex items-center justify-center gap-1">
+                    Last modified
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
             </th>
         </tr>
         </thead>
@@ -215,8 +215,8 @@
             {
                 <tr class="cursor-pointer hover:bg-gray-100 transition"
                     onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = o.ObstacleId })}'")>
-                    <td class="border-b border-gray-300 px-4 py-2">@o.Type</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.ObstacleId</td>
+                    <td class="border-b border-gray-300 px-4 py-2">@o.Type</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.HeightMeter</td>
                     <td class="border-b border-gray-300 px-4 py-2">
                         @{
