@@ -59,7 +59,7 @@ function GenerateMapWithGeojson(zoom, Geojson)
     let geojsonLayer = L.geoJSON(Geojson);
     
     geojsonLayer.addTo(map);
-    map.setMaxBounds(geojsonLayer.getBounds())
+    map.fitBounds(geojsonLayer.getBounds());
     
     return map;
 }

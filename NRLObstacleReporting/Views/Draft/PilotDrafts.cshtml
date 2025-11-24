@@ -83,15 +83,15 @@ else
                                 <script>
                                     var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
 
-                                    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
+                                    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
                                         maxZoom: 19,
-                                        attribution: '&copy; OpenStreetMap contributors'
+                                        attribution: '&copy; <a href="https://cache.kartverket.no/">© Kartverket</a>'
                                     }).addTo(map);
 
                                     var geojson = @Html.Raw(draft.GeometryGeoJson);
                                     var geojsonLayer = L.geoJSON(geojson).addTo(map);
 
-                                    map.setMaxBounds(geojsonLayer.getBounds());
+                                    map.fitBounds(geojsonLayer.getBounds());
                                 </script>
                             </details>
                         </td>
