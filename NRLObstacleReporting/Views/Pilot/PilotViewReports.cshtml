@@ -17,113 +17,108 @@ else
 @foreach (var report in Model.SubmittedReports)
 {
     var mapId = report.ObstacleId.ToString();
-
     @Html.AntiForgeryToken()
-
+    
     <div class="rounded-xl 
             border border-[#1c2b45]/40 dark:border-[#0f172a]/40
             bg-[#f8fafc] dark:bg-[#1e293b]
             shadow-[0_4px_12px_rgba(0,0,0,0.15)]
             p-4 mb-10 w-full 
             transition-colors duration-300">
-
         <table class="w-full table-fixed border-collapse 
                       !bg-transparent !text-black dark:!text-gray-100">
             <tbody>
-
-                <!-- HEADER ROW -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700">
+                <tr class="!bg-gray-200 dark:!bg-gray-700"> <!-- HEADER ROW -->
                     <th class="p-3 text-sm font-bold text-left !text-black dark:!text-gray-100">
                         Id: @report.ObstacleId
                     </th>
                     <th class="p-3"></th>
                 </tr>
-
-                <!-- Height -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Height -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Height</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.HeightMeter</td>
                 </tr>
-
-                <!-- Type -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Type -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Type</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Type</td>
                 </tr>
-
-                <!-- Name -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Name -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Name</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Name</td>
                 </tr>
-
-                <!-- Description -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Description -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Description</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Description</td>
                 </tr>
-
-                <!-- Illuminated -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Illuminated -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Illumination</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Illuminated</td>
                 </tr>
-
-                <!-- Marking -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Marking -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Marking</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.Marking</td>
                 </tr>
-
-                <!-- Created -->
-                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Created -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Report Created:</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.CreationTime</td>
                 </tr>
-
-                <!-- Updated -->
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700">
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Updated -->
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Report Updated:</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@report.UpdatedTime</td>
                 </tr>
-
-                <!-- MAP -->
-                @if (report.GeometryGeoJson != null)
+                @if (report.GeometryGeoJson != null) // map
                 {
                     <tr class="!bg-white dark:!bg-gray-800">
                         <td colspan="2" class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">
-
                             <details class="cursor-pointer">
                                 <summary class="text-blue-600 dark:text-blue-400">Map</summary>
-
                                 <div class="w-full overflow-hidden rounded-xl mt-3 border border-gray-300 dark:border-gray-700">
                                     <div id="@mapId"
                                          class="w-full mx-auto mb-2"
                                          style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
                                 </div>
-
                                 <script>
-                                    var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
+                                    //TODO: get generate map with geoJson script to work in loop
+                                    var N100topo = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                                        maxZoom: 18,
+                                        minZoom: 4,
+                                        attribution: '&copy; <a href="https://cache.kartverket.no/">Kartverket</a>'
+                                    })
 
-                                    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-                                        maxZoom: 19,
-                                        attribution: '&copy; OpenStreetMap contributors'
-                                    }).addTo(map);
+                                    var S100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_Svalbard_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+                                        maxZoom: 15,
+                                        minZoom: 4,
+                                        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+                                    })
+
+                                    var J100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_JanMayen_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_JanMayen_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+                                        maxZoom: 16,
+                                        minZoom: 4,
+                                        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+                                    })
+
+                                    let baseMaps = {
+                                        "S100 Topographic": S100topo,
+                                        "J100 Topographic": J100topo,
+                                        "N100 Topographic": N100topo
+                                    };
+
+                                    var map = L.map('@mapId', {
+                                        layers: [N100topo, J100topo, S100topo],
+                                    }).setView([58.14671, 7.9956], 17);
+
+                                    L.control.layers(baseMaps).addTo(map);
 
                                     var geojson = @Html.Raw(report.GeometryGeoJson);
                                     var geojsonLayer = L.geoJSON(geojson).addTo(map);
 
-                                    map.setMaxBounds(geojsonLayer.getBounds());
+                                    map.fitBounds(geojsonLayer.getBounds());
                                 </script>
-
                             </details>
-
                         </td>
                     </tr>
                 }
-
             </tbody>
         </table>
-
     </div>
 }
