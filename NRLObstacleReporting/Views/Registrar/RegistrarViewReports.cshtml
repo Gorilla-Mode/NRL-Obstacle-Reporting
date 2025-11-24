@@ -172,7 +172,7 @@
             </th>
             <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
                 <span class="flex items-center gap-1">
-                    Coordinates
+                    Coordinates (lng, lat)
                     <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
                 </span>
             </th>
@@ -226,14 +226,28 @@
                                 var features = json?["features"]?.AsArray();
                                 if (features != null)
                                 {
-                                    int index = 1;
-                                    foreach (var feature in features)
+                                    for (var index = 0; index < features.Count; index++)
                                     {
+                                        string label = "Undefined";
+                                        
+                                        var feature = features[(Index)index];
                                         var coords = feature?["geometry"]?["coordinates"]?.AsArray();
                                         if (coords != null && coords.Count >= 2)
                                         {
-                                            <div> @index. [ @(coords[0]), @(coords[1]) ]</div>
-                                            index++;
+                                            if (feature?["properties"]?["name"]?.ToString() == "gpsCoordinates")
+                                            {
+                                                label = "GPS Coordinates";
+                                            }
+                                            else if (feature?["geometry"]?["type"]?.ToString() == "Point" && coords.Count == 2)
+                                            {
+                                                label = "Point";
+                                            }
+                                            else if (feature?["geometry"]?["type"]?.ToString() == "LineString")
+                                            {
+                                                label = "Line";
+                                            }
+                                            
+                                            <div> @(index + 1). @label - [ @coords[0], @coords[1] ]</div>
                                         }
                                     }
                                 }
