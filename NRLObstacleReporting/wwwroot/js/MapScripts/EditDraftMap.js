@@ -2,13 +2,37 @@
 
 //leaflet 
 document.addEventListener('DOMContentLoaded', function() {
-var map = L.map('map').setView([58.14671, 7.9956], 17);
 
-//adjustment of map color
-L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-    maxZoom: 18,
-    attribution: '&copy; <a href="https://cache.kartverket.no/">© Kartverket</a>'
-}).addTo(map); //adds map object so its actually being shown
+
+    var N100topo = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+        minZoom: 4,
+        attribution: '&copy; <a href="https://cache.kartverket.no/">Kartverket</a>'
+    })
+
+    var S100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_Svalbard_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 15,
+        minZoom: 4,
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+
+    var J100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_JanMayen_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_JanMayen_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 16,
+        minZoom: 4,
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+
+    let baseMaps = {
+        "S100 Topographic": S100topo,
+        "J100 Topographic": J100topo,
+        "N100 Topographic": N100topo
+    };
+
+    var map = L.map('map', {
+        layers: [N100topo],
+    }).setView([58.14671, 7.9956], 17);
+
+    L.control.layers(baseMaps).addTo(map);
 
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
