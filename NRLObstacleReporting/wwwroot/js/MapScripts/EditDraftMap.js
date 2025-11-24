@@ -6,7 +6,7 @@ var map = L.map('map').setView([58.14671, 7.9956], 17);
 
 //adjustment of map color
 L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-    maxZoom: 19,
+    maxZoom: 18,
     attribution: '&copy; <a href="https://cache.kartverket.no/">© Kartverket</a>'
 }).addTo(map); //adds map object so its actually being shown
 
