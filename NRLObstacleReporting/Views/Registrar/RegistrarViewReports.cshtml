@@ -219,13 +219,40 @@
             foreach (var o in obstacleCompleteModels)
             {
                 <tr class="cursor-pointer hover:bg-gray-100 transition"
-                    onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = o.ObstacleId })}'")}>
-
+                    onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = o.ObstacleId })}'")>
                     <td class="border-b border-gray-300 px-4 py-2">@o.Type</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.ObstacleId</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.HeightMeter</td>
+                    <td class="border-b border-gray-300 px-4 py-2">
+                        @{
+                            if (!string.IsNullOrWhiteSpace(o.GeometryGeoJson))
+                            {
+                                var json = JsonNode.Parse(o.GeometryGeoJson);
+                                var features = json?["features"]?.AsArray();
 
-                    <td class="border-b border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
+                                if (features != null)
+                                {
+                                    foreach (var feature in features)
+                                    {
+                                        var coords = feature?["geometry"]?["coordinates"]?.AsArray();
+                                        if (coords != null && coords.Count >= 2)
+                                        {
+                                            <div>[ @(coords[0]), @(coords[1]) ]</div>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <span>No coordinates</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>No data</span>
+                            }
+                        }
+                    </td>
+
 
                     <td class="border-b border-gray-300 px-4 py-2">@o.Illuminated</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.Marking</td>
