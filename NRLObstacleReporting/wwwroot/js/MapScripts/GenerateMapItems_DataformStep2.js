@@ -18,6 +18,9 @@ function GenerateMapItems_DataformStep2(map, choice) {
             let longitude = position.coords.longitude;
 
             L.marker([latitude, longitude]).addTo(drawnItems)
+                .bindPopup('GPS Coordinates')
+                .openPopup();
+                
             captureData();
         },
     );

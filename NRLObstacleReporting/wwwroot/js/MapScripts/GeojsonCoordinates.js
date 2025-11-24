@@ -21,6 +21,8 @@ function GetGeoJsonCoordinates()
             let longitude = position.coords.longitude;
 
             L.marker([latitude, longitude]).addTo(drawnItems)
+                .bindPopup('GPS Coordinates')
+                .openPopup();
             let geojson = drawnItems.toGeoJSON();
 
             // Save JSON text to hidden field 
