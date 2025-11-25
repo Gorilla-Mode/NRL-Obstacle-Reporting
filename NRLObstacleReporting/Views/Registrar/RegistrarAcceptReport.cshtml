@@ -249,10 +249,19 @@
                                             <tr>
                                                 <td class="border border-black px-4 py-2 text-black bg-gray-100">@($"{index + 1}. {label}")</td> 
                                                 <td class="border border-black px-4 py-2 text-black bg-gray-100">[ @coords[0], @coords[1] ]</td>
-                                                <td class="border border-black px-4 py-2 underline text-blue-600 hover:text-blue-800 bg-gray-100">
-                                                    <a href="https://maps.google.com/maps?q=&layer=c&cbll=@coords[1],@coords[0]&cbp=" target="_blank">
-                                                        Open in Street View
-                                                    </a>
+                                                <td class="border border-black px-4 py-2 bg-gray-100">
+                                                    @if (label != "Line")
+                                                    {
+                                                        <a href="https://maps.google.com/maps?q=&layer=c&cbll=@coords[1],@coords[0]&cbp=" target="_blank" class=" underline text-blue-600 hover:text-blue-800">
+                                                            Open in Street View
+                                                        </a> 
+                                                    }
+                                                    else
+                                                    {
+                                                        <a>
+                                                            Unsupported
+                                                        </a> 
+                                                    }
                                                 </td>
                                             </tr>
                                         }
