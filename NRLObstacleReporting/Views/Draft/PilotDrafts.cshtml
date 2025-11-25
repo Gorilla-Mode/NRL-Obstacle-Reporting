@@ -64,10 +64,11 @@ else
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Creation Time</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.CreationTime</td>
                 </tr>
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Updated Time -->
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Updated Time</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.UpdatedTime</td>
-                </tr>
+            <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Updated Time -->
+                <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Updated Time</th>
+                <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.UpdatedTime</td>
+            </tr>
+            
                 @if (!string.IsNullOrWhiteSpace(draft.GeometryGeoJson)) 
                 {
                     <tr class="!bg-white dark:!bg-gray-800"> <!-- MAP -->
@@ -99,24 +100,15 @@ else
                                         minZoom: 4,
                                         attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
                                     })
-
-                                    let baseMaps = {
-                                        "S100 Topographic": S100topo,
-                                        "J100 Topographic": J100topo,
-                                        "N100 Topographic": N100topo
-                                    };
-
+                    
                                     var map = L.map('@mapId', {
                                         layers: [N100topo, J100topo, S100topo],
                                     }).setView([58.14671, 7.9956], 17);
-
-                                    L.control.layers(baseMaps).addTo(map);
 
                                     var geojson = @Html.Raw(draft.GeometryGeoJson);
                                     var geojsonLayer = L.geoJSON(geojson).addTo(map);
 
                                     map.fitBounds(geojsonLayer.getBounds());
-                                
                                 </script>
                             </details>
                         </td>
