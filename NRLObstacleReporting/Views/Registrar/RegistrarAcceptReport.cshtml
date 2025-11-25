@@ -1,26 +1,38 @@
-@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
 @model ObstacleUserModel
-
-<h1 class="text-center text-xl font-bold mb-4">Report Details</h1>
-
- <!-- User information -->
-<div class="space-y-2">
-    <h3 class="text-xl font-bold mb-4">User Information:</h3>
+@{
+    string phoneNumber = "No phone number registered";
+    if (Model.Phonenumber != null)
+    {
+        phoneNumber = Model.Phonenumber;
+    }
+}
+<div class="space-y-2">  <!-- User information -->
+    <h3 class="text-l font-bold">User Information:</h3>
     <table class="w-full text-left text-sm border border-black border-collapse rounded-lg overflow-hidden">
         <thead>
         <tr>
             <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
                 Email
             </th>
-            <td class="border border-black px-4 py-2 text-black bg-gray-100">
-                pilot@pilot.com
+            <td class="border border-black px-4 py-2 underline text-blue-600 hover:text-blue-800 bg-gray-100">
+                <a href="mailto:@Model.Email">@Model.Email</a>
             </td>
             <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
                 Phone number
             </th>
-            <td class="border border-black px-4 py-2 text-black bg-gray-100">
-                –
-            </td>
+            <td class="border border-black px-4 py-2 bg-gray-100">
+            @{
+                switch (Model.Phonenumber)
+                {
+                    case not null:
+                        <a href="tel:@phoneNumber" class="text-blue-600 underline hover:text-blue-800">@phoneNumber</a>
+                        break;
+                    case null:
+                        <a>@phoneNumber</a>
+                        break;
+                }
+            }
             <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
                 Organization
             </th>
@@ -30,11 +42,10 @@
         </tr>
         </thead>
     </table>
-    <div class="flex gap-6">
-
-        <!-- Meta data -->
+    <hr style="border: none; border-top: 2px solid black; background-color: black; height: 2px;"/>
+    <div class="flex gap-6"> <!-- Meta data -->
         <div class="flex-1 min-w-0">
-            <h3 class="text-xl font-bold mb-4">Meta data:</h3>
+            <h3 class="text-l font-bold mb-2 mt-2">Meta data:</h3>
             <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
                 <tbody>
                 <tr>
@@ -43,11 +54,11 @@
                 </tr>
                 <tr>
                     <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Created</th>
-                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.CreationTime</td>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.CreationTime.ToString("dd. MMMM yyyy HH:mm:ss")</td>
                 </tr>
                 <tr>
                     <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Last modified</th>
-                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.UpdatedTime</td>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.UpdatedTime.ToString("dd. MMMM yyyy HH:mm:ss")</td>
                 </tr>
                 <tr>
                     <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">ObstacleID</th>
@@ -60,10 +71,8 @@
                 </tbody>
             </table>
         </div>
-        
-        <!-- Obstacle information -->
-        <div class="flex-1 min-w-0">
-            <h3 class="text-xl font-bold mb-4">Obstacle information:</h3>
+        <div class="flex-1 min-w-0"> <!-- Obstacle information -->
+            <h3 class="text-l font-bold mb-2 mt-2">Obstacle information:</h3>
             <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
                 <tbody>
                 <tr>
@@ -85,32 +94,32 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="flex-1 min-w-0">   <!-- Name kolonne -->
-        <div class="sm:col-span-2">
-            <label asp-for="Name" class="text-xl font-bold mb-4">Name</label>
-            <input asp-for="Name"
-                   readonly
-                   class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
-                                 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+        <div class="flex-1 min-w-0">   <!-- Name kolonne -->
+            <div class="sm:col-span-2">
+                <div>
+                    <h3 class="text-l font-bold mt-2">Additonal details:</h3>
+                    <div>
+                        <label asp-for="Name" class="font-semibold text-sm">Name</label>
+                        <input asp-for="Name" readonly
+                               class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
                                  focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"/>
-            <span asp-validation-for="Name"></span>
-        </div>
-        
-        <div class="sm:col-span-2">   <!-- Description kolonne -->
-            <label asp-for="Description" class="text-xl font-bold mb-4">Description</label>
-            <textarea asp-for="Description" rows="7"
-                            readonly
-                          class=" bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
-                                 text-gray-900 dark:text-gray-100 text-sm rounded-lg
-                                 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
-            <span asp-validation-for="Description"></span>
+                        <span asp-validation-for="Name"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Description" class="font-semibold text-sm">Description</label>
+                        <textarea asp-for="Description" rows="4" readonly
+                                  class=" bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                                   focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+                        <span asp-validation-for="Description"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Attachment -->
-    <div class="flex gap-4 m-4">
-        <div class="box-border rounded-lg h-auto w-3/4 p-4 border-2 border-blue-500">
-            <p class="font-semibold mb-3">Attachments</p>
+    <hr style="border: none; border-top: 2px solid black; background-color: black; height: 2px;"/>
+    <div class="flex gap-4 mr-4 my-2"> <!-- Attachment -->
+        <div class="box-border rounded-lg h-auto p-2 border-2 border-gray-400">
+            <p class="font-semibold mb-2">Attachments</p>
             <div class="flex gap-2 w-full flex-wrap">
                 <div class="box-border rounded-lg h-12 w-40 p-2 border-2 border-blue-500 flex items-center justify-center">
                     <p class="text-sm font-semibold">Upload</p>
@@ -127,33 +136,43 @@
             </div>
         </div>
         <!-- Status-knapper -->
-        <div class="flex gap-2 mt-4">
-            <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
-                <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Approved)"/>
-                <button type="submit" class="rounded-lg h-16 w-48 p-2 font-semibold text-black bg-green-400 text-sm">
-                    Accept
-                </button>
-            </form>
-            <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
-                <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
-                <button type="submit" class="rounded-lg h-16 w-48 p-2 font-semibold text-black bg-yellow-300 text-sm">
-                    Reject
-                </button>
-            </form>
-            <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
-                <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Deleted)"/>
-                <button type="submit" class="rounded-lg h-16 w-48 p-2 font-semibold text-black bg-red-400 text-sm">
-                    Delete
-                </button>
-            </form>
+        <div class="box-border rounded-lg h-auto p-2 border-2 border-gray-400">
+            <p class="font-semibold mb-2">Status controls</p>
+            <div class="flex grid-cols-3 gap-2 mb-2 justify-between">
+                <div>
+                    <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                        <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Approved)"/>
+                        <button type="submit" class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-green-400 hover:bg-green-500 text-sm">
+                            Accept
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                        <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
+                        <button type="submit" class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-yellow-400 hover:bg-yellow-500 text-sm">
+                            Reject
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                        <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Deleted)"/>
+                        <button type="submit" class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-red-400 hover:bg-red-500 text-sm">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+    <hr style="border: none; border-top: 2px solid black; background-color: black; height: 2px;"/>
 </div>
     <div class="mt-4"> <!-- Map -->
         <h2 class="text-xl font-bold mb-2">Obstacle Location</h2>
@@ -164,11 +183,8 @@
             <label asp-for="GeometryGeoJson" class="text-xl font-bold mb-4">Coordinates</label>
             <textarea asp-for="GeometryGeoJson" rows="7"
               readonly
-              class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
-                     text-gray-900 dark:text-gray-100 text-sm rounded-lg
-                     block w-full p-2.5">
-                         </textarea>
-                        <span asp-validation-for="GeometryGeoJson"></span>
+              class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block w-full p-2.5">
+            </textarea>
         </div>
     </div>
     </div>
