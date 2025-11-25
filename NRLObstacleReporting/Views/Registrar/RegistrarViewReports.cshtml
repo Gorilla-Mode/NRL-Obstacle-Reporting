@@ -126,7 +126,6 @@
                            @(selectedTypes.Contains(ObstacleCompleteModel.ObstacleTypes.PoleOrTower.ToString()) ? "checked" : "") />
                     <label for="TypePoleortower">Pole or tower</label><br/>
                 </div>
-
                 <div>
                     <input id="TypeOther" type="checkbox" name="type"
                            value="@ObstacleCompleteModel.ObstacleTypes.Other"
@@ -139,7 +138,6 @@
             <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block p-2.5 hover:bg-blue-300">
                 Illumination:
             </div>
-
             <div class="dropdown-content">
 
                 <div>
@@ -150,7 +148,6 @@
                            @(selectedIlluminations.Contains(ObstacleCompleteModel.Illumination.Illuminated.ToString()) ? "checked" : "") />
                     <label for="IlluminationYes">Illuminated</label><br/>
                 </div>
-
                 <div>
                     <input id="IlluminationNo"
                            type="checkbox"
@@ -159,7 +156,6 @@
                            @(selectedIlluminations.Contains(ObstacleCompleteModel.Illumination.NotIlluminated.ToString()) ? "checked" : "") />
                     <label for="IlluminationNo">Not Illuminated</label><br/>
                 </div>
-
                 <div>
                     <input id="IlluminationUnknown"
                            type="checkbox"
@@ -168,14 +164,12 @@
                            @(selectedIlluminations.Contains(ObstacleCompleteModel.Illumination.Unknown.ToString()) ? "checked" : "") />
                     <label for="IlluminationUnknown">Unknown</label><br/>
                 </div>
-
             </div>
         </div>
         <div class="dropdown">
             <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block p-2.5 hover:bg-blue-300">
                 Marking:
             </div>
-
             <div class="dropdown-content">
 
                 <div>
@@ -186,7 +180,6 @@
                            @(selectedMarkings.Contains(ObstacleCompleteModel.ObstacleMarking.Marked.ToString()) ? "checked" : "") />
                     <label for="MarkingYes">Marked</label><br/>
                 </div>
-
                 <div>
                     <input id="MarkingNo"
                            type="checkbox"
@@ -195,7 +188,6 @@
                            @(selectedMarkings.Contains(ObstacleCompleteModel.ObstacleMarking.NotMarked.ToString()) ? "checked" : "") />
                     <label for="MarkingNo">Not Marked</label><br/>
                 </div>
-
                 <div>
                     <input id="MarkingUnknown"
                            type="checkbox"
@@ -204,7 +196,6 @@
                            @(selectedMarkings.Contains(ObstacleCompleteModel.ObstacleMarking.Unknown.ToString()) ? "checked" : "") />
                     <label for="MarkingUnknown">Unknown</label><br/>
                 </div>
-
             </div>
         </div>
         <div class="relative flex-1 min-w-0"> <!-- Calender -->
@@ -213,7 +204,6 @@
                     <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                 </svg>
             </div>
-
             <input name="dateStart"
                    type="date"
                    value="@(selectedDateStart ?? "2020-01-01")"
@@ -225,7 +215,6 @@
                     <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                 </svg>
             </div>
-
             <input name="dateEnd"
                    type="date"
                    value="@(selectedDateEnd ?? DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"))"
@@ -234,6 +223,11 @@
         <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
             Filter
         </button>
+        <a asp-controller="Registrar"
+           asp-action="RegistrarViewReports"
+           class="flex items-center justify-center text-white bg-gray-400 hover:bg-gray-500 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            Clear Filters
+        </a>
     </form>
 </div>
 <div class="relative overflow-x-auto bg-gray-100 shadow-sm rounded-lg border border-gray-300">
