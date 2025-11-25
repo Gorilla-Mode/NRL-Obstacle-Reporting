@@ -49,8 +49,9 @@ namespace NRLObstacleReporting.Repositories
         {
             //Needs to be updated to only get form ceatain users when IdentityCore is implemented
             using var connection = CreateConnection();
-            var sql = $"SELECT * FROM Obstacle WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft} AND UserId = @userId";
-            
+            var sql = @$"SELECT * FROM Obstacle WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft} AND UserId = @userId
+                         ORDER BY CreationTime ASC";
+
             return await connection.QueryAsync<ObstacleDto>(sql, new { UserId = userId });
         }
     }

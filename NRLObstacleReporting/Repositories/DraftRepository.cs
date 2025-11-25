@@ -42,7 +42,8 @@ public class DraftRepository : RepositoryBase, IDraftRepository
         
         var sql = @$"SELECT * 
                      FROM Obstacle 
-                     WHERE Status = {statusId} AND UserId = @userId";
+                     WHERE Status = {statusId} AND UserId = @userId
+                     ORDER BY CreationTime ASC";
         
         return await connection.QueryAsync<ObstacleDto>(sql, new { UserId = userId });
     }
