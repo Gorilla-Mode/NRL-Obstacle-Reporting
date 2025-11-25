@@ -66,5 +66,13 @@ input.input-validation-error:focus {
     border-width: 2px !important; /*border*/
 }
 
+.active-filter {
+    background-color: #3b82f6 !important; /* Tailwind blue-500 */
+    border-color: #3b82f6 !important;
+    color: white !important;
+}
 
+.report-table thead tr {
+    height: 56px; 
+}
 
