@@ -3,179 +3,172 @@
     var obstacles = (IEnumerable<ObstacleCompleteModel>)ViewData["reports"]!;
     var obstacleCompleteModels = obstacles as ObstacleCompleteModel[] ?? obstacles.ToArray();
 }
-
-@if (obstacleCompleteModels.Count() == 0)
-{
-    <div class="text-center py-12">
-        <h1 class="text-2xl font-semibold text-gray-700">Invalid Query</h1>
-    </div>
-}
-else
-{
-    <div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
-        <div class="flex w-full gap-4 pt-4 mb-6"> <!-- 4 rektangel  -->
-            <form asp-action="ListReports" asp-controller="Registrar" method="get"  class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
-                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
-                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
-                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
-                <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
-                <button type="submit" style="margin-left: -1.5rem; width: calc(100% + 3rem); margin-top: -1.125rem; height: calc(100% + 2.5rem)"> <!-- ignore padding of parent class, if padding is updated make sure rems here match -->
-                    All
-                </button>
-            </form>
-            <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Pending" asp-controller="Registrar"
-               class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
-                Pending
-            </a>
-            <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Approved" asp-controller="Registrar"
-               class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
-                Approved
-            </a>
-            <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Rejected" asp-controller="Registrar"
-               class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
-                Rejected
-            </a>
-        </div>
-    </div>
-    <div class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
-        <div class="flex-1 flex rounded-full border-2 border-blue-500 overflow-hidden">
-            <input type="text" placeholder="Search Something..." class="w-full outline-none bg-white text-sm px-5 py-3" id="search"/>
-        </div>
-        <form asp-controller="Registrar" method="get" asp-action="RegistrarFilterReports" class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
-            <div class="dropdown">
-                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
-                    Status:
-                </div>
-                <div class="dropdown-content">
-                    <div>
-                        <input id="StatusPending" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
-                        <label for="StatusPending">Pending</label><br/>
-                    </div>
-                    <div>
-                        <input id="StatusApproved" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
-                        <label for="StatusApproved">Approved</label><br/>
-                    </div>
-                    <div>
-                        <input id="StatusRejected" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
-                        <label for="StatusRejected">Rejected</label><br/>
-                    </div>
-                    <div>
-                        <input id="StatusDeleted" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
-                        <label for="StatusDeleted">Deleted</label><br/>
-                    </div>
-                </div>
-            </div>
-            <div class="dropdown">
-                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
-                    Type:
-                </div>
-                <div class="dropdown-content">
-                    <div>
-                        <input id="TypeAirspan" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.AirSpan"/>
-                        <label for="TypeAirspan">Air span</label><br/>
-                    </div>
-                    <div>
-                        <input id="TypeBridge" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Bridge"/>
-                        <label for="TypeBridge">Bridge</label><br/>
-                    </div>
-                    <div>
-                        <input id="TypeBuilding" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Building"/>
-                        <label for="TypeBuilding">Building</label><br/>
-                    </div>
-                    <div>
-                        <input id="TypeConstruction" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Construction"/>
-                        <label for="TypeConstruction">Construction</label><br/>
-                    </div>
-                    <div>
-                        <input id="TypePoleortower" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.PoleOrTower"/>
-                        <label for="TypePoleortower">Pole or tower</label><br/>
-                    </div>
-                    <div>
-                        <input id="TypeOther" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Other"/>
-                        <label for="TypeOther">Other</label><br/>
-                    </div>
-                </div>
-            </div>
-            <div class="dropdown">
-                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
-                    Illumination:
-                </div>
-                <div class="dropdown-content">
-                    <div>
-                        <input id="IlluminationYes" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Illuminated"/>
-                        <label for="IlluminationYes">Illuminated</label><br/>
-                    </div>
-                    <div>
-                        <input id="IlluminationNo" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.NotIlluminated"/>
-                        <label for="IlluminationNo">Not Illuminated</label><br/>
-                    </div>
-                    <div>
-                        <input id="IlluminationUnknown" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Unknown"/>
-                        <label for="IlluminationUnknown">Unknown</label><br/>
-                    </div>
-                </div>
-            </div>
-            <div class="dropdown">
-                <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
-                    Marking:
-                </div>
-                <div class="dropdown-content">
-                    <div>
-                        <input id="MarkingYes" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Marked"/>
-                        <label for="MarkingYes">Marked</label><br/>
-                    </div>
-                    <div>
-                        <input id="MarkingNo" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.NotMarked"/>
-                        <label for="MarkingNo">Not Marked</label><br/>
-                    </div>
-                    <div>
-                        <input id="MarkingUnknown" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Unknown"/>
-                        <label for="MarkingUnknown">Unknown</label><br/>
-                    </div>
-                </div>
-            </div>
-            <div class="relative flex-1 min-w-0"> <!-- Calender -->
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                    </svg>
-                </div>
-                <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-            </div>
-            <div class="relative flex-1 min-w-0"> <!-- Calender -->
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                    </svg>
-                </div>
-                <input id="datepicker-format" datepicker datepicker-format="mm-dd-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-            </div>
-            <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                Filter
+<div>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
+    <div class="flex w-full gap-4 pt-4 mb-6"> <!-- 4 rektangel  -->
+        <form asp-action="ListReports" asp-controller="Registrar" method="get"  class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
+            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
+            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
+            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
+            <button type="submit" style="margin-left: -1.5rem; width: calc(100% + 3rem); margin-top: -1.125rem; height: calc(100% + 2.5rem)"> <!-- ignore padding of parent class, if padding is updated make sure rems here match -->
+                All
             </button>
         </form>
+        <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Pending" asp-controller="Registrar"
+           class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+            Pending
+        </a>
+        <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Approved" asp-controller="Registrar"
+           class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+            Approved
+        </a>
+        <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Rejected" asp-controller="Registrar"
+           class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+            Rejected
+        </a>
     </div>
-    <table class="border-collapse border border-gray-400 w-full text-center text-sm mt-6 mb-52"> <!-- tabell -->
-        <thead class="bg-gray-200">
-        <tr>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Name</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Type</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Obstacle ID</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Height</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Coordinates</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Illuminated</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Marked</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">Description</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Status</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Date Created</th>
-            <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Last modified</th>
-        </tr>
-        </thead>
-        <tbody id="table" class="bg-white">
-        @foreach (var o in obstacleCompleteModels)
+</div>
+<div class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
+    <div class="flex-1 flex rounded-full border-2 border-blue-500 overflow-hidden">
+        <input type="text" placeholder="Search Something..." class="w-full outline-none bg-white text-sm px-5 py-3" id="search"/>
+    </div>
+    <form asp-controller="Registrar" method="get" asp-action="RegistrarFilterReports" class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
+        <div class="dropdown">
+            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                Status:
+            </div>
+            <div class="dropdown-content">
+                <div>
+                    <input id="StatusPending" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
+                    <label for="StatusPending">Pending</label><br/>
+                </div>
+                <div>
+                    <input id="StatusApproved" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
+                    <label for="StatusApproved">Approved</label><br/>
+                </div>
+                <div>
+                    <input id="StatusRejected" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
+                    <label for="StatusRejected">Rejected</label><br/>
+                </div>
+                <div>
+                    <input id="StatusDeleted" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
+                    <label for="StatusDeleted">Deleted</label><br/>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                Type:
+            </div>
+            <div class="dropdown-content">
+                <div>
+                    <input id="TypeAirspan" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.AirSpan"/>
+                    <label for="TypeAirspan">Air span</label><br/>
+                </div>
+                <div>
+                    <input id="TypeBridge" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Bridge"/>
+                    <label for="TypeBridge">Bridge</label><br/>
+                </div>
+                <div>
+                    <input id="TypeBuilding" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Building"/>
+                    <label for="TypeBuilding">Building</label><br/>
+                </div>
+                <div>
+                    <input id="TypeConstruction" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Construction"/>
+                    <label for="TypeConstruction">Construction</label><br/>
+                </div>
+                <div>
+                    <input id="TypePoleortower" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.PoleOrTower"/>
+                    <label for="TypePoleortower">Pole or tower</label><br/>
+                </div>
+                <div>
+                    <input id="TypeOther" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Other"/>
+                    <label for="TypeOther">Other</label><br/>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                Illumination:
+            </div>
+            <div class="dropdown-content">
+                <div>
+                    <input id="IlluminationYes" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Illuminated"/>
+                    <label for="IlluminationYes">Illuminated</label><br/>
+                </div>
+                <div>
+                    <input id="IlluminationNo" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.NotIlluminated"/>
+                    <label for="IlluminationNo">Not Illuminated</label><br/>
+                </div>
+                <div>
+                    <input id="IlluminationUnknown" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Unknown"/>
+                    <label for="IlluminationUnknown">Unknown</label><br/>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+                Marking:
+            </div>
+            <div class="dropdown-content">
+                <div>
+                    <input id="MarkingYes" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Marked"/>
+                    <label for="MarkingYes">Marked</label><br/>
+                </div>
+                <div>
+                    <input id="MarkingNo" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.NotMarked"/>
+                    <label for="MarkingNo">Not Marked</label><br/>
+                </div>
+                <div>
+                    <input id="MarkingUnknown" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Unknown"/>
+                    <label for="MarkingUnknown">Unknown</label><br/>
+                </div>
+            </div>
+        </div>
+        <div class="relative flex-1 min-w-0"> <!-- Calender -->
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                </svg>
+            </div>
+            <input name="dateStart" value="2020-01-01" datepicker datepicker-format="yyyy-mm-dd" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+        </div>
+        <div class="relative flex-1 min-w-0"> <!-- Calender -->
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                </svg>
+            </div>
+            <input name="dateEnd" value="@DateTime.Now.ToString("yyyy-MM-dd")" datepicker datepicker-format="yyyy-mm-dd" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+        </div>
+        <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            Filter
+        </button>
+    </form>
+</div>
+<table class="border-collapse border border-gray-400 w-full text-center text-sm mt-6 mb-52"> <!-- tabell -->
+    <thead class="bg-gray-200">
+    <tr>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Name &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Type &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Obstacle ID &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Height &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Coordinates &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Illuminated &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Marked &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Description &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Status &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Date Created &#x25b4;&#x25be;</th>
+        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Last modified &#x25b4;&#x25be;</th>
+    </tr>
+    </thead>
+    <tbody id="table" class="bg-white">
+    @if (obstacleCompleteModels.Count() != 0)
+    {
+        foreach (var o in obstacleCompleteModels)
         {
-            <tr class="cursor-pointer hover:bg-gray-100 transition"
+            <tr  class="cursor-pointer hover:bg-gray-100 transition"
                 onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = o.ObstacleId })}'")>
                 <td class="border border-gray-300 px-4 py-2">@o.Name</td>
                 <td class="border border-gray-300 px-4 py-2">@o.Type</td>
@@ -188,30 +181,38 @@ else
                 <td class="border border-gray-300 px-4 py-2 text-center">@o.Status</td>
                 <td class="border border-gray-300 px-4 py-2 text-center">@o.CreationTime</td>
                 <td class="border border-gray-300 px-4 py-2 text-center">@o.UpdatedTime</td>
-            </tr>
+            </tr> 
         }
-        </tbody>
-    </table>
-    <!-- Assigned Tasks -->
-    <div class="text-top-left" style="position: fixed; bottom: 0" >
-        <div class="py-1">
-            <button onclick="HideAssignTask()" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Hide</button>
-        </div>
-        <div id="AssignTask" class="box-border rounded-lg h-32 w-[20rem] p-4 border-2 border-blue-500 mb-2 bg-white">
-            <p class="font-semibold mb-3">Assigned Tasks</p>
-            <div class="flex items-center gap-2 w-full mb-6"> <!-- Dropdown + Button side-by-side -->
-                <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2">
-                    <option selected>Registrar</option>
-                    <option>Jonathan</option>
-                </select>
-                <button type="button" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send</button>
-            </div>
-        </div>
+    }
+    </tbody>
+</table>
+@if (obstacleCompleteModels.Count() == 0)
+{
+    <div class="text-center py-12">
+    <h1 class="text-2xl font-semibold text-gray-700">No obstacles match query</h1>
     </div>
 }
-@section Scripts
-{
-    <script src="~/js/SearchTable.js"></script>
-    <script src="~/js/hideAssignTask.js"></script>
-    <script>searchTable("table", "search")</script>
-}
+<div class="text-top-left" style="position: fixed; bottom: 0" > <!-- Assigned Tasks -->
+    <div class="py-1">
+        <button onclick="HideAssignTask()" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Hide</button>
+    </div>
+    <div id="AssignTask" class="box-border rounded-lg h-32 w-[20rem] p-4 border-2 border-blue-500 mb-2 bg-white">
+        <p class="font-semibold mb-3">Assigned Tasks</p>
+        <div class="flex items-center gap-2 w-full mb-6"> <!-- Dropdown + Button side-by-side -->
+            <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2">
+                <option selected>Registrar</option>
+                <option>Jonathan</option>
+            </select>
+            <button type="button" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send</button>
+        </div>
+    </div>
+</div>
+
+    @section Scripts
+    {
+        <script src="~/js/SearchTable.js"></script>
+        <script src="~/js/hideAssignTask.js"></script>
+        <script src="~/js/SortTable.js"></script>
+        <script>searchTable("table", "search");</script>
+        <script>sortTable();</script> 
+    }
