@@ -124,7 +124,23 @@ function GenerateMapWithGeojson(zoom, Geojson)
 
     L.control.layers(baseMaps).addTo(map);
 
-    let geojsonLayer = L.geoJSON(Geojson);
+    var inx = 1;
+    let geojsonLayer = L.geoJSON(Geojson, 
+{
+            onEachFeature: function (feature, layer) 
+            {
+                if (feature.properties.name === "gpsCoordinates")
+                {
+                    layer.bindPopup(`${inx}. ${feature.properties.name}`);
+                }
+                else
+                {
+                    layer.bindPopup(`${inx}. ${feature.geometry.type}`); 
+                }
+                
+                inx++;
+            }
+        });
     
     geojsonLayer.addTo(map);
     map.fitBounds(geojsonLayer.getBounds());

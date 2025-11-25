@@ -96,19 +96,11 @@ else
                                         minZoom: 4,
                                         attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
                                     })
-
-                                    let baseMaps = {
-                                        "S100 Topographic": S100topo,
-                                        "J100 Topographic": J100topo,
-                                        "N100 Topographic": N100topo
-                                    };
-
+                                   
                                     var map = L.map('@mapId', {
                                         layers: [N100topo, J100topo, S100topo],
                                     }).setView([58.14671, 7.9956], 17);
-
-                                    L.control.layers(baseMaps).addTo(map);
-
+                                 
                                     var geojson = @Html.Raw(report.GeometryGeoJson);
                                     var geojsonLayer = L.geoJSON(geojson).addTo(map);
 
