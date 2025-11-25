@@ -140,6 +140,10 @@ function GenerateMapWithGeojson(zoom, Geojson)
                 
                 inx++;
             }
+            ,style: function ()
+            {
+                return{color: 'purple', weight: 6, opacity: 1}
+            }
         });
     
     geojsonLayer.addTo(map);

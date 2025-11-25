@@ -102,7 +102,7 @@ else
                                     }).setView([58.14671, 7.9956], 17);
                                  
                                     var geojson = @Html.Raw(report.GeometryGeoJson);
-                                    var geojsonLayer = L.geoJSON(geojson).addTo(map);
+                                    var geojsonLayer = L.geoJSON(geojson, {style: function (){ return{color: 'purple', weight: 6, opacity: 1} }}).addTo(map);
 
                                     map.fitBounds(geojsonLayer.getBounds());
                                 </script>
