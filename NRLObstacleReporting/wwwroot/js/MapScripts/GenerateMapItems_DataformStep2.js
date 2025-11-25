@@ -36,7 +36,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: true,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
                 marker: false,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
@@ -55,7 +55,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: false,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
                 marker: true,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
@@ -74,7 +74,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: true,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
                 marker: true,
                 circle: false,  // Disable circle drawing
                 rectangle: false,

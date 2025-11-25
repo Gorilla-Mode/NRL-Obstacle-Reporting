@@ -71,10 +71,18 @@ var geojsonText = document.getElementById("GeometryGeoJson")?.value;
 var geojson = geojsonText ? JSON.parse(geojsonText) : null;
 //collects data from geometryGeojson, makes it a valid javascript object
 if (geojson) {
-    var geojsonLayer = L.geoJSON(geojson);
+    var geojsonLayer = L.geoJSON(geojson, 
+{
+            style: function ()
+            {
+                return{color: 'purple', weight: 6, opacity: 1}
+            }
+        });
+    
     geojsonLayer.eachLayer(function(layer) {
         drawnItems.addLayer(layer); //legg alle eksisterende lag i drawnItems
     });
+    
     map.fitBounds(geojsonLayer.getBounds());
     captureData();
 }
@@ -82,7 +90,7 @@ if (geojson) {
 let drawControl = new L.Control.Draw({
     draw: {
         polygon: false,
-        polyline: true,
+        polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
         marker: true,
         circle: false,  // Disable circle drawing
         rectangle: false,
