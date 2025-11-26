@@ -13,19 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-var internalConnectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION");
-var internalMariaDbConnection = new MySqlConnection(internalConnectionString);
-
 builder.Services.AddSingleton<IObstacleRepository, ObstacleRepository>();
 builder.Services.AddSingleton<IDraftRepository, DraftRepository>();
 builder.Services.AddSingleton<IRegistrarRepository, RegistrarRepository>();
 builder.Services.AddSingleton<IAdminRepository, AdminRepository>();
-
-builder.Services.AddDbContext<DatabaseContext>(options =>
-{
-    options.UseMySql(internalConnectionString, new MariaDbServerVersion(ServerVersion.AutoDetect(internalConnectionString)));
-});
-
 builder.Services.AddAutoMapper(typeof(Program));
 
 
