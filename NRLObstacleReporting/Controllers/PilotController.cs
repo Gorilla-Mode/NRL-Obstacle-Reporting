@@ -41,12 +41,8 @@ public class PilotController : Controller
         var submittedReports = await _repo.GetAllSubmittedObstacles(UserId);
         
         var modelList = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedReports);
-
-        var model = new PilotViewReportsModel
-        {
-            SubmittedReports = modelList
-        };
         
-        return View(model);
+        
+        return View(modelList);
     }
 }
