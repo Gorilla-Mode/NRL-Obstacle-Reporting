@@ -72,13 +72,4 @@ public class RegistrarController : Controller
         
         return RedirectToAction("RegistrarAcceptReport", new { id = model.ObstacleId }); //redirect so we get updated data
     }
-    
-    [HttpGet]
-    public async Task<IActionResult> ListReports(ObstacleCompleteModel.ObstacleStatus[] status)
-    {
-        var queriedObstacles = await _repoRegistrar.GetObstaclesByStatus(status);
-        var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
-        
-        return View(mappedObstacles);
-    }
 }

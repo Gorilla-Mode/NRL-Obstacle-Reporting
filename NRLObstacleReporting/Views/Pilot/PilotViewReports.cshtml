@@ -1,7 +1,5 @@
-﻿@using NRLObstacleReporting.db
-@model PilotViewReportsModel
-
-@if (!Model.SubmittedReports.Any())
+﻿@model IEnumerable<ObstacleCompleteModel>
+@if (!Model.Any())
 {
     <div class="text-center">
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">No reports registered</h1>
@@ -14,11 +12,10 @@ else
     </div>
 }
 
-@foreach (var report in Model.SubmittedReports)
+@foreach (var report in Model)
 {
-    var mapId = report.ObstacleId.ToString();
+    var mapId = report.ObstacleId;
     @Html.AntiForgeryToken()
-    
     <div class="rounded-xl 
             border border-[#1c2b45]/40 dark:border-[#0f172a]/40
             bg-[#f8fafc] dark:bg-[#1e293b]
