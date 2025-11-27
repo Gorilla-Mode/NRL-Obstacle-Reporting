@@ -11,19 +11,12 @@ else
         <h1 class="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900 dark:text-gray-100">Registered reports</h1>
     </div>
 }
-
 @foreach (var report in Model)
 {
     var mapId = report.ObstacleId;
-    @Html.AntiForgeryToken()
-    <div class="rounded-xl 
-            border border-[#1c2b45]/40 dark:border-[#0f172a]/40
-            bg-[#f8fafc] dark:bg-[#1e293b]
-            shadow-[0_4px_12px_rgba(0,0,0,0.15)]
-            p-4 mb-10 w-full 
-            transition-colors duration-300">
-        <table class="w-full table-fixed border-collapse 
-                      !bg-transparent !text-black dark:!text-gray-100">
+    <div class="rounded-xl border border-[#1c2b45]/40 dark:border-[#0f172a]/40 bg-[#f8fafc] dark:bg-[#1e293b] shadow-[0_4px_12px_rgba(0,0,0,0.15)]
+            p-4 mb-10 w-full transition-colors duration-300">
+        <table class="w-full table-fixed border-collapse !bg-transparent !text-black dark:!text-gray-100">
             <tbody>
                 <tr class="!bg-gray-200 dark:!bg-gray-700"> <!-- HEADER ROW -->
                     <th class="p-3 text-sm font-bold text-left !text-black dark:!text-gray-100">
@@ -70,9 +63,7 @@ else
                             <details class="cursor-pointer">
                                 <summary class="text-blue-600 dark:text-blue-400">Map</summary>
                                 <div class="w-full overflow-hidden rounded-xl mt-3 border border-gray-300 dark:border-gray-700">
-                                    <div id="@mapId"
-                                         class="w-full mx-auto mb-2"
-                                         style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
+                                    <div id="@mapId" class="w-full mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
                                 </div>
                                 <script>
                                     //TODO: get generate map with geoJson script to work in loop
