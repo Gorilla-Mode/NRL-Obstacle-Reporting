@@ -31,7 +31,16 @@ public interface IRegistrarRepository
     /// <returns>A list obstacles where status matches</returns>
     Task<IList<ObstacleDto>> GetObstaclesByStatusAsync(ObstacleCompleteModel.ObstacleStatus[] status);
     
-    
+    /// <summary>
+    /// Gets obstacles all obstacles that have all the inputted filters. Empty arrays can be submitted to omit a filter
+    /// </summary>
+    /// <param name="status">Statuses of the obstacles to select</param>
+    /// <param name="type">Types of the obstacles to select</param>
+    /// <param name="illuminations">Illumination states of the obstacles to select</param>
+    /// <param name="markings">Marking states of the obstacles to select</param>
+    /// <param name="dateStart">Starting date to filter by</param>
+    /// <param name="dateEnd">Ending date to filter by</param>
+    /// <returns>An IList of obstacles that match all the selected filters</returns>
     Task<IList<ObstacleDto>> GetObstaclesFilteredAsync(ObstacleCompleteModel.ObstacleStatus[] status,
         ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
         ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateStart, DateOnly dateEnd);
