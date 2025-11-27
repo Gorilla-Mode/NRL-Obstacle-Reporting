@@ -1,117 +1,128 @@
-﻿
-@model ObstacleCompleteModel
+﻿@model ObstacleCompleteModel
 @{
-    ViewData["Title"] = "View Reports";
-}
-@{
+    ViewData["Title"] = "Drafts";
+
     var data = (IEnumerable<ObstacleCompleteModel>)ViewData["drafts"]!;
     var obstacleCompleteModels = data as ObstacleCompleteModel[] ?? data.ToArray();
-    
-    if (obstacleCompleteModels.Count() == 0)
-    {
-        <div class="text-center">
-            <h1>No drafts registered</h1>
-        </div>
-    }
-    else
-    {
-        <div class="text-center">
-            <h1 class ="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900"> Registered drafts</h1>
-        </div>
-        foreach (var draft in obstacleCompleteModels)
-        {
-            var mapId = draft.ObstacleId.ToString();
-            <div>
-                <form asp-controller="Draft" asp-action="EditDraft" method="post">
-                    @Html.AntiForgeryToken()
-                    <div class="rounded-sm border border-gray-500 flex flex-col justify-center space-y-8 mb-10 w-full">
-                        <table class="w-full table-fixed border-collapse">
-                            <thead>
-                            </thead>
-                            <tbody>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> Id: @draft.ObstacleId</th>
-                                <th class="p-3 text-sm font-bold tracking-wide text-left whitespace-nowrap"> </th>
-                            </tr>
-                            <tr>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"> Height </th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.HeightMeter</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Type</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Type</td>
-                            </tr>
-                            <tr >
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Name</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Name</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Description</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Description</td>
-                            </tr>
-                            <tr >
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Illumination</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Illuminated</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Marking</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.Marking</td>
-                            </tr>
-                            <tr>
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Creation Time</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.CreationTime</td>
-                            </tr>
-                            <tr class="bg-gray-50 w-full">
-                                <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">Updated Time</th>
-                                <td class="p-3 text-sm font-normal tracking-wide text-left whitespace-nowrap">@draft.UpdatedTime</td>
-                            </tr>
-                            @if (draft.GeometryGeoJson != null)
-                            {
-                                <tr>
-                                    <td colspan="2" class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
-                                        <details>
-                                            <summary>Map</summary>
-                                            <div class="overflow-hidden rounded-xl">
-                                                <div id="@mapId" class="mx-auto mb-2" style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
-                                            </div>
-                                            <script>
-                                                var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
+}
 
-                                                L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-                                                    maxZoom: 19,
-                                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                                }).addTo(map);
-                                                var geojson = @Html.Raw(draft.GeometryGeoJson)
-                                                var geojsonLayer = L.geoJSON(geojson);
-                                                geojsonLayer.addTo(map);
-                                                map.setMaxBounds(geojsonLayer.getBounds())
-                                            </script>
-                                        </details>
-                                    </td>
-                                </tr>   
-                            }
-                            <tr class="bg-white w-full">
-                                <td colspan="2" class="p-0">
-                                    <button type="submit"
-                                            formaction="/Draft/EditDraft"
-                                            class="block w-full text-center bg-blue-300 hover:bg-blue-400 text-white font-semibold py-2 rounded-b-smd">
-                                        Edit
-                                    </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <input type="hidden" asp-for="GeometryGeoJson" value="@draft.GeometryGeoJson"/>
-                    <input type="hidden" asp-for="Description" value="@draft.Description"/>
-                    <input type="hidden" asp-for="Illuminated" value="@draft.Illuminated"/>
-                    <input type="hidden" asp-for="Name" value="@draft.Name"/>
-                    <input type="hidden" asp-for="Type" value="@draft.Type"/>
-                    <input type="hidden" asp-for="HeightMeter" value="@draft.HeightMeter"/>
-                    <input type="hidden" asp-for="ObstacleId" value="@draft.ObstacleId"/>
-                    <input type="hidden" asp-for="Marking" value="@draft.Marking"/>
-                </form>
-            </div>
-        }
-    }
+@if (!obstacleCompleteModels.Any())
+{
+    <div class="text-center">
+        <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            No drafts registered
+        </h1>
+    </div>
+}
+else
+{
+    <div class="text-center mb-6">
+        <h1 class="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900 dark:text-gray-100">
+            Registered drafts
+        </h1>
+    </div>
+}
+@foreach (var draft in obstacleCompleteModels)
+{
+    var mapId = draft.ObstacleId;
+    <div class="rounded-xl 
+            border border-[#1c2b45]/40 dark:border-[#0f172a]/40 bg-[#f8fafc] dark:bg-[#1e293b] shadow-[0_4px_12px_rgba(0,0,0,0.15)]
+            p-4 mb-10 w-full transition-colors duration-300">
+        <table class="w-full table-fixed border-collapse !bg-transparent !text-black dark:!text-gray-100">
+            <tbody>
+                <tr class="!bg-gray-200 dark:!bg-gray-700"> <!-- HEADER ROW -->
+                    <th class="p-3 text-sm font-bold text-left !text-black dark:!text-gray-100">
+                        Id: @draft.ObstacleId
+                    </th>
+                    <th class="p-3"></th>
+                </tr>
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Height -->
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Height</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.HeightMeter</td>
+                </tr>
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Type -->
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Type</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Type</td>
+                </tr>
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Name -->
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Name</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Name</td>
+                </tr>
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Description -->
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Description</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Description</td>
+                </tr>
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Illuminated -->
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Illumination</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Illuminated</td>
+                </tr>
+                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Marking -->
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Marking</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.Marking</td>
+                </tr>
+                <tr class="!bg-white dark:!bg-gray-800 border-b border-gray-200 dark:border-gray-700"> <!-- Created Time -->
+                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Creation Time</th>
+                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.CreationTime</td>
+                </tr>
+            <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Updated Time -->
+                <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Updated Time</th>
+                <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.UpdatedTime</td>
+            </tr>
+            
+                @if (!string.IsNullOrWhiteSpace(draft.GeometryGeoJson)) 
+                {
+                    <tr class="!bg-white dark:!bg-gray-800"> <!-- MAP -->
+                        <td colspan="2" class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">
+                            <details class="cursor-pointer">
+                                <summary class="text-blue-600 dark:text-blue-400">Map</summary>
+
+                                <div class="w-full overflow-hidden rounded-xl mt-3 border border-gray-300 dark:border-gray-700">
+                                    <div id="@mapId"
+                                         class="w-full mx-auto mb-2"
+                                         style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
+                                </div>
+                                <script>
+                                    //TODO: get generate map with geoJson script to work in loop
+                                    var N100topo = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                                        maxZoom: 18,
+                                        minZoom: 4,
+                                        attribution: '&copy; <a href="https://cache.kartverket.no/">Kartverket</a>'
+                                    })
+
+                                    var S100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_Svalbard_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+                                        maxZoom: 15,
+                                        minZoom: 4,
+                                        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+                                    })
+
+                                    var J100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_JanMayen_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_JanMayen_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+                                        maxZoom: 16,
+                                        minZoom: 4,
+                                        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+                                    })
+                    
+                                    var map = L.map('@mapId', {
+                                        layers: [N100topo, J100topo, S100topo],
+                                    }).setView([58.14671, 7.9956], 17);
+
+                                    var geojson = @Html.Raw(draft.GeometryGeoJson);
+                                    var geojsonLayer = L.geoJSON(geojson, {style: function (){ return{color: 'purple', weight: 6, opacity: 1} }}).addTo(map);
+
+                                    map.fitBounds(geojsonLayer.getBounds());
+                                </script>
+                            </details>
+                        </td>
+                    </tr>
+                }
+                <tr class="!bg-white dark:!bg-gray-800">  <!-- EDIT BUTTON -->
+                    <td colspan="2" class="p-0">
+                        <a asp-action="EditDraft" asp-route-obstacleId="@draft.ObstacleId" asp-controller="Draft" 
+                           class="block w-full text-center bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 text-white font-semibold py-3 rounded-b-xl transition-colors">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 }

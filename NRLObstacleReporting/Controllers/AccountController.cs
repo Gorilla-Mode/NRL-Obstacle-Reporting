@@ -61,7 +61,7 @@ namespace NRLObstacleReporting.Controllers
                 }
                 if (await _userManager.IsInRoleAsync(currentUser!, "Registrar"))
                 {
-                    return RedirectToAction("RegistrarIndex", "Registrar", null);
+                    return RedirectToAction("RegistrarViewReports", "Registrar", null);
                 }
                 if (await _userManager.IsInRoleAsync(currentUser!, "Administrator"))
                 {

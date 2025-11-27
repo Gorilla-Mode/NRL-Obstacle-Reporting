@@ -1,0 +1,308 @@
+@using System.Text.Json.Nodes
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.EntityFrameworkCore
+@model ObstacleUserModel
+@{
+    string phoneNumber = "No phone number registered";
+    if (Model.Phonenumber != null)
+    {
+        phoneNumber = Model.Phonenumber;
+    }
+}
+<div class="space-y-2">  <!-- User information -->
+    <h3 class="text-l font-bold">User Information:</h3>
+    <table class="w-full text-left text-sm border border-black border-collapse rounded-lg overflow-hidden">
+        <thead>
+        <tr>
+            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
+                Email
+            </th>
+            <td class="border border-black px-4 py-2 underline text-blue-600 hover:text-blue-800 bg-gray-100">
+                <a href="mailto:@Model.Email">@Model.Email</a>
+            </td>
+            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
+                Phone number
+            </th>
+            <td class="border border-black px-4 py-2 bg-gray-100">
+            @{
+                switch (Model.Phonenumber)
+                {
+                    case not null:
+                        <a href="tel:@phoneNumber" class="text-blue-600 underline hover:text-blue-800">@phoneNumber</a>
+                        break;
+                    case null:
+                        <a>@phoneNumber</a>
+                        break;
+                }
+            }
+            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">
+                Organization
+            </th>
+            <td class="border border-black px-4 py-2 text-black bg-gray-100">
+                PLACEHOLDER
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <hr style="border: none; border-top: 2px solid black; background-color: black; height: 2px;"/>
+    <div class="flex gap-6"> <!-- Meta data -->
+        <div class="flex-1 min-w-0">
+            <h3 class="text-l font-bold mb-2 mt-2">Meta data:</h3>
+            <hr class="pb-2"/>
+            <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
+                <tbody>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Status</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">
+                        @switch (Model.Status)
+                        {
+                        case ObstacleCompleteModel.ObstacleStatus.Pending:
+                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300">Pending</span>
+                        break;
+                        case ObstacleCompleteModel.ObstacleStatus.Approved:
+                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 border border-green-300">Approved</span>
+                        break;
+                        case ObstacleCompleteModel.ObstacleStatus.Rejected:
+                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 border border-red-300">Rejected</span>
+                        break;
+                        case ObstacleCompleteModel.ObstacleStatus.Deleted:
+                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 border border-gray-300">Deleted</span>
+                        break;
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Created</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.CreationTime.ToString("dd. MMMM yyyy HH:mm:ss")</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Last modified</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.UpdatedTime.ToString("dd. MMMM yyyy HH:mm:ss")</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">ObstacleID</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.ObstacleId</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">UserID</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.UserId</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="flex-1 min-w-0"> <!-- Obstacle information -->
+            <h3 class="text-l font-bold mb-2 mt-2">Obstacle information:</h3>
+            <hr class="pb-2"/>
+            <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
+                <tbody>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Type</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Type</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold black bg-blue-300">Height</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.HeightMeter m</td>
+                </tr>
+                <tr>
+                    <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Illuminated</th>
+                    <td class="border border-black px-4 py-2 text-black bg-gray-100">@Model.Illuminated</td>
+                </tr>
+                <tr>
+                    <th class=" border border-black px-4 py-2 font-semibold text-black bg-blue-300">Marked</th>
+                    <td class=" border border-black px-4 py-2 text-black bg-gray-100">@Model.Marking</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="flex-1 min-w-0">   <!-- Details container -->
+            <div class="sm:col-span-2">
+                <div>
+                    <h3 class="text-l font-bold mb-2 mt-2">Additonal details:</h3>
+                    <hr class="pb-2"/>
+                    <div class="bg-gray-100 rounded-lg overflow-hidden pb-2 px-2 border-2 border-gray-200">
+                        <div>
+                            <label asp-for="Name" class="font-semibold text-sm">Name</label>
+                            <input asp-for="Name" readonly
+                                   class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                                     focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"/>
+                            <span asp-validation-for="Name"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Description" class="font-semibold text-sm">Description</label>
+                            <textarea asp-for="Description" rows="3" readonly
+                                      class=" bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                                       focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+                            <span asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr style="border: none; border-top: 2px solid black; background-color: black; height: 2px;"/>
+    <div class="flex gap-4 my-2"> <!-- Attachment -->
+        <div class="box-border w-full bg-gray-100 rounded-lg overflow-hidden p-2 border-2 border-gray-200">
+            <p class="font-semibold mb-2">Attachments</p>
+            <div class="flex gap-2 w-full flex-wrap">
+                <div class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-blue-400 hover:bg-blue-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Upload</p>
+                </div>
+                <div class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-blue-400 hover:bg-blue-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Preview</p>
+                </div>
+                <div class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-green-400 hover:bg-green-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Download</p>
+                </div>
+                <div class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-red-400 hover:bg-red-500 flex items-center justify-center">
+                    <p class="text-sm font-semibold">Delete</p>
+                </div>
+            </div>
+        </div>
+        <div class="box-border rounded-lg h-auto p-2 border-2 border-gray-200 bg-gray-100">  <!-- Status-knapper -->
+            <p class="font-semibold mb-2">Status controls</p>
+            <div class="flex grid-cols-3 gap-2 mb-2 justify-between">
+                <div>
+                    <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                        <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Approved)"/>
+                        <button type="submit" class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-green-400 hover:bg-green-500 text-sm">
+                            Accept
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                        <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Rejected)"/>
+                        <button type="submit" class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-yellow-400 hover:bg-yellow-500 text-sm">
+                            Reject
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <form asp-action="UpdateReportStatus" asp-controller="Registrar" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
+                        <input asp-for="Status" type="hidden" value="@((int)ObstacleCompleteModel.ObstacleStatus.Deleted)"/>
+                        <button type="submit" class="rounded-lg h-12 w-48 p-2 font-semibold text-black bg-red-400 hover:bg-red-500 text-sm">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="py-2"> 
+    <div class="flex gap-4" style="height: 83vh"> 
+        <div class="flex flex-col flex-1 basis-2/3"> 
+            <h2 class="text-l font-bold mb-1">Obstacle Location</h2>
+            <hr class="pb-2"/>
+            <div id="map" class="rounded-lg border border-gray-300 shadow flex-1">
+            </div>
+        </div>
+        <div class="flex flex-col flex-1 basis-1/3"> 
+            <div class="mb-2 pb-2">
+                <h2 class="text-l font-bold mb-1">Geometry</h2>
+                <hr class="pb-2"/>
+                <div class="box-border bg-gray-100 rounded-lg overflow-hidden p-2 border-2 border-gray-200">
+                    <h2 class="text-sm font-semibold mb-1">Raw GeoJson</h2>
+                    <textarea id="geojson" rows="7" readonly class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block w-full p-2 mb-2">@Model.GeometryGeoJson</textarea>
+                    <h2 class="text-sm font-semibold mb-1">Coordinates</h2>
+                    <table class="border-collapse w-full text-left text-sm border border-black rounded-lg overflow-hidden">
+                        <tbody>
+                        <tr>
+                            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Type</th>
+                            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Coordinates (lng, lat)</th>
+                            <th class="border border-black px-4 py-2 font-semibold text-black bg-blue-300">Streetview</th>
+                        </tr>
+                        @{
+                            if (!string.IsNullOrWhiteSpace(Model.GeometryGeoJson))
+                            {
+                                var json = JsonNode.Parse(Model.GeometryGeoJson);
+                                var features = json?["features"]?.AsArray();
+                                if (features != null)
+                                {
+                                    for (var index = 0; index < features.Count; index++)
+                                    {
+                                        string label = "Undefined";
+
+                                        var feature = features[(Index)index];
+                                        var coords = feature?["geometry"]?["coordinates"]?.AsArray();
+                                        if (coords != null && coords.Count >= 2)
+                                        {
+                                            if (feature?["properties"]?["name"]?.ToString() == "gpsCoordinates")
+                                            {
+                                                label = "GPS Coordinates";
+                                            }
+                                            else if (feature?["geometry"]?["type"]?.ToString() == "Point" && coords.Count == 2)
+                                            {
+                                                label = "Point";
+                                            }
+                                            else if (feature?["geometry"]?["type"]?.ToString() == "LineString")
+                                            {
+                                                label = "Line";
+                                            }
+
+                                            <tr>
+                                                <td class="border border-black px-4 py-2 text-black bg-gray-100">@($"{index + 1}. {label}")</td> 
+                                                <td class="border border-black px-4 py-2 text-black bg-gray-100">[ @coords[0], @coords[1] ]</td>
+                                                <td class="border border-black px-4 py-2 bg-gray-100">
+                                                    @if (label != "Line")
+                                                    {
+                                                        <a href="https://maps.google.com/maps?q=&layer=c&cbll=@coords[1],@coords[0]&cbp=" target="_blank" class="underline text-blue-600 hover:text-blue-800">
+                                                            Open in Street View
+                                                        </a> 
+                                                    }
+                                                    else
+                                                    {
+                                                        <a>
+                                                            Unsupported
+                                                        </a> 
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="border border-black px-4 py-2 text-black bg-gray-100">No Data</td>
+                                        <td class="border border-black px-4 py-2 text-black bg-gray-100">No Data</td>
+                                        <td class="border border-black px-4 py-2 text-black bg-gray-100">No Data</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="border border-black px-4 py-2 text-black bg-gray-100">No Data</td>
+                                    <td class="border border-black px-4 py-2 text-black bg-gray-100">No Data</td>
+                                    <td class="border border-black px-4 py-2 text-black bg-gray-100">No Data</td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/Geolocation.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/GeojsonCoordinates.js" asp-append-version="true"></script>
+    <script src="~/js/MapScripts/GeoJsonExtractCoordinates.js" asp-append-version="true"></script>
+    <script>
+        let geoJson = @Html.Raw(Model.GeometryGeoJson)
+        const mapZoom = 17;
+        
+        GenerateMapWithGeojson(mapZoom, geoJson)
+    </script>
+}

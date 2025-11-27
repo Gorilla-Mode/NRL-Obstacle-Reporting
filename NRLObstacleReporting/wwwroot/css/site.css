@@ -17,3 +17,62 @@
     overflow: hidden;
     border: 1px solid #e5e7eb;
 }
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+}
+
+/* Links inside the dropdown */
+.dropdown-content input {
+    color: black;
+    text-decoration: none;
+    margin: 12px;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content div:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Overwrites the lines around the HeightMeter field in red when the user forgets to enter a value */
+input.input-validation-error {
+    border-color: #ef4444 !important; /* red-500 */
+    border-width: 2px !important;
+    outline: none !important;
+}
+
+/* Overwrites the shadowed line of the HeightMeter field when the user forgets to enter a value */
+input.input-validation-error:focus {
+    border-color: #dc2626 !important;   /* red-600 */
+    box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.5) !important; /* red-100 ring */
+}
+/*Overwrites the lines around types when no one selected*/
+.obstacle-error {
+    border-color: #ef4444 !important;/* red */
+    border-width: 2px !important; /*border*/
+}
+
+.active-filter {
+    background-color: #3b82f6 !important; /* Tailwind blue-500 */
+    border-color: #3b82f6 !important;
+    color: white !important;
+}
+
+.report-table thead tr {
+    height: 56px; 
+}
+

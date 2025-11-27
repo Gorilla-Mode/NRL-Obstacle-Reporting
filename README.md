@@ -11,7 +11,7 @@
 | Mina Rebecca Remseth | [minarr@uia.no](minarr@uia.no)      | [minaremseth](https://github.com/minaremseth)     |
 | Oda Elise Aanestad   | [odaea@uia.no](odaea@uia.no)        | [odaeaanestad](https://github.com/Odaeaanestad)                                  |
 
-## Further documentation, system architecture and scripts
+## Further documentation, system architecture, testing scenarios and scripts
 
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
@@ -128,6 +128,10 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 | pilot@pilot.com         | Pilot1.          | Pilot         |
 | registrar@registrar.com | Registrar1.      | Registrar     |
 | admin@admin.com         | Admin1.          | Administrator |
+
+>[!WARNING]
+>
+> Passwords must be typed in manually, copy/paste does not work!
 
 ## Permanent Branches
 

@@ -31,7 +31,7 @@ public class HomeController : Controller
         }
         if (await _userManager.IsInRoleAsync((await currentUser)!, "Registrar"))
         {
-            return RedirectToAction("RegistrarIndex", "Registrar", null);
+            return RedirectToAction("RegistrarViewReports", "Registrar", null);
         }
         if (await _userManager.IsInRoleAsync((await currentUser)!, "Administrator"))
         {
