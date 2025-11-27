@@ -77,7 +77,7 @@ public class AdminController : Controller
     [HttpGet]
     public async Task<IActionResult> ManageUsers()
     {
-        var users = await _adminRepository.GetAllUsers();
+        var users = await _adminRepository.GetAllUsersAsync();
         var modelListDraft = _mapper.Map<IEnumerable<UserViewModel>>(users);
         
         return View(modelListDraft);

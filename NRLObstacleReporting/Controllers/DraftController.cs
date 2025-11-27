@@ -28,7 +28,7 @@ public class DraftController : Controller
     {
         //method async, to prevent possible race conditions.
         string userId = _signInManager.UserManager.GetUserId(User) ?? throw new InvalidOperationException(); //make sure a user is logged in
-        var submittedDrafts = await _repoDraft.GetAllDrafts(userId);
+        var submittedDrafts = await _repoDraft.GetAllDraftsAsync(userId);
             
         var modelListDraft = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
             
@@ -41,7 +41,7 @@ public class DraftController : Controller
     {
         //method async, to prevent possible race conditions.
         string userId = _signInManager.UserManager.GetUserId(User) ?? throw new InvalidOperationException(); //make sure a user is logged in
-        var obstacle = await _repoDraft.GetDraftById(obstacleId, userId);
+        var obstacle = await _repoDraft.GetDraftByIdAsync(obstacleId, userId);
         
         var model = _mapper.Map<ObstacleCompleteModel>(obstacle);
     
@@ -61,7 +61,7 @@ public class DraftController : Controller
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(editedDraft);
        
         
-        await _repoDraft.EditDraft(obstacle);
+        await _repoDraft.EditDraftAsync(obstacle);
         
         return RedirectToAction("PilotDrafts");
     }
@@ -84,8 +84,8 @@ public class DraftController : Controller
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(draft);
         
         //Await to make sure tasks is completed before resubmit
-        await _repoDraft.EditDraft(obstacle);
-        await _repoDraft.SubmitDraft(obstacle);
+        await _repoDraft.EditDraftAsync(obstacle);
+        await _repoDraft.SubmitDraftAsync(obstacle);
             
         return RedirectToAction("PilotDrafts");
     }

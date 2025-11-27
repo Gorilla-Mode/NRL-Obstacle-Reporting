@@ -7,7 +7,7 @@ namespace NRLObstacleReporting.Repositories;
 public class DraftRepository : RepositoryBase, IDraftRepository
 {
     /// <inheritdoc/>
-    public async Task EditDraft(ObstacleDto data)
+    public async Task EditDraftAsync(ObstacleDto data)
     {
         using var connection = CreateConnection();
         
@@ -21,7 +21,7 @@ public class DraftRepository : RepositoryBase, IDraftRepository
     }
 
     /// <inheritdoc/>
-    public async Task SubmitDraft(ObstacleDto data)
+    public async Task SubmitDraftAsync(ObstacleDto data)
     {
         using var connection = CreateConnection();
         
@@ -35,7 +35,7 @@ public class DraftRepository : RepositoryBase, IDraftRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<ObstacleDto>> GetAllDrafts(string userId)
+    public async Task<IEnumerable<ObstacleDto>> GetAllDraftsAsync(string userId)
     {
         using var connection = CreateConnection();
         const int statusId = (int)ObstacleCompleteModel.ObstacleStatus.Draft;
@@ -49,7 +49,7 @@ public class DraftRepository : RepositoryBase, IDraftRepository
     }
 
     /// <inheritdoc/>
-    public async Task<ObstacleDto> GetDraftById(string obstacleId, string userId)
+    public async Task<ObstacleDto> GetDraftByIdAsync(string obstacleId, string userId)
     {
         using var connection = CreateConnection();
         var sql = @"SELECT *

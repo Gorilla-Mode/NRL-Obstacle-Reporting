@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Immutable;
 using Dapper;
-using MySqlConnector;
-using System.Data;
 using System.Globalization;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
@@ -12,7 +8,7 @@ namespace NRLObstacleReporting.Repositories;
 public class RegistrarRepository : RepositoryBase, IRegistrarRepository
 {
     /// <inheritdoc/>
-    public async Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstacles()
+    public async Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstaclesAsync()
     {
         
         using var connection = CreateConnection();
@@ -24,7 +20,7 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
     }
 
     /// <inheritdoc/>
-    public async Task<ViewObstacleUserDto> GetSubmittedObstacleById(string id)
+    public async Task<ViewObstacleUserDto> GetSubmittedObstacleByIdAsync(string id)
     {
         using var connection = CreateConnection();
         var sql = $@"SELECT * 
@@ -35,7 +31,7 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
     }
 
     /// <inheritdoc/>
-    public async Task UpdateObstacleStatus(ObstacleDto data)
+    public async Task UpdateObstacleStatusAsync(ObstacleDto data)
     {
         using var connection = CreateConnection();
         var sql = @"UPDATE Obstacle 
@@ -45,31 +41,22 @@ public class RegistrarRepository : RepositoryBase, IRegistrarRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IList<ObstacleDto>> GetObstaclesByStatus(ObstacleCompleteModel.ObstacleStatus[] status)
+    public async Task<IList<ObstacleDto>> GetObstaclesByStatusAsync(ObstacleCompleteModel.ObstacleStatus[] status)
     {
         using var connection = CreateConnection();
-        var queryResult = new List<ObstacleDto>();
+        string statusList = string.Join(", ", status.Select(s => (int)s));
         
-        foreach (var query in status)
-        {
-            var sql = $@"SELECT *
-                    FROM Obstacle
-                    WHERE Status = {(int)query}";
-            var filteredResult = await connection.QueryAsync<ObstacleDto>(sql);
-
-            foreach (var obstacle in filteredResult)
-            {
-                if (queryResult != null)
-                {
-                    queryResult.Add(obstacle);
-                }
-            }
-        }
+        var sql = $@"SELECT *
+                FROM Obstacle
+                WHERE Status IN ({statusList})";
         
-        return queryResult ?? throw new InvalidOperationException();
+        var queryResult = await connection.QueryAsync<ObstacleDto>(sql);
+        
+        return queryResult.ToList();
     }
 
-    public async Task<IList<ObstacleDto>> GetObstaclesFiltered(ObstacleCompleteModel.ObstacleStatus[] status,
+    /// <inheritdoc/>
+    public async Task<IList<ObstacleDto>> GetObstaclesFilteredAsync(ObstacleCompleteModel.ObstacleStatus[] status,
         ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
         ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateStart, DateOnly dateEnd)
     {
