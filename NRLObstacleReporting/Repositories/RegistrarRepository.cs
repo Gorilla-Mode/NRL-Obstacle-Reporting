@@ -5,7 +5,7 @@ using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Repositories;
 
-public class RegistrarRepository : RepositoryBase, IRegistrarRepository
+public sealed class RegistrarRepository : RepositoryBase, IRegistrarRepository
 {
     /// <inheritdoc/>
     public async Task<IEnumerable<ObstacleDto>> GetAllSubmittedObstaclesAsync()

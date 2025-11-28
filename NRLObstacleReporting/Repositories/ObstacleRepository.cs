@@ -4,14 +4,16 @@ using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Repositories;
 
-public class ObstacleRepository : RepositoryBase, IObstacleRepository
+public sealed class ObstacleRepository : RepositoryBase, IObstacleRepository
 {
     /// <inheritdoc/>
     public async Task InsertStep1Async(ObstacleDto data)
     {
         using var connection = CreateConnection();
+        
         var sql = @"INSERT INTO Obstacle (ObstacleID, Heightmeter, Type, GeometryGeoJson, CreationTime, UpdatedTime, UserId) 
                     VALUES (@ObstacleId, @HeightMeter, @Type, @GeometryGeoJson,  @CreationTime, @UpdatedTime, @UserId)"; 
+        
         await connection.ExecuteAsync(sql, data);
     }
 
@@ -19,9 +21,11 @@ public class ObstacleRepository : RepositoryBase, IObstacleRepository
     public async Task InsertStep2Async(ObstacleDto data)
     {
         using var connection = CreateConnection();
+        
         var sql = @"UPDATE Obstacle 
                     SET GeometryGeoJson = @GeometryGeoJson, UpdatedTime = @UpdatedTime 
                     WHERE ObstacleID = @ObstacleId AND UserId = @UserId";
+        
         await connection.ExecuteAsync(sql, data);
     }
 
@@ -29,10 +33,12 @@ public class ObstacleRepository : RepositoryBase, IObstacleRepository
     public async Task InsertStep3Async(ObstacleDto data)
     {
         using var connection = CreateConnection();
+        
         var sql = @"UPDATE Obstacle 
                     SET Name = @Name, Description = @Description, Illuminated = @Illuminated, Status = @Status, 
                         Marking = @Marking, UpdatedTime = @UpdatedTime 
                     WHERE ObstacleID = @ObstacleId AND UserId = @UserId";
+        
         await connection.ExecuteAsync(sql, data);
 
     }

@@ -4,7 +4,7 @@ using NRLObstacleReporting.Models;
 
 namespace NRLObstacleReporting.Repositories;
 
-public class DraftRepository : RepositoryBase, IDraftRepository
+public sealed class DraftRepository : RepositoryBase, IDraftRepository
 {
     /// <inheritdoc/>
     public async Task EditDraftAsync(ObstacleDto data)

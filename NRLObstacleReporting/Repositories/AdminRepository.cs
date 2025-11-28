@@ -3,7 +3,7 @@ using NRLObstacleReporting.Database;
 
 namespace NRLObstacleReporting.Repositories;
 
-public class AdminRepository : RepositoryBase, IAdminRepository
+public sealed class AdminRepository : RepositoryBase, IAdminRepository
 {
     /// <inheritdoc/>
     public async Task<IEnumerable<ViewUserRoleDto>> GetAllUsersAsync()
