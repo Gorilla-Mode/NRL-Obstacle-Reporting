@@ -60,7 +60,8 @@ public sealed class ObstacleRepository : RepositoryBase, IObstacleRepository
     {
         using var connection = CreateConnection();
         
-        var sql = @$"SELECT * FROM Obstacle WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft} AND UserId = @userId
+        var sql = @$"SELECT * FROM Obstacle
+                     WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft} AND UserId = @userId
                      ORDER BY CreationTime DESC";
 
         return await connection.QueryAsync<ObstacleDto>(sql, new { UserId = userId });
