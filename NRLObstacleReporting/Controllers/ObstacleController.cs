@@ -79,9 +79,9 @@ public class ObstacleController : Controller
             return View();
         }
         
+        obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-        obstacle.UserId = _signInManager.UserManager.GetUserId(User);
-
+        
         await _repo.InsertStep2(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
         
         if (obstacleModel.SaveDraft) //exits reporting process
@@ -113,9 +113,10 @@ public class ObstacleController : Controller
         {
             return View();
         }
-
+        
+        obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-        obstacle.UserId = _signInManager.UserManager.GetUserId(User);
+        
         await _repo.InsertStep3(obstacle); // make sure this is completed before proceeding 
         
         var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
