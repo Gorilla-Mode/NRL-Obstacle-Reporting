@@ -78,6 +78,7 @@ public class ObstacleController : Controller
             return View();
         }
         
+        obstacleModel.ObstacleId = TempData["id"]?.ToString();
         obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
 
@@ -90,9 +91,6 @@ public class ObstacleController : Controller
             
             return View("Overview", obstacleQuery);
         }
-        
-        //Values saved as cookies, to be used in next view in redirect
-        TempData["id"] = obstacleModel.ObstacleId;      
         
         return RedirectToAction("DataformStep3");
     }
@@ -113,6 +111,7 @@ public class ObstacleController : Controller
             return View();
         }
         
+        obstacleModel.ObstacleId = TempData["id"]?.ToString();
         obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
         
