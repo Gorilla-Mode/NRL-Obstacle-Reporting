@@ -38,15 +38,14 @@ public class ObstacleController : Controller
             return View();
         }
         string? userId = _signInManager.UserManager.GetUserId(User);
-        string? obstacleId = Guid.NewGuid().ToString(); //generates ID
+        string obstacleId = Guid.NewGuid().ToString(); //generates ID
 
-        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
         obstacleModel.ObstacleId = obstacleId;
         obstacleModel.UserId = userId;
         
         ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
         
-         await _repo.InsertStep1Async(obstaclereport);
+        await _repo.InsertStep1Async(obstaclereport);
          
         if (obstacleModel.SaveDraft) //exits reporting process, gets current obstacle from db
         {
