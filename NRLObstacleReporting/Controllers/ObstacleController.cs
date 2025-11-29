@@ -46,11 +46,11 @@ public class ObstacleController : Controller
         
         ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
         
-         await _repo.InsertStep1(obstaclereport);
+         await _repo.InsertStep1Async(obstaclereport);
          
         if (obstacleModel.SaveDraft) //exits reporting process, gets current obstacle from db
         {
-          ObstacleDto queryResult = await _repo.GetObstacleById(obstacleId); //Must be done before mapping
+          ObstacleDto queryResult = await _repo.GetObstacleByIdAsync(obstacleId); //Must be done before mapping
           ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
           
           return View("Overview",  obstacleQuery);
@@ -81,12 +81,12 @@ public class ObstacleController : Controller
         
         obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-        
-        await _repo.InsertStep2(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
+
+        await _repo.InsertStep2Async(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
         
         if (obstacleModel.SaveDraft) //exits reporting process
         {
-            ObstacleDto queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
+            ObstacleDto queryResult = await _repo.GetObstacleByIdAsync(obstacleModel.ObstacleId); //Must be done before mapping
             ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
             
             return View("Overview", obstacleQuery);
@@ -117,9 +117,9 @@ public class ObstacleController : Controller
         obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
         
-        await _repo.InsertStep3(obstacle); // make sure this is completed before proceeding 
+        await _repo.InsertStep3Async(obstacle); // make sure this is completed before proceeding 
         
-        var queryResult = await _repo.GetObstacleById(obstacleModel.ObstacleId); //Must be done before mapping
+        var queryResult = await _repo.GetObstacleByIdAsync(obstacleModel.ObstacleId); //Must be done before mapping
         ObstacleCompleteModel obstacleQuery = _mapper.Map<ObstacleCompleteModel>(queryResult);
         
         return View("Overview", obstacleQuery);
