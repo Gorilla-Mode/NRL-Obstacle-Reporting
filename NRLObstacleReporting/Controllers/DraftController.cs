@@ -54,7 +54,6 @@ public class DraftController : Controller
     public async Task<ActionResult> SaveEditedDraft(ObstacleCompleteModel editedDraft)
     {
         string userId = _signInManager.UserManager.GetUserId(User) ?? throw new InvalidOperationException();
-        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
         editedDraft.UpdatedTime = DateTime.Now;
         
         editedDraft.UserId = userId;
@@ -71,8 +70,6 @@ public class DraftController : Controller
     public async Task<ActionResult> SubmitDraft(ObstacleCompleteModel draft)
     {
         string userId = _signInManager.UserManager.GetUserId(User) ?? throw new InvalidOperationException();
-        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
-       
         
         if (!ModelState.IsValid)
         {

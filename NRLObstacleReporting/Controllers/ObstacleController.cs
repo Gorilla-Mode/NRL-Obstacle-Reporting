@@ -38,15 +38,14 @@ public class ObstacleController : Controller
             return View();
         }
         string? userId = _signInManager.UserManager.GetUserId(User);
-        string? obstacleId = Guid.NewGuid().ToString(); //generates ID
+        string obstacleId = Guid.NewGuid().ToString(); //generates ID
 
-        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
         obstacleModel.ObstacleId = obstacleId;
         obstacleModel.UserId = userId;
         
         ObstacleDto obstaclereport =  _mapper.Map<ObstacleDto>(obstacleModel);
         
-         await _repo.InsertStep1Async(obstaclereport);
+        await _repo.InsertStep1Async(obstaclereport);
          
         if (obstacleModel.SaveDraft) //exits reporting process, gets current obstacle from db
         {
@@ -79,8 +78,8 @@ public class ObstacleController : Controller
             return View();
         }
         
+        obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-        obstacle.UserId = _signInManager.UserManager.GetUserId(User);
 
         await _repo.InsertStep2Async(obstacle); //Edits coordinates in database. ID is supplied by tempdata.peek in view
         
@@ -113,9 +112,10 @@ public class ObstacleController : Controller
         {
             return View();
         }
-
+        
+        obstacleModel.UserId = _signInManager.UserManager.GetUserId(User);
         ObstacleDto obstacle = _mapper.Map<ObstacleDto>(obstacleModel);
-        obstacle.UserId = _signInManager.UserManager.GetUserId(User);
+        
         await _repo.InsertStep3Async(obstacle); // make sure this is completed before proceeding 
         
         var queryResult = await _repo.GetObstacleByIdAsync(obstacleModel.ObstacleId); //Must be done before mapping

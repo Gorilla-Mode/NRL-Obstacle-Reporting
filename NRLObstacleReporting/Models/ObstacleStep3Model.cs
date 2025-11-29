@@ -2,6 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 public class ObstacleStep3Model
 {
+    public ObstacleStep3Model()
+    {
+        //makes sure date is formatted correctly
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
+    }
+
     public string? ObstacleId { get; set; }
     public string? UserId { get; set; }
     public ObstacleCompleteModel.ObstacleStatus Status { get; set; } 
