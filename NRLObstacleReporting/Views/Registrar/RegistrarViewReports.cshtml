@@ -235,6 +235,12 @@
                     <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
                 </span>
             </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center hover:bg-gray-300">
+                 <span class="flex items-center justify-center gap-1">
+                        View Details
+                        <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
         </tr>
         </thead>
         <tbody id="table" class="bg-white">
@@ -242,8 +248,7 @@
         {
             foreach (var o in obstacleCompleteModels)
             {
-                <tr class="cursor-pointer hover:bg-gray-100 transition"
-                    onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = o.ObstacleId })}'")>
+                    <tr class="cursor-pointer hover:bg-gray-100 transition">
                     <td class="border-b border-gray-300 px-4 py-2">@o.ObstacleId</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.Type</td>
                     <td class="border-b border-gray-300 px-4 py-2">@o.HeightMeter</td>
@@ -312,6 +317,12 @@
                     </td>
                     <td class="border-b border-gray-300 px-4 py-2 text-center">@o.CreationTime.ToString("yyyy/M/d HH:mm:ss")</td>
                     <td class="border-b border-gray-300 px-4 py-2 text-center">@o.UpdatedTime.ToString("yyyy/M/d HH:mm:ss")</td>
+                        <td>
+                            <div class="flex items-center justify-between">
+                                <a asp-action="RegistrarAcceptReport" asp-route-id="@o.ObstacleId"
+                                   class="text-blue-600 underline text-sm">View details</a>
+                            </div>
+                        </td>
                 </tr>
             }
         }
