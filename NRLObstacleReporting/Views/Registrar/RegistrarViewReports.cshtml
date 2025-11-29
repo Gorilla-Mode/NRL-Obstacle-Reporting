@@ -1,59 +1,78 @@
+@using System.Text.Json.Nodes
 @{
     ViewData["Title"] = "View Reports";
     var obstacles = (IEnumerable<ObstacleCompleteModel>)ViewData["reports"]!;
     var obstacleCompleteModels = obstacles as ObstacleCompleteModel[] ?? obstacles.ToArray();
+    var selectedStatuses = Context.Request.Query["status"].ToList();
+    var selectedTypes = Context.Request.Query["type"].ToList();
+    var selectedIlluminations = Context.Request.Query["illumination"].ToList();
+    var selectedMarkings = Context.Request.Query["marking"].ToList();
+    var selectedDateStart = Context.Request.Query["dateStart"].FirstOrDefault();
+    var selectedDateEnd = Context.Request.Query["dateEnd"].FirstOrDefault();
 }
 <div>
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Registered reports:</h1>
-    <div class="flex w-full gap-4 pt-4 mb-6"> <!-- 4 rektangel  -->
-        <form asp-action="ListReports" asp-controller="Registrar" method="get"  class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
-            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
-            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
-            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
-            <input type="hidden" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
-            <button type="submit" style="margin-left: -1.5rem; width: calc(100% + 3rem); margin-top: -1.125rem; height: calc(100% + 2.5rem)"> <!-- ignore padding of parent class, if padding is updated make sure rems here match -->
-                All
-            </button>
-        </form>
-        <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Pending" asp-controller="Registrar"
-           class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+    <div class="flex w-full gap-4 pt-4 mb-6">
+        <!-- 4 rektangel  -->
+        <a href="/Registrar/RegistrarFilterReports?status=Pending&status=Approved&status=Rejected&status=Deleted&dateStart=2020-01-01&dateEnd=@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")"
+           class="filter-btn flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center" data-status="all">
+            All
+        </a> <!-- date buffer, fails around 22:00 without  -->
+        <a asp-controller="Registrar"
+           asp-action="RegistrarFilterReports"
+           asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Pending"
+           asp-route-dateStart="2020-01-01"
+           asp-route-dateEnd="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")"
+           class="filter-btn flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center" data-status="Pending">
             Pending
-        </a>
-        <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Approved" asp-controller="Registrar"
-           class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+        </a> <!-- date buffer, fails around 22:00 without  -->
+        <a asp-controller="Registrar"
+           asp-action="RegistrarFilterReports"
+           asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Approved"
+           asp-route-dateStart="2020-01-01"
+           asp-route-dateEnd="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")"
+           class="filter-btn flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center" data-status="Approved">
             Approved
-        </a>
-        <a asp-action="ListReports" asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Rejected" asp-controller="Registrar"
-           class="flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center transition-colors duration-200">
+        </a> <!-- date buffer, fails around 22:00 without  -->
+        <a asp-controller="Registrar"
+           asp-action="RegistrarFilterReports"
+           asp-route-status="@ObstacleCompleteModel.ObstacleStatus.Rejected"
+           asp-route-dateStart="2020-01-01"
+           asp-route-dateEnd="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")"
+           class="filter-btn flex-1 rounded-lg py-3 px-6 font-semibold text-black bg-white border-2 border-blue-500 hover:bg-blue-700 text-center" data-status="Rejected">
             Rejected
-        </a>
+        </a> <!-- date buffer, fails around 22:00 without  -->
     </div>
 </div>
-<div class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
+<div class="flex flex-wrap gap-4 w-full mb-6">
     <div class="flex-1 flex rounded-full border-2 border-blue-500 overflow-hidden">
         <input type="text" placeholder="Search Something..." class="w-full outline-none bg-white text-sm px-5 py-3" id="search"/>
     </div>
-    <form asp-controller="Registrar" method="get" asp-action="RegistrarFilterReports" class="flex flex-wrap gap-4 w-full mb-6 px-4 md:px-6">
+    <form asp-controller="Registrar" method="get" asp-action="RegistrarFilterReports" class="flex flex-wrap gap-4 w-full mb-6">
         <div class="dropdown">
             <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
                 Status:
             </div>
             <div class="dropdown-content">
                 <div>
-                    <input id="StatusPending" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"/>
-                    <label for="StatusPending">Pending</label><br/>
+                    <input id="StatusPending" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Pending"
+                           @(selectedStatuses.Contains(ObstacleCompleteModel.ObstacleStatus.Pending.ToString()) ? "checked" : "")/>
+                    <label for="StatusPending">Pending</label>
                 </div>
                 <div>
-                    <input id="StatusApproved" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"/>
-                    <label for="StatusApproved">Approved</label><br/>
+                    <input id="StatusApproved" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Approved"
+                           @(selectedStatuses.Contains(ObstacleCompleteModel.ObstacleStatus.Approved.ToString()) ? "checked" : "")/>
+                    <label for="StatusApproved">Approved</label>
                 </div>
                 <div>
-                    <input id="StatusRejected" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"/>
-                    <label for="StatusRejected">Rejected</label><br/>
+                    <input id="StatusRejected" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Rejected"
+                           @(selectedStatuses.Contains(ObstacleCompleteModel.ObstacleStatus.Rejected.ToString()) ? "checked" : "")/>
+                    <label for="StatusRejected">Rejected</label>
                 </div>
                 <div>
-                    <input id="StatusDeleted" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"/>
-                    <label for="StatusDeleted">Deleted</label><br/>
+                    <input id="StatusDeleted" type="checkbox" name="status" value="@ObstacleCompleteModel.ObstacleStatus.Deleted"
+                           @(selectedStatuses.Contains(ObstacleCompleteModel.ObstacleStatus.Deleted.ToString()) ? "checked" : "")/>
+                    <label for="StatusDeleted">Deleted</label>
                 </div>
             </div>
         </div>
@@ -63,162 +82,296 @@
             </div>
             <div class="dropdown-content">
                 <div>
-                    <input id="TypeAirspan" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.AirSpan"/>
+                    <input id="TypeAirspan" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.AirSpan"
+                           @(selectedTypes.Contains(ObstacleCompleteModel.ObstacleTypes.AirSpan.ToString()) ? "checked" : "")/>
                     <label for="TypeAirspan">Air span</label><br/>
                 </div>
                 <div>
-                    <input id="TypeBridge" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Bridge"/>
+                    <input id="TypeBridge" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Bridge"
+                           @(selectedTypes.Contains(ObstacleCompleteModel.ObstacleTypes.Bridge.ToString()) ? "checked" : "")/>
                     <label for="TypeBridge">Bridge</label><br/>
                 </div>
                 <div>
-                    <input id="TypeBuilding" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Building"/>
+                    <input id="TypeBuilding" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Building"
+                           @(selectedTypes.Contains(ObstacleCompleteModel.ObstacleTypes.Building.ToString()) ? "checked" : "")/>
                     <label for="TypeBuilding">Building</label><br/>
                 </div>
                 <div>
-                    <input id="TypeConstruction" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Construction"/>
+                    <input id="TypeConstruction" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Construction"
+                           @(selectedTypes.Contains(ObstacleCompleteModel.ObstacleTypes.Construction.ToString()) ? "checked" : "")/>
                     <label for="TypeConstruction">Construction</label><br/>
                 </div>
                 <div>
-                    <input id="TypePoleortower" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.PoleOrTower"/>
+                    <input id="TypePoleortower" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.PoleOrTower"
+                           @(selectedTypes.Contains(ObstacleCompleteModel.ObstacleTypes.PoleOrTower.ToString()) ? "checked" : "")/>
                     <label for="TypePoleortower">Pole or tower</label><br/>
                 </div>
                 <div>
-                    <input id="TypeOther" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Other"/>
+                    <input id="TypeOther" type="checkbox" name="type" value="@ObstacleCompleteModel.ObstacleTypes.Other"
+                           @(selectedTypes.Contains(ObstacleCompleteModel.ObstacleTypes.Other.ToString()) ? "checked" : "")/>
                     <label for="TypeOther">Other</label><br/>
                 </div>
             </div>
         </div>
         <div class="dropdown">
-            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block p-2.5 hover:bg-blue-300">
                 Illumination:
             </div>
             <div class="dropdown-content">
                 <div>
-                    <input id="IlluminationYes" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Illuminated"/>
+                    <input id="IlluminationYes" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Illuminated"
+                           @(selectedIlluminations.Contains(ObstacleCompleteModel.Illumination.Illuminated.ToString()) ? "checked" : "")/>
                     <label for="IlluminationYes">Illuminated</label><br/>
                 </div>
                 <div>
-                    <input id="IlluminationNo" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.NotIlluminated"/>
+                    <input id="IlluminationNo" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.NotIlluminated"
+                           @(selectedIlluminations.Contains(ObstacleCompleteModel.Illumination.NotIlluminated.ToString()) ? "checked" : "")/>
                     <label for="IlluminationNo">Not Illuminated</label><br/>
                 </div>
                 <div>
-                    <input id="IlluminationUnknown" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Unknown"/>
+                    <input id="IlluminationUnknown" type="checkbox" name="illumination" value="@ObstacleCompleteModel.Illumination.Unknown"
+                           @(selectedIlluminations.Contains(ObstacleCompleteModel.Illumination.Unknown.ToString()) ? "checked" : "")/>
                     <label for="IlluminationUnknown">Unknown</label><br/>
                 </div>
             </div>
         </div>
         <div class="dropdown">
-            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block  p-2.5 hover:bg-blue-300">
+            <div class="dropbtn flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 inline-block p-2.5 hover:bg-blue-300">
                 Marking:
             </div>
             <div class="dropdown-content">
                 <div>
-                    <input id="MarkingYes" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Marked"/>
+                    <input id="MarkingYes" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Marked"
+                           @(selectedMarkings.Contains(ObstacleCompleteModel.ObstacleMarking.Marked.ToString()) ? "checked" : "")/>
                     <label for="MarkingYes">Marked</label><br/>
                 </div>
                 <div>
-                    <input id="MarkingNo" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.NotMarked"/>
+                    <input id="MarkingNo" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.NotMarked"
+                           @(selectedMarkings.Contains(ObstacleCompleteModel.ObstacleMarking.NotMarked.ToString()) ? "checked" : "")/>
                     <label for="MarkingNo">Not Marked</label><br/>
                 </div>
                 <div>
-                    <input id="MarkingUnknown" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Unknown"/>
+                    <input id="MarkingUnknown" type="checkbox" name="marking" value="@ObstacleCompleteModel.ObstacleMarking.Unknown"
+                           @(selectedMarkings.Contains(ObstacleCompleteModel.ObstacleMarking.Unknown.ToString()) ? "checked" : "")/>
                     <label for="MarkingUnknown">Unknown</label><br/>
                 </div>
             </div>
         </div>
-        <div class="relative flex-1 min-w-0"> <!-- Calender -->
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input name="dateStart" value="2020-01-01" datepicker datepicker-format="yyyy-mm-dd" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+        <div class="relative flex-1 basis-1/12">
+            <!-- Calender -->
+            <input name="dateStart" type="date" value="@(selectedDateStart ?? "2020-01-01")"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"/>
         </div>
-        <div class="relative flex-1 min-w-0"> <!-- Calender -->
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input name="dateEnd" value="@DateTime.Now.ToString("yyyy-MM-dd")" datepicker datepicker-format="yyyy-mm-dd" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+        <div class="relative flex-1 basis-1/12">
+            <!-- Calender -->
+            <input name="dateEnd" type="date" value="@(selectedDateEnd ?? DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"))"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"/> <!-- date buffer, fails around 22:00 without  -->
         </div>
         <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
             Filter
         </button>
+        <a asp-controller="Registrar"
+           asp-action="RegistrarViewReports"
+           class="flex items-center justify-center text-white bg-gray-400 hover:bg-gray-500 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            Clear Filters
+        </a>
     </form>
 </div>
-<table class="border-collapse border border-gray-400 w-full text-center text-sm mt-6 mb-52"> <!-- tabell -->
-    <thead class="bg-gray-200">
-    <tr>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Name &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Type &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Obstacle ID &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Height &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Coordinates &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Illuminated &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Marked &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700">Description &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Status &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Date Created &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Last modified &#x25b4;&#x25be;</th>
-        <th class="border hover:bg-gray-300 border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center">Detailed View </th>
-    </tr>
-    </thead>
-    <tbody id="table" class="bg-white">
-    @if (obstacleCompleteModels.Count() != 0)
-    {
-        foreach (var o in obstacleCompleteModels)
+<div class="relative overflow-x-auto bg-gray-100 shadow-sm rounded-lg border border-gray-300">
+    <table class="report-table w-full text-sm text-left rtl:text-right text-gray-800">
+        <thead class="text-sm text-gray-800 bg-gray-200 border-b border-gray-300">
+        <tr>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Obstacle ID
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Type
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Height
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Coordinates (lng, lat)
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Illuminated
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-300">
+                <span class="flex items-center gap-1">
+                    Marked
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center hover:bg-gray-300">
+                <span class="flex items-center justify-center gap-1">
+                    Status
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center hover:bg-gray-300">
+                <span class="flex items-center justify-center gap-1">
+                    Date Created
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+            <th class="border-b border-gray-300 px-4 py-2 font-semibold text-gray-700 text-center hover:bg-gray-300">
+                <span class="flex items-center justify-center gap-1">
+                    Last modified
+                    <span class="text-gray-600 text-xs">&#x25b4;&#x25be;</span>
+                </span>
+            </th>
+        </tr>
+        </thead>
+        <tbody id="table" class="bg-white">
+        @if (obstacleCompleteModels.Count() != 0)
         {
-            <tr  class="cursor-pointer hover:bg-gray-100 transition">
-                <td class="border border-gray-300 px-4 py-2">@o.Name</td>
-                <td class="border border-gray-300 px-4 py-2">@o.Type</td>
-                <td class="border border-gray-300 px-4 py-2">@o.ObstacleId</td>
-                <td class="border border-gray-300 px-4 py-2">@o.HeightMeter</td>
-                <td class="border border-gray-300 px-4 py-2">@o.GeometryGeoJson</td>
-                <td class="border border-gray-300 px-4 py-2">@o.Illuminated</td>
-                <td class="border border-gray-300 px-4 py-2">@o.Marking</td>
-                <td class="border border-gray-300 px-4 py-2">@o.Description</td>
-                <td class="border border-gray-300 px-4 py-2 text-center">@o.Status</td>
-                <td class="border border-gray-300 px-4 py-2 text-center">@o.CreationTime</td>
-                <td class="border border-gray-300 px-4 py-2 text-center">@o.UpdatedTime</td>
-                <td>
-                    <div class="flex items-center justify-between">
-                    <a asp-action="RegistrarAcceptReport" asp-route-id="@o.ObstacleId"
-                       class="text-blue-600 underline text-center">View details</a>
-                    </div>
-                </td>
-            </tr> 
+            foreach (var o in obstacleCompleteModels)
+            {
+                <tr class="cursor-pointer hover:bg-gray-100 transition"
+                    onclick=@($"window.location.href='{Url.Action("RegistrarAcceptReport", "Registrar", new { id = o.ObstacleId })}'")>
+                    <td class="border-b border-gray-300 px-4 py-2">@o.ObstacleId</td>
+                    <td class="border-b border-gray-300 px-4 py-2">@o.Type</td>
+                    <td class="border-b border-gray-300 px-4 py-2">@o.HeightMeter</td>
+                    <td class="border-b border-gray-300 px-4 py-2">
+                        @{
+                            if (!string.IsNullOrWhiteSpace(o.GeometryGeoJson))
+                            {
+                                var json = JsonNode.Parse(o.GeometryGeoJson);
+                                var features = json?["features"]?.AsArray();
+                                if (features != null)
+                                {
+                                    for (var index = 0; index < features.Count; index++)
+                                    {
+                                        string label = "Undefined";
+
+                                        var feature = features[(Index)index];
+                                        var coords = feature?["geometry"]?["coordinates"]?.AsArray();
+                                        if (coords != null && coords.Count >= 2)
+                                        {
+                                            if (feature?["properties"]?["name"]?.ToString() == "gpsCoordinates")
+                                            {
+                                                label = "GPS Coordinates";
+                                            }
+                                            else if (feature?["geometry"]?["type"]?.ToString() == "Point" && coords.Count == 2)
+                                            {
+                                                label = "Point";
+                                            }
+                                            else if (feature?["geometry"]?["type"]?.ToString() == "LineString")
+                                            {
+                                                label = "Line";
+                                            }
+
+                                            <div> @(index + 1). @label - [ @coords[0], @coords[1] ]</div>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <span>No coordinates</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>No data</span>
+                            }
+                        }
+                    </td>
+                    <td class="border-b border-gray-300 px-4 py-2">@o.Illuminated</td>
+                    <td class="border-b border-gray-300 px-4 py-2">@o.Marking</td>
+                    <td class="border-b border-gray-300 px-6 py-4">
+                        @switch (o.Status)
+                        {
+                            case ObstacleCompleteModel.ObstacleStatus.Pending:
+                                <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300">Pending</span>
+                                break;
+                            case ObstacleCompleteModel.ObstacleStatus.Approved:
+                                <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 border border-green-300">Approved</span>
+                                break;
+                            case ObstacleCompleteModel.ObstacleStatus.Rejected:
+                                <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 border border-red-300">Rejected</span>
+                                break;
+                            case ObstacleCompleteModel.ObstacleStatus.Deleted:
+                                <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 border border-gray-300">Deleted</span>
+                                break;
+                        }
+                    </td>
+                    <td class="border-b border-gray-300 px-4 py-2 text-center">@o.CreationTime.ToString("yyyy/M/d HH:mm:ss")</td>
+                    <td class="border-b border-gray-300 px-4 py-2 text-center">@o.UpdatedTime.ToString("yyyy/M/d HH:mm:ss")</td>
+                </tr>
+            }
         }
-    }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 @if (obstacleCompleteModels.Count() == 0)
 {
     <div class="text-center py-12">
-    <h1 class="text-2xl font-semibold text-gray-700">No obstacles match query</h1>
+        <h1 class="text-2xl font-semibold text-gray-700">No obstacles match query</h1>
     </div>
 }
-<div class="text-top-left" style="position: fixed; bottom: 0" > <!-- Assigned Tasks -->
-    <div class="py-1">
+<div class="text-top-left" style="position: fixed; bottom: 0">
+    <div class="py-1"> <!-- Assigned Tasks -->
         <button onclick="HideAssignTask()" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Hide</button>
     </div>
     <div id="AssignTask" class="box-border rounded-lg h-32 w-[20rem] p-4 border-2 border-blue-500 mb-2 bg-white">
         <p class="font-semibold mb-3">Assigned Tasks</p>
-        <div class="flex items-center gap-2 w-full mb-6"> <!-- Dropdown + Button side-by-side -->
-            <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2">
+        <div class="flex items-center gap-2 w-full mb-6">
+            <select class="flex-grow h-10 bg-gray-50 border border-blue-500 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2"> <!-- Dropdown + Button side-by-side -->
                 <option selected>Registrar</option>
                 <option>Jonathan</option>
-            </select>
+            </select> 
             <button type="button" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send</button>
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <script src="~/js/SearchTable.js"></script>
+    <script src="~/js/hideAssignTask.js"></script>
+    <script src="~/js/SortTable.js"></script>
+    <script>searchTable("table", "search");</script>
+    <script>sortTable();</script>
+    <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const params = new URLSearchParams(window.location.search);
+                const activeStatuses = params.getAll("status");
 
-    @section Scripts
-    {
-        <script src="~/js/SearchTable.js"></script>
-        <script src="~/js/hideAssignTask.js"></script>
-        <script src="~/js/SortTable.js"></script>
-        <script>searchTable("table", "search");</script>
-        <script>sortTable();</script> 
-    }
+                document.querySelectorAll(".filter-btn").forEach(btn => {
+                    const statusKey = btn.dataset.status;
+
+                    if (statusKey === "all") {
+                        // All
+                        if (
+                            activeStatuses.includes("Pending") &&
+                            activeStatuses.includes("Approved") &&
+                            activeStatuses.includes("Rejected") &&
+                            activeStatuses.includes("Deleted") &&
+                            activeStatuses.length === 4
+                        ) {
+                            btn.classList.add("active-filter");
+                        }
+                    } else {
+                        // Single status
+                        if (activeStatuses.length === 1 && activeStatuses[0] === statusKey) {
+                            btn.classList.add("active-filter");
+                        }
+                    }
+                });
+            });
+        </script>
+}

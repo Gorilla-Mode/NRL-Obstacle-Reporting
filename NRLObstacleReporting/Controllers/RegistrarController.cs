@@ -22,7 +22,7 @@ public class RegistrarController : Controller
     [HttpGet]
     public async Task<IActionResult> RegistrarViewReports()
     {
-        var submittedDrafts = await _repoRegistrar.GetAllSubmittedObstacles();
+        var submittedDrafts = await _repoRegistrar.GetAllSubmittedObstaclesAsync();
         var obstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
        
         ViewData["reports"] = obstacles;
@@ -43,7 +43,7 @@ public class RegistrarController : Controller
             return BadRequest(ModelState);
         }
         
-        var queriedObstacles = await _repoRegistrar.GetObstaclesFiltered(status, type, illumination, marking, dateStart, dateEnd);
+        var queriedObstacles = await _repoRegistrar.GetObstaclesFilteredAsync(status, type, illumination, marking, dateStart, dateEnd);
         var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
         
         ViewData["reports"] = mappedObstacles;
@@ -54,7 +54,7 @@ public class RegistrarController : Controller
     [HttpGet]
     public async Task<IActionResult> RegistrarAcceptReport(string id)
     {
-        ViewObstacleUserDto obstacle = await _repoRegistrar.GetSubmittedObstacleById(id);
+        ViewObstacleUserDto obstacle = await _repoRegistrar.GetSubmittedObstacleByIdAsync(id);
         
         var model = _mapper.Map<ObstacleUserModel>(obstacle);
         
@@ -68,17 +68,8 @@ public class RegistrarController : Controller
         
         ObstacleDto data = _mapper.Map<ObstacleDto>(model);
         
-        await _repoRegistrar.UpdateObstacleStatus(data); //Wouldn't want to refresh if data isn't done writing to db 
+        await _repoRegistrar.UpdateObstacleStatusAsync(data); //Wouldn't want to refresh if data isn't done writing to db 
         
         return RedirectToAction("RegistrarAcceptReport", new { id = model.ObstacleId }); //redirect so we get updated data
-    }
-    
-    [HttpGet]
-    public async Task<IActionResult> ListReports(ObstacleCompleteModel.ObstacleStatus[] status)
-    {
-        var queriedObstacles = await _repoRegistrar.GetObstaclesByStatus(status);
-        var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
-        
-        return View(mappedObstacles);
     }
 }

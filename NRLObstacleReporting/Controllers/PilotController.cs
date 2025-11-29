@@ -38,15 +38,11 @@ public class PilotController : Controller
     {
         string? UserId = _signInManager.UserManager.GetUserId(User);
         
-        var submittedReports = await _repo.GetAllSubmittedObstacles(UserId);
+        var submittedReports = await _repo.GetAllSubmittedObstaclesAsync(UserId);
         
         var modelList = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedReports);
-
-        var model = new PilotViewReportsModel
-        {
-            SubmittedReports = modelList
-        };
         
-        return View(model);
+        
+        return View(modelList);
     }
 }

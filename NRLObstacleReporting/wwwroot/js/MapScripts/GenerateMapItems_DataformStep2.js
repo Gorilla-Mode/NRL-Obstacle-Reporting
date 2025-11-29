@@ -17,7 +17,17 @@ function GenerateMapItems_DataformStep2(map, choice) {
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
-            L.marker([latitude, longitude]).addTo(drawnItems)
+            var marker = L.marker([latitude, longitude])
+            .bindPopup('GPS Coordinates')
+            .openPopup()
+
+            feature = marker.feature = marker.feature || {}; // Initialize feature
+            feature.type = feature.type || "Feature"; // Initialize feature.type
+            var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+            marker.feature.properties.name = 'gpsCoordinates';
+
+            marker.addTo(drawnItems);
+                
             captureData();
         },
     );
@@ -26,7 +36,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: true,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
                 marker: false,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
@@ -45,7 +55,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: false,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
                 marker: true,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
@@ -64,7 +74,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: true,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
                 marker: true,
                 circle: false,  // Disable circle drawing
                 rectangle: false,

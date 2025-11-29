@@ -64,10 +64,10 @@ else
                     <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Creation Time</th>
                     <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.CreationTime</td>
                 </tr>
-                <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Updated Time -->
-                    <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Updated Time</th>
-                    <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.UpdatedTime</td>
-                </tr>
+            <tr class="!bg-gray-200 dark:!bg-gray-700 border-b border-gray-300 dark:border-gray-700"> <!-- Updated Time -->
+                <th class="p-3 text-sm font-semibold !text-black dark:!text-gray-100">Updated Time</th>
+                <td class="p-3 text-sm !text-black dark:!text-gray-100">@draft.UpdatedTime</td>
+            </tr>
                 @if (!string.IsNullOrWhiteSpace(draft.GeometryGeoJson)) 
                 {
                     <tr class="!bg-white dark:!bg-gray-800"> <!-- MAP -->
@@ -81,17 +81,33 @@ else
                                          style="height:30dvh;width:100%;border-radius:0.75rem;overflow:hidden; z-index: 0"></div>
                                 </div>
                                 <script>
-                                    var map = L.map('@mapId').setView([58.14671, 7.9956], 17);
+                                    //TODO: get generate map with geoJson script to work in loop
+                                    var N100topo = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                                        maxZoom: 18,
+                                        minZoom: 4,
+                                        attribution: '&copy; <a href="https://cache.kartverket.no/">Kartverket</a>'
+                                    })
 
-                                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                            maxZoom: 19,
-                                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                        }).addTo(map);
+                                    var S100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_Svalbard_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+                                        maxZoom: 15,
+                                        minZoom: 4,
+                                        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+                                    })
+
+                                    var J100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_JanMayen_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_JanMayen_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+                                        maxZoom: 16,
+                                        minZoom: 4,
+                                        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+                                    })
+                    
+                                    var map = L.map('@mapId', {
+                                        layers: [N100topo, J100topo, S100topo],
+                                    }).setView([58.14671, 7.9956], 17);
 
                                     var geojson = @Html.Raw(draft.GeometryGeoJson);
-                                    var geojsonLayer = L.geoJSON(geojson).addTo(map);
+                                    var geojsonLayer = L.geoJSON(geojson, {style: function (){ return{color: 'purple', weight: 6, opacity: 1} }}).addTo(map);
 
-                                    map.setMaxBounds(geojsonLayer.getBounds());
+                                    map.fitBounds(geojsonLayer.getBounds());
                                 </script>
                             </details>
                         </td>
