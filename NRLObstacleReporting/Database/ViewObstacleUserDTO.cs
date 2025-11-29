@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace NRLObstacleReporting.Database;
+﻿namespace NRLObstacleReporting.Database;
 
 /// <summary>
 /// Datatransfer object targeting view view_ObstacleUser
