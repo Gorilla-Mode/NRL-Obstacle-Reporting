@@ -50,7 +50,11 @@ public class PilotControllerTests
         var controller = new PilotController(_obstacleRepository, _mapper, _signInManager);
         return controller;
     }
-    
+
+    /// <summary>
+    /// Verifies that the <see cref="PilotController.PilotIndex"/> action method
+    /// successfully returns a view for the Pilot Index page.
+    /// </summary>
     [Fact]
     public void PilotIndexReturnsPilotIndexView()
     {
@@ -65,8 +69,10 @@ public class PilotControllerTests
         Assert.Equal(null, viewResult!.ViewName);
     }
 
-    
-
+    /// <summary>
+    /// Verifies that the <see cref="PilotController.PilotViewReports"/> action method
+    /// successfully returns a view for the Pilot View Reports page.
+    /// </summary>
     [Fact]
     public void PilotViewReportReturnsPilotViewReportsView()
     {

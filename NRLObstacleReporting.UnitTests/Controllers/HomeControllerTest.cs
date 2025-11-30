@@ -70,8 +70,8 @@ public class HomeControllerTest
     }
 
     /// <summary>
-    /// Verifies that the Index action of HomeController redirects to "PilotIndex" view within the "Pilot" controller
-    /// when a user with the "Pilot" role is authenticated.
+    /// Verifies that the <see cref="HomeController.Index"/> action redirects to the "PilotIndex" action
+    /// in the "Pilot" controller when the logged-in user has the "Pilot" role.
     /// </summary>
     [Fact]
     public void IndexRedirectsToPilotRole()
@@ -90,9 +90,13 @@ public class HomeControllerTest
     }
 
     /// <summary>
-    /// Verifies that the Index action of HomeController redirects to "RegistrarViewReports" view within
-    /// the "Registrar" controller when a user with the "Registrar" role is authenticated.
+    /// Verifies that the <see cref="HomeController.Index"/> action redirects to the appropriate action and controller
+    /// when a user is assigned the "Registrar" role.
     /// </summary>
+    /// <remarks>
+    /// This test ensures that users with the "Registrar" role are redirected to the "RegistrarViewReports" action
+    /// of the "Registrar" controller when accessing the Index action.
+    /// </remarks>
     [Fact]
     public void IndexRedirectsToRegistrarRole()
     {
@@ -110,9 +114,13 @@ public class HomeControllerTest
     }
 
     /// <summary>
-    /// Verifies that the Index action of HomeController redirects to "AdminIndex" view within the "Admin" controller
-    /// when a user with the "Administrator" role is authenticated.
+    /// Tests whether the Index action of the <see cref="HomeController"/>
+    /// redirects to the appropriate action and controller when the user has the "Administrator" role.
     /// </summary>
+    /// <remarks>
+    /// This method ensures that users with the "Administrator" role are correctly redirected
+    /// to the "AdminIndex" action in the "Admin" controller.
+    /// </remarks>
     [Fact]
     public void IndexRedirectsToAdministratorRole()
     {
@@ -130,8 +138,14 @@ public class HomeControllerTest
     }
 
     /// <summary>
-    /// Validates that the Index action of HomeController returns Index when the user has no assigned role.
+    /// Verifies that the <see cref="HomeController.Index"/> method returns a <see cref="ViewResult"/>
+    /// when the current user is not assigned any role.
     /// </summary>
+    /// <remarks>
+    /// This test simulates a user without any specific roles attached, and verifies that the
+    /// result of the <see cref="HomeController.Index"/> method is a view result, indicating that
+    /// the user can access the default view in the absence of a role-based redirection path.
+    /// </remarks>
     [Fact]
     public void IndexReturnsViewForNoRole()
     {
@@ -150,7 +164,8 @@ public class HomeControllerTest
     }
 
     /// <summary>
-    /// Verifies that the Privacy action of the HomeController returns a ViewResult with a null view name.
+    /// Confirms that the <see cref="HomeController.Privacy"/> action method
+    /// returns a view result with no specific view name.
     /// </summary>
     [Fact]
     public void PrivacyReturnsPrivacyView()

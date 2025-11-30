@@ -32,6 +32,10 @@ public class RegistrarControllerTests
         return controller;
     }
 
+    /// <summary>
+    /// Ensures that the <see cref="RegistrarController.RegistrarViewReports"/> method
+    /// returns the correct view for displaying reports submitted to the registrar.
+    /// </summary>
     [Fact]
     public void RegistrarViewReportsRegistrarReturnsViewReportsRegistrarView()
     {

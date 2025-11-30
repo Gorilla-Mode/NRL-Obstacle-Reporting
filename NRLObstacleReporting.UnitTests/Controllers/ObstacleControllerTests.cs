@@ -52,7 +52,8 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Validates the result of the DataformStep1 action method to ensure it returns the appropriate view.
+    /// Ensures that the <see cref="ObstacleController.DataformStep1()"/> action method in the <see cref="ObstacleController"/>
+    /// returns the appropriate view, validating its functionality.
     /// </summary>
     [Fact]
     public void DataformStep1ReturnsDataformStep1View()
@@ -69,7 +70,8 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Validates the result of the DataformStep2 action method to ensure it returns the appropriate view.
+    /// Ensures that <see cref="ObstacleController.DataformStep2()"/> action method in the <see cref="ObstacleController"/>
+    /// returns the appropriate view, validating its functionality.
     /// </summary>
     [Fact]
     public void DataformStep2ReturnsDataformStep2View()
@@ -86,7 +88,8 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Validates the result of the DataformStep3 action method to ensure it returns the overview view.
+    /// Ensures that t<see cref="ObstacleController.DataformStep3()"/> action method in the <see cref="ObstacleController"/>
+    /// returns the appropriate view, validating its functionality.
     /// </summary>
     [Fact]
     public void DataformStep3ReturnsOverviewView()
@@ -103,8 +106,8 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Validates the result of the DataformStep1 action method when the model state is invalid,
-    /// ensuring it returns the appropriate view.
+    /// Validates that when the model state is invalid in the <see cref="ObstacleController.DataformStep1()"/> action method,
+    /// the appropriate view is returned, ensuring that errors are processed as expected.
     /// </summary>
     [Fact]
     public void DataFormStep1InvalidModelStateReturnsDataformStep1View()  
@@ -123,8 +126,8 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Validates the behavior of the DataformStep2 action method in the ObstacleController
-    /// when the ModelState is invalid, ensuring it returns the appropriate DataformStep2 view.
+    /// Ensures that when the model state is invalid, the <see cref="ObstacleController.DataformStep2()"/> action
+    /// returns the expected view for Dataform Step 2, validating its error-handling behavior.
     /// </summary>
     [Fact]
     public void DataFormStep2InvalidModelStateReturnsDataformStep2View()
@@ -143,8 +146,8 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Ensures that when the model state is invalid for the DataformStep3 action method,
-    /// the appropriate view is returned.
+    /// Validates the behavior of the <see cref="ObstacleController.DataformStep3()"/> action method
+    /// by ensuring that it returns the DataformStep3 view when the ModelState is invalid.
     /// </summary>
     [Fact]
     public void DataFormStep3InvalidModelStateReturnsDataformStep3View()

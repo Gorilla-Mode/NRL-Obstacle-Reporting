@@ -53,6 +53,10 @@ public class DraftControllerTest
         return controller;
     }
 
+    /// <summary>
+    /// Verifies that the <see cref="DraftController.PilotDrafts"/> method
+    /// returns a view result with the appropriate output when invoked.
+    /// </summary>
     [Fact]
     public void PilotDraftsReturnsPilotDraftsView()
     {
@@ -66,7 +70,14 @@ public class DraftControllerTest
         Assert.Equal(null, viewResult!.ViewName);
     }
 
-    //checks that code takes appropriate path on invalid model state
+    /// <summary>
+    /// Tests if the <see cref="DraftController.SubmitDraft(ObstacleCompleteModel)"/> method
+    /// returns the "EditDraft" view when the provided model state is invalid.
+    /// </summary>
+    /// <remarks>
+    /// Adds a model state error to simulate an invalid model, invokes the method,
+    /// and asserts that the result is the expected view.
+    /// </remarks>
     [Fact]
     public void SubmitDraftInvalidModelStateReturnsSubmitDraftView()
     {
