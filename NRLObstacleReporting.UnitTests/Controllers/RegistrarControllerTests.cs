@@ -15,31 +15,18 @@ public class RegistrarControllerTests
     private IMapper _mapper;
     private IObstacleRepository _obstacleRepository;
     private SignInManager<IdentityUser> _signInManager;
+    private IRegistrarRepository _registrarRepository;
 
     private RegistrarController CreateRegistrarController()
     {
         _mapper = Substitute.For<IMapper>();
         _obstacleRepository = Substitute.For<IObstacleRepository>();
         _signInManager = Substitute.For<SignInManager<IdentityUser>>();
-        var controller = new RegistrarController(_mapper, _obstacleRepository, _signInManager);
+        _registrarRepository = Substitute.For<IRegistrarRepository>();
+        var controller = new RegistrarController(_mapper, _registrarRepository);
         
         return controller;
     }
-
-    [Fact]
-    public void RegistrarIndexReturnsRegistrarIndexView()
-    {
-        //arrange
-        var controller = CreateRegistrarController();
-
-        //act
-        var result = controller.RegistrarIndex();
-        var viewResult = result as ViewResult;
-
-        //assert
-        Assert.Null(viewResult!.ViewName);
-    }
-    
 
     [Fact]
     public void RegistrarViewReportsRegistrarReturnsViewReportsRegistrarView()

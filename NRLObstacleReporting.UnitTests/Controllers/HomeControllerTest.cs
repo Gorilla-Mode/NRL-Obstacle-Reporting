@@ -32,7 +32,7 @@ public class HomeControllerTest
         
         //act
         var result = controller.Index();
-        var viewResult = result as ViewResult;
+        var viewResult = result.Result as ViewResult;
         
         //assert
        Assert.Null(viewResult!.ViewName);

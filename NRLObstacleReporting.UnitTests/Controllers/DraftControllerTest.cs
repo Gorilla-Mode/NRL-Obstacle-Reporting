@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
 using NRLObstacleReporting.Models;
@@ -14,12 +15,14 @@ public class DraftControllerTest
 {
     private IMapper _mapper;
     private IDraftRepository _draftRepository;
+    private SignInManager<IdentityUser> _signInManager;
 
     private DraftController CreateDraftController()
     {
         _mapper = Substitute.For<IMapper>();
         _draftRepository = Substitute.For<IDraftRepository>();
-        var controller = new DraftController(_mapper, _draftRepository);
+        _signInManager = Substitute.For<SignInManager<IdentityUser>>();
+        var controller = new DraftController(_mapper, _draftRepository, _signInManager);
         return controller;
     }
     
