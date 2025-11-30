@@ -3,10 +3,10 @@ using NRLObstacleReporting.Database;
 
 namespace NRLObstacleReporting.Repositories;
 
-public class AdminRepository : RepositoryBase, IAdminRepository
+public sealed class AdminRepository : RepositoryBase, IAdminRepository
 {
     /// <inheritdoc/>
-    public async Task<IEnumerable<ViewUserRoleDto>> GetAllUsers()
+    public async Task<IEnumerable<ViewUserRoleDto>> GetAllUsersAsync()
     {
         using var connection = CreateConnection();
         

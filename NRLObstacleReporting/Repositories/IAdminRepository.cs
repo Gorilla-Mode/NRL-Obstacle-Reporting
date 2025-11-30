@@ -8,5 +8,5 @@ public interface IAdminRepository
     /// Gets all users and their role from db
     /// </summary>
     /// <returns>IEnumerable containing all users and their assigned roles</returns>
-    Task<IEnumerable<ViewUserRoleDto>> GetAllUsers();
+    Task<IEnumerable<ViewUserRoleDto>> GetAllUsersAsync();
 }

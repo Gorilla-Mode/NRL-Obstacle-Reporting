@@ -2,96 +2,69 @@
 @{
     ViewData["Title"] = "Report Overview";
 }
-
 <div class="text-center">
     <h1 class="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900 dark:text-gray-100">
         Report Overview
     </h1>
 </div>
-
-@Html.AntiForgeryToken()
-
-<div class="rounded-sm border border-gray-500 dark:border-gray-700 
-            flex flex-col justify-center space-y-8 mt-10 w-full
-            bg-white dark:bg-gray-900">
-
+<div class="rounded-sm border border-gray-500 dark:border-gray-700 flex flex-col justify-center space-y-8 mt-10 w-full bg-white dark:bg-gray-900">
     <table class="w-full table-fixed border-collapse text-gray-900 dark:text-gray-100">
         <tbody>
-
         <tr class="bg-gray-50 dark:bg-gray-800">
             <th class="p-3 text-sm font-bold text-left">Id</th>
             <th class="p-3 text-sm font-bold text-left">@Model.ObstacleId</th>
         </tr>
-
         <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-700">
             <th class="p-3 text-sm font-semibold">Height</th>
             <td class="p-3 text-sm">@Model.HeightMeter</td>
         </tr>
-
         <tr class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <th class="p-3 text-sm font-semibold">Type</th>
             <td class="p-3 text-sm">@Model.Type</td>
         </tr>
-
         <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-700">
             <th class="p-3 text-sm font-semibold">Name</th>
             <td class="p-3 text-sm">@Model.Name</td>
         </tr>
-
         <tr class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <th class="p-3 text-sm font-semibold">Description</th>
             <td class="p-3 text-sm">@Model.Description</td>
         </tr>
-
-        <!-- Illumination -->
         <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-700">
             <th class="p-3 text-sm font-semibold">Illumination</th>
             <td class="p-3 text-sm">@Model.Illuminated</td>
         </tr>
-
         <tr class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <th class="p-3 text-sm font-semibold">Marking</th>
             <td class="p-3 text-sm">@Model.Marking</td>
         </tr>
-
         <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-700">
             <th class="p-3 text-sm font-semibold">Report Created:</th>
             <td class="p-3 text-sm">@Model.CreationTime</td>
         </tr>
-
         <tr class="bg-gray-50 dark:bg-gray-800">
             <th class="p-3 text-sm font-semibold">Report Updated:</th>
             <td class="p-3 text-sm">@Model.UpdatedTime</td>
         </tr>
-
         </tbody>
     </table>
-        
-    @if (Model?.GeometryGeoJson != null)
+    @if (Model.GeometryGeoJson != null)
     {
         <div class="mt-6 w-full px-4">
             <details>
                 <summary>Map</summary>
                 <div class="mt-2">
-                    <div id="map"
-                         style="height: 40dvh; width: 100%; overflow: hidden; z-index: 0">
-                    </div>
+                    <div id="map" style="height: 40dvh; width: 100%; overflow: hidden; z-index: 0"> </div>
                 </div>
             </details>
         </div>
-
         <div class="w-full mt-4 mb-6">
-            <a asp-controller="Home"
-             asp-action="Index"
-            class="block w-full text-center py-4 text-xl font-semibold rounded-lg
-                  bg-blue-600 hover:bg-blue-700 text-white transition"> OK
+            <a asp-controller="Home" asp-action="Index" class="block w-full text-center py-4 text-xl font-semibold rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition">
+                OK
             </a>
         </div>
     }
-
 </div>
-
-
 @section Scripts {
     @if (Model?.GeometryGeoJson != null)
     {

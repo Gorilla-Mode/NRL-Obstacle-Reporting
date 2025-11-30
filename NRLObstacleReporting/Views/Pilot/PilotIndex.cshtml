@@ -1,14 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Pilot - Start";
 }
-
-<div class="flex flex-col items-center justify-start min-h-screen pt-10 pb-20 px-6 relative z-10">
-
-    <!-- Kort / hovedcontainer -->
+<div class="flex flex-col items-center justify-start min-h-screen pt-10 pb-20 px-6 relative z-10"> <!-- Kort / hovedcontainer -->
     <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-10 sm:p-14 w-full max-w-xl mx-auto text-center space-y-10 -mt-6">
-
-        <!-- Header -->
-        <header class="space-y-2">
+        
+        <header class="space-y-2"> <!-- Header -->
             <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
                 Welcome, <span class="text-blue-500">Pilot!</span>
             </h1>
@@ -16,36 +12,23 @@
                 Choose what you want to do
             </p>
         </header>
-
-        <!-- Knapp-seksjon -->
-        <div class="grid gap-6 sm:gap-8">
-
-            <!-- Primær knapp -->
-            <a asp-action="DataformStep1" asp-controller="Obstacle"
-               class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-600 
-                      bg-blue-500 text-white text-xl sm:text-2xl font-semibold 
-                      hover:bg-blue-600 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] 
+        
+        <div class="grid gap-6 sm:gap-8"> <!-- Knapp-seksjon -->
+            <a asp-action="DataformStep1" asp-controller="Obstacle" class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-600 
+                      bg-blue-500 text-white text-xl sm:text-2xl font-semibold hover:bg-blue-600 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] 
                       transition-all duration-200 ease-out">
                 Register new Obstacle
-            </a>
-
-            <!-- Sekundær knapp -->
-            <a asp-action="PilotViewReports" asp-controller="Pilot"
-               class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-400 
-                      bg-blue-100 text-blue-700 text-xl sm:text-2xl font-medium 
-                      hover:bg-blue-200 hover:shadow-md hover:scale-[1.01] active:scale-[0.98] 
+            </a> <!-- Primær knapp -->
+            <a asp-action="PilotViewReports" asp-controller="Pilot" class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-400 
+                      bg-blue-100 text-blue-700 text-xl sm:text-2xl font-medium hover:bg-blue-200 hover:shadow-md hover:scale-[1.01] active:scale-[0.98] 
                       transition-all duration-200 ease-out">
                 View Reports
-            </a>
-
-            <!-- Sekundær knapp -->
-            <a asp-action="PilotDrafts" asp-controller="Draft"
-               class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-300 
-                      bg-blue-50 text-blue-600 text-xl sm:text-2xl font-medium 
-                      hover:bg-blue-100 hover:shadow-md hover:scale-[1.01] active:scale-[0.98] 
-                      transition-all duration-200 ease-out">
+            </a> <!-- Sekundær knapp -->
+            <a asp-action="PilotDrafts" asp-controller="Draft" class="block w-full rounded-2xl py-6 sm:py-7 border-2 border-blue-300 
+                      bg-blue-50 text-blue-600 text-xl sm:text-2xl font-medium hover:bg-blue-100 hover:shadow-md hover:scale-[1.01] active:scale-[0.98]
+                       transition-all duration-200 ease-out">
                 View Drafts
-            </a>
+            </a> <!-- Sekundær knapp -->
         </div>
     </div>
 </div>
