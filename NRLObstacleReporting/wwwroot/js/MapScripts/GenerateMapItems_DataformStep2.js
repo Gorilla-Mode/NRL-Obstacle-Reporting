@@ -55,7 +55,7 @@ function GenerateMapItems_DataformStep2(map, choice) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
+                polyline: false,
                 marker: true,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
