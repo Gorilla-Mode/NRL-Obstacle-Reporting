@@ -49,7 +49,6 @@
         <form asp-action="DataformStep2" method="post" class="mt-2 mb-0"> <!-- Knappene -->
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson" />
-            <input asp-for="ObstacleId" type="hidden" value="@TempData.Peek("id")" />
             <input type="hidden" asp-for="SaveDraft" id="save" />
             <div class="flex justify-between w-full">
                 <button type="submit"
@@ -92,7 +91,7 @@
         const map = GenerateMapGeolocate(zoom);
         GeolocateUser(zoom);
 
-        const choice = @TempData.Peek("ObstacleType");
+        const choice = @TempData["ObstacleType"];
         GenerateMapItems_DataformStep2(map, choice);
     </script>
     <partial name="_ValidationScriptsPartial" />
