@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
-using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 using NSubstitute;
 using Xunit;
@@ -18,17 +18,42 @@ public class ObstacleControllerTests
     private SignInManager<IdentityUser> _signInManager;
 
     /// <summary>
-    /// Method Creates objectcontroller instance
+    /// Creates and initializes an instance of <see cref="ObstacleController"/>, with the proper dependencies.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    /// An instance of <see cref="ObstacleController"/>.
+    /// </returns>
     private ObstacleController CreateObstacleController()
     {
+        var userStore = Substitute.For<IUserStore<IdentityUser>>();
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var userManager = Substitute.For<UserManager<IdentityUser>>(
+            userStore,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
+        
         _obstacleRepository = Substitute.For<IObstacleRepository>();
         _mapper = Substitute.For<IMapper>();
-        _signInManager = Substitute.For<SignInManager<IdentityUser>>();
+        _signInManager = Substitute.For<SignInManager<IdentityUser>>(
+            userManager, httpContextAccessor, Substitute.For<IUserClaimsPrincipalFactory<IdentityUser>>(),
+            null,
+            null,
+            null, 
+            null);
+        
         var controller = new ObstacleController(_obstacleRepository, _mapper, _signInManager);
         return controller;
     }
+
+    /// <summary>
+    /// Validates the result of the DataformStep1 action method to ensure it returns the appropriate view.
+    /// </summary>
     [Fact]
     public void DataformStep1ReturnsDataformStep1View()
     {
@@ -42,7 +67,10 @@ public class ObstacleControllerTests
         //assert
         Assert.Equal(null, viewResult!.ViewName);
     }
-    
+
+    /// <summary>
+    /// Validates the result of the DataformStep2 action method to ensure it returns the appropriate view.
+    /// </summary>
     [Fact]
     public void DataformStep2ReturnsDataformStep2View()
     {
@@ -56,7 +84,10 @@ public class ObstacleControllerTests
         //assert
         Assert.Equal(null, viewResult!.ViewName);
     }
-    
+
+    /// <summary>
+    /// Validates the result of the DataformStep3 action method to ensure it returns the overview view.
+    /// </summary>
     [Fact]
     public void DataformStep3ReturnsOverviewView()
     {
@@ -71,7 +102,10 @@ public class ObstacleControllerTests
         Assert.Equal(null, viewResult!.ViewName);
     }
 
-    //checks that code takes appropriate path on invalid model state
+    /// <summary>
+    /// Validates the result of the DataformStep1 action method when the model state is invalid,
+    /// ensuring it returns the appropriate view.
+    /// </summary>
     [Fact]
     public void DataFormStep1InvalidModelStateReturnsDataformStep1View()  
     {
@@ -87,8 +121,11 @@ public class ObstacleControllerTests
         //assert
         Assert.Equal(null, viewResult!.ViewName);
     }
-    
-    //checks that code takes appropriate path on invalid model state
+
+    /// <summary>
+    /// Validates the behavior of the DataformStep2 action method in the ObstacleController
+    /// when the ModelState is invalid, ensuring it returns the appropriate DataformStep2 view.
+    /// </summary>
     [Fact]
     public void DataFormStep2InvalidModelStateReturnsDataformStep2View()
     {
@@ -104,8 +141,11 @@ public class ObstacleControllerTests
         //assert
         Assert.Equal(null, viewResult!.ViewName);
     }
-    
-    //checks that code takes appropriate path on invalid model state
+
+    /// <summary>
+    /// Ensures that when the model state is invalid for the DataformStep3 action method,
+    /// the appropriate view is returned.
+    /// </summary>
     [Fact]
     public void DataFormStep3InvalidModelStateReturnsDataformStep3View()
     {
@@ -121,7 +161,4 @@ public class ObstacleControllerTests
         //assert
         Assert.Equal(null, viewResult!.ViewName);
     }
-    
-    
-    
 }

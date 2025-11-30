@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
@@ -15,12 +16,37 @@ public class PilotControllerTests
     private IObstacleRepository _obstacleRepository;
     private IMapper _mapper;
     private SignInManager<IdentityUser> _signInManager;
-
+    
+    /// <summary>
+    /// Creates and initializes an instance of <see cref="PilotController"/>, with the proper dependencies.
+    /// </summary>
+    /// <returns>
+    /// An instance of <see cref="PilotController"/>.
+    /// </returns>
     private PilotController CreatePilotController()
     {
+        var userStore = Substitute.For<IUserStore<IdentityUser>>();
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var userManager = Substitute.For<UserManager<IdentityUser>>(
+            userStore,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
+        
         _obstacleRepository = Substitute.For<IObstacleRepository>();
         _mapper = Substitute.For<IMapper>();
-        _signInManager = Substitute.For<SignInManager<IdentityUser>>();
+        _signInManager = Substitute.For<SignInManager<IdentityUser>>(
+            userManager, httpContextAccessor, Substitute.For<IUserClaimsPrincipalFactory<IdentityUser>>(),
+            null,
+            null,
+            null, 
+            null);
+        
         var controller = new PilotController(_obstacleRepository, _mapper, _signInManager);
         return controller;
     }

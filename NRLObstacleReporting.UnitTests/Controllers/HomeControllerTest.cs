@@ -17,9 +17,11 @@ public class HomeControllerTest
     private ILogger<HomeController> _logger;
 
     /// <summary>
-    /// Method Creates model with a substitute for logger interface, and user manager
+    /// Creates and initializes an instance of <see cref="HomeController"/>, with the proper dependencies.
     /// </summary>
-    /// <returns>Controller with proper subsituted dependencies</returns>
+    /// <returns>
+    /// An instance of <see cref="HomeController"/>.
+    /// </returns>
     private HomeController CreateHomeController()
     {
         _logger =  Substitute.For<ILogger<HomeController>>();

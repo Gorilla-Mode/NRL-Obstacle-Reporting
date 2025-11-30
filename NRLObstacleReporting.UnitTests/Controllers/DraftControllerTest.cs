@@ -18,6 +18,12 @@ public class DraftControllerTest
     private IDraftRepository _draftRepository;
     private SignInManager<IdentityUser> _signInManager;
 
+    /// <summary>
+    /// Creates and initializes an instance of <see cref="DraftController"/>, with the proper dependencies.
+    /// </summary>
+    /// <returns>
+    /// An instance of <see cref="DraftController"/>.
+    /// </returns>
     private DraftController CreateDraftController()
     {
         var userStore = Substitute.For<IUserStore<IdentityUser>>();

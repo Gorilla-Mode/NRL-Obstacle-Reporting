@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
@@ -13,16 +14,19 @@ namespace NRLObstacleReporting.UnitTests.Controllers;
 public class RegistrarControllerTests
 {
     private IMapper _mapper;
-    private IObstacleRepository _obstacleRepository;
-    private SignInManager<IdentityUser> _signInManager;
     private IRegistrarRepository _registrarRepository;
-
+    
+    /// <summary>
+    /// Creates and initializes an instance of <see cref="RegistrarController"/>, with the proper dependencies.
+    /// </summary>
+    /// <returns>
+    /// An instance of <see cref="RegistrarController"/>.
+    /// </returns>
     private RegistrarController CreateRegistrarController()
     {
         _mapper = Substitute.For<IMapper>();
-        _obstacleRepository = Substitute.For<IObstacleRepository>();
-        _signInManager = Substitute.For<SignInManager<IdentityUser>>();
         _registrarRepository = Substitute.For<IRegistrarRepository>();
+        
         var controller = new RegistrarController(_mapper, _registrarRepository);
         
         return controller;
