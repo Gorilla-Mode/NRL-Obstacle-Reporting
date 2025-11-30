@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
@@ -19,13 +20,33 @@ public class DraftControllerTest
 
     private DraftController CreateDraftController()
     {
+        var userStore = Substitute.For<IUserStore<IdentityUser>>();
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var userManager = Substitute.For<UserManager<IdentityUser>>(
+            userStore,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
+        
         _mapper = Substitute.For<IMapper>();
         _draftRepository = Substitute.For<IDraftRepository>();
-        _signInManager = Substitute.For<SignInManager<IdentityUser>>();
+        _signInManager = Substitute.For<SignInManager<IdentityUser>>(
+            userManager, httpContextAccessor, Substitute.For<IUserClaimsPrincipalFactory<IdentityUser>>(),
+            null,
+            null,
+            null, 
+            null);
+        
         var controller = new DraftController(_mapper, _draftRepository, _signInManager);
+
         return controller;
     }
-    
+
     [Fact]
     public void PilotDraftsReturnsPilotDraftsView()
     {
@@ -38,7 +59,7 @@ public class DraftControllerTest
         //assert
         Assert.Equal(null, viewResult!.ViewName);
     }
-    
+
     //checks that code takes appropriate path on invalid model state
     [Fact]
     public void SubmitDraftInvalidModelStateReturnsSubmitDraftView()
@@ -48,14 +69,13 @@ public class DraftControllerTest
         var model = Substitute.For<ObstacleCompleteModel>(); //Creates substitute model for method
         //adds error to model state
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
-         
+
         //act
         var result = controller.SubmitDraft(model);
         var viewResult = result.Result as ViewResult;
-         
+
         //assert
         Assert.Equal("EditDraft", viewResult!.ViewName);
     }
-
-    
 }
+    
