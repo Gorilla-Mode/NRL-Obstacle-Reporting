@@ -20,7 +20,7 @@ public class HomeControllerTest
     /// Method Creates model with a substitute for logger interface, and user manager
     /// </summary>
     /// <returns>Controller with proper subsituted dependencies</returns>
-    private HomeController HomeControllerLogger()
+    private HomeController CreateHomeController()
     {
         _logger =  Substitute.For<ILogger<HomeController>>();
         
@@ -75,7 +75,7 @@ public class HomeControllerTest
     public void IndexRedirectsToPilotRole()
     {
         // Arrange
-        var controller = HomeControllerLogger();
+        var controller = CreateHomeController();
         CreateUserSubstitute(controller, "dummyUserId", "Pilot");
 
         // Act
@@ -95,7 +95,7 @@ public class HomeControllerTest
     public void IndexRedirectsToRegistrarRole()
     {
         // Arrange
-        var controller = HomeControllerLogger();
+        var controller = CreateHomeController();
         CreateUserSubstitute(controller, "dummyUserId", "Registrar");
 
         // Act
@@ -115,7 +115,7 @@ public class HomeControllerTest
     public void IndexRedirectsToAdministratorRole()
     {
         // Arrange
-        var controller = HomeControllerLogger();
+        var controller = CreateHomeController();
         CreateUserSubstitute(controller, "dummyUserId", "Administrator");
 
         // Act
@@ -134,7 +134,7 @@ public class HomeControllerTest
     public void IndexReturnsViewForNoRole()
     {
         // Arrange
-        var controller = HomeControllerLogger();
+        var controller = CreateHomeController();
         CreateUserSubstitute(controller, "dummyUserId");
 
         // Ensure no roles are set to true.
@@ -154,7 +154,7 @@ public class HomeControllerTest
     public void PrivacyReturnsPrivacyView()
     {
         //arrange
-        var controller = HomeControllerLogger();
+        var controller = CreateHomeController();
         
         //act 
         var result = controller.Privacy();
