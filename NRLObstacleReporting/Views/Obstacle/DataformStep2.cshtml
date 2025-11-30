@@ -91,7 +91,7 @@
         const map = GenerateMapGeolocate(zoom);
         GeolocateUser(zoom);
 
-        const choice = @TempData.Peek("ObstacleType");
+        const choice = @TempData["ObstacleType"];
         GenerateMapItems_DataformStep2(map, choice);
     </script>
     <partial name="_ValidationScriptsPartial" />
