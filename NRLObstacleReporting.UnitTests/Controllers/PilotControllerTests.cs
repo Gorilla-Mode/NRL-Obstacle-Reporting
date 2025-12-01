@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
+using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 using NSubstitute;
 using Xunit;
@@ -87,7 +88,33 @@ public class PilotControllerTests
         Assert.Null( viewResult!.ViewName);
     }
     
-    
+    /// <summary>
+    /// Validates that the <see cref="PilotController.Error"/> action returns the default error view
+    /// populated with an instance of <see cref="ErrorViewModel"/> containing the correct error details.
+    /// </summary>
+    [Fact]
+    public void ErrorReturnsErrorViewWithErrorDetails()
+    {
+        // Arrange
+        var controller = CreatePilotController();
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext()
+        }; // add context for the errorviewmodel to access
+
+        // Act
+        var result = controller.Error();
+        var viewResult = result as ViewResult;
+
+        // Assert
+        Assert.NotNull(viewResult);
+        Assert.Equal(null, viewResult!.ViewName);
+        Assert.NotNull(viewResult.Model);
+        Assert.IsType<ErrorViewModel>(viewResult.Model);
+
+        var errorModel = viewResult.Model as ErrorViewModel;
+        Assert.Equal(controller.HttpContext.TraceIdentifier, errorModel?.RequestId);
+    }
     
     
 }
