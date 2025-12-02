@@ -200,8 +200,9 @@ public class DraftControllerTest
     {
         //arrange
         var controller = CreateDraftController();
+        
+        const string expectedViewName = "EditDraft";
         var model = Substitute.For<ObstacleCompleteModel>(); //Creates substitute model for method
-        //adds error to model state
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
 
         //act
@@ -209,7 +210,7 @@ public class DraftControllerTest
         var viewResult = result.Result as ViewResult;
 
         //assert
-        Assert.Equal("EditDraft", viewResult!.ViewName);
+        Assert.Equal(expectedViewName, viewResult!.ViewName);
     }
     
     
@@ -226,7 +227,7 @@ public class DraftControllerTest
         //arrange
         var controller = CreateDraftController();
         
-        const string expectedAction = "PilotDrafts";
+        const string expectedAction = nameof(controller.PilotDrafts);
         var model = Substitute.For<ObstacleCompleteModel>(); // Creates substitute model for method
 
         //act
@@ -292,7 +293,7 @@ public class DraftControllerTest
         // Arrange
         var controller = CreateDraftController();
         
-        const string expectedAction = "PilotDrafts";
+        const string expectedAction = nameof(controller.PilotDrafts);
         var model = Substitute.For<ObstacleCompleteModel>(); 
 
         // Act
@@ -316,7 +317,7 @@ public class DraftControllerTest
         // Arrange
         var controller = CreateDraftController();
 
-        const string expectedAction = "PilotDrafts";
+        const string expectedAction = nameof(controller.PilotDrafts);
         var model = Substitute.For<ObstacleCompleteModel>();
         
         controller.ModelState.AddModelError("Error", "Invalid model state");
