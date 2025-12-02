@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NRLObstacleReporting.Controllers;
+using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 using NSubstitute;
@@ -101,7 +108,62 @@ public class DraftControllerTest
         Assert.Throws<InvalidOperationException>(unwrappedResult);
         Assert.Throws<AggregateException>(wrappedResult);
     }
-    
+
+    /// <summary>
+    /// Ensures that the "Drafts" key of <see cref="ViewDataDictionary"/> is populated with the drafts
+    /// associated with the currently signed-in user, ASSUMING appropriate mapping from DTOs to the view model, and
+    /// that the dapper repos behave.
+    /// </summary>
+    /// <remarks>
+    /// Asserts that viewdata isn't empty, containins "Drafts" key a and that the contents match expected result. Aslo
+    /// assert that the method returns proper view
+    /// </remarks>
+    [Fact]
+    public void PilotDrafts_SetsViewDataWithDrafts()
+    {
+        // Arrange
+        var controller = CreateDraftController();
+        const string userId = "test-user-id";
+        const string viewDataKey = "Drafts";
+        
+        var draftDto = new List<ObstacleDto>
+        {
+            new ObstacleDto
+            {
+                ObstacleId = "1",
+                UserId = userId,
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Draft
+            },
+            new ObstacleDto
+            {
+                ObstacleId = "2",
+                UserId = userId,
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Draft
+            }
+        };
+        _draftRepository.GetAllDraftsAsync(userId).Returns(draftDto);
+        
+        var draftViewModel = new List<ObstacleCompleteModel>
+        {
+            new ObstacleCompleteModel { ObstacleId = "1", UserId = userId },
+            new ObstacleCompleteModel { ObstacleId = "2", UserId = userId }
+        };
+        _signInManager.UserManager.GetUserId(Arg.Any<ClaimsPrincipal>()).Returns(userId);
+        _mapper.Map<IEnumerable<ObstacleCompleteModel>>(draftDto).Returns(draftViewModel);
+
+        // Act
+        var result =  controller.PilotDrafts().Result;
+        var viewResult = result as ViewResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Null(viewResult!.ViewName);
+        Assert.True(viewResult.ViewData.ContainsKey(viewDataKey));
+        
+        var draftsInViewData = viewResult.ViewData[viewDataKey] as IEnumerable<ObstacleCompleteModel>;
+        Assert.Equal(draftViewModel, draftsInViewData);
+    }
+        
     /// <summary>
     /// Tests if the <see cref="DraftController.SubmitDraft(ObstacleCompleteModel)"/> method
     /// returns the "EditDraft" view when the provided model state is invalid.
