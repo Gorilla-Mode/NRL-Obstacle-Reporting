@@ -56,7 +56,7 @@ public class ObstacleControllerTests
     /// returns the appropriate view, validating its functionality.
     /// </summary>
     [Fact]
-    public void DataformStep1ReturnsDataformStep1View()
+    public void DataformStep1GET_ReturnsDataformStep1View()
     {
         //arrange
         var controller = CreateObstacleController();
@@ -66,7 +66,7 @@ public class ObstacleControllerTests
         var viewResult = result as ViewResult;
 
         //assert
-        Assert.Equal(null, viewResult!.ViewName);
+        Assert.Null(viewResult!.ViewName);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class ObstacleControllerTests
     /// returns the appropriate view, validating its functionality.
     /// </summary>
     [Fact]
-    public void DataformStep2ReturnsDataformStep2View()
+    public void DataformStep2GET_ReturnsDataformStep2View()
     {
         //arrange
         var controller = CreateObstacleController();
@@ -84,15 +84,15 @@ public class ObstacleControllerTests
         var viewResult = result as ViewResult;
 
         //assert
-        Assert.Equal(null, viewResult!.ViewName);
+        Assert.Null(viewResult!.ViewName);
     }
 
     /// <summary>
-    /// Ensures that t<see cref="ObstacleController.DataformStep3()"/> action method in the <see cref="ObstacleController"/>
+    /// Ensures that <see cref="ObstacleController.DataformStep3()"/> action method in the <see cref="ObstacleController"/>
     /// returns the appropriate view, validating its functionality.
     /// </summary>
     [Fact]
-    public void DataformStep3ReturnsOverviewView()
+    public void DataformStep3GET_ReturnsOverviewView()
     {
         //arrange
         var controller = CreateObstacleController();
@@ -102,7 +102,7 @@ public class ObstacleControllerTests
         var viewResult = result as ViewResult;
 
         //assert
-        Assert.Equal(null, viewResult!.ViewName);
+        Assert.Null(viewResult!.ViewName);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class ObstacleControllerTests
     /// the appropriate view is returned, ensuring that errors are processed as expected.
     /// </summary>
     [Fact]
-    public void DataFormStep1InvalidModelStateReturnsDataformStep1View()  
+    public void DataFormStep1POST_InvalidModelStateReturnsDataformStep1View()  
     {
         //arrange
         var controller = CreateObstacleController();
-        //adds error to model state
+        
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
         
         //act
@@ -122,7 +122,7 @@ public class ObstacleControllerTests
         var viewResult = result as ViewResult;
         
         //assert
-        Assert.Equal(null, viewResult!.ViewName);
+        Assert.Null(viewResult!.ViewName);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class ObstacleControllerTests
     /// returns the expected view for Dataform Step 2, validating its error-handling behavior.
     /// </summary>
     [Fact]
-    public void DataFormStep2InvalidModelStateReturnsDataformStep2View()
+    public void DataFormStep2POST_InvalidModelStateReturnsDataformStep2View()
     {
         //arrange
         var controller = CreateObstacleController();
-        //adds error to model state
+        
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
         
         //act
@@ -142,7 +142,7 @@ public class ObstacleControllerTests
         var viewResult = result as ViewResult;
         
         //assert
-        Assert.Equal(null, viewResult!.ViewName);
+        Assert.Null(viewResult!.ViewName);
     }
 
     /// <summary>
@@ -150,11 +150,11 @@ public class ObstacleControllerTests
     /// by ensuring that it returns the DataformStep3 view when the ModelState is invalid.
     /// </summary>
     [Fact]
-    public void DataFormStep3InvalidModelStateReturnsDataformStep3View()
+    public void DataFormStep3POST_InvalidModelStateReturnsDataformStep3View()
     {
         //arrange
         var controller = CreateObstacleController();
-        //adds error to model state
+        
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
         
         //act
@@ -162,6 +162,6 @@ public class ObstacleControllerTests
         var viewResult = result as ViewResult;
         
         //assert
-        Assert.Equal(null, viewResult!.ViewName);
+        Assert.Null(viewResult!.ViewName);
     }
 }
