@@ -59,7 +59,7 @@ public class RegistrarControllerTests
     {
         // Arrange
         var controller = CreateRegistrarController();
-        var reportedObstacleId = "test-id"; // Assumes obstacle is valid and exists
+        const string reportedObstacleId = "test-id"; // Assumes obstacle is valid and exists
 
         // Act
         var result =  controller.RegistrarAcceptReport(reportedObstacleId).Result; //async to synchronous
@@ -141,11 +141,11 @@ public class RegistrarControllerTests
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
         var modelState = Assert.IsType<SerializableError>(badRequestResult.Value);
-        var errorMessages = modelState[errorKey] as string[];
+        string[] errorMessages = modelState[errorKey] as string[]; //map all keys and values from object to string
         
         Assert.True(modelState.ContainsKey(errorKey));
         Assert.NotNull(errorMessages);
-        Assert.Contains(errorMessage, errorMessages!);
+        Assert.Contains(errorMessage, errorMessages );
     }
 }
 
