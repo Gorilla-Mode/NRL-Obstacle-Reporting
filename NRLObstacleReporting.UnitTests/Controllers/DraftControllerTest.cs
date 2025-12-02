@@ -94,12 +94,12 @@ public class DraftControllerTest
         
         // Act
         //DO NOT MESS. Defers call to assertion to avoid internal throw outside assert context 
-        IActionResult UnwrappedResult() => controller.PilotDrafts().GetAwaiter().GetResult(); //Test the actual exception in controller
-        IActionResult WrappedResult() => controller.PilotDrafts().Result;
-
+        var unwrappedResult = () => controller.PilotDrafts().GetAwaiter().GetResult(); //Test the actual exception in controller
+        var wrappedResult = () => controller.PilotDrafts().Result;
+        
         //assert
-        Assert.Throws<InvalidOperationException>((Func<IActionResult>)UnwrappedResult);
-        Assert.Throws<AggregateException>((Func<IActionResult>)WrappedResult);
+        Assert.Throws<InvalidOperationException>(unwrappedResult);
+        Assert.Throws<AggregateException>(wrappedResult);
     }
     
     /// <summary>
