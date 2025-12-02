@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -58,7 +59,7 @@ public class DraftControllerTest
     /// returns a view result with the appropriate output when invoked.
     /// </summary>
     [Fact]
-    public void PilotDraftsReturnsPilotDraftsView()
+    public void PilotDrafts_ReturnsPilotDraftsView()
     {
         //arrange
         var controller = CreateDraftController();
@@ -66,10 +67,41 @@ public class DraftControllerTest
         //act
         var result = controller.PilotDrafts();
         var viewResult = result.Result as ViewResult;
+        
         //assert
         Assert.Equal(null, viewResult!.ViewName);
     }
 
+    /// <summary>
+    /// Validates that the <see cref="DraftController.PilotDrafts"/> method throws an <see cref="InvalidOperationException"/>
+    /// when the user ID cannot be retrieved.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the current user ID is null or cannot be determined.
+    /// </exception>
+    /// <exception cref="AggregateException">
+    /// Thrown when exception is asserted before aggregate is unwrapped. Not strictly a necessary test
+    /// </exception>
+    [Fact]
+    public void PilotDrafts_InvalidUserIdThrowsInvalidOperationException()
+    {
+        //arrange
+        var controller = CreateDraftController();
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = Substitute.For<HttpContext>()
+        };
+        
+        // Act
+        //DO NOT MESS. Defers call to assertion to avoid internal throw outside assert context 
+        IActionResult UnwrappedResult() => controller.PilotDrafts().GetAwaiter().GetResult(); //Test the actual exception in controller
+        IActionResult WrappedResult() => controller.PilotDrafts().Result;
+
+        //assert
+        Assert.Throws<InvalidOperationException>((Func<IActionResult>)UnwrappedResult);
+        Assert.Throws<AggregateException>((Func<IActionResult>)WrappedResult);
+    }
+    
     /// <summary>
     /// Tests if the <see cref="DraftController.SubmitDraft(ObstacleCompleteModel)"/> method
     /// returns the "EditDraft" view when the provided model state is invalid.
@@ -79,7 +111,7 @@ public class DraftControllerTest
     /// and asserts that the result is the expected view.
     /// </remarks>
     [Fact]
-    public void SubmitDraftInvalidModelStateReturnsSubmitDraftView()
+    public void SubmitDraft_InvalidModelStateReturnsSubmitDraftView()
     {
         //arrange
         var controller = CreateDraftController();
@@ -94,5 +126,7 @@ public class DraftControllerTest
         //assert
         Assert.Equal("EditDraft", viewResult!.ViewName);
     }
+    
+    
 }
     
