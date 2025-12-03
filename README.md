@@ -59,7 +59,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 > 2. Compose environment
 >      1. Make sure docker is running `docker desktop start`
 >      2. In **root folder**, run: 
-
+>
 > 3. Inject SQL 
 >    1. Make sure port 3306 is available
 >    2. in **root folder**, run:
