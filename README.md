@@ -59,7 +59,14 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 > 2. Compose environment
 >      1. Make sure docker is running `docker desktop start`
 >      2. In **root folder**, run: 
+>        ```powershell
+>        .\build.ps1
+>        ```
 >
+>        *This will prompt for necessary user input to generate `.env` file. And will deploy containers*
+>
+>         1. For a clean installation use flag `-c`. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for more info and optional flags
+>         2. Some integration tests WILL fail at this point, this is because database tables have not been built yet.
 > 3. Inject SQL 
 >    1. Make sure port 3306 is available
 >    2. in **root folder**, run:
