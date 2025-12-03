@@ -73,7 +73,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >    2. in **root folder**, run:
 > 
 >       ```powershell
->       .\initdb.ps1
+>        .\initdb.ps1
 >       ``` 
 >       
 >        *This will inject SQL into container and build the database*
