@@ -42,21 +42,45 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 > [!IMPORTANT]
 > <details open>
-> <summary style="font-size: 14px; font-weight: bold">1. Run using powershell script (recommended) </summary>
+> <summary style="font-size: 14px; font-weight: bold">1. Build using powershell script (recommended) </summary>
 >
 >   1. Compile CSS 
 >      1. Make sure **Node.js** is installed
 >      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
->      3. Run `npm run build:css` to compile tailwind css
->   2. Compose environment
+>      3. Initialize npm with:
+>           ```powershell
+>           npm install
+>           ```  
+>      4. Compile CSS with:
+>           ```powershell
+>           npm run build:css
+>           ```
+>       
+> 2. Compose environment
 >      1. Make sure docker is running `docker desktop start`
->      2. In **root folder**, run `./build.ps1`
->      to generate `.env` file. 
->      And deploy containers
->         1. For a clean installation use flag `-c`. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for more info
->   3. Inject SQL 
->      1. in **root folder**, run `./initdb.ps1` to inject sql into container and build the database
->         1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info
+>      2. In **root folder**, run: 
+>
+>        ```powershell
+>         .\build.ps1
+>        ```
+>        
+>        *This will prompt for necessary user input to generate `.env` file. And will deploy containers*
+>
+>         1. For a clean installation use flag `-c`. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for more info and optional flags
+>         2. Some integration tests WILL fail at this point, this is because database tables have not been built yet.
+> 3. Inject SQL 
+>    1. Make sure port 3306 is available
+>    2. in **root folder**, run:
+> 
+>       ```powershell
+>       .\initdb.ps1
+>       ``` 
+>       
+>        *This will inject SQL into container and build the database*
+>
+>       1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info about the script
+>
+> Complete information about scripts can be found [here](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki#scripts)
 ></details>
 
 
