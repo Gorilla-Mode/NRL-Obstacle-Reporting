@@ -282,7 +282,7 @@ public class ObstacleControllerTests
         var viewResult = result as ViewResult;
 
         // Assert
-         Assert.IsType<ViewResult>(result);
+        Assert.IsType<ViewResult>(result);
         Assert.Equal(expectedViewName, viewResult!.ViewName); 
         Assert.NotNull(viewResult.Model); 
         Assert.IsType<ObstacleCompleteModel>(viewResult.Model); 
