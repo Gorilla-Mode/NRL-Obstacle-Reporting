@@ -1,25 +1,23 @@
 ﻿namespace NRLObstacleReporting.Database;
 
-public class ObstacleDto
+/// <summary>
+/// Data-transfer object targeting Obstacle table
+/// </summary>
+public record ObstacleDto
 {
-    public string ObstacleId { get; set; }
+    public required string ObstacleId { get; init; }
+    public required string UserId { get; init; }
     
-    public string UserId { get; set; }
+    public int HeightMeter { get; init; }
+    public string? GeometryGeoJson { get; init; }
+    public int Type { get; init; }  
     
-    public int Type { get; set; }               // FK to ObstacleTypeDatamodel
-    public int Status { get; set; }               // FK to Status
-    public int Marking { get; set; }               //FK to Marking
-    public int HeightMeter { get; set; }
+    public int Status { get; init; }               
+    public int Marking { get; init; }               
+    public string? Name { get; init; }
+    public string? Description { get; init; }
     
-    public string? GeometryGeoJson { get; set; }
-    
-    public string? Name { get; set; }
-    
-    public string? Description { get; set; }
-    
-    public int Illuminated { get; set; }
-    
-    public DateTime CreationTime { get; set; }
-    
-    public DateTime UpdatedTime { get; set; }
+    public int Illuminated { get; init; }
+    public DateTime CreationTime { get; init; }
+    public DateTime UpdatedTime { get; init; }
 }

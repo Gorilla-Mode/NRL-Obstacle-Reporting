@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 public class ObstacleCompleteModel
 {
+    public ObstacleCompleteModel()
+    {
+        //makes sure date is formatted correctly
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
+    }
+
     /// <summary>
     /// Represents all possible types of an obstacle. 
     /// </summary>
@@ -50,8 +56,8 @@ public class ObstacleCompleteModel
     }
     
     public bool IsDraft { get; set; } = true; //TODO: remove this
-    public string ObstacleId { get; set; }
-    public string UserId { get; set; }
+    public required string ObstacleId { get; set; }
+    public required string UserId { get; set; }
     public ObstacleStatus Status { get; set; }
     public ObstacleMarking Marking { get; set; }
     

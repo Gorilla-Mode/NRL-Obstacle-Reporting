@@ -2,17 +2,15 @@
 @{
     ViewData["Title"] = "Use recovery code";
 }
-
 <h1>@ViewData["Title"].</h1>
-
 <form asp-controller="Account" asp-action="UseRecoveryCode" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <h4>@ViewData["Status"]</h4>
-    <hr />
+    <hr/>
     <div class="form-group">
         <label asp-for="Code" class="col-md-2 control-label"></label>
         <div class="col-md-10">
-            <input asp-for="Code" class="form-control" />
+            <input asp-for="Code" class="form-control"/>
             <span asp-validation-for="Code" class="text-danger"></span>
         </div>
     </div>
@@ -22,7 +20,6 @@
         </div>
     </div>
 </form>
-
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

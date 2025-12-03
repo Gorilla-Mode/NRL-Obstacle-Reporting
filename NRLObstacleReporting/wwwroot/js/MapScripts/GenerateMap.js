@@ -5,13 +5,35 @@
  */
 function GenerateMap(zoom)
 {
-     var map = L.map('map').setView([58.14671, 7.9956], zoom);
-
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+    var N100topo = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
         minZoom: 4,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+        attribution: '&copy; <a href="https://cache.kartverket.no/">Kartverket</a>'
+    })
+
+    var S100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_Svalbard_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 15,
+        minZoom: 4,
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+
+    var J100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_JanMayen_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_JanMayen_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 16,
+        minZoom: 4,
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+
+    let baseMaps = {
+        "S100 Topographic": S100topo,
+        "J100 Topographic": J100topo,
+        "N100 Topographic": N100topo
+    };
+
+    var map = L.map('map', {
+        layers: [N100topo],
+    }).setView([58.14671, 7.9956], zoom);
+
+    L.control.layers(baseMaps).addTo(map);
     
     return map;
 }
@@ -23,13 +45,34 @@ function GenerateMap(zoom)
  */
 function GenerateMapGeolocate(zoom)
 {
-    var map = L.map('map').setView([58.14671, 7.9956], zoom);
+    var N100topo = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                maxZoom: 18,
+                minZoom: 4,
+                attribution: '&copy; <a href="https://cache.kartverket.no/">Kartverket</a>'
+                })
 
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+    var S100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_Svalbard_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 15,
         minZoom: 4,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+
+    var J100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_JanMayen_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_JanMayen_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 16,
+        minZoom: 4,
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+    
+    let baseMaps = {
+        "S100 Topographic": S100topo,
+        "J100 Topographic": J100topo,
+        "N100 Topographic": N100topo
+    };
+
+    var map = L.map('map', {
+        layers: [N100topo],
+    }).setView([58.14671, 7.9956], zoom);
+    
     map.addControl(
         L.control.locate({
             locateOptions: {
@@ -37,6 +80,9 @@ function GenerateMapGeolocate(zoom)
             }
         })
     );
+
+    L.control.layers(baseMaps).addTo(map);
+    
     return map;
 }
 
@@ -48,18 +94,60 @@ function GenerateMapGeolocate(zoom)
  */
 function GenerateMapWithGeojson(zoom, Geojson)
 {
-    var map = L.map('map').setView([58.14671, 7.9956], zoom);
-
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+    var N100topo = L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
         minZoom: 4,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+        attribution: '&copy; <a href="https://cache.kartverket.no/">Kartverket</a>'
+    })
 
-    let geojsonLayer = L.geoJSON(Geojson);
+    var S100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_Svalbard_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 15,
+        minZoom: 4,
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+
+    var J100topo = L.tileLayer('https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_JanMayen_WMTS_3857/MapServer/WMTS/tile/1.0.0/Basisdata_NP_Basiskart_JanMayen_WMTS_3857/default/default028mm/{z}/{y}/{x}', {
+        maxZoom: 16,
+        minZoom: 4,
+        attribution: 'Map data &copy; <a href="https://geodata.npolar.no/">Norsk Polarinstitutt</a>'
+    })
+
+    let baseMaps = {
+        "S100 Topographic": S100topo,
+        "J100 Topographic": J100topo,
+        "N100 Topographic": N100topo
+    };
+
+    var map = L.map('map', {
+        layers: [N100topo],
+    }).setView([58.14671, 7.9956], zoom);
+
+    L.control.layers(baseMaps).addTo(map);
+
+    var inx = 1;
+    let geojsonLayer = L.geoJSON(Geojson, 
+{
+            onEachFeature: function (feature, layer) 
+            {
+                if (feature.properties.name === "gpsCoordinates")
+                {
+                    layer.bindPopup(`${inx}. ${feature.properties.name}`);
+                }
+                else
+                {
+                    layer.bindPopup(`${inx}. ${feature.geometry.type}`); 
+                }
+                
+                inx++;
+            }
+            ,style: function ()
+            {
+                return{color: 'purple', weight: 6, opacity: 1}
+            }
+        });
     
     geojsonLayer.addTo(map);
-    map.setMaxBounds(geojsonLayer.getBounds())
+    map.fitBounds(geojsonLayer.getBounds());
     
     return map;
 }
