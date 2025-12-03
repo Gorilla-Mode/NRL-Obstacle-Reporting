@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 
@@ -11,28 +11,65 @@ namespace NRLObstacleReporting.Controllers;
 public class RegistrarController : Controller
 {
     private readonly IMapper _mapper;
-    private readonly IObstacleRepository _repoObstacle;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly IRegistrarRepository _repoRegistrar;
 
-    public RegistrarController(IMapper mapper, IObstacleRepository repo,  SignInManager<IdentityUser> signInManager)
+    public RegistrarController(IMapper mapper, IRegistrarRepository repo)
     {
         _mapper = mapper;
-        _repoObstacle = repo;
-        _signInManager = signInManager;
+        _repoRegistrar = repo;
     }
 
-    public IActionResult RegistrarIndex()
-    {
-        return View();
-    }
-
+    [HttpGet]
     public async Task<IActionResult> RegistrarViewReports()
     {
-        string? UserId = _signInManager.UserManager.GetUserId(User);
-        var submittedDrafts = await _repoObstacle.GetAllSubmittedObstacles(UserId);
+        var submittedDrafts = await _repoRegistrar.GetAllSubmittedObstaclesAsync();
         var obstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedDrafts);
+       
         ViewData["reports"] = obstacles;
+        
         return View();
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> RegistrarFilterReports([FromQuery]ObstacleCompleteModel.ObstacleStatus[] status,
+        [FromQuery]ObstacleCompleteModel.ObstacleTypes[] type,
+        [FromQuery]ObstacleCompleteModel.Illumination[] illumination,
+        [FromQuery]ObstacleCompleteModel.ObstacleMarking[] marking,
+        DateOnly dateStart,
+        DateOnly dateEnd)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var queriedObstacles = await _repoRegistrar.GetObstaclesFilteredAsync(status, type, illumination, marking, dateStart, dateEnd);
+        var mappedObstacles = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(queriedObstacles);
+        
+        ViewData["reports"] = mappedObstacles;
+        
+        return View("RegistrarViewReports");
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> RegistrarAcceptReport(string id)
+    {
+        ViewObstacleUserDto obstacle = await _repoRegistrar.GetSubmittedObstacleByIdAsync(id);
+        
+        var model = _mapper.Map<ObstacleUserModel>(obstacle);
+        
+        return View(model);
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdateReportStatus(ObstacleCompleteModel model)
+    {
+        
+        ObstacleDto data = _mapper.Map<ObstacleDto>(model);
+        
+        await _repoRegistrar.UpdateObstacleStatusAsync(data); //Wouldn't want to refresh if data isn't done writing to db 
+        
+        return RedirectToAction("RegistrarAcceptReport", new { id = model.ObstacleId }); //redirect so we get updated data
+    }
 }
-

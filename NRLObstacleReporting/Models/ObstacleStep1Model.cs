@@ -3,6 +3,12 @@ namespace NRLObstacleReporting.Models;
 
 public class ObstacleStep1Model
 {
+    public ObstacleStep1Model()
+    {
+        //makes sure date is formatted correctly
+        System.Globalization.CultureInfo.CurrentCulture.ClearCachedData();
+    }
+
     public string? ObstacleId { get; set; }
     public string? UserId { get; set; }
     public ObstacleCompleteModel.ObstacleStatus Status { get; set; } = 0;
@@ -14,6 +20,7 @@ public class ObstacleStep1Model
     [Required] 
     public ObstacleCompleteModel.ObstacleTypes? Type { get; set; }
     
+    [MaxLength(5000)]
     public string? GeometryGeoJson { get; set; }
     
     public DateTime CreationTime { get; set; } = DateTime.Now;

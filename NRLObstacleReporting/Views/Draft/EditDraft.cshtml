@@ -2,18 +2,17 @@
 @{
     ViewData["Title"] = "Edit Draft";
 }
-
 <div class="py-1 px-4 mx-auto max-w-2xl lg:py-3">
     <form method="post" asp-action="SaveEditedDraft">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="GeometryGeoJson" id="GeometryGeoJson"/>
-
-        <h2 class="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900 ">Edit draft</h2>
+        <h2 class="py-1 sm:py-4 mb-2 text-4xl font-bold text-gray-900 dark:text-gray-100">Edit draft</h2>
         <div class="py-3 grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div>
-                <!--dropdown obstacle type -->
-                <label asp-for="Type" class="block mb-2 text-sm font-medium text-gray-900">Obstacle type </label>
-                <select asp-for="Type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                <label asp-for="Type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Obstacle type</label>
+                <select asp-for="Type"
+                        class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                               focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                     <option value="">Select obstacle type</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleTypes.AirSpan)">Aerial span</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleTypes.PoleOrTower)">Pole/Tower</option>
@@ -24,14 +23,18 @@
                 </select>
             </div>
             <div class="w-full">
-                <label asp-for="HeightMeter" class="block mb-2 text-sm font-medium text-gray-900">Height </label>
-                <input asp-for="HeightMeter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter obstacle height(m)" required=""/>
+                <label asp-for="HeightMeter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Height</label>
+                <input asp-for="HeightMeter"
+                       class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                            focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                       placeholder="Enter obstacle height(m)" required/>
                 <span asp-validation-for="HeightMeter"></span>
             </div>
             <div>
-                <!--dropdown illuminated -->
-                <label asp-for="Illuminated" class="block mb-2 text-sm font-medium text-gray-900">Illumination </label>
-                <select asp-for="Illuminated" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                <label asp-for="Illuminated" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Illumination</label>
+                <select asp-for="Illuminated"
+                        class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                               focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                     <option value="">Select illumination status</option>
                     <option value="@((int)ObstacleCompleteModel.Illumination.Illuminated)">Illuminated</option>
                     <option value="@((int)ObstacleCompleteModel.Illumination.NotIlluminated)">Not illuminated</option>
@@ -40,9 +43,10 @@
                 <span asp-validation-for="Illuminated"></span>
             </div>
             <div>
-                <!--dropdown marking -->
-                <label asp-for="Marking" class="block mb-2 text-sm font-medium text-gray-900">Obstacle marking status </label>
-                <select asp-for="Marking" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                <label asp-for="Marking" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Obstacle marking status</label>
+                <select asp-for="Marking"
+                        class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                               focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                     <option value="">Select obstacle marking status</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleMarking.Unknown)">Unknown</option>
                     <option value="@((int)ObstacleCompleteModel.ObstacleMarking.NotMarked)">Not marked</option>
@@ -51,58 +55,65 @@
                 <span asp-validation-for="Marking"></span>
             </div>
             <div class="sm:col-span-2">
-                <label asp-for="Name" class="block mb-2 text-sm font-medium text-gray-900">Name </label>
-                <input asp-for="Name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter obstacle name">
+                <label asp-for="Name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Name</label>
+                <input asp-for="Name"
+                       class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg
+                              focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                       placeholder="Enter obstacle name"/>
                 <span asp-validation-for="Name"></span>
             </div>
             <div class="sm:col-span-2">
-                <label asp-for="Description" class="block mb-2 text-sm font-medium text-gray-900">Description </label>
-                <textarea asp-for="Description" rows = "7" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter obstacle description"></textarea>
+                <label asp-for="Description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Description</label>
+                <textarea asp-for="Description" rows="7" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+                                 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="Enter obstacle description"></textarea>
                 <span asp-validation-for="Description"></span>
             </div>
-
-            <!-- adds map -->
-            @if (Model.GeometryGeoJson != null)
-            {
-                <div class="sm:col-span-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-900">Map </label>
-                    <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  ">
-                        <details>
-                            <summary>Map</summary>
-                            <div class="overflow-hidden rounded-xl mt-2">
-                                <div id="map" class="mx-auto mb-2" style="height:50dvh;width:100%;border-radius:0.75rem;overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0; z-index: 0"></div>
+            <div class="sm:col-span-2">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Map</label>
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block w-full p-2.5">
+                    <details>
+                        <summary>Map</summary>
+                        <div class="overflow-hidden rounded-xl mt-2">
+                            <div id="map" class="mx-auto mb-2" style="height:50dvh;width:100%;border-radius:0.75rem; overflow:hidden;border:1px solid #e5e7eb;margin:0;padding:0;z-index:0">
                             </div>
-                            <div class="sm:col-span-2">
-                                <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-800 mb-1">
-                                    Coordinates Preview
-                                </label>
-                                <textarea id="CoordinatesPreview"
-                                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 w-full"
-                                          style="height: 6dvh;"
-                                          readonly></textarea>
-                            </div>
-                        </details>
-                    </div>
+                        </div>
+                        <div class="sm:col-span-2 mt-2">
+                            <label for="CoordinatesPreview" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">
+                                Coordinates Preview
+                            </label>
+                            <textarea id="CoordinatesPreview" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+                                                 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 w-full"
+                                                 style="height: 6dvh;" readonly></textarea>
+                        </div>
+                    </details>
                 </div>
-            }
-            <div class="text-xs font-bold text-gray-900">Obstacle Report: @Model.ObstacleId</div>
+            </div>
+            <div class="text-xs font-bold text-gray-900 dark:text-gray-200">Obstacle Report: @Model.ObstacleId</div>
         </div>
         <input type="hidden" asp-for="Status" id="IsDraft"/>
         <input type="hidden" asp-for="ObstacleId" value="@Model.ObstacleId"/>
         <div class="grid grid-cols-2 gap-6 w-full">
-            <button id="SaveDraft" class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" type="submit">Save draft</button>
-            <button id="Submit" class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" type="submit">Submit</button>
+            <button id="SaveDraft" class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg
+                         text-sm px-5 py-2.5 mb-2">
+                        Save draft
+            </button>
+            <button id="Submit"
+                    class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg
+                           text-sm px-5 py-2.5 mb-2">
+                           Submit
+            </button>
         </div>
     </form>
 </div>
 
 @section Scripts
 {
-    <partial name="_ValidationScriptsPartial" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <partial name="_ValidationScriptsPartial"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
     <script src="~/js/MapScripts/GenerateMap.js" asp-append-version="true"></script>
     <script src="~/js/MapScripts/GenerateMapItems_DataformStep2.js" asp-append-version="true"></script>
     <script src="~/js/MapScripts/Geolocation.js" asp-append-version="true"></script>
@@ -110,7 +121,8 @@
     <script src="~/js/MapScripts/EditDraftMap.js" asp-append-version="true"></script>
 
     <script>
-        AssignValueByID('SaveDraft', 'IsDraft', 0); // 0 = Draft
-        AssignValueByID('Submit', 'IsDraft', 1);    // 1 = Submitted
+        //TODO: cast to int from model enum, more readable
+        AssignValueByID('SaveDraft', 'IsDraft', @((int)ObstacleCompleteModel.ObstacleStatus.Draft)); 
+        AssignValueByID('Submit', 'IsDraft', @((int)ObstacleCompleteModel.ObstacleStatus.Pending));    
     </script>
 }

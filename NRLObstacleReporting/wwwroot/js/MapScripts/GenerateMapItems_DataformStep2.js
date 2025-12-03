@@ -17,17 +17,27 @@ function GenerateMapItems_DataformStep2(map, choice) {
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
-            L.marker([latitude, longitude]).addTo(drawnItems)
+            var marker = L.marker([latitude, longitude])
+            .bindPopup('GPS Coordinates')
+            .openPopup()
+
+            feature = marker.feature = marker.feature || {}; // Initialize feature
+            feature.type = feature.type || "Feature"; // Initialize feature.type
+            var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+            marker.feature.properties.name = 'gpsCoordinates';
+
+            marker.addTo(drawnItems);
+                
             captureData();
         },
     );
 
-    if (choice === 0 || choice === 3 || choice === 4 || choice === 5) {
+    if (choice === 0 || choice === 4 ) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
-                polyline: true,
-                marker: true,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
+                marker: false,
                 circle: false,  // Disable circle drawing
                 rectangle: false,
                 circlemarker: false
@@ -37,7 +47,11 @@ function GenerateMapItems_DataformStep2(map, choice) {
             }
         });
         map.addControl(drawControl);
-    } else {
+
+        // start polyline drawing immediately (use handler, not control)
+        new L.Draw.Polyline(map, drawControl.options.draw.polyline).enable();
+    } 
+    else if (choice === 1 || choice === 2 || choice === 3) {
         let drawControl = new L.Control.Draw({
             draw: {
                 polygon: false,
@@ -50,8 +64,30 @@ function GenerateMapItems_DataformStep2(map, choice) {
             edit: {
                 featureGroup: drawnItems
             }
+            });
+        map.addControl(drawControl);
+
+        // start marker drawing immediately (use handler, not control)
+        new L.Draw.Marker(map, drawControl.options.draw.marker).enable();
+    }
+    else {
+        let drawControl = new L.Control.Draw({
+            draw: {
+                polygon: false,
+                polyline: { shapeOptions: { color: 'purple', weight: 6, opacity: 1 } },
+                marker: true,
+                circle: false,  // Disable circle drawing
+                rectangle: false,
+                circlemarker: false
+            },
+            edit: {
+                featureGroup: drawnItems
+            }
         });
         map.addControl(drawControl);
+
+        // choose which tool to start; here we start the marker by default
+        new L.Draw.Marker(map, drawControl.options.draw.marker).enable();
     }
 
     let form = document.getElementById('DataformStep2');
