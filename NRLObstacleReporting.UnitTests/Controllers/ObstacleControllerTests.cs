@@ -1,9 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NRLObstacleReporting.Controllers;
+using NRLObstacleReporting.Database;
+using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 using NSubstitute;
 using Xunit;
@@ -126,6 +130,45 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
+    /// Validates the provided <see cref="ObstacleStep1Model"/> with a valid model state
+    /// and redirects to the Dataform Step 2 view when the model is valid.
+    /// </summary>
+    /// <remarks>
+    /// This method verifies that the model submitted in the POST request has no validation errors
+    /// and proceeds to redirect the user to the next step in the data form sequence.
+    /// </remarks>
+    [Fact]
+    public void DataformStep1_ValidModelRedirectsToDataformStep2GET()
+    {
+        // Arrange
+        var controller = CreateObstacleController();
+        
+        const string expectedAction = nameof(controller.DataformStep2);
+        
+        var httpContext = Substitute.For<HttpContext>();
+        var tempDataProvider = Substitute.For<ITempDataProvider>();
+        var tempData = new TempDataDictionary(httpContext, tempDataProvider);
+        controller.TempData = tempData;
+
+        var obstacleModel = new ObstacleStep1Model
+        {
+            SaveDraft = false,
+            Type = ObstacleCompleteModel.ObstacleTypes.Bridge,
+            HeightMeter = 14
+        };
+
+        // Act
+        var result = controller.DataformStep1(obstacleModel).Result;
+        var redirectResult = result as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotNull(redirectResult);
+        Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal(expectedAction, redirectResult!.ActionName);
+    }
+
+    /// <summary>
     /// Ensures that when the model state is invalid, the <see cref="ObstacleController.DataformStep2()"/> action
     /// returns the expected view for Dataform Step 2, validating its error-handling behavior.
     /// </summary>
@@ -146,22 +189,103 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Validates the behavior of the <see cref="ObstacleController.DataformStep3()"/> action method
-    /// by ensuring that it returns the DataformStep3 view when the ModelState is invalid.
+    /// Tests that when a valid <see cref="ObstacleStep2Model"/> is provided to the <see cref="ObstacleController.DataformStep2()"/>
+    /// action, the method redirects to the <see cref="ObstacleController.DataformStep3()"/> action.
     /// </summary>
+    /// <remarks>
+    /// Ensures that the <see cref="ObstacleController"/> processes valid obstacle data from
+    /// step 2 of the data form correctly, leading to a redirection to the next step of the workflow.
+    /// </remarks>
     [Fact]
-    public void DataFormStep3POST_InvalidModelStateReturnsDataformStep3View()
+    public void DataformStep2_ValidModelRedirectsToDataformStep3GET()
     {
-        //arrange
+        // Arrange
         var controller = CreateObstacleController();
         
-        controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
+        const string expectedAction = nameof(controller.DataformStep3);
         
-        //act
-        var result = controller.DataformStep3();
+        var httpContext = Substitute.For<HttpContext>();
+        var tempDataProvider = Substitute.For<ITempDataProvider>();
+        var tempData = new TempDataDictionary(httpContext, tempDataProvider);
+        controller.TempData = tempData;
+
+        var obstacleModel = new ObstacleStep2Model
+        {
+            SaveDraft = false,
+            GeometryGeoJson = "Suspicious geojson"
+        };
+
+        // Act
+        var result = controller.DataformStep2(obstacleModel).Result;
+        var redirectResult = result as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotNull(redirectResult);
+        Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal(expectedAction, redirectResult!.ActionName);
+    }
+
+    /// <summary>
+    /// Tests that the <see cref="ObstacleController.DataformStep3()"/> method returns an `Overview` view
+    /// with a model of type <see cref="ObstacleCompleteModel"/>, when provided with a valid instance of <see cref="ObstacleStep3Model"/>.
+    /// </summary>
+    [Fact]
+    public void DataformStep3_ValidModel_ReturnsOverviewViewWithModel()
+    {
+        // Arrange
+        var controller = CreateObstacleController();
+        
+        const string testUser = "test-user";
+        const string expectedViewName = "Overview";
+        var step3Model = new ObstacleStep3Model
+        {
+            ObstacleId = "1",
+            Description = "LALAA",
+            Illuminated = ObstacleCompleteModel.Illumination.Illuminated,
+            Status = ObstacleCompleteModel.ObstacleStatus.Pending,
+            Marking = ObstacleCompleteModel.ObstacleMarking.Unknown,
+            UserId = testUser
+        };
+        
+        var obstacleDto = new ObstacleDto
+        {
+            ObstacleId = "1",
+            Description = "LALAA",
+            Illuminated = (int)ObstacleCompleteModel.Illumination.Illuminated,
+            Status = (int)ObstacleCompleteModel.ObstacleStatus.Pending,
+            Marking = (int)ObstacleCompleteModel.ObstacleMarking.Unknown,
+            UserId = testUser,
+            GeometryGeoJson = "suspicious geojson",
+            HeightMeter = 12
+        };
+
+        var expectedModel = new ObstacleCompleteModel
+        {
+            ObstacleId = "1",
+            Description = "LALAA",
+            Illuminated = ObstacleCompleteModel.Illumination.Illuminated,
+            Status = ObstacleCompleteModel.ObstacleStatus.Pending,
+            Marking = ObstacleCompleteModel.ObstacleMarking.Unknown,
+            UserId = testUser,
+            GeometryGeoJson = "suspicious geojson",
+            HeightMeter = 12
+            
+        };
+        
+        _obstacleRepository.GetObstacleByIdAsync(step3Model.ObstacleId).Returns(obstacleDto);
+        _mapper.Map<ObstacleDto>(step3Model).Returns(obstacleDto);
+        _mapper.Map<ObstacleCompleteModel>(obstacleDto).Returns(expectedModel);
+
+        // Act
+        var result = controller.DataformStep3(step3Model).Result;
         var viewResult = result as ViewResult;
-        
-        //assert
-        Assert.Null(viewResult!.ViewName);
+
+        // Assert
+         Assert.IsType<ViewResult>(result);
+        Assert.Equal(expectedViewName, viewResult!.ViewName); 
+        Assert.NotNull(viewResult.Model); 
+        Assert.IsType<ObstacleCompleteModel>(viewResult.Model); 
+        Assert.Equal(expectedModel, viewResult.Model); 
     }
 }
