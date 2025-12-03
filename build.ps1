@@ -3,6 +3,7 @@
     [Switch]$f, # overwrites existing env file
     [Switch]$nc, # prevents compose from running
     [Switch]$r, # prevents env from being generated
+    [Switch]$d, # Detached, so it doesn't hog the cli
     [Switch]$h # help
 )
 
@@ -12,9 +13,28 @@ if($h)
     Write-Host "    -f: force. Forces creation of .env file, overwriting if one already exists"
     Write-Host "    -nc: no compose. Stops docker-compose up from running"
     Write-Host "    -r: rebuild. Stops .env file from being generated, allowing rebuild"
+    Write-Host "    -d: detach. Composes detached, running service in backgroun leaving cli clear for more fun"
     Write-Host "    -h: helper. Displays what you're reading rn"
     
     return
+}
+
+if ($nc -and ($r -or $c -or $d))
+{
+    Write-Host "    ERROR: Wack flag combo, script TERMINATED"
+    return
+}
+
+if ($c)
+{
+    Write-Host "WARNING: Selected flag delete images and volumes defined in docker compose!"
+    $conf = Read-Host "     Confirm [Y]"
+
+    if (!$conf -eq "y" -or !$conf -eq "Y")
+    {
+        Write-Host "     Aborted"
+        return
+    }
 }
 
 # retiveves the path of the this script
@@ -69,11 +89,11 @@ if (!$r)
     {
         return
     }
-    
-    if ($nc)
-    {
-        return
-    }
+}
+
+if ($nc)
+{
+    return
 }
 
 # ---- Docker ----
@@ -86,5 +106,11 @@ if ($c)
     #this is done so that new password applies to database.
     docker-compose down -v --rmi "all"
 }
-
-docker-compose up
+if($d)
+{
+    docker-compose up -d
+}
+else
+{
+    docker-compose up
+}
