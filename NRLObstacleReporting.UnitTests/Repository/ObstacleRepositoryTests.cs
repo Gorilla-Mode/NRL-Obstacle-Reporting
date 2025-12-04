@@ -12,7 +12,7 @@ using Xunit;
 namespace NRLObstacleReporting.UnitTests.Repository
 {
     [Collection("SqliteInit")]
-    public class ObstacleRepositoryTests : IClassFixture<SqliteInitFixture>
+    public class ObstacleRepositoryTests : HelperQueries, IClassFixture<SqliteInitFixture>
     {
         // Only the SQLite init fixture is injected.
         public ObstacleRepositoryTests(SqliteInitFixture _) { }
@@ -20,24 +20,14 @@ namespace NRLObstacleReporting.UnitTests.Repository
         private static IObstacleRepository CreateRepo(SqliteConnection connection)
         {
             // Ensure the connection is open before use
-            if (connection.State != System.Data.ConnectionState.Open)
+            if (connection.State != ConnectionState.Open)
             {
                 connection.Open();
             }
 
             return new ObstacleRepository(connection);
         }
-
-        private async Task<ObstacleDto> FakeGetObstacleById(string id, string tableName, IDbConnection connection)
-        {
-            var sql = $@"SELECT * 
-                    FROM {tableName} 
-                    WHERE ObstacleID = {id}";
-
-            return await connection.QuerySingleAsync<ObstacleDto>(sql);
-        }
-
-
+        
         [Fact]
         public async Task InsertStep1Async_InsertsExpectedObstacle_WithInMemorySqlite()
         {
@@ -85,7 +75,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
             // Act
             await repo.InsertStep1Async(obstacle);
 
-            var fetched = await FakeGetObstacleById("1", "Obstacle", connection);
+            var fetched = await HelperQueries.FakeGetObstacleById("1", "Obstacle", connection);
             
             // Assert
             Assert.NotNull(fetched);
