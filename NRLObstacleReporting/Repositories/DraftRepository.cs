@@ -38,7 +38,7 @@ public sealed class DraftRepository : RepositoryBase, IDraftRepository
 
         var sql = @$"UPDATE Obstacle
                      SET Status = {statusId} 
-                     WHERE ObstacleID = @ObstacleID AND UserId = @UserId";
+                     WHERE ObstacleID = @ObstacleId AND UserId = @UserId";
 
         await _connection.ExecuteAsync(sql, data);
     }
@@ -53,7 +53,7 @@ public sealed class DraftRepository : RepositoryBase, IDraftRepository
                      WHERE Status = {statusId} AND UserId = @userId
                      ORDER BY CreationTime DESC";
 
-        return await _connection.QueryAsync<ObstacleDto>(sql, new { UserId = userId });
+        return await _connection.QueryAsync<ObstacleDto>(sql, new { userId });
     }
 
     /// <inheritdoc/>
@@ -63,6 +63,6 @@ public sealed class DraftRepository : RepositoryBase, IDraftRepository
                     FROM Obstacle
                     WHERE ObstacleID = @obstacleId AND UserId = @userId";
 
-        return await _connection.QuerySingleAsync<ObstacleDto>(sql, new { UserId = userId, ObstacleId = obstacleId });
+        return await _connection.QuerySingleAsync<ObstacleDto>(sql, new { userId, obstacleId });
     }
 }
