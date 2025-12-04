@@ -40,7 +40,15 @@ public class RegistrarController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            var errors = ModelState
+                .Where(ms => ms.Value?.Errors.Count > 0) 
+                .SelectMany(ms => ms.Value?.Errors.Select(e => 
+                    $"Field '{ms.Key}': {e.ErrorMessage}") ?? Array.Empty<string>()) 
+                .ToList();
+
+            var errorMessage = string.Join("; ", errors);
+
+            throw new BadHttpRequestException($"ModelState is invalid: {errorMessage}");
         }
         
         var queriedObstacles = await _repoRegistrar.GetObstaclesFilteredAsync(status, type, illumination, marking, dateStart, dateEnd);
