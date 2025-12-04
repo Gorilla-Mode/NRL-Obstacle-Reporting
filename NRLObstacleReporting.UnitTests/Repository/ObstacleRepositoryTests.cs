@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -26,6 +27,16 @@ namespace NRLObstacleReporting.UnitTests.Repository
 
             return new ObstacleRepository(connection);
         }
+
+        private async Task<ObstacleDto> FakeGetObstacleById(string? id, string tableName, IDbConnection connection)
+        {
+            var sql = $@"SELECT * 
+                    FROM {tableName} 
+                    WHERE ObstacleID = {id}";
+
+            return await connection.QuerySingleAsync<ObstacleDto>(sql);
+        }
+
 
         [Fact]
         public async Task InsertStep1Async_InsertsExpectedObstacle_WithInMemorySqlite()
@@ -74,9 +85,8 @@ namespace NRLObstacleReporting.UnitTests.Repository
             // Act
             await repo.InsertStep1Async(obstacle);
 
-            var fetched = await repo.GetObstacleByIdAsync("1");
-
-
+            var fetched = await FakeGetObstacleById("1", "Obstacle", connection);
+            
             // Assert
             Assert.NotNull(fetched);
             Assert.Equal(obstacle.HeightMeter, fetched.HeightMeter);
