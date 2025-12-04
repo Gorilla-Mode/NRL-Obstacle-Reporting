@@ -45,6 +45,7 @@ public class HomeController : Controller
     {
         return View();
     }
+    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
@@ -52,12 +53,14 @@ public class HomeController : Controller
 
         var exceptionType = exceptionFeature?.Error.GetType().Name;
         var exceptionMessage = exceptionFeature?.Error.Message;
+        var httpStatusCode = HttpContext.Response.StatusCode.ToString();
 
         return View(new ErrorViewModel
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
             ExceptionType = exceptionType,
-            ExceptionMessage = exceptionMessage
+            ExceptionMessage = exceptionMessage,
+            HttpStatusCode = httpStatusCode
         });
     }
 }

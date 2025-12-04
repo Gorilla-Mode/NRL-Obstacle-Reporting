@@ -1,16 +1,23 @@
 ﻿@model ErrorViewModel
 @{
-    ViewData["Title"] = "Error";
+ViewData["Title"] = "Error";
 }
 <div class="container mx-auto py-16 px-4">
     <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8 border border-gray-300">
         <div class="text-center mb-6">
-            <h1 class="text-4xl font-bold text-red-600">ERROR</h1>
+            <h1 class="text-4xl font-bold text-red-600">Error</h1>
             <h2 class="text-lg font-semibold text-gray-700 mt-2">
                 An error occurred while processing your request.
             </h2>
         </div>
         <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+            @if (!string.IsNullOrEmpty(Model.HttpStatusCode))
+            {
+                <p class="text-gray-800 text-sm mb-2">
+                    <strong class="font-medium text-gray-600">HTTP Response:</strong>
+                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded">@Model.HttpStatusCode</span>
+                </p>
+            }
             @if (Model.ShowRequestId)
             {
                 <p class="text-gray-800 text-sm mb-2">
@@ -18,6 +25,7 @@
                     <code class="bg-gray-100 text-gray-800 px-2 py-1 rounded">@Model.RequestId</code>
                 </p>
             }
+            <hr class="my-2"/>
             @if (!string.IsNullOrEmpty(Model.ExceptionType))
             {
                 <p class="text-gray-800 text-sm mb-2">
@@ -30,8 +38,8 @@
                 <p class="text-gray-800 text-sm">
                     <strong class="font-medium text-gray-600">Exception Message:</strong>
                     <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded block mt-2">
-                        @Model.ExceptionMessage
-                    </span>
+                            @Model.ExceptionMessage
+                        </span>
                 </p>
             }
         </div>
