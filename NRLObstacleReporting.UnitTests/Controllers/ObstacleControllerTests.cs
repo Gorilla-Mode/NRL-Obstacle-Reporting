@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
@@ -41,16 +42,16 @@ public class ObstacleControllerTests
             null,
             null,
             null);
-        
+
         _obstacleRepository = Substitute.For<IObstacleRepository>();
         _mapper = Substitute.For<IMapper>();
         _signInManager = Substitute.For<SignInManager<IdentityUser>>(
             userManager, httpContextAccessor, Substitute.For<IUserClaimsPrincipalFactory<IdentityUser>>(),
             null,
             null,
-            null, 
+            null,
             null);
-        
+
         var controller = new ObstacleController(_obstacleRepository, _mapper, _signInManager);
         return controller;
     }
@@ -114,17 +115,17 @@ public class ObstacleControllerTests
     /// the appropriate view is returned, ensuring that errors are processed as expected.
     /// </summary>
     [Fact]
-    public void DataFormStep1POST_InvalidModelStateReturnsDataformStep1View()  
+    public void DataFormStep1POST_InvalidModelStateReturnsDataformStep1View()
     {
         //arrange
         var controller = CreateObstacleController();
-        
+
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
-        
+
         //act
         var result = controller.DataformStep1();
         var viewResult = result as ViewResult;
-        
+
         //assert
         Assert.Null(viewResult!.ViewName);
     }
@@ -142,9 +143,9 @@ public class ObstacleControllerTests
     {
         // Arrange
         var controller = CreateObstacleController();
-        
+
         const string expectedAction = nameof(controller.DataformStep2);
-        
+
         var httpContext = Substitute.For<HttpContext>();
         var tempDataProvider = Substitute.For<ITempDataProvider>();
         var tempData = new TempDataDictionary(httpContext, tempDataProvider);
@@ -177,13 +178,13 @@ public class ObstacleControllerTests
     {
         //arrange
         var controller = CreateObstacleController();
-        
+
         controller.ModelState.AddModelError("ObstacleHeightMeter", "Obstacle height meter is required.");
-        
+
         //act
         var result = controller.DataformStep2();
         var viewResult = result as ViewResult;
-        
+
         //assert
         Assert.Null(viewResult!.ViewName);
     }
@@ -201,9 +202,9 @@ public class ObstacleControllerTests
     {
         // Arrange
         var controller = CreateObstacleController();
-        
+
         const string expectedAction = nameof(controller.DataformStep3);
-        
+
         var httpContext = Substitute.For<HttpContext>();
         var tempDataProvider = Substitute.For<ITempDataProvider>();
         var tempData = new TempDataDictionary(httpContext, tempDataProvider);
@@ -227,30 +228,51 @@ public class ObstacleControllerTests
     }
 
     /// <summary>
-    /// Tests that the <see cref="ObstacleController.DataformStep3()"/> method returns an `Overview` view
-    /// with a model of type <see cref="ObstacleCompleteModel"/>, when provided with a valid instance of <see cref="ObstacleStep3Model"/>.
+    /// Tests that the DataformStep3 POST action of the controller correctly processes a valid model.
+    /// Verifies that the action returns the "Overview" view with a model of type <see cref="ObstacleCompleteModel"/>
+    /// populated with the expected data.
     /// </summary>
     [Fact]
-    public void DataformStep3_ValidModel_ReturnsOverviewViewWithModel()
+    public void DataformStep3POST_ValidModel_ReturnsOverviewViewWithModel()
     {
         // Arrange
         var controller = CreateObstacleController();
-        
-        const string testUser = "test-user";
+
+        const string testUser = "test-user-id"; 
         const string expectedViewName = "Overview";
+        const string obstacleId = "22";
+        const string key = "id";
+        
+        var httpContext = Substitute.For<HttpContext>();
+        var tempDataProvider = Substitute.For<ITempDataProvider>();
+        var claims = new[] { new Claim(ClaimTypes.NameIdentifier, testUser) };
+        
+        //mock up temp-data to access
+        controller.TempData = new TempDataDictionary(httpContext, tempDataProvider)
+        {
+            [key] = obstacleId
+        };
+        
+        //simulate a logged-in user
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new ClaimsPrincipal(new ClaimsIdentity(claims))
+            }
+        };
+        
         var step3Model = new ObstacleStep3Model
         {
-            ObstacleId = "1",
             Description = "LALAA",
             Illuminated = ObstacleCompleteModel.Illumination.Illuminated,
             Status = ObstacleCompleteModel.ObstacleStatus.Pending,
-            Marking = ObstacleCompleteModel.ObstacleMarking.Unknown,
-            UserId = testUser
+            Marking = ObstacleCompleteModel.ObstacleMarking.Unknown
         };
-        
+
         var obstacleDto = new ObstacleDto
         {
-            ObstacleId = "1",
+            ObstacleId = obstacleId,
             Description = "LALAA",
             Illuminated = (int)ObstacleCompleteModel.Illumination.Illuminated,
             Status = (int)ObstacleCompleteModel.ObstacleStatus.Pending,
@@ -262,7 +284,7 @@ public class ObstacleControllerTests
 
         var expectedModel = new ObstacleCompleteModel
         {
-            ObstacleId = "1",
+            ObstacleId = obstacleId,
             Description = "LALAA",
             Illuminated = ObstacleCompleteModel.Illumination.Illuminated,
             Status = ObstacleCompleteModel.ObstacleStatus.Pending,
@@ -270,22 +292,21 @@ public class ObstacleControllerTests
             UserId = testUser,
             GeometryGeoJson = "suspicious geojson",
             HeightMeter = 12
-            
         };
         
-        _obstacleRepository.GetObstacleByIdAsync(step3Model.ObstacleId).Returns(obstacleDto);
-        _mapper.Map<ObstacleDto>(step3Model).Returns(obstacleDto);
-        _mapper.Map<ObstacleCompleteModel>(obstacleDto).Returns(expectedModel);
-
+        _obstacleRepository.InsertStep3Async(Arg.Any<ObstacleDto>()).Returns(Task.CompletedTask); //1. user insert model
+        _obstacleRepository.GetObstacleByIdAsync(controller.TempData[key].ToString()).Returns(obstacleDto); //2. full obstacle return from db
+        _mapper.Map<ObstacleCompleteModel>(obstacleDto).Returns(expectedModel); //3. full obstacle mapped to view model
+        
         // Act
         var result = controller.DataformStep3(step3Model).Result;
         var viewResult = result as ViewResult;
 
         // Assert
-        Assert.IsType<ViewResult>(result);
-        Assert.Equal(expectedViewName, viewResult!.ViewName); 
-        Assert.NotNull(viewResult.Model); 
-        Assert.IsType<ObstacleCompleteModel>(viewResult.Model); 
-        Assert.Equal(expectedModel, viewResult.Model); 
+        Assert.NotNull(viewResult);
+        Assert.Equal(expectedViewName, viewResult!.ViewName);
+        Assert.NotNull(viewResult.Model);
+        Assert.IsType<ObstacleCompleteModel>(viewResult.Model);
+        Assert.Equal(expectedModel, viewResult.Model);
     }
 }
