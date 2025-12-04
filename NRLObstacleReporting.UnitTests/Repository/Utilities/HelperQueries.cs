@@ -35,4 +35,25 @@ public class HelperQueries
             
         await connection.ExecuteAsync(sql);
     }
+
+    protected static async Task CreateObstacleTable(IDbConnection connection, string tableName)
+    {
+        var createTableSql = $@"
+            CREATE TABLE {tableName}
+            (
+                ObstacleID     TEXT    NOT NULL PRIMARY KEY,
+                UserId         TEXT    NOT NULL,
+                HeightMeter    INTEGER NOT NULL,
+                GeometryGeoJson TEXT   NULL,
+                Type           INTEGER NOT NULL,
+                Status         INTEGER NOT NULL DEFAULT 0,
+                Marking        INTEGER NOT NULL DEFAULT 0,
+                Name           TEXT    NULL,
+                Description    TEXT    NULL,
+                Illuminated    INTEGER NOT NULL DEFAULT 0,
+                CreationTime   TEXT    NULL,
+                UpdatedTime    TEXT    NULL
+            );";
+        await connection.ExecuteAsync(createTableSql);
+    }
 }
