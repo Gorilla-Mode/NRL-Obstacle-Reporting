@@ -28,7 +28,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
             return new ObstacleRepository(connection);
         }
 
-        private async Task<ObstacleDto> FakeGetObstacleById(string? id, string tableName, IDbConnection connection)
+        private async Task<ObstacleDto> FakeGetObstacleById(string id, string tableName, IDbConnection connection)
         {
             var sql = $@"SELECT * 
                     FROM {tableName} 
