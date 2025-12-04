@@ -1,19 +1,18 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
 using NRLObstacleReporting.Database;
-using NRLObstacleReporting.Models;
 using NRLObstacleReporting.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Xunit;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace NRLObstacleReporting.UnitTests.Repository
 {
     [Collection("SqliteInit")]
+    [TestSubject(typeof(AdminRepository))]
     public class ObstacleRepositoryTests : HelperQueries, IClassFixture<SqliteInitFixture>
     {
         // Only the SQLite init fixture is injected.
@@ -30,6 +29,10 @@ namespace NRLObstacleReporting.UnitTests.Repository
             return new ObstacleRepository(connection);
         }
 
+        /// Verifies that the InsertStep1Async method in the IObstacleRepository correctly inserts an obstacle into an in-memory SQLite database with the expected values.
+        /// <return>
+        /// A completed task that confirms the obstacle has been inserted, using assertions to validate the correctness of the data.
+        /// </return>
         [Fact]
         public async Task InsertStep1Async_InsertsExpectedObstacle_WithInMemorySqlite()
         {
@@ -85,6 +88,11 @@ namespace NRLObstacleReporting.UnitTests.Repository
             Assert.Equal(obstacle.ObstacleId, fetched.ObstacleId);
         }
 
+        /// Verifies that the InsertStep2Async method in the IObstacleRepository correctly updates an obstacle's properties,
+        /// specifically `GeometryGeoJson` and `UpdatedTime`, in an in-memory SQLite database with the expected values.
+        /// <return>
+        /// A completed task that confirms the obstacle has been updated, using assertions to validate the correctness of the modified properties.
+        /// </return>
         [Fact]
         public async Task InsertStep2Async_UpdatesExpectedObstacle_WithInMemorySqlite()
         {
@@ -140,6 +148,11 @@ namespace NRLObstacleReporting.UnitTests.Repository
             Assert.Equal(updatedObstacle.GeometryGeoJson, fetched.GeometryGeoJson);
         }
 
+        /// Verifies that the InsertStep3Async method in the IObstacleRepository updates the specified obstacle's
+        /// details within an in-memory SQLite database and ensures that the updated values are correctly persisted and retrieved.
+        /// <return>
+        /// A completed task that validates the correctness of the updated obstacle data through assertions.
+        /// </return>
         [Fact]
         public async Task InsertStep3Async_UpdatesExpectedObstacle_WithInMemorySqlite()
         {
@@ -203,6 +216,10 @@ namespace NRLObstacleReporting.UnitTests.Repository
             Assert.Equal(updatedObstacle.Marking, fetched.Marking);
         }
 
+        /// Validates that the GetObstacleByIdAsync method in the IObstacleRepository retrieves the obstacle with the expected values from an in-memory SQLite database.
+        /// <return>
+        /// A completed task that confirms the retrieved obstacle matches the expected obstacle, using assertions to validate the accuracy of the data.
+        /// </return>
         [Fact]
         public async Task GetObstacleByIdAsync_ReturnsExpectedObstacle_WithInMemorySqlite()
         {
@@ -255,6 +272,12 @@ namespace NRLObstacleReporting.UnitTests.Repository
             Assert.Equal(obstacle.HeightMeter, fetched.HeightMeter);
         }
 
+        /// Validates that the GetAllSubmittedObstaclesAsync method in the ObstacleRepository retrieves only obstacles
+        /// marked as submitted for a specific user from an in-memory SQLite database.
+        /// <return>
+        /// A completed task that ensures the retrieved obstacles meet the expected criteria, including correct user
+        /// filtering and exclusion of draft obstacles.
+        /// </return>
         [Fact]
         public async Task GetAllSubmittedObstaclesAsync_ReturnsExpectedObstacle_WithInMemorySqlite()
         {

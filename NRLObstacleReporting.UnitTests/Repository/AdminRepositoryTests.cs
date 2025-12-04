@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using JetBrains.Annotations;
 using Microsoft.Data.Sqlite;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Repositories;
@@ -10,6 +11,7 @@ using Xunit;
 namespace NRLObstacleReporting.UnitTests.Repository
 {
     [Collection("SqliteInit")] // ensure Batteries.Init() ran
+    [TestSubject(typeof(AdminRepository))]
     public class AdminRepositoryTests : IClassFixture<SqliteInitFixture>
     {
         private readonly SqliteInitFixture _fixture;
@@ -19,6 +21,13 @@ namespace NRLObstacleReporting.UnitTests.Repository
             _fixture = fixture;
         }
 
+        /// <summary>
+        /// Validates that the GetAllUsersAsync method in the AdminRepository correctly retrieves the expected list of users
+        /// from an in-memory SQLite database configured to mimic the view_UserRole schema.
+        /// </summary>
+        /// <returns>
+        /// A task representing the asynchronous operation; when completed, ensures that the list of users returned from the database matches the expected users.
+        /// </returns>
         [Fact]
         public async Task GetAllUsersAsync_ReturnsExpectedUsers_WithInMemorySqlite()
         {
