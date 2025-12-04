@@ -18,6 +18,6 @@ public record ObstacleDto
     public string? Description { get; init; }
     
     public int Illuminated { get; init; }
-    public DateTime CreationTime { get; init; }
-    public DateTime UpdatedTime { get; init; }
+    public DateTime? CreationTime { get; init; }
+    public DateTime? UpdatedTime { get; init; }
 }
