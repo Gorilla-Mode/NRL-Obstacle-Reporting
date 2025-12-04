@@ -56,7 +56,7 @@ public sealed class ObstacleRepository : RepositoryBase, IObstacleRepository
                     FROM Obstacle 
                     WHERE ObstacleId = @id";
 
-        return await _connection.QuerySingleAsync<ObstacleDto>(sql, new { id = id });
+        return await _connection.QuerySingleAsync<ObstacleDto>(sql, new { id });
     }
 
     /// <inheritdoc/>
@@ -66,6 +66,6 @@ public sealed class ObstacleRepository : RepositoryBase, IObstacleRepository
                      WHERE Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft} AND UserId = @userId
                      ORDER BY CreationTime DESC";
 
-        return await _connection.QueryAsync<ObstacleDto>(sql, new { userId = userId });
+        return await _connection.QueryAsync<ObstacleDto>(sql, new { userId });
     }
 }
