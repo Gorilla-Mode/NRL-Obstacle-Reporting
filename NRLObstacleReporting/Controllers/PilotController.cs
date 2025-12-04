@@ -36,9 +36,9 @@ public class PilotController : Controller
     [HttpGet]
     public async Task<IActionResult> PilotViewReports()
     {
-        string? UserId = _signInManager.UserManager.GetUserId(User);
+        string? userId = _signInManager.UserManager.GetUserId(User);
         
-        var submittedReports = await _repo.GetAllSubmittedObstaclesAsync(UserId);
+        var submittedReports = await _repo.GetAllSubmittedObstaclesAsync(userId);
         
         var modelList = _mapper.Map<IEnumerable<ObstacleCompleteModel>>(submittedReports);
         
