@@ -29,19 +29,6 @@ namespace NRLObstacleReporting.UnitTests.Repository
             return new DraftRepository(connection);
         }
 
-        private async Task InsertObstacleHelper(ObstacleDto obstacle, IDbConnection connection, string tableName)
-        {
-            var sql = $@"INSERT INTO {tableName} 
-                                      (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated,
-                                       Type, Status, Marking, UserId)
-                                VALUES 
-                                    ('{obstacle.ObstacleId}', {obstacle.HeightMeter}, '{obstacle.GeometryGeoJson}', '{obstacle.Name}',
-                                     '{obstacle.Description}', {obstacle.Illuminated}, {obstacle.Type}, {obstacle.Status},
-                                     {obstacle.Marking}, '{obstacle.UserId}');";
-            
-            await connection.ExecuteAsync(sql);
-        }
-
         [Fact]
         public async Task EditDraftAsync_Should_UpdateObstacle_When_ValidDataIsProvided()
         {
@@ -98,7 +85,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
 
             // Act
             await draftRepository.EditDraftAsync(updatedObstacle);
-            var result = await HelperQueries.FakeGetObstacleById(updatedObstacle.ObstacleId, tableName, connection);
+            var result = await FakeGetObstacleById(updatedObstacle.ObstacleId, tableName, connection);
             // Assert
             
             Assert.NotEqual(result, initialData);

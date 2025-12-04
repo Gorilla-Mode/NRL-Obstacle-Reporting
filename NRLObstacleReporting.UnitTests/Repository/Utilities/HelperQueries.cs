@@ -22,4 +22,17 @@ public class HelperQueries
 
         return await connection.QuerySingleAsync<ObstacleDto>(sql);
     }
+    
+    protected static async Task InsertObstacleHelper(ObstacleDto obstacle, IDbConnection connection, string tableName)
+    {
+        var sql = $@"INSERT INTO {tableName} 
+                                      (ObstacleID, Heightmeter, GeometryGeoJson, Name, Description, Illuminated,
+                                       Type, Status, Marking, UserId)
+                                VALUES 
+                                    ('{obstacle.ObstacleId}', {obstacle.HeightMeter}, '{obstacle.GeometryGeoJson}', '{obstacle.Name}',
+                                     '{obstacle.Description}', {obstacle.Illuminated}, {obstacle.Type}, {obstacle.Status},
+                                     {obstacle.Marking}, '{obstacle.UserId}');";
+            
+        await connection.ExecuteAsync(sql);
+    }
 }
