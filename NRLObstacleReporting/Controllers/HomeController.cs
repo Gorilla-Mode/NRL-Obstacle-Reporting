@@ -45,10 +45,22 @@ public class HomeController : Controller
     {
         return View();
     }
-
+    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var exceptionFeature = HttpContext.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+
+        var exceptionType = exceptionFeature?.Error.GetType().Name;
+        var exceptionMessage = exceptionFeature?.Error.Message;
+        var httpStatusCode = HttpContext.Response.StatusCode.ToString();
+
+        return View(new ErrorViewModel
+        {
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+            ExceptionType = exceptionType,
+            ExceptionMessage = exceptionMessage,
+            HttpStatusCode = httpStatusCode
+        });
     }
 }
