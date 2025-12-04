@@ -19,7 +19,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
         {
         }
 
-        private static IDraftRepository CreateRepo(SqliteConnection connection)
+        private static IDraftRepository CreateDraftRepo(SqliteConnection connection)
         {
             // Ensure the connection is open before use
             if (connection.State != ConnectionState.Open)
@@ -45,10 +45,9 @@ namespace NRLObstacleReporting.UnitTests.Repository
             const string tableName = "Obstacle";
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
-            
             await CreateObstacleTable(connection, tableName);
-
-            var draftRepository = CreateRepo(connection); 
+            var draftRepository = CreateDraftRepo(connection); 
+            
             var updatedObstacle = new ObstacleDto
             {
                 ObstacleId = "1",
@@ -105,7 +104,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
             
             await CreateObstacleTable(connection, tableName);
 
-            var draftRepository = CreateRepo(connection); 
+            var draftRepository = CreateDraftRepo(connection); 
             var draftObstacle = new ObstacleDto
             {
                 ObstacleId = "1",
@@ -163,7 +162,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
             await CreateObstacleTable(connection, tableName);
-            var draftRepository = CreateRepo(connection);
+            var draftRepository = CreateDraftRepo(connection);
             
             var obstacles = new List<ObstacleDto>
             {
@@ -253,7 +252,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
             await CreateObstacleTable(connection, tableName);
-            var draftRepository = CreateRepo(connection);
+            var draftRepository = CreateDraftRepo(connection);
             
             var obstacles = new List<ObstacleDto>
             {
