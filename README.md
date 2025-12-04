@@ -60,7 +60,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >      1. Make sure docker is running `docker desktop start`
 >      2. In **root folder**, run:
 >           ```powershell
->            .\build.ps1 -d
+>           .\build.ps1 -d
 >           ```
 >          *This will prompt for necessary user input to generate `.env` file. And will deploy containers in detached mode*
 >         1. For a clean installation use flag `-c`. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for more info and optional flags
@@ -69,13 +69,13 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >    2. in **root folder**, run:
 > 
 >       ```powershell
->        .\initdb.ps1 -rc -l
+>       .\initdb.ps1 -rc -l
 >       ``` 
 >       
 >         *This will inject SQL into container and build the database, restart the containers with logger allowing tests to be confirmed*
 >
 >       1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info about the script
->   3. Confirm that all integration test have succeeded.
+>   3. Confirm that **all** integration tests have succeeded.
 >
 > Complete information about scripts can be found [here](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki#scripts)
 ></details>
