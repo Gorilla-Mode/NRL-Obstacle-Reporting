@@ -1,12 +1,13 @@
 ﻿using Dapper;
+using JetBrains.Annotations;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Repositories;
 using System;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Xunit;
 
 namespace NRLObstacleReporting.UnitTests.Repository
@@ -18,7 +19,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
         // Only the SQLite init fixture is injected.
         public ObstacleRepositoryTests(SqliteInitFixture _) { }
 
-        private static IObstacleRepository CreateRepo(SqliteConnection connection)
+        private static IObstacleRepository CreateObstacleRepo(SqliteConnection connection)
         {
             // Ensure the connection is open before use
             if (connection.State != ConnectionState.Open)
@@ -37,28 +38,14 @@ namespace NRLObstacleReporting.UnitTests.Repository
         public async Task InsertStep1Async_InsertsExpectedObstacle_WithInMemorySqlite()
         {
             // Arrange
+            const string tableName = "Obstacle";
+
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            var createTableSql = @"
-            CREATE TABLE Obstacle
-            (
-                ObstacleID     TEXT    NOT NULL PRIMARY KEY,
-                UserId         TEXT    NOT NULL,
-                HeightMeter    INTEGER NOT NULL,
-                GeometryGeoJson TEXT   NULL,
-                Type           INTEGER NOT NULL,
-                Status         INTEGER NOT NULL DEFAULT 0,
-                Marking        INTEGER NOT NULL DEFAULT 0,
-                Name           TEXT    NULL,
-                Description    TEXT    NULL,
-                Illuminated    INTEGER NOT NULL DEFAULT 0,
-                CreationTime   TEXT    NULL,
-                UpdatedTime    TEXT    NULL
-            );";
-            await connection.ExecuteAsync(createTableSql);
+            await CreateObstacleTable(connection, tableName);
 
-            var repo = CreateRepo(connection);
+            var repo = CreateObstacleRepo(connection);
 
             var obstacle = new ObstacleDto
             {
@@ -79,8 +66,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
 
             // Act
             await repo.InsertStep1Async(obstacle);
-
-            var fetched = await HelperQueries.FakeGetObstacleById("1", "Obstacle", connection);
+            var fetched = await FakeGetObstacleById("1", "Obstacle", connection);
 
             // Assert
             Assert.NotNull(fetched);
@@ -97,26 +83,12 @@ namespace NRLObstacleReporting.UnitTests.Repository
         public async Task InsertStep2Async_UpdatesExpectedObstacle_WithInMemorySqlite()
         {
             // Arrange
+            const string tableName = "Obstacle";
+
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
-            var createTableSql = @"
-            CREATE TABLE Obstacle
-            (
-                ObstacleID     TEXT    NOT NULL PRIMARY KEY,
-                UserId         TEXT    NOT NULL,
-                HeightMeter    INTEGER NOT NULL,
-                GeometryGeoJson TEXT   NULL,
-                Type           INTEGER NOT NULL,
-                Status         INTEGER NOT NULL DEFAULT 0,
-                Marking        INTEGER NOT NULL DEFAULT 0,
-                Name           TEXT    NULL,
-                Description    TEXT    NULL,
-                Illuminated    INTEGER NOT NULL DEFAULT 0,
-                CreationTime   TEXT    NULL,
-                UpdatedTime    TEXT    NULL
-            );";
-            await connection.ExecuteAsync(createTableSql);
-            var repo = CreateRepo(connection);
+            await CreateObstacleTable(connection, tableName);
+            var repo = CreateObstacleRepo(connection);
             var obstacle = new ObstacleDto
             {
                 ObstacleId = "2",
@@ -132,16 +104,16 @@ namespace NRLObstacleReporting.UnitTests.Repository
                 CreationTime = null,
                 UpdatedTime = null
             };
+
             // Act
             await repo.InsertStep1Async(obstacle);
-            // Update GeometryGeoJson
             var updatedObstacle = obstacle with
             {
                 GeometryGeoJson = "POINT(30 40)",
                 UpdatedTime = DateTime.UtcNow
             };
             await repo.InsertStep2Async(updatedObstacle);
-            var fetched = await HelperQueries.FakeGetObstacleById("2", "Obstacle", connection);
+            var fetched = await FakeGetObstacleById("2", "Obstacle", connection);
 
             // Assert
             Assert.NotNull(fetched);
@@ -157,26 +129,12 @@ namespace NRLObstacleReporting.UnitTests.Repository
         public async Task InsertStep3Async_UpdatesExpectedObstacle_WithInMemorySqlite()
         {
             // Arrange
+            const string tableName = "Obstacle";
+
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
-            var createTableSql = @"
-            CREATE TABLE Obstacle
-            (
-                ObstacleID     TEXT    NOT NULL PRIMARY KEY,
-                UserId         TEXT    NOT NULL,
-                HeightMeter    INTEGER NOT NULL,
-                GeometryGeoJson TEXT   NULL,
-                Type           INTEGER NOT NULL,
-                Status         INTEGER NOT NULL DEFAULT 0,
-                Marking        INTEGER NOT NULL DEFAULT 0,
-                Name           TEXT    NULL,
-                Description    TEXT    NULL,
-                Illuminated    INTEGER NOT NULL DEFAULT 0,
-                CreationTime   TEXT    NULL,
-                UpdatedTime    TEXT    NULL
-            );";
-            await connection.ExecuteAsync(createTableSql);
-            var repo = CreateRepo(connection);
+            await CreateObstacleTable(connection, tableName);
+            var repo = CreateObstacleRepo(connection);
             var obstacle = new ObstacleDto
             {
                 ObstacleId = "3",
@@ -192,9 +150,11 @@ namespace NRLObstacleReporting.UnitTests.Repository
                 CreationTime = null,
                 UpdatedTime = null
             };
+
             // Act
             await repo.InsertStep1Async(obstacle);
             await repo.InsertStep2Async(obstacle);
+
             // Update final details
             var updatedObstacle = obstacle with
             {
@@ -224,27 +184,13 @@ namespace NRLObstacleReporting.UnitTests.Repository
         public async Task GetObstacleByIdAsync_ReturnsExpectedObstacle_WithInMemorySqlite()
         {
             // Arrange
+            const string tableName = "Obstacle";
+
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
-            var createTableSql = @"
-            CREATE TABLE Obstacle
-            (
-                ObstacleID     TEXT    NOT NULL PRIMARY KEY,
-                UserId         TEXT    NOT NULL,
-                HeightMeter    INTEGER NOT NULL,
-                GeometryGeoJson TEXT   NULL,
-                Type           INTEGER NOT NULL,
-                Status         INTEGER NOT NULL DEFAULT 0,
-                Marking        INTEGER NOT NULL DEFAULT 0,
-                Name           TEXT    NULL,
-                Description    TEXT    NULL,
-                Illuminated    INTEGER NOT NULL DEFAULT 0,
-                CreationTime   TEXT    NULL,
-                UpdatedTime    TEXT    NULL
-            );";
-            await connection.ExecuteAsync(createTableSql);
+            await CreateObstacleTable(connection, tableName);
 
-            var repo = CreateRepo(connection);
+            var repo = CreateObstacleRepo(connection);
 
             var obstacle = new ObstacleDto
             {
@@ -263,8 +209,10 @@ namespace NRLObstacleReporting.UnitTests.Repository
             };
 
             await repo.InsertStep1Async(obstacle);
+
             // Act
             var fetched = await repo.GetObstacleByIdAsync("4");
+
             // Assert
             Assert.NotNull(fetched);
             Assert.Equal(obstacle.ObstacleId, fetched.ObstacleId);
@@ -281,31 +229,16 @@ namespace NRLObstacleReporting.UnitTests.Repository
         [Fact]
         public async Task GetAllSubmittedObstaclesAsync_ReturnsExpectedObstacle_WithInMemorySqlite()
         {
+            //Arrange
             const string tableName = "Obstacle";
             
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
-            var createTableSql = @"
-        CREATE TABLE Obstacle
-        (
-            ObstacleID      TEXT    NOT NULL PRIMARY KEY,
-            UserId          TEXT    NOT NULL,
-            HeightMeter     INTEGER NOT NULL,
-            GeometryGeoJson TEXT    NULL,
-            Type            INTEGER NOT NULL,
-            Status          INTEGER NOT NULL DEFAULT 0,
-            Marking         INTEGER NOT NULL DEFAULT 0,
-            Name            TEXT    NULL,
-            Description     TEXT    NULL,
-            Illuminated     INTEGER NOT NULL DEFAULT 0,
-            CreationTime    TEXT    NULL,
-            UpdatedTime     TEXT    NULL
-        );";
-            await connection.ExecuteAsync(createTableSql);
+            await CreateObstacleTable(connection, tableName);
 
             var repo = new ObstacleRepository(connection);
 
-            // Insert obstacles for user "u1" and "u2" with mixed statuses
+           
             var now = DateTime.UtcNow;
             var obstacles = new[]
             {
@@ -320,10 +253,11 @@ namespace NRLObstacleReporting.UnitTests.Repository
             {
                 await InsertObstacleHelper(obstacle, connection, tableName);
             }
-            
+
+            //Act
             var result = (await repo.GetAllSubmittedObstaclesAsync("u1")).ToList();
 
-
+            //Assert
             Assert.True(result.All(r => r.UserId == "u1"), "All returned obstacles must belong to user 'u1'");
             Assert.Equal(2, result.Count); // only b and c
             Assert.All(result, r => Assert.Equal("u1", r.UserId));
