@@ -11,6 +11,10 @@
 | Mina Rebecca Remseth | [minarr@uia.no](minarr@uia.no)      | [minaremseth](https://github.com/minaremseth)     |
 | Oda Elise Aanestad   | [odaea@uia.no](odaea@uia.no)        | [odaeaanestad](https://github.com/Odaeaanestad)                                  |
 
+## Project goal
+The main goal of our project is to design and develop a fast, reliable, and user-friendly web application for reporting new or modified aviation obstacles. The system enables pilots to quickly and accurately submit obstacle information, even under time pressure, while providing registrars at Kartverket with an efficient workflow for filtering, reviewing, validating, and publishing reports to the National Register of Aviation Obstacles (NRL).
+
+In addition to core functionality, the project emphasizes modern web technologies and security practices. The user interface is built with HTML to ensure clarity and accessibility, while unit testing has been applied to verify correctness and reliability of the system. To strengthen security, the application has been designed to mitigate common vulnerabilities such as SQL injection, Cross-Site Scripting (XSS), and Cross-Site Request Forgery (CSRF). Furthermore, the system includes registration and login functionality with proper authorization and authentication, ensuring that only pilots and registrars with the correct roles can access their respective features.
 ## Further documentation, system architecture, testing scenarios and scripts
 
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
@@ -38,21 +42,42 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 > [!IMPORTANT]
 > <details open>
-> <summary style="font-size: 14px; font-weight: bold">1. Run using powershell script (recommended) </summary>
+> <summary style="font-size: 14px; font-weight: bold">1. Build using powershell script (recommended) </summary>
 >
 >   1. Compile CSS 
 >      1. Make sure **Node.js** is installed
 >      2. Cd to `./NRLObstacleReporting/NRLObstacleReporting` where **package.json** is located
->      3. Run `npm run build:css` to compile tailwind css
->   2. Compose environment
+>      3. Initialize npm with:
+>           ```powershell
+>           npm install
+>           ```  
+>      4. Compile CSS with:
+>           ```powershell
+>           npm run build:css
+>           ```
+>       
+> 2. Compose environment
 >      1. Make sure docker is running `docker desktop start`
->      2. In **root folder**, run `./build.ps1`
->      to generate `.env` file. 
->      And deploy containers
->         1. For a clean installation use flag `-c`. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for more info
->   3. Inject SQL 
->      1. in **root folder**, run `./initdb.ps1` to inject sql into container and build the database
->         1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info
+>      2. In **root folder**, run:
+>           ```powershell
+>           .\build.ps1 -d
+>           ```
+>          *This will prompt for necessary user input to generate `.env` file. And will deploy containers in detached mode*
+>         1. For a clean installation use flag `-c`. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/build.ps1) for more info and optional flags
+> 3. Inject SQL 
+>    1. Make sure port 3306 is available
+>    2. in **root folder**, run:
+> 
+>       ```powershell
+>       .\initdb.ps1 -rc -l
+>       ``` 
+>       
+>         *This will inject SQL into container and build the database, restart the containers with logger allowing tests to be confirmed*
+>
+>       1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info about the script
+>   3. Confirm that **all** integration tests have succeeded.
+>
+> Complete information about scripts can be found [here](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki#scripts)
 ></details>
 
 
