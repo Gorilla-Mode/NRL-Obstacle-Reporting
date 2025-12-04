@@ -2,7 +2,9 @@
     [Switch]$h, # helper
     [Switch]$ni, # no inject
     [Switch]$ne, # no execute
-    [Switch]$r #Rebuilds database
+    [Switch]$r, #Rebuilds database
+    [Switch]$rc, #restarts containers
+    [Switch]$l #attaches logger
 )
 
 if($h)
@@ -12,7 +14,27 @@ if($h)
     Write-Host "    -ni: no inject. Prevents sql from being injected to container"
     Write-Host "    -ne: no execute. Prevents sql script in container from being executed"
     Write-Host "    -r: rebuild. Drops database, and reacreates it"
+    Write-Host "    -rc: restart containers. Restarts containers"
+    Write-Host "        -l: logger. Attaches logging to cli, allows confirmation of integration tests. requires -rc"
     return
+}
+
+if($l -and !$rc)
+{
+    Write-Host "    ERROR: Illegal flag. Must run -rc to run -l"
+    return
+}
+
+if ($r)
+{
+    Write-Host "WARNING: Selected flag will drop database!"
+    $conf = Read-Host "     Confirm [Y]"
+    
+    if (!$conf -eq "y" -or !$conf -eq "Y")
+    {
+        Write-Host "     Aborted"
+        return
+    }
 }
 
 $scriptAbsolutePath = Split-Path -Parent $MyInvocation.MyCommand.Definition
@@ -80,7 +102,7 @@ if($r) #goofy script maybe redo
 
         Write-Host "    Executing sql script on $($envHash['MYSQL_DATABASE'])..."
         docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <dropdb.sql"
-        Write-Host "    Database Rebuilt"
+        Write-Host "    Database dropped!"
     }
     catch
     {
@@ -101,4 +123,17 @@ if(!$ne)
     {
         return
     } 
+}
+if($rc) #Restart container with logger to confirm integration tests
+{
+    Write-Host "Restaring containers detatched.."
+    docker-compose stop
+    docker-compose start
+    Write-Host "Containers restared, logger attached"
+    if($l)
+    {
+        Write-Host "logger attached"
+        docker-compose logs -f --since 0m
+    }
+    
 }

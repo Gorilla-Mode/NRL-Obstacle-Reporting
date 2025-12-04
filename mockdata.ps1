@@ -16,6 +16,24 @@ if($h)
     return
 }
 
+if(!$i -and $c)
+{
+    Write-Host "    ERROR: Illegal flag. Must run -i to run -c"
+    return
+}
+
+if ($r)
+{
+    Write-Host "WARNING: Selected flag will drop database!"
+    $conf = Read-Host "     Confirm [Y]"
+
+    if (!$conf -eq "y" -or !$conf -eq "Y")
+    {
+        Write-Host "     Aborted"
+        return
+    }
+}
+
 #Important variables!
 $scriptAbsolutePath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $sciptoutputname = "mockdataoutput.sql"
