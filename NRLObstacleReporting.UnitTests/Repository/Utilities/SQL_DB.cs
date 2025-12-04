@@ -3,6 +3,7 @@ using System.IO;
 
 namespace NRLObstacleReporting.UnitTests.Repository
 {
+    //Is not used yet but will be used IN THE FUTURE to read db.sql for initializing test databases
     public static class SQL_DB
     {
         /// <summary>
