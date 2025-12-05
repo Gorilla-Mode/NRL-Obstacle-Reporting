@@ -256,38 +256,45 @@
                         @{
                             if (!string.IsNullOrWhiteSpace(o.GeometryGeoJson))
                             {
-                                var json = JsonNode.Parse(o.GeometryGeoJson);
-                                var features = json?["features"]?.AsArray();
-                                if (features != null)
+                                try
                                 {
-                                    for (var index = 0; index < features.Count; index++)
+                                    var json = JsonNode.Parse(o.GeometryGeoJson);
+                                    var features = json?["features"]?.AsArray();
+                                    if (features != null)
                                     {
-                                        string label = "Undefined";
-
-                                        var feature = features[(Index)index];
-                                        var coords = feature?["geometry"]?["coordinates"]?.AsArray();
-                                        if (coords != null && coords.Count >= 2)
+                                        for (var index = 0; index < features.Count; index++)
                                         {
-                                            if (feature?["properties"]?["name"]?.ToString() == "gpsCoordinates")
-                                            {
-                                                label = "GPS Coordinates";
-                                            }
-                                            else if (feature?["geometry"]?["type"]?.ToString() == "Point" && coords.Count == 2)
-                                            {
-                                                label = "Point";
-                                            }
-                                            else if (feature?["geometry"]?["type"]?.ToString() == "LineString")
-                                            {
-                                                label = "Line";
-                                            }
+                                            string label = "Undefined";
 
-                                            <div> @(index + 1). @label - [ @coords[0], @coords[1] ]</div>
+                                            var feature = features[(Index)index];
+                                            var coords = feature?["geometry"]?["coordinates"]?.AsArray();
+                                            if (coords != null && coords.Count >= 2)
+                                            {
+                                                if (feature?["properties"]?["name"]?.ToString() == "gpsCoordinates")
+                                                {
+                                                    label = "GPS Coordinates";
+                                                }
+                                                else if (feature?["geometry"]?["type"]?.ToString() == "Point" && coords.Count == 2)
+                                                {
+                                                    label = "Point";
+                                                }
+                                                else if (feature?["geometry"]?["type"]?.ToString() == "LineString")
+                                                {
+                                                    label = "Line";
+                                                }
+
+                                                <div> @(index + 1). @label - [ @coords[0], @coords[1] ]</div>
+                                            }
                                         }
                                     }
+                                    else
+                                    {
+                                        <span>No coordinates</span>
+                                    }
                                 }
-                                else
+                                catch (Exception)
                                 {
-                                    <span>No coordinates</span>
+                                    <span>Invalid data</span>
                                 }
                             }
                             else
