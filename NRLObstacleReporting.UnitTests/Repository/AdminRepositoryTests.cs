@@ -68,6 +68,8 @@ namespace NRLObstacleReporting.UnitTests.Repository
             // Assert
             Assert.NotNull(result);
             Assert.Equal(expectedUsers.Count, result.Count);
+            
+            //Checks each value put inn equals retrieved value
             for (int i = 0; i < expectedUsers.Count; i++)
             {
                 Assert.Equal(expectedUsers[i].UserId, result[i].UserId);
