@@ -21,7 +21,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 > [!CAUTION]
 > ### 0. Prerequisites
-> - Port `3306` open
+> - Port `3306` is open
 > - Geolocation activated in your browser (when in application)
 
 > [!CAUTION]
