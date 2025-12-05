@@ -42,12 +42,12 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await connection.OpenAsync();
 
             var sql = @"
-                        CREATE TABLE IF NOT EXISTS AspNetRoles
+                        CREATE TABLE AspNetRoles
                         (
-                            Id VARCHAR(255) NOT NULL PRIMARY KEY,
-                            Name VARCHAR(255),
-                            NormalizedName VARCHAR(255),
-                            ConcurrencyStamp VARCHAR(255)
+                            Id TEXT NOT NULL PRIMARY KEY,
+                            Name TEXT,
+                            NormalizedName TEXT,
+                            ConcurrencyStamp TEXT
                         );";
             await connection.ExecuteAsync(sql);
 
@@ -55,11 +55,12 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
 
             var role = new IdentityRole
             {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Admin",
-                NormalizedName = "ADMIN",
-                ConcurrencyStamp = "fasfda"
+                Id = "googo",
+                Name = "Pilot",
+                NormalizedName = "PILOT",
+                ConcurrencyStamp = Guid.NewGuid().ToString()
             };
+            
 
             // Use a non-cancelable token for this test invocation
             var result = await roleStore.CreateAsync(role, CancellationToken.None);

@@ -62,8 +62,8 @@ public class HelperQueries
     protected static async Task<IdentityRole> FakeGetRole(string roleId, IDbConnection connection)
     {
         var sql = $@"SELECT * 
-                    FROM Role 
-                    WHERE RoleID = {roleId}";
+                    FROM AspNetRoles 
+                    WHERE Id = {roleId}";
         
        return await connection.QuerySingleAsync(sql);
     }
