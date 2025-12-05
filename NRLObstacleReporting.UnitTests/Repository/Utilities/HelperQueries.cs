@@ -1,7 +1,8 @@
-﻿using System.Data;
-using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
+using Microsoft.AspNetCore.Identity;
 using NRLObstacleReporting.Database;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace NRLObstacleReporting.UnitTests.Repository;
 
@@ -56,5 +57,14 @@ public class HelperQueries
                 UpdatedTime    TEXT    NULL
             );";
         await connection.ExecuteAsync(createTableSql);
+    }
+
+    protected static async Task<IdentityRole> FakeGetRole(string roleId, IDbConnection connection)
+    {
+        var sql = $@"SELECT * 
+                    FROM Role 
+                    WHERE RoleID = {roleId}";
+        
+       return await connection.QuerySingleAsync(sql);
     }
 }
