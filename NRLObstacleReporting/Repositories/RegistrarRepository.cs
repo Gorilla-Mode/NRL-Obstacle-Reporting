@@ -1,6 +1,7 @@
 using System.Data;
 using Dapper;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using NRLObstacleReporting.Database;
 using NRLObstacleReporting.Models;
 
@@ -38,7 +39,7 @@ public sealed class RegistrarRepository : RepositoryBase, IRegistrarRepository
                     FROM view_ObstacleUser
                     WHERE ObstacleID = @id AND Status <> {(int)ObstacleCompleteModel.ObstacleStatus.Draft}";
 
-        return await _connection.QuerySingleAsync<ViewObstacleUserDto>(sql, new { Id = id });
+        return await _connection.QuerySingleAsync<ViewObstacleUserDto>(sql, new { id });
     }
 
     /// <inheritdoc/>
@@ -67,7 +68,7 @@ public sealed class RegistrarRepository : RepositoryBase, IRegistrarRepository
     /// <inheritdoc/>
     public async Task<IList<ObstacleDto>> GetObstaclesFilteredAsync(ObstacleCompleteModel.ObstacleStatus[] status,
         ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
-        ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateStart, DateOnly dateEnd)
+        ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateEnd, DateOnly dateStart )
     {
         //TODO: Parameterize the variables
         string sql = $@"SELECT * 
@@ -103,7 +104,7 @@ public sealed class RegistrarRepository : RepositoryBase, IRegistrarRepository
             sql += $" AND Marking IN ({markingList})";
         }
 
-        if (dateStart.ToString() != String.Empty && dateEnd.ToString() != String.Empty)
+        if ((dateStart.ToString() != String.Empty && dateEnd.ToString() != String.Empty) && (dateEnd != default && dateStart != default)) //defaults for testing purposes
         {
             string formattedDateStart = dateStart.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string formattedDateEnd = dateEnd.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
