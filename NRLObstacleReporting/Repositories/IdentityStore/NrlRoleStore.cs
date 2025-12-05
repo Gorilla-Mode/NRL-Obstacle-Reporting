@@ -11,7 +11,7 @@ namespace NRLObstacleReporting.Repositories.IdentityStore;
 public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
 {
     private readonly string _connectionString;
-    private readonly IDbConnection? _providedConnection;
+    private readonly IDbConnection _conn;
     private const string RolesTable = "AspNetRoles"; // default Identity roles table
 
     /// <summary>
@@ -20,11 +20,13 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
     public NrlRoleStore()
     {
         _connectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
+        _conn = CreateConnection();
     }
 
-    public NrlRoleStore(string mockconnection)
+    public NrlRoleStore(IDbConnection mockconnection)
     {
-        _connectionString = mockconnection;
+        _connectionString = mockconnection.ConnectionString;
+        _conn = mockconnection;
     }
 
     /// <summary>
@@ -32,7 +34,7 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
     /// </summary>
     /// <returns>new SQL connection to mariadb container</returns>
     private IDbConnection CreateConnection() => new MySqlConnection(_connectionString);
-    
+
     /// <inheritdoc/>
     public void Dispose()
     {
@@ -45,13 +47,12 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
         role.ConcurrencyStamp ??= Guid.NewGuid().ToString();
-        
+
         const string sql = @$"INSERT INTO {RolesTable} (Id, Name, NormalizedName, ConcurrencyStamp)
                               VALUES (@Id, @Name, @NormalizedName, @ConcurrencyStamp)";
-        
-        using var conn = CreateConnection();
-        await conn.ExecuteAsync(new CommandDefinition(sql, role, cancellationToken: cancellationToken));
-        
+
+        await _conn.ExecuteAsync(new CommandDefinition(sql, role, cancellationToken: cancellationToken));
+
         return IdentityResult.Success;
     }
 
@@ -60,13 +61,12 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
-        
+
         const string sql = @$"DELETE FROM {RolesTable} 
                               WHERE Id = @Id";
         
-        using var conn = CreateConnection();
-        await conn.ExecuteAsync(new CommandDefinition(sql, new { role.Id }, cancellationToken: cancellationToken));
-        
+        await _conn.ExecuteAsync(new CommandDefinition(sql, new { role.Id }, cancellationToken: cancellationToken));
+
         return IdentityResult.Success;
     }
 
@@ -74,34 +74,34 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
     public async Task<IdentityRole?> FindByIdAsync(string roleId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        
+
         const string sql = @$"SELECT Id, Name, NormalizedName, ConcurrencyStamp
                               FROM {RolesTable} 
                               WHERE Id = @Id LIMIT 1";
         
-        using var conn = CreateConnection();
-        return await conn.QueryFirstOrDefaultAsync<IdentityRole>(new CommandDefinition(sql, new { Id = roleId }, cancellationToken: cancellationToken));
+        return await _conn.QueryFirstOrDefaultAsync<IdentityRole>(new CommandDefinition(sql, new { Id = roleId },
+            cancellationToken: cancellationToken));
     }
 
     /// <inheritdoc/>
     public async Task<IdentityRole?> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        
+
         const string sql = @$"SELECT Id, Name, NormalizedName, ConcurrencyStamp 
                               FROM {RolesTable} 
                               WHERE NormalizedName = @NormalizedName LIMIT 1";
         
-        using var conn = CreateConnection();
-        return await conn.QueryFirstOrDefaultAsync<IdentityRole>(new CommandDefinition(sql, new { NormalizedName = normalizedRoleName }, cancellationToken: cancellationToken));
+        return await _conn.QueryFirstOrDefaultAsync<IdentityRole>(new CommandDefinition(sql,
+            new { NormalizedName = normalizedRoleName }, cancellationToken: cancellationToken));
     }
-    
+
     /// <inheritdoc/>
     public Task<string?> GetNormalizedRoleNameAsync(IdentityRole role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
-        
+
         return Task.FromResult(role.NormalizedName);
     }
 
@@ -110,7 +110,7 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
-        
+
         return Task.FromResult(role.Id);
     }
 
@@ -119,18 +119,19 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
-        
+
         return Task.FromResult(role.Name);
     }
 
     /// <inheritdoc/>
-    public Task SetNormalizedRoleNameAsync(IdentityRole role, string? normalizedName, CancellationToken cancellationToken)
+    public Task SetNormalizedRoleNameAsync(IdentityRole role, string? normalizedName,
+        CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
-        
+
         role.NormalizedName = normalizedName;
-        
+
         return Task.CompletedTask;
     }
 
@@ -139,9 +140,9 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
-        
+
         role.Name = roleName;
-        
+
         return Task.CompletedTask;
     }
 
@@ -151,14 +152,13 @@ public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(role);
         role.ConcurrencyStamp ??= Guid.NewGuid().ToString();
-        
+
         const string sql = @$"UPDATE {RolesTable} 
                               SET Name = @Name, NormalizedName = @NormalizedName, ConcurrencyStamp = @ConcurrencyStamp 
                               WHERE Id = @Id";
         
-        using var conn = CreateConnection();
-        await conn.ExecuteAsync(new CommandDefinition(sql, role, cancellationToken: cancellationToken));
-        
+        await _conn.ExecuteAsync(new CommandDefinition(sql, role, cancellationToken: cancellationToken));
+
         return IdentityResult.Success;
     }
-} 
+}

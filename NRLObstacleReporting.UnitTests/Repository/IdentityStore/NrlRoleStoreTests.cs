@@ -31,7 +31,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             }
 
             // Use the SQLite test table name
-            return new NrlRoleStore("Data Source=:memory:");
+            return new NrlRoleStore(connection);
         }
 
         [Fact]
@@ -42,11 +42,13 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await connection.OpenAsync();
 
             var sql = @"
-                CREATE TABLE Roles (
-                    Id              TEXT    NOT NULL PRIMARY KEY,
-                    Name            TEXT    NOT NULL,
-                    NormalizedName  TEXT    NOT NULL
-                );";
+                        CREATE TABLE IF NOT EXISTS AspNetRoles
+                        (
+                            Id VARCHAR(255) NOT NULL PRIMARY KEY,
+                            Name VARCHAR(255),
+                            NormalizedName VARCHAR(255),
+                            ConcurrencyStamp VARCHAR(255)
+                        );";
             await connection.ExecuteAsync(sql);
 
             var roleStore = CreateRoleStore(connection);
@@ -55,7 +57,8 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Admin",
-                NormalizedName = "ADMIN"
+                NormalizedName = "ADMIN",
+                ConcurrencyStamp = "fasfda"
             };
 
             // Use a non-cancelable token for this test invocation
