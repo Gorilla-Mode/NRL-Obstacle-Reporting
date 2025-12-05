@@ -39,10 +39,10 @@ namespace NRLObstacleReporting.UnitTests.Repository
         {
             // Arrange
             const string tableName = "Obstacle";
-
+            
+            //Makes database and table in memory to test with
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
-
             await CreateObstacleTable(connection, tableName);
 
             var repo = CreateObstacleRepo(connection);
@@ -84,11 +84,14 @@ namespace NRLObstacleReporting.UnitTests.Repository
         {
             // Arrange
             const string tableName = "Obstacle";
-
+            
+            //Makes database and table in memory to test with
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
             await CreateObstacleTable(connection, tableName);
+            
             var repo = CreateObstacleRepo(connection);
+            
             var obstacle = new ObstacleDto
             {
                 ObstacleId = "2",
@@ -107,6 +110,8 @@ namespace NRLObstacleReporting.UnitTests.Repository
 
             // Act
             await repo.InsertStep1Async(obstacle);
+            
+            // Update details since InsertStep2Async is Update
             var updatedObstacle = obstacle with
             {
                 GeometryGeoJson = "POINT(30 40)",
@@ -130,11 +135,14 @@ namespace NRLObstacleReporting.UnitTests.Repository
         {
             // Arrange
             const string tableName = "Obstacle";
-
+            
+            //Makes database and table in memory to test with
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
             await CreateObstacleTable(connection, tableName);
+            
             var repo = CreateObstacleRepo(connection);
+            
             var obstacle = new ObstacleDto
             {
                 ObstacleId = "3",
@@ -155,7 +163,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
             await repo.InsertStep1Async(obstacle);
             await repo.InsertStep2Async(obstacle);
 
-            // Update final details
+            // Update final details since InsertStep3Async is Update
             var updatedObstacle = obstacle with
             {
                 Name = "Test Obstacle C",
@@ -167,6 +175,7 @@ namespace NRLObstacleReporting.UnitTests.Repository
             };
             await repo.InsertStep3Async(updatedObstacle);
             var fetched = await HelperQueries.FakeGetObstacleById("3", "Obstacle", connection);
+            
             // Assert
             Assert.NotNull(fetched);
             Assert.Equal(updatedObstacle.Name, fetched.Name);
@@ -258,9 +267,11 @@ namespace NRLObstacleReporting.UnitTests.Repository
             var result = (await repo.GetAllSubmittedObstaclesAsync("u1")).ToList();
 
             //Assert
-            Assert.True(result.All(r => r.UserId == "u1"), "All returned obstacles must belong to user 'u1'");
-            Assert.Equal(2, result.Count); // only b and c
-            Assert.All(result, r => Assert.Equal("u1", r.UserId));
+            
+            //All returned obstacles must belong to user u1
+            Assert.True(result.All(r => r.UserId == "u1"));
+            
+            Assert.Equal(2, result.Count); 
             Assert.DoesNotContain(result, r => r.Status == 0);
 
         }

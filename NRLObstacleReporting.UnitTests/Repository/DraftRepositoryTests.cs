@@ -43,9 +43,12 @@ namespace NRLObstacleReporting.UnitTests.Repository
         {
             // Arrange
             const string tableName = "Obstacle";
+            
+            //Makes database and table in memory to test with
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
             await CreateObstacleTable(connection, tableName);
+            
             var draftRepository = CreateDraftRepo(connection); 
             
             var updatedObstacle = new ObstacleDto
@@ -99,12 +102,14 @@ namespace NRLObstacleReporting.UnitTests.Repository
         {
             // Arrange
             const string tableName = "Obstacle";
+            
+            //Makes database and table in memory to test with
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
-            
             await CreateObstacleTable(connection, tableName);
 
             var draftRepository = CreateDraftRepo(connection); 
+            
             var draftObstacle = new ObstacleDto
             {
                 ObstacleId = "1",
@@ -159,9 +164,11 @@ namespace NRLObstacleReporting.UnitTests.Repository
             const string tableName = "Obstacle";
             const string userId = "1234";
             
+            //Makes database and table in memory to test with
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
             await CreateObstacleTable(connection, tableName);
+            
             var draftRepository = CreateDraftRepo(connection);
             
             var obstacles = new List<ObstacleDto>
@@ -249,9 +256,11 @@ namespace NRLObstacleReporting.UnitTests.Repository
             const string tableName = "Obstacle";
             const string userId = "1234";
             
+            //Makes database and table in memory to test with
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
             await CreateObstacleTable(connection, tableName);
+            
             var draftRepository = CreateDraftRepo(connection);
             
             var obstacles = new List<ObstacleDto>
