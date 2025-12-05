@@ -13,7 +13,7 @@ using Xunit;
 namespace NRLObstacleReporting.UnitTests.Repository
 {
     [Collection("SqliteInit")]
-    [TestSubject(typeof(AdminRepository))]
+    [TestSubject(typeof(ObstacleRepository))]
     public class ObstacleRepositoryTests : HelperQueries, IClassFixture<SqliteInitFixture>
     {
         // Only the SQLite init fixture is injected.
