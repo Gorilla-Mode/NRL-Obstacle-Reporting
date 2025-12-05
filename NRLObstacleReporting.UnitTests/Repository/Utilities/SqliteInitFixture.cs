@@ -1,9 +1,3 @@
-// Plan (pseudocode):
-// - Define a fixture class SqliteInitFixture.
-// - In its constructor, initialize SQLite batteries (SQLitePCL.Batteries_V2.Init()).
-// - Define a collection named "SqliteInit" that uses this fixture via ICollectionFixture.
-// - This will make the fixture discoverable and fix CS0246.
-
 using System;
 using Xunit;
 
