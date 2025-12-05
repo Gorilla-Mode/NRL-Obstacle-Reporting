@@ -22,6 +22,11 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 ## Installation / Setup
 
 > [!CAUTION]
+> ### 0. Prerequisites
+> - Port 3306 open
+> - Geolocation activated in your browser (when in application)
+
+> [!CAUTION]
 > ### 1. Dependencies
 > - Docker
 > - Node.js / npm
@@ -80,7 +85,11 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 > Complete information about scripts can be found [here](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki#scripts)
 ></details>
 
+### 4. Open the application
 
+1. Navigate to docker desktop application
+2. Open nrl-obstacle-reporting container
+3. Click on container `web-1`, port: `8080:8080` to open the application
 
 > [!IMPORTANT]
 > <details>
