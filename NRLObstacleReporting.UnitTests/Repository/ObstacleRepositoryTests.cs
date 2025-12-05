@@ -59,7 +59,6 @@ namespace NRLObstacleReporting.UnitTests.Repository
                 Name = "Test Obstacle A",
                 Description = "First test obstacle",
                 Illuminated = 0,
-                // Use valid DateTime values (UTC)
                 CreationTime = null,
                 UpdatedTime = null
             };
