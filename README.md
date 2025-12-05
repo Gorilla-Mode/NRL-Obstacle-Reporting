@@ -13,13 +13,16 @@
 
 ## Project goal
 The main goal of our project is to design and develop a fast, reliable, and user-friendly web application for reporting new or modified aviation obstacles. The system enables pilots to quickly and accurately submit obstacle information, even under time pressure, while providing registrars at Kartverket with an efficient workflow for filtering, reviewing, validating, and publishing reports to the National Register of Aviation Obstacles (NRL).
-
-In addition to core functionality, the project emphasizes modern web technologies and security practices. The user interface is built with HTML to ensure clarity and accessibility, while unit testing has been applied to verify correctness and reliability of the system. To strengthen security, the application has been designed to mitigate common vulnerabilities such as SQL injection, Cross-Site Scripting (XSS), and Cross-Site Request Forgery (CSRF). Furthermore, the system includes registration and login functionality with proper authorization and authentication, ensuring that only pilots and registrars with the correct roles can access their respective features.
 ## Further documentation, system architecture, testing scenarios and scripts
 
 See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 ## Installation / Setup
+
+> [!CAUTION]
+> ### 0. Prerequisites
+> - Port `3306` is open
+> - Geolocation activated in your browser (when in application)
 
 > [!CAUTION]
 > ### 1. Dependencies
@@ -75,12 +78,16 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >         *This will inject SQL into container and build the database, restart the containers with logger allowing tests to be confirmed*
 >
 >       1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info about the script
->   3. Confirm that **all** integration tests have succeeded.
+>    3. Confirm that **all** integration tests have succeeded.
+> 
+> 4. Open the application
+>
+>      1. Navigate to docker desktop
+>      2. Open nrl-obstacle-reporting container
+>      3. Click on container `web-1`, port: `8080:8080` to open the application
 >
 > Complete information about scripts can be found [here](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki#scripts)
 ></details>
-
-
 
 > [!IMPORTANT]
 > <details>
@@ -103,6 +110,10 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >      1. in **root folder**, run `./initdb.ps1` to inject sql into container and build the database
 >         1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further
 >         info about this script
+>   5. Open the application
+>      1. Navigate to docker desktop 
+>      2. Open nrl-obstacle-reporting container
+>      3. Click on container `web-1`, port: `8080:8080` to open the application
 > </details>
 
 > [!IMPORTANT]
@@ -128,7 +139,10 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >      2. run `docker cp ./db.sql db:/` to copy database sql script into container
 >   5. Execute SQL in container
 >      1. run ` docker exec db sh -c "mariadb YOURDBNAME -u root -pYOURPASSWORD <db.sql"`
->
+>   6. Open the application
+>      1. Navigate to docker desktop 
+>      2. Open nrl-obstacle-reporting container
+>      3. Click on container `web-1`, port: `8080:8080` to open the application
 > </details>
 
 
@@ -192,7 +206,8 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 - build: Changes that affect the build system or external dependencies (docker, libraries, etc.)
 - chore: Other changes that don't modify src or test files
 - database: changes to data transfer objects, repository, and sql 
-- revert: Reverts a previous commit
+- revert: Reverts to a previous commit
+- security: Changes to the security of the application
 
 e.g:
 `"feat: added login page"`
