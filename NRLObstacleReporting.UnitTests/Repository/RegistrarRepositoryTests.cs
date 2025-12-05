@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -318,6 +319,7 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
         const string tableName = "view_ObstacleUser";
         const string userId = "1234";
         const string expectedObstacleId = "1";
+        const string expectedInvalidObstacleId = "2";
 
         await using var connection = new SqliteConnection("Data Source=:memory:");
         await connection.OpenAsync();
@@ -349,7 +351,7 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
                 GeometryGeoJson = "blablablablab",
                 Name = "Test Obstacle",
                 Description = "This is a test obstacle.",
-                Status = (int)ObstacleCompleteModel.ObstacleStatus.Approved,
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Draft,
                 CreationTime = null,
                 UpdatedTime = null,
                 UserName = "Pilot@pilot.com",
@@ -365,11 +367,13 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
 
         //act
         var result = await registrarRepo.GetSubmittedObstacleByIdAsync(expectedObstacleId);
+        Task<ViewObstacleUserDto> InvalidResult() => registrarRepo.GetSubmittedObstacleByIdAsync(expectedInvalidObstacleId);
 
         //assert
         Assert.NotNull(result);
         Assert.Equal(result, obstacles[0]);
         Assert.Equal(result.ObstacleId, expectedObstacleId);
+        await Assert.ThrowsAsync<InvalidOperationException>(InvalidResult);
     }
 
     /// <summary>
@@ -396,7 +400,7 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
         ObstacleCompleteModel.ObstacleTypes[] typeFilters = new[]
         {
             ObstacleCompleteModel.ObstacleTypes.Bridge,
-            ObstacleCompleteModel.ObstacleTypes.AirSpan,
+            ObstacleCompleteModel.ObstacleTypes.Construction,
         };
 
         await using var connection = new SqliteConnection("Data Source=:memory:");
@@ -415,7 +419,7 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
                 Name = "Test Obstacle",
                 Description = "This is a test obstacle.",
                 Status = (int)ObstacleCompleteModel.ObstacleStatus.Pending,
-                Type = (int)ObstacleCompleteModel.ObstacleTypes.AirSpan,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Construction,
                 CreationTime = null,
                 UpdatedTime = null
             },
@@ -454,9 +458,23 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
                 Name = "Tesle",
                 Description = "This is le test go go ga ga",
                 Status = (int)ObstacleCompleteModel.ObstacleStatus.Rejected,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Other,
                 CreationTime = null,
                 UpdatedTime = null
             },
+            new ObstacleDto //not expected
+            {
+                ObstacleId = "5",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablab",
+                Name = "Tesle",
+                Description = "This is le test go go ga ga",
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.PoleOrTower,
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Deleted,
+                CreationTime = null,
+                UpdatedTime = null
+            }
         };
 
         foreach (var obstacle in obstacles)
@@ -475,9 +493,10 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
         //assert
         Assert.NotNull(result);
         Assert.Equal(result[0].Status, (int)ObstacleCompleteModel.ObstacleStatus.Pending);
-        Assert.Equal(result[0].Type, (int)ObstacleCompleteModel.ObstacleTypes.AirSpan);
+        Assert.Equal(result[0].Type, (int)ObstacleCompleteModel.ObstacleTypes.Construction);
         Assert.Equal(result[1].Status, (int)ObstacleCompleteModel.ObstacleStatus.Approved);
         Assert.Equal(result[1].Type, (int)ObstacleCompleteModel.ObstacleTypes.Bridge);
+        Assert.True(result.Count() == 2);
     }
 
     /// <summary>
@@ -571,5 +590,339 @@ public class RegistrarRepositoryTests : HelperQueries, IClassFixture<SqliteInitF
         //assert
         Assert.NotNull(result);
         Assert.Equal(result, obstacles);
+    }
+
+    /// <summary>
+    /// Test method to ensure that filtering obstacles by a specified marking using the
+    /// GetObstaclesFilteredAsync method returns the correct subset of obstacles.
+    /// Verifies that only obstacles with the specified marking are included in the result
+    /// and validates the accuracy of the retrieved data.
+    /// </summary>
+    /// <returns>
+    /// A task representing the asynchronous operation that tests filtering obstacles
+    /// by marking using GetObstaclesFilteredAsync and asserts the correctness of the filtered result.
+    /// </returns>
+    [Fact]
+    public async Task GetObstaclesFilteredAsync_FilterByMarkReturnsCorrectly()
+    {
+        // Arrange
+        const string tableName = "Obstacle";
+        const string userId = "1234";
+        ObstacleCompleteModel.ObstacleMarking[] markings = new[]
+        {
+            ObstacleCompleteModel.ObstacleMarking.Marked
+        };
+        
+
+        await using var connection = new SqliteConnection("Data Source=:memory:");
+        await connection.OpenAsync();
+        await CreateObstacleTable(connection, tableName);
+        var registrarRepo = CreateRegistrarRepository(connection);
+
+        var obstacles = new List<ObstacleDto>
+        {
+
+            new ObstacleDto
+            {
+                ObstacleId = "1",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Pending,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Construction,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Marked,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.Illuminated,
+                CreationTime = null,
+                UpdatedTime = null
+            },
+            new ObstacleDto
+            {
+                ObstacleId = "2",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Approved,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Other,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Unknown,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.NotIlluminated,
+                CreationTime = null,
+                UpdatedTime = null
+            }
+
+        };
+        
+        
+        foreach (var obstacle in obstacles)
+        {
+            await InsertObstacleHelper(obstacle, connection, tableName);
+        }
+        
+        
+        //act
+        var result = await registrarRepo.GetObstaclesFilteredAsync(
+            status: new ObstacleCompleteModel.ObstacleStatus[] { }, 
+            type: new ObstacleCompleteModel.ObstacleTypes[] { }, 
+            illuminations: new ObstacleCompleteModel.Illumination[] { },
+            markings: markings, 
+            default,
+            default);
+
+        //assert
+        Assert.NotNull(result);
+        Assert.Equal(result[0], obstacles[0]);
+        Assert.True(result.Count() == 1);
+    }
+
+    /// <summary>
+    /// Test method to verify that calling GetObstaclesFilteredAsync with a filter
+    /// for specific illumination levels returns only the obstacles matching the illumination criteria.
+    /// Ensures that obstacles with 'Illuminated' status are retrieved, while others are excluded,
+    /// validating the correct behavior of the filtering logic.
+    /// </summary>
+    /// <returns>
+    /// A task representing the asynchronous operation of filtering and asserting obstacles based
+    /// on illumination levels from the repository.
+    /// </returns>
+    [Fact]
+    public async Task GetObstaclesFilteredAsync_FilterByIlluminationReturnsCorrectly()
+    {
+        // Arrange
+        const string tableName = "Obstacle";
+        const string userId = "1234";
+        ObstacleCompleteModel.Illumination[] illuminations = new[]
+        {
+            ObstacleCompleteModel.Illumination.Illuminated
+        };
+        
+
+        await using var connection = new SqliteConnection("Data Source=:memory:");
+        await connection.OpenAsync();
+        await CreateObstacleTable(connection, tableName);
+        var registrarRepo = CreateRegistrarRepository(connection);
+
+        var obstacles = new List<ObstacleDto>
+        {
+
+            new ObstacleDto
+            {
+                ObstacleId = "1",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Pending,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Construction,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Marked,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.Illuminated,
+                CreationTime = null,
+                UpdatedTime = null
+            },
+            new ObstacleDto
+            {
+                ObstacleId = "2",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Approved,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Other,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Unknown,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.NotIlluminated,
+                CreationTime = null,
+                UpdatedTime = null
+            }
+
+        };
+        
+        
+        foreach (var obstacle in obstacles)
+        {
+            await InsertObstacleHelper(obstacle, connection, tableName);
+        }
+        
+        //act
+        var result = await registrarRepo.GetObstaclesFilteredAsync(
+            status: new ObstacleCompleteModel.ObstacleStatus[] { }, 
+            type: new ObstacleCompleteModel.ObstacleTypes[] { }, 
+            illuminations: illuminations,
+            markings: new ObstacleCompleteModel.ObstacleMarking[]{}, 
+            default,
+            default);
+
+        //assert
+        Assert.NotNull(result);
+        Assert.Equal(result[0], obstacles[0]);
+        Assert.True(result.Count() == 1);
+    }
+
+    /// <summary>
+    /// Test method to verify that calling GetObstaclesFilteredAsync with a specific obstacle type filter
+    /// returns only obstacles of the specified type. Ensures that obstacles of other types
+    /// are excluded from the result.
+    /// </summary>
+    /// <returns>
+    /// A task representing the asynchronous operation of retrieving and asserting filtered
+    /// obstacles based on the provided type criteria.
+    /// </returns>
+    [Fact]
+    public async Task GetObstaclesFilteredAsync_FilterByTypeReturnsCorrectly()
+    {
+        // Arrange
+        const string tableName = "Obstacle";
+        const string userId = "1234";
+        ObstacleCompleteModel.ObstacleTypes[] types = new[]
+        {
+            ObstacleCompleteModel.ObstacleTypes.Construction
+        };
+        
+
+        await using var connection = new SqliteConnection("Data Source=:memory:");
+        await connection.OpenAsync();
+        await CreateObstacleTable(connection, tableName);
+        var registrarRepo = CreateRegistrarRepository(connection);
+
+        var obstacles = new List<ObstacleDto>
+        {
+
+            new ObstacleDto
+            {
+                ObstacleId = "1",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Pending,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Construction,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Marked,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.Illuminated,
+                CreationTime = null,
+                UpdatedTime = null
+            },
+            new ObstacleDto
+            {
+                ObstacleId = "2",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Approved,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Other,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Unknown,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.NotIlluminated,
+                CreationTime = null,
+                UpdatedTime = null
+            }
+
+        };
+        
+        
+        foreach (var obstacle in obstacles)
+        {
+            await InsertObstacleHelper(obstacle, connection, tableName);
+        }
+        
+        
+        //act
+        var result = await registrarRepo.GetObstaclesFilteredAsync(
+            status: new ObstacleCompleteModel.ObstacleStatus[] { }, 
+            type: types, 
+            illuminations: new ObstacleCompleteModel.Illumination[] { },
+            markings: new ObstacleCompleteModel.ObstacleMarking[] { }, 
+            default,
+            default);
+
+        //assert
+        Assert.NotNull(result);
+        Assert.Equal(result[0], obstacles[0]);
+        Assert.True(result.Count() == 1);
+    }
+
+    /// <summary>
+    /// Test method to verify that calling GetObstaclesFilteredAsync with a specific obstacle status
+    /// filter returns only the obstacles that match the given status.
+    /// Ensures that obstacles with statuses not included in the filter are excluded from the result.
+    /// </summary>
+    /// <returns>
+    /// A task representing the asynchronous operation of retrieving and asserting
+    /// the filtered obstacle data based on the provided status criteria.
+    /// </returns>
+    [Fact]
+    public async Task GetObstaclesFilteredAsync_FilterByStatusReturnsCorrectly()
+    {
+        // Arrange
+        const string tableName = "Obstacle";
+        const string userId = "1234";
+        ObstacleCompleteModel.ObstacleStatus[] Statuses = new[]
+        {
+            ObstacleCompleteModel.ObstacleStatus.Pending,
+        };
+        
+        await using var connection = new SqliteConnection("Data Source=:memory:");
+        await connection.OpenAsync();
+        await CreateObstacleTable(connection, tableName);
+        var registrarRepo = CreateRegistrarRepository(connection);
+
+        var obstacles = new List<ObstacleDto>
+        {
+
+            new ObstacleDto
+            {
+                ObstacleId = "1",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Pending,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Construction,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Marked,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.Illuminated,
+                CreationTime = null,
+                UpdatedTime = null
+            },
+            new ObstacleDto
+            {
+                ObstacleId = "2",
+                UserId = userId,
+                HeightMeter = 20,
+                GeometryGeoJson = "blablablablab",
+                Name = "Test Obstacle",
+                Description = "This is a test obstacle.",
+                Status = (int)ObstacleCompleteModel.ObstacleStatus.Approved,
+                Type = (int)ObstacleCompleteModel.ObstacleTypes.Other,
+                Marking = (int)ObstacleCompleteModel.ObstacleMarking.Unknown,
+                Illuminated = (int)ObstacleCompleteModel.Illumination.NotIlluminated,
+                CreationTime = null,
+                UpdatedTime = null
+            }
+        };
+        
+        foreach (var obstacle in obstacles)
+        {
+            await InsertObstacleHelper(obstacle, connection, tableName);
+        }
+        
+        
+        //act
+        var result = await registrarRepo.GetObstaclesFilteredAsync(
+            status: Statuses, 
+            type: new ObstacleCompleteModel.ObstacleTypes[] { }, 
+            illuminations: new ObstacleCompleteModel.Illumination[] { },
+            markings: new ObstacleCompleteModel.ObstacleMarking[]{}, 
+            default,
+            default);
+
+        //assert
+        Assert.NotNull(result);
+        Assert.Equal(result[0], obstacles[0]);
+        Assert.True(result.Count() == 1);
     }
 }
