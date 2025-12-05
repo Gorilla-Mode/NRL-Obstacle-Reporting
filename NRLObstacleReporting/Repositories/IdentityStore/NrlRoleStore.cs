@@ -8,9 +8,10 @@ namespace NRLObstacleReporting.Repositories.IdentityStore;
 /// <summary>
 /// Dapper implementation of IRoleStore. Identity core depends on this implementation
 /// </summary>
-public class NrlRoleStore : IRoleStore<IdentityRole>
+public class NrlRoleStore : RepositoryBase, IRoleStore<IdentityRole>
 {
     private readonly string _connectionString;
+    private readonly IDbConnection? _providedConnection;
     private const string RolesTable = "AspNetRoles"; // default Identity roles table
 
     /// <summary>
@@ -19,6 +20,11 @@ public class NrlRoleStore : IRoleStore<IdentityRole>
     public NrlRoleStore()
     {
         _connectionString = Environment.GetEnvironmentVariable("INTERNALCONNECTION")!;
+    }
+
+    public NrlRoleStore(string mockconnection)
+    {
+        _connectionString = mockconnection;
     }
 
     /// <summary>
