@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NRLObstacleReporting.Controllers;
 using NRLObstacleReporting.Models;
@@ -37,7 +39,7 @@ public class RegistrarControllerTests
     /// returns the correct view for displaying reports submitted to the registrar.
     /// </summary>
     [Fact]
-    public void RegistrarViewReportsRegistrar_ReturnsViewReportsRegistrarView()
+    public void RegistrarViewReportsRegistrarGET_ReturnsViewReportsRegistrarView()
     {
         //arrange
         var controller = CreateRegistrarController();
@@ -55,7 +57,7 @@ public class RegistrarControllerTests
     /// returns the correct view for displaying a report that has been accepted by the registrar.
     /// </summary>
     [Fact]
-    public void RegistrarAcceptReport_ReturnsViewReportsRegistrarView()
+    public void RegistrarAcceptReportGET_ReturnsViewReportsRegistrarView()
     {
         // Arrange
         var controller = CreateRegistrarController();
@@ -74,7 +76,7 @@ public class RegistrarControllerTests
     /// redirects to the "RegistrarAcceptReport" action with a mock model.
     /// </summary>
     [Fact]
-    public void UpdateReportStatus_RedirectsToRegistrarAcceptReport_WithMockModel()
+    public void UpdateReportStatusPOST_RedirectsToRegistrarAcceptReport_WithMockModel()
     {
         // Arrange
         var controller = CreateRegistrarController();
@@ -94,7 +96,7 @@ public class RegistrarControllerTests
     /// to the correct view, validating the resulting view name is "RegistrarViewReports".
     /// </summary>
     [Fact]
-    public void RegistrarFilterReports_RedirectsToCorrectView()
+    public void RegistrarFilterReportsGET_RedirectsToCorrectView()
     {
         // Arrange
         var controller = CreateRegistrarController(); 
@@ -119,33 +121,30 @@ public class RegistrarControllerTests
     /// when the model state is invalid and ensures that the resulting error messages match the expected values.
     /// </summary>
     [Fact]
-    public void RegistrarFilterReports_ReturnsBadRequestResult_WithExpectedErrorMessages_ForInvalidModelState()
+    public void RegistrarFilterReportsGET_ThrowsBadHttpRequestExceptionOnInvalidModelState()
     {
         // Arrange
         var controller = CreateRegistrarController();
         const string errorKey = "TestError";
         const string errorMessage = "Invalid model state";
 
+        // Simulate invalid model state
         controller.ModelState.AddModelError(errorKey, errorMessage);
 
-        // Act
-        var result = controller.RegistrarFilterReports(
-            new [] { ObstacleCompleteModel.ObstacleStatus.Approved },
-            new [] { ObstacleCompleteModel.ObstacleTypes.Bridge },
-            new [] { ObstacleCompleteModel.Illumination.NotIlluminated },
-            new [] { ObstacleCompleteModel.ObstacleMarking.Marked },
-            DateOnly.MinValue, 
-            DateOnly.MaxValue
-        ).Result; // async to synchronous
+        // Act & Assert
+        var exception = Assert.ThrowsAsync<BadHttpRequestException>(() =>
+            controller.RegistrarFilterReports(
+                new[] { ObstacleCompleteModel.ObstacleStatus.Approved },
+                new[] { ObstacleCompleteModel.ObstacleTypes.Bridge },
+                new[] { ObstacleCompleteModel.Illumination.NotIlluminated },
+                new[] { ObstacleCompleteModel.ObstacleMarking.Marked },
+                DateOnly.MinValue,
+                DateOnly.MaxValue
+            )
+        ).Result;
 
-        // Assert
-        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        var modelState = Assert.IsType<SerializableError>(badRequestResult.Value);
-        string[] errorMessages = modelState[errorKey] as string[]; //map all keys and values from object to string
-        
-        Assert.True(modelState.ContainsKey(errorKey));
-        Assert.NotNull(errorMessages);
-        Assert.Contains(errorMessage, errorMessages );
+        // Validate exception message
+        Assert.Contains($"Field '{errorKey}': {errorMessage}", exception.Message);
     }
 }
 
