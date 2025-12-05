@@ -34,6 +34,11 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             return new NrlRoleStore(connection);
         }
 
+        /// <summary>
+        /// Verifies that CreateAsync successfully inserts a new role into an in-memory SQLite database.
+        /// The test sets up the AspNetRoles table, creates an IdentityRole, stores it through the role store,
+        /// retrieves it from the database, and confirms that the stored values match and the operation succeeds.
+        /// </summary>
         [Fact]
         public async Task CreateRoleAsync_AddsRoleToDatabase_WithInMemorySqlite()
         {
