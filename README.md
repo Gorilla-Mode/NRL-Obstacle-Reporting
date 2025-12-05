@@ -206,7 +206,8 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 - build: Changes that affect the build system or external dependencies (docker, libraries, etc.)
 - chore: Other changes that don't modify src or test files
 - database: changes to data transfer objects, repository, and sql 
-- revert: Reverts a previous commit
+- revert: Reverts to a previous commit
+- security: Changes to the security of the application
 
 e.g:
 `"feat: added login page"`
