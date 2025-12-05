@@ -85,7 +85,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 ### 4. Open the application
 
-1. Navigate to docker desktop application
+1. Navigate to docker desktop 
 2. Open nrl-obstacle-reporting container
 3. Click on container `web-1`, port: `8080:8080` to open the application
 
@@ -111,7 +111,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >         1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further
 >         info about this script
 >   5. Open the application
->      1. Navigate to docker desktop application
+>      1. Navigate to docker desktop 
 >      2. Open nrl-obstacle-reporting container
 >      3. Click on container `web-1`, port: `8080:8080` to open the application
 > </details>
@@ -140,7 +140,7 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >   5. Execute SQL in container
 >      1. run ` docker exec db sh -c "mariadb YOURDBNAME -u root -pYOURPASSWORD <db.sql"`
 >   6. Open the application
->      1. Navigate to docker desktop application
+>      1. Navigate to docker desktop 
 >      2. Open nrl-obstacle-reporting container
 >      3. Click on container `web-1`, port: `8080:8080` to open the application
 > </details>
