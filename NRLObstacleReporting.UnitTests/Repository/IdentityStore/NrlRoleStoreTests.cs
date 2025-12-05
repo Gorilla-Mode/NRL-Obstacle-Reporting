@@ -53,18 +53,12 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
 
             var roleStore = CreateRoleStore(connection);
 
-            var role = new IdentityRole
-            {
-                Id = "googo",
-                Name = "Pilot",
-                NormalizedName = "PILOT",
-                ConcurrencyStamp = Guid.NewGuid().ToString()
-            };
+            var role = new IdentityRole("admin");
             
-
             // Use a non-cancelable token for this test invocation
             var result = await roleStore.CreateAsync(role, CancellationToken.None);
-            var insertedRole = await FakeGetRole(role.Id, connection);
+            IdentityRole insertedRole = await FakeGetRole(role.Id, connection);
+            
             // Assert
             Assert.Equal(role.Id, insertedRole.Id);
             Assert.Equal(role.Name, insertedRole.Name);

@@ -63,8 +63,8 @@ public class HelperQueries
     {
         var sql = $@"SELECT * 
                     FROM AspNetRoles 
-                    WHERE Id = {roleId}";
+                    WHERE Id = '{roleId}'";
         
-       return await connection.QuerySingleAsync(sql);
+        return await connection.QuerySingleAsync<IdentityRole>(sql, new { RoleId = roleId });
     }
 }
