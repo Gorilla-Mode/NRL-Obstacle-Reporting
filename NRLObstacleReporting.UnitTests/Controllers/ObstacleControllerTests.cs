@@ -233,7 +233,18 @@ public class ObstacleControllerTests
         Assert.Null(viewResult!.ViewName);
     }
     
-    //TODO ADD DOCSTRING
+    /// <summary>
+    /// Verifies that the POST action <see cref="ObstacleController.DataformStep2(ObstacleStep2Model)"/>
+    /// returns the "Overview" view with a populated <see cref="ObstacleCompleteModel"/> when a valid
+    /// model is submitted with <c>SaveDraft = true</c>.
+    /// </summary>
+    /// <remarks>
+    /// This test simulates a logged-in user and existing obstacle id in <see cref="Controller.TempData"/>.
+    /// It ensures that the controller:
+    /// 1) updates the obstacle via the repository,
+    /// 2) retrieves the complete obstacle by id, and
+    /// 3) maps it to an <see cref="ObstacleCompleteModel"/> that is passed to the "Overview" view.
+    /// </remarks>
     [Fact]
     public void DataformStep2POST_SaveDraftValidModelReturnsOverviewView()
     {
