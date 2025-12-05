@@ -136,6 +136,7 @@ public class ObstacleControllerTests
     {
         // Arrange
         var controller = CreateObstacleController();
+        
         var obstacleModel = new ObstacleStep1Model
         {
             SaveDraft = true,
@@ -230,6 +231,71 @@ public class ObstacleControllerTests
 
         //assert
         Assert.Null(viewResult!.ViewName);
+    }
+    
+    //TODO ADD DOCSTRING
+    [Fact]
+    public void DataformStep2POST_SaveDraftValidModelReturnsOverviewView()
+    {
+        //Arrange
+        var controller = CreateObstacleController();
+
+        const string testUser = "test-user-id";
+        const string expectedViewName = "Overview";
+        const string obstacleId = "22";
+        const string key = "id";
+
+        var httpContext = Substitute.For<HttpContext>();
+        var tempDataProvider = Substitute.For<ITempDataProvider>();
+        var claims = new[] { new Claim(ClaimTypes.NameIdentifier, testUser) };
+
+        //mock up temp-data to access
+        controller.TempData = new TempDataDictionary(httpContext, tempDataProvider)
+        {
+            [key] = obstacleId
+        };
+
+        //simulate a logged-in user
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, testUser) }))
+            }
+        };
+
+        var obstacleModel = new ObstacleStep2Model
+        {
+            SaveDraft = true,
+            GeometryGeoJson = "Bing bong land",
+        };
+        var obstacleDto = new ObstacleDto
+        {
+            ObstacleId = obstacleId,
+            UserId = testUser,
+            GeometryGeoJson = "Bing bong land",
+        };
+        var expectedModel = new ObstacleCompleteModel
+        {
+            ObstacleId = obstacleId,
+            UserId = testUser,
+            GeometryGeoJson = "Bing bong land",
+        };
+        
+        _obstacleRepository.InsertStep2Async(Arg.Any<ObstacleDto>()).Returns(Task.CompletedTask);
+        _obstacleRepository.GetObstacleByIdAsync(Arg.Any<string>()).Returns(obstacleDto);
+        _mapper.Map<ObstacleCompleteModel>(obstacleDto).Returns(expectedModel);
+        
+        //Act
+        var result = controller.DataformStep2(obstacleModel).Result;
+        var viewResult = result as ViewResult;
+        
+        //Assert
+        Assert.NotNull(viewResult);
+        Assert.Equal("Overview", viewResult!.ViewName);
+        Assert.NotNull(viewResult.Model);
+        Assert.IsType<ObstacleCompleteModel>(viewResult.Model);
+        Assert.Equal(expectedModel, viewResult.Model);
     }
 
     /// <summary>
