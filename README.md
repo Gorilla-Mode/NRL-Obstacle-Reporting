@@ -79,15 +79,15 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 >
 >       1. See the [Documentation](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki/initdb.ps1) for further info about the script
 >   3. Confirm that **all** integration tests have succeeded.
+> 
+>4. Open the application
+>
+>   1. Navigate to docker desktop
+>   2. Open nrl-obstacle-reporting container
+>   3. Click on container `web-1`, port: `8080:8080` to open the application
 >
 > Complete information about scripts can be found [here](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki#scripts)
 ></details>
-
-### 4. Open the application
-
-1. Navigate to docker desktop 
-2. Open nrl-obstacle-reporting container
-3. Click on container `web-1`, port: `8080:8080` to open the application
 
 > [!IMPORTANT]
 > <details>
