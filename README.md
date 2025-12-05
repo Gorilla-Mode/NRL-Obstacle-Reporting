@@ -32,7 +32,10 @@ See the [wiki](https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting/wiki)
 
 ### 2. Clone repo
 
-1. Clone repo using `git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git`
+1. Clone repo using
+   ```
+   git clone https://github.com/Gorilla-Mode/NRL-Obstacle-Reporting.git
+   ```
 
 ### 3. Build the project
 
