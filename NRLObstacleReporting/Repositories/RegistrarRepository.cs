@@ -68,7 +68,7 @@ public sealed class RegistrarRepository : RepositoryBase, IRegistrarRepository
     /// <inheritdoc/>
     public async Task<IList<ObstacleDto>> GetObstaclesFilteredAsync(ObstacleCompleteModel.ObstacleStatus[] status,
         ObstacleCompleteModel.ObstacleTypes[] type, ObstacleCompleteModel.Illumination[] illuminations,
-        ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateEnd, DateOnly dateStart )
+        ObstacleCompleteModel.ObstacleMarking[] markings, DateOnly dateStart, DateOnly dateEnd)
     {
         //TODO: Parameterize the variables
         string sql = $@"SELECT * 
@@ -104,7 +104,7 @@ public sealed class RegistrarRepository : RepositoryBase, IRegistrarRepository
             sql += $" AND Marking IN ({markingList})";
         }
 
-        if ((dateStart.ToString() != String.Empty && dateEnd.ToString() != String.Empty) && (dateEnd != default && dateStart != default)) //defaults for testing purposes
+        if (dateStart.ToString() != String.Empty && dateEnd.ToString() != String.Empty && dateStart != default && dateEnd != default) //defaults for testing purposes
         {
             string formattedDateStart = dateStart.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string formattedDateEnd = dateEnd.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
