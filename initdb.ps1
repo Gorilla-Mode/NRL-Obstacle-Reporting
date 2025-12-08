@@ -118,6 +118,16 @@ if(!$ne)
         Write-Host "Executing sql script on $($envHash['MYSQL_DATABASE'])..."
         docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <db.sql"
         Write-Host "    Sql script executed, tables built"
+
+        Write-Host "    Generating sql user script..."
+        $null = New-Item -Path $scriptAbsolutePath -Name "user.sql" -Value "REVOKE ALL PRIVILEGES ON *.* FROM '$($envHash['MYSQL_USER'])'@'%'; GRANT SELECT, INSERT, UPDATE ON *.* TO '$($envHash['MYSQL_USER'])'@'%'; REVOKE GRANT OPTION ON *.* FROM '$($envHash['MYSQL_USER'])'@'%'; FLUSH PRIVILEGES;" -Force
+        $SqlUserPapth = $scriptAbsolutePath+"/user.sql"
+
+        Write-Host "Injecting user sql from @ $SqlUserPapth to container..."
+        docker cp $SqlUserPapth db:/
+
+        Write-Host "    Executing sql user script on $($envHash['MYSQL_DATABASE'])..."
+        docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <user.sql"
     }
     catch
     {

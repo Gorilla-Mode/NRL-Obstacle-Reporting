@@ -64,11 +64,16 @@ if (!$r)
 
 
     #Passowrd stored as secure string to hide input mostly
-    $secureDatabaseRootPwd = Read-Host "Create database password: " -AsSecureString
+    $secureDatabaseRootPwd = Read-Host "Create root password: " -AsSecureString
     $databaseName = Read-Host "Create database name: "
+    $databaseUserName = Read-Host "Create user name: "
+    $databaseUserPwd = Read-Host "Create user password: " -AsSecureString
+    
     #returns password to plain text
-    $DatabaseRootPwd =[Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureDatabaseRootPwd))
-
+    $DatabaseRootPwd = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureDatabaseRootPwd))
+    $databaseUserPwd = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureDatabaseRootPwd))
+    
+    
     try
     {
         #populates env file
@@ -78,9 +83,11 @@ if (!$r)
         Write-Host "        - SQL root password inserted"
         Add-Content -Path ($scriptDir +"/.env") -Value ("MYSQL_DATABASE=$databaseName")
         Write-Host "        - SQL database name inserted"
-        Add-Content -Path ($scriptDir +"/.env") -Value ("INTERNALCONNECTION=server=db;port=3306;database=$databaseName;user=root;password=$databaseRootPwd;")
+        Add-Content -Path ($scriptDir +"/.env") -Value ("MYSQL_USER=$databaseUserName")
+        Add-Content -Path ($scriptDir +"/.env") -Value ("MYSQL_PASSWORD=$databaseUserPwd")
+        Add-Content -Path ($scriptDir +"/.env") -Value ("INTERNALCONNECTION=server=db;port=3306;database=$databaseName;user=$databaseUserName;password=$databaseUserPwd;")
         Write-Host "        - Internal connectionstring inserted"
-        Add-Content -Path ($scriptDir +"/.env") -Value ("EXTERNALCONNECTION=server=localhost;port=3306;database=$databaseName;user=root;password=$databaseRootPwd;")
+        Add-Content -Path ($scriptDir +"/.env") -Value ("EXTERNALCONNECTION=server=localhost;port=3306;database=$databaseName;user=$databaseUserName;password=$databaseUserPwd;")
         Write-Host "        - External connection string inserted"
 
         Write-Host "    .env populated successfully"
