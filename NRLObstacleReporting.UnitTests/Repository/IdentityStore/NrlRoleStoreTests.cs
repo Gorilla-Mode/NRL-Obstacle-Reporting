@@ -22,7 +22,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             _fixture = fixture;
         }
 
-        private async Task CreateAspNetRoles(SqliteConnection connection)
+        private async Task CreateAspNetRolesTable(SqliteConnection connection)
         {
             var sql = @"
                         CREATE TABLE AspNetRoles
@@ -60,7 +60,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -91,7 +91,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -121,7 +121,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -158,7 +158,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -191,7 +191,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -224,7 +224,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -259,7 +259,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             
             const string expectedRoleName = "pilot";
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -295,7 +295,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             
             const string expectedUpdatedRoleName = "pilot";
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
@@ -326,7 +326,7 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync();
 
-            await CreateAspNetRoles(connection);
+            await CreateAspNetRolesTable(connection);
 
             var roleStore = CreateRoleStore(connection);
 
