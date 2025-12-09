@@ -315,10 +315,15 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             var result = await roleStore.FindByIdAsync(role.Id, CancellationToken.None);
             
             // Assert
-            Assert.NotNull(role);
+            Assert.NotNull(result);
             Assert.Equal(expectedUpdatedRoleName, result!.Name );
         }
-        
+
+        /// <summary>
+        /// Verifies that DeleteAsync successfully removes a role from an in-memory SQLite database.
+        /// The test sets up the AspNetRoles table, creates an IdentityRole, stores it through the role store,
+        /// deletes it using the role store, and ensures that the role can no longer be retrieved.
+        /// </summary>
         [Fact]
         public async Task DeleteAsync_DeletesRole_WithInMemorySqlite()
         {
@@ -347,6 +352,5 @@ namespace NRLObstacleReporting.UnitTests.Repository.IdentityStore
             // Assert
             Assert.Null(result);
         }
-        
     }
 }
