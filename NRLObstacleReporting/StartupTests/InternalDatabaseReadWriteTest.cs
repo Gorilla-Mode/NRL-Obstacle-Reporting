@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Reflection;
+using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using Dapper;
 using JetBrains.Annotations;
@@ -142,16 +143,21 @@ public class InternalDatabaseReadWriteTest : RepositoryBase, IStartupDatabaseTes
     string CheckDatabaseTestTableDelete()
     {
         try
-        {   
+        {
             using var connection = CreateConnection();
-            var sql = "DELETE FROM test WHERE test_column = 1"; 
-            connection.Execute(sql);
+            var sql = "DELETE FROM test WHERE test_column = 1";
             
-            return SuccessMessage;
+            connection.Execute(sql);
+
+            throw new AuthenticationException(message: "\nUser should not be granted delete privileges");
         }
-        catch (Exception e)
+        catch (AuthenticationException e)
         {
             return e.Message;
+        }
+        catch (Exception)
+        {
+            return SuccessMessage;
         }
     }
 }

@@ -27,7 +27,7 @@ if ($r)
     Write-Host "WARNING: Selected flag will drop database!"
     $conf = Read-Host "     Confirm [Y]"
 
-    if (!$conf -eq "y" -or !$conf -eq "Y")
+    if ($conf -notlike "Y")
     {
         Write-Host "     Aborted"
         return

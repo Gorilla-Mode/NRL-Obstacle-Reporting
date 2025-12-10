@@ -30,21 +30,22 @@ if ($r)
     Write-Host "WARNING: Selected flag will drop database!"
     $conf = Read-Host "     Confirm [Y]"
     
-    if (!$conf -eq "y" -or !$conf -eq "Y")
+    if ($conf -notlike "Y")
     {
         Write-Host "     Aborted"
-        return
+        exit
     }
 }
 
 $scriptAbsolutePath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $sqlAbsolutePath = $scriptAbsolutePath+"/db.sql"
-
+$SqlUserPath = $scriptAbsolutePath+"/user.sql"
 $envAbsolutePath = $scriptAbsolutePath+"/.env"
 
 #tests
 $sqlFileExists = Test-Path -Path $sqlAbsolutePath
 $envFileExists = Test-Path -Path $envAbsolutePath
+
 if(!$sqlFileExists)
 {
     Write-Host "Error: db.sql not found"
@@ -90,7 +91,7 @@ if($r) #goofy script maybe redo
     try
     {
         Write-Host "Rebuilding Database"
-        Write-Host "    Generating sql script..."
+        Write-Host "    Generating drop database sql script..."
         $null = New-Item -Path $scriptAbsolutePath -Name "dropdb.sql" -Value "DROP DATABASE $($envHash['MYSQL_DATABASE']); CREATE DATABASE $($envHash['MYSQL_DATABASE']);" -Force
         $dropsqlAbsolutePath = $scriptAbsolutePath+"/dropdb.sql"
 
@@ -100,7 +101,7 @@ if($r) #goofy script maybe redo
         Remove-Item -Path $dropsqlAbsolutePath
         Write-Host "    Used script removed"
 
-        Write-Host "    Executing sql script on $($envHash['MYSQL_DATABASE'])..."
+        Write-Host "    Executing database sql script on $($envHash['MYSQL_DATABASE'])..."
         docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <dropdb.sql"
         Write-Host "    Database dropped!"
     }
@@ -115,9 +116,28 @@ if(!$ne)
     try
     {
         #runs sql script on container
-        Write-Host "Executing sql script on $($envHash['MYSQL_DATABASE'])..."
+        Write-Host "Executing database sql script on $($envHash['MYSQL_DATABASE'])..."
         docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <db.sql"
         Write-Host "    Sql script executed, tables built"
+
+        Write-Host "    Generating sql user script..."
+        $null = New-Item -Path $scriptAbsolutePath -Name "user.sql" -Force
+
+        Add-Content -Path $SqlUserPath -Value "START TRANSACTION;"
+        Add-Content -Path $SqlUserPath -Value "REVOKE ALL PRIVILEGES ON * FROM '$($envHash['MYSQL_USER'])'@'%';"
+        Add-Content -Path $SqlUserPath -Value "GRANT SELECT, INSERT, UPDATE ON * TO '$($envHash['MYSQL_USER'])'@'%';"
+        Add-Content -Path $SqlUserPath -Value "REVOKE GRANT OPTION ON * FROM '$($envHash['MYSQL_USER'])'@'%';"
+        Add-Content -Path $SqlUserPath -Value "FLUSH PRIVILEGES;"
+        Add-Content -Path $SqlUserPath -Value "COMMIT;"
+        
+        Write-Host "Injecting user sql from @ $SqlUserPath to container..."
+        docker cp $SqlUserPath db:/
+
+        Write-Host "    Executing sql user script on $($envHash['MYSQL_DATABASE'])..."
+        docker exec db sh -c "mariadb $($envHash['MYSQL_DATABASE']) -u root -p$($envHash['MYSQL_ROOT_PASSWORD']) <user.sql"
+
+        Remove-Item -Path $SqlUserPath
+        Write-Host "    Used script removed"
     }
     catch
     {
@@ -135,5 +155,4 @@ if($rc) #Restart container with logger to confirm integration tests
         Write-Host "logger attached"
         docker-compose logs -f --since 0m
     }
-    
 }
